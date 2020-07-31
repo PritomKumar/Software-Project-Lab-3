@@ -3,6 +3,7 @@ import 'package:earneasy/services/geolocator_service.dart';
 import 'package:earneasy/services/places_service.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 import 'models/place.dart';
@@ -12,8 +13,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  final locatorService = GeolacatorService();
+  final locatorService = GeoLocatorService();
   final placesService = PlacesService();
 
   @override
@@ -21,21 +21,25 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         FutureProvider(create: (context) => locatorService.getLocation()),
-        ProxyProvider<Position,Future<List<Place>>>(
-          update: (context,position,places){
-            return (position!=null) ? placesService.getPlaces(position.latitude, position.longitude) : null;
+        FutureProvider(create: (context) {
+          ImageConfiguration configuration =
+              createLocalImageConfiguration(context);
+          return BitmapDescriptor.fromAssetImage(
+              configuration, 'assets/images/parking-icon.png');
+        }),
+        ProxyProvider2<Position, BitmapDescriptor, Future<List<Place>>>(
+          update: (context, position, icon, places) {
+            return (position != null)
+                ? placesService.getPlaces(
+                    position.latitude, position.longitude, icon)
+                : null;
           },
-        ),
-
+        )
       ],
       child: MaterialApp(
-        title: 'Earn Easy',
+        title: 'Parking App',
         theme: ThemeData(
           primarySwatch: Colors.blue,
-          // This makes the visual density adapt to the platform that you run
-          // the app on. For desktop platforms, the controls will be smaller and
-          // closer together (more dense) than on mobile platforms.
-          visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         home: Search(),
       ),
