@@ -37,6 +37,7 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Parking App',
         theme: ThemeData(
           primarySwatch: Colors.blue,
