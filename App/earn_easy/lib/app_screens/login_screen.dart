@@ -12,8 +12,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
-  
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -25,7 +23,10 @@ class _LoginScreenState extends State<LoginScreen> {
             color: Colors.deepPurpleAccent,
             child: Text(
               "Map",
-              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.white),
+              style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
             ),
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -33,7 +34,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   child: SearchScreenLoader(),
                 );
-
               }));
             },
           ),
