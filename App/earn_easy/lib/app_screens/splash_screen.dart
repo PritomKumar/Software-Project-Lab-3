@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:earneasy/app_screens/login_screen.dart';
 import 'package:earneasy/app_screens/search_screen_loader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Duration(seconds: 3),
       () {
         debugPrint("TODO splash screen done");
+        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
       },
     );
   }
