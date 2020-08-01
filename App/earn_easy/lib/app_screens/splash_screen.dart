@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:earneasy/app_screens/search_screen_loader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,9 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Timer(
       Duration(seconds: 3),
-      () => debugPrint("Timer Done TODO"),
+      () {
+        debugPrint("TODO splash screen done");
+      },
     );
   }
 
@@ -34,6 +37,11 @@ class _SplashScreenState extends State<SplashScreen> {
           Container(
             decoration: BoxDecoration(
               color: theme.primaryColorLight,
+              gradient: LinearGradient(
+                colors: [Colors.red,Colors.orange],
+                begin: Alignment.centerRight,
+                end: Alignment.centerLeft,
+              ),
             ),
           ),
           Column(
