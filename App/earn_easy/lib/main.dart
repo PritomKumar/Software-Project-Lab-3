@@ -1,4 +1,6 @@
-import 'package:earneasy/app_screens/login_screen.dart';
+import 'package:earneasy/app_screens/wrapper.dart';
+
+import 'app_screens/home/login_screen.dart';
 import 'package:earneasy/app_screens/search.dart';
 import 'package:earneasy/app_screens/search_screen_loader.dart';
 import 'package:earneasy/app_screens/splash_screen.dart';
@@ -18,7 +20,7 @@ void main() {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginScreen(),
+      home: SearchScreenLoader(),
     ),
   );
 }

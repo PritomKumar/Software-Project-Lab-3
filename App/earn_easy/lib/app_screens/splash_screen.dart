@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:earneasy/app_screens/login_screen.dart';
+import 'file:///F:/IIT%207th%20Semester/SPL3/Software-Project-Lab-3/App/earn_easy/lib/app_screens/home/login_screen.dart';
 import 'package:earneasy/app_screens/search_screen_loader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

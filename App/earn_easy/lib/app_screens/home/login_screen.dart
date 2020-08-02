@@ -18,24 +18,9 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: Container(
         child: Center(
-          child: RaisedButton(
-            elevation: 4.0,
-            color: Colors.deepPurpleAccent,
-            child: Text(
-              "Map",
-              style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
-            ),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return Provider(
-
-                  child: SearchScreenLoader(),
-                );
-              }));
-            },
+          child: Text(
+            "Login Page",
+            style: TextStyle(fontSize: 40.0),
           ),
         ),
       ),

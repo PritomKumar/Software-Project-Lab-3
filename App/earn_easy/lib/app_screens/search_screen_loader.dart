@@ -15,7 +15,7 @@ class SearchScreenLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        FutureProvider(create: (context) => locatorService.getLocation()),
+        FutureProvider(create: (context) => locatorService.getLocation(),),
         FutureProvider(create: (context) {
           ImageConfiguration configuration =
               createLocalImageConfiguration(context);
