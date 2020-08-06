@@ -1,4 +1,6 @@
 import 'package:earneasy/app_screens/wrapper.dart';
+import 'package:earneasy/models/user.dart';
+import 'package:earneasy/services/auth.dart';
 
 import 'app_screens/home/login_screen.dart';
 import 'package:earneasy/app_screens/search.dart';
@@ -20,13 +22,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Parking App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return StreamProvider<User>.value(
+      value: AuthService().user,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Parking App',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: Wrapper(),
       ),
-      home: Wrapper(),
     );
   }
 }

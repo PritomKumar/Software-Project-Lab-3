@@ -1,3 +1,4 @@
+import 'package:earneasy/app_screens/authenticate/sign_in.dart';
 import 'package:flutter/material.dart';
 
 class Authenticate extends StatefulWidget{
@@ -15,7 +16,7 @@ class _AuthenticateState extends State<Authenticate>{
     // TODO: implement build
     return Scaffold(
       body: Center(
-        child: Text("Authenticate Todo"),
+        child: SignIn(),
       ),
     );
   }
