@@ -2,16 +2,22 @@ import 'package:earneasy/services/auth.dart';
 import 'package:flutter/material.dart';
 
 class Register extends StatefulWidget {
-  final Function toggleView ;
+  final Function toggleView;
+
   Register({this.toggleView});
+
   @override
   _RegisterState createState() => _RegisterState();
 }
 
 class _RegisterState extends State<Register> {
   final AuthService _authService = AuthService();
+  final _formKey = GlobalKey<FormState>();
+
   String email = "";
   String password = "";
+  String error = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,12 +38,16 @@ class _RegisterState extends State<Register> {
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
         child: Form(
-          child: Column(
+          key: _formKey,
+          child: ListView(
             children: <Widget>[
               SizedBox(
                 height: 20.0,
               ),
               TextFormField(
+                validator: (value) {
+                  return value.isEmpty ? "Enter a email" : null;
+                },
                 onChanged: (value) {
                   setState(() {
                     email = value;
@@ -49,6 +59,11 @@ class _RegisterState extends State<Register> {
               ),
               TextFormField(
                 obscureText: true,
+                validator: (value) {
+                  return value.length < 4
+                      ? "Enter a password  4+ chars long"
+                      : null;
+                },
                 onChanged: (value) {
                   setState(() {
                     password = value;
@@ -65,10 +80,27 @@ class _RegisterState extends State<Register> {
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () async {
-                  print(email);
-                  print("Password is $password");
+                  if (_formKey.currentState.validate()) {
+                    print(email);
+                    print(password);
+                    dynamic result = await _authService
+                        .registerWithEmailAndPassword(email, password);
+                    if (result == null) {
+                      setState(() {
+                        error = "Please supply a valid email";
+                      });
+                    }
+                  }
                 },
               ),
+              Text(
+                error,
+                style: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    color: Colors.red,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16.0),
+              )
             ],
           ),
         ),

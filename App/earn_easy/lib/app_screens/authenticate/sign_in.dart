@@ -12,8 +12,11 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   final AuthService _authService = AuthService();
+  final _formKey = GlobalKey<FormState>();
   String email = "";
   String password = "";
+  String error = "";
+
 
   @override
   Widget build(BuildContext context) {
@@ -35,12 +38,16 @@ class _SignInState extends State<SignIn> {
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
         child: Form(
-          child: Column(
+          key: _formKey,
+          child: ListView(
             children: <Widget>[
               SizedBox(
                 height: 20.0,
               ),
               TextFormField(
+                validator: (value) {
+                  return value.isEmpty ? "Enter a email" : null;
+                },
                 onChanged: (value) {
                   setState(() {
                     email = value;
@@ -51,6 +58,11 @@ class _SignInState extends State<SignIn> {
                 height: 20.0,
               ),
               TextFormField(
+                validator: (value) {
+                  return value.length < 4
+                      ? "Enter a password  4+ chars long"
+                      : null;
+                },
                 obscureText: true,
                 onChanged: (value) {
                   setState(() {
