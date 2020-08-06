@@ -13,14 +13,20 @@ import 'package:provider/provider.dart';
 import 'models/place.dart';
 
 void main() {
-  runApp(
-    MaterialApp(
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Parking App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SearchScreenLoader(),
-    ),
-  );
+      home: Wrapper(),
+    );
+  }
 }

@@ -11,8 +11,8 @@ import '../models/place.dart';
 class Search extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final currentPosition = Provider.of<Position>(context);
-    final placesProvider = Provider.of<Future<List<Place>>>(context);
+    final currentPosition = Provider.of<Position>(context,listen: false);
+    final placesProvider = Provider.of<Future<List<Place>>>(context,listen: false);
     final geoService = GeoLocatorService();
     final markerService = MarkerService();
 

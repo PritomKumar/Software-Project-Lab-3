@@ -13,7 +13,7 @@ class SearchScreenLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
+    return  MultiProvider(
       providers: [
         FutureProvider(create: (context) => locatorService.getLocation(),),
         FutureProvider(create: (context) {
@@ -23,7 +23,7 @@ class SearchScreenLoader extends StatelessWidget {
               configuration, 'assets/images/parking-icon.png');
         }),
         ProxyProvider2<Position, BitmapDescriptor, Future<List<Place>>>(
-          update: (context, position, icon, places) {
+          update: (context, position, icon, places,) {
             return (position != null)
                 ? placesService.getPlaces(
                     position.latitude, position.longitude, icon)
