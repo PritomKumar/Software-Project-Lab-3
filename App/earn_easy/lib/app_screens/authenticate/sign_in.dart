@@ -1,5 +1,6 @@
 import 'package:earneasy/app_screens/authenticate/register.dart';
 import 'package:earneasy/services/auth.dart';
+import 'package:earneasy/shared/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -45,6 +46,7 @@ class _SignInState extends State<SignIn> {
                 height: 20.0,
               ),
               TextFormField(
+                decoration: textInputDecoration.copyWith(hintText: "Email",labelText: "Email"),
                 validator: (value) {
                   return value.isEmpty ? "Enter a email" : null;
                 },
@@ -58,6 +60,7 @@ class _SignInState extends State<SignIn> {
                 height: 20.0,
               ),
               TextFormField(
+                decoration: textInputDecoration.copyWith(hintText: "Password",labelText: "Password"),
                 validator: (value) {
                   return value.length < 6
                       ? "Enter a password  6 + chars long"
