@@ -59,8 +59,8 @@ class _SignInState extends State<SignIn> {
               ),
               TextFormField(
                 validator: (value) {
-                  return value.length < 4
-                      ? "Enter a password  4+ chars long"
+                  return value.length < 6
+                      ? "Enter a password  6 + chars long"
                       : null;
                 },
                 obscureText: true,
@@ -80,10 +80,25 @@ class _SignInState extends State<SignIn> {
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () async {
-                  print(email);
-                  print("Password is $password");
+                  if (_formKey.currentState.validate()) {
+                    dynamic result = await _authService
+                        .signInWithEmailAndPassword(email, password);
+                    if (result == null) {
+                      setState(() {
+                        error = "could not sign in with those credentials";
+                      });
+                    }
+                  }
                 },
               ),
+              Text(
+                error,
+                style: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    color: Colors.red,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16.0),
+              )
             ],
           ),
         ),

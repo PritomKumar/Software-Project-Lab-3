@@ -60,8 +60,8 @@ class _RegisterState extends State<Register> {
               TextFormField(
                 obscureText: true,
                 validator: (value) {
-                  return value.length < 4
-                      ? "Enter a password  4+ chars long"
+                  return value.length < 6
+                      ? "Enter a password  6+ chars long"
                       : null;
                 },
                 onChanged: (value) {
@@ -81,8 +81,6 @@ class _RegisterState extends State<Register> {
                 ),
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
-                    print(email);
-                    print(password);
                     dynamic result = await _authService
                         .registerWithEmailAndPassword(email, password);
                     if (result == null) {
