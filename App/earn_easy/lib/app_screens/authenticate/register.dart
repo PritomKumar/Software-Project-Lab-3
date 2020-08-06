@@ -46,7 +46,7 @@ class _RegisterState extends State<Register> {
                 height: 20.0,
               ),
               TextFormField(
-                decoration: textInputDecoration.copyWith(hintText: "Email",labelText: "Email"),
+                decoration: textInputDecoration.copyWith(hintText: "Email"),
                 validator: (value) {
                   return value.isEmpty ? "Enter a email" : null;
                 },
@@ -60,7 +60,7 @@ class _RegisterState extends State<Register> {
                 height: 20.0,
               ),
               TextFormField(
-                decoration: textInputDecoration.copyWith(hintText: "Password",labelText: "Password"),
+                decoration: textInputDecoration.copyWith(hintText: "Password"),
                 obscureText: true,
                 validator: (value) {
                   return value.length < 6
