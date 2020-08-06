@@ -1,8 +1,11 @@
+import 'package:earneasy/app_screens/authenticate/register.dart';
 import 'package:earneasy/services/auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
+  final Function toggleView ;
+  SignIn({this.toggleView});
   @override
   _SignInState createState() => _SignInState();
 }
@@ -20,6 +23,14 @@ class _SignInState extends State<SignIn> {
         backgroundColor: Colors.blue[400],
         elevation: 0.0,
         title: Text("Sign In Page"),
+        actions: <Widget>[
+          FlatButton.icon(
+              onPressed: () {
+                widget.toggleView();
+              },
+              icon: Icon(Icons.person),
+              label: Text("Register")),
+        ],
       ),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
