@@ -9,15 +9,9 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Material App',
-      initialRoute: 'gigs',
-      routes: {
-        'gigs' : (context) => Gigs(),
-        'notification' : (context) => NotificationPage(),
-        'profile' : (context) => Profile(),
-        'setting' : (context) => Setting(),
-      },
-
+      home: Gigs(),
     );
   }
 }
