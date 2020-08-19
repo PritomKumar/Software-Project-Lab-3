@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-class NotificationPage extends StatelessWidget {
+class Setting extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Notification'),
+          title: Text('Setting'),
         ),
         body: Center(
           child: Container(
-            child: Text('Notification'),
+            child: Text('Setting'),
           ),
         ),
       ),

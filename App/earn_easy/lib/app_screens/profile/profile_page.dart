@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-class Notification extends StatelessWidget {
+class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Notification'),
+          title: Text('Profile'),
         ),
         body: Center(
           child: Container(
-            child: Text('Notification'),
+            child: Text('Profile'),
           ),
         ),
       ),
