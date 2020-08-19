@@ -31,10 +31,7 @@ class _GigsState extends State<Gigs> {
   final AuthService _authService = AuthService();
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Material App',
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return Scaffold(
         drawer: SideDrawer(),
         appBar: AppBar(
           title: Text('Home'),
@@ -55,7 +52,7 @@ class _GigsState extends State<Gigs> {
             child: Text('Home Screen'),
           ),
         ),
-      ),
-    );
+      );
+
   }
 }
