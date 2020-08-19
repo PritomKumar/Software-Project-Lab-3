@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'file:///F:/IIT%207th%20Semester/SPL3/Software-Project-Lab-3/App/earn_easy/lib/app_screens/home/login_screen.dart';
 import 'package:earneasy/app_screens/search_screen_loader.dart';
+import 'package:earneasy/app_screens/wrapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -19,10 +20,10 @@ class _SplashScreenState extends State<SplashScreen> {
     // TODO: implement initState
     super.initState();
     Timer(
-      Duration(seconds: 3),
+      Duration(seconds: 1),
       () {
         debugPrint("TODO splash screen done");
-        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => (Wrapper()),));
       },
     );
   }
@@ -40,9 +41,9 @@ class _SplashScreenState extends State<SplashScreen> {
             decoration: BoxDecoration(
               color: theme.primaryColorLight,
               gradient: LinearGradient(
-                colors: [Colors.red,Colors.orange],
-                begin: Alignment.centerRight,
-                end: Alignment.centerLeft,
+                colors: [Colors.blue[100],Colors.blue[500]],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
               ),
             ),
           ),
@@ -81,7 +82,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 child: Column(
                   children: <Widget>[
                     CircularProgressIndicator(
-                      backgroundColor: Colors.redAccent,
+                      backgroundColor: Colors.blue[200],
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 20.0),

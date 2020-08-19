@@ -9,6 +9,12 @@ class Home extends StatelessWidget {
     return MaterialApp(
       title: 'Material App',
       debugShowCheckedModeBanner: false,
+      routes: {
+        'home' : (context) => Home(),
+        'notification' : (context) => Home(),
+        'profile' : (context) => Home(),
+        'setting' : (context) => Home(),
+      },
       home: Scaffold(
 
         appBar: AppBar(
