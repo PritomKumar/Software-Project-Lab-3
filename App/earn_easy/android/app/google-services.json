@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "588470777353",
-    "firebase_url": "https://earneasy-64333.firebaseio.com",
-    "project_id": "earneasy-64333",
-    "storage_bucket": "earneasy-64333.appspot.com"
+    "project_number": "17571733476",
+    "firebase_url": "https://earneasy-5e92c.firebaseio.com",
+    "project_id": "earneasy-5e92c",
+    "storage_bucket": "earneasy-5e92c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:588470777353:android:ab566b1007fa339258aad8",
+        "mobilesdk_app_id": "1:17571733476:android:80f9ad5968214639c431f1",
         "android_client_info": {
           "package_name": "com.iit.earneasy"
         }
       },
       "oauth_client": [
         {
-          "client_id": "588470777353-t0u5au6athm60hf56c22eklpk3je7299.apps.googleusercontent.com",
+          "client_id": "17571733476-9j151l82ubplmpugjpf9goif47m0t0ci.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBkX54lD1Lbk6CSa1ApkAQaN4fKZQZmNjo"
+          "current_key": "AIzaSyCtKbjda7WeR_B0DnaVDfSIBa-Drq_w_9I"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "588470777353-t0u5au6athm60hf56c22eklpk3je7299.apps.googleusercontent.com",
+              "client_id": "17571733476-9j151l82ubplmpugjpf9goif47m0t0ci.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
