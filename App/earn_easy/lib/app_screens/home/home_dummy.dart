@@ -2,6 +2,7 @@ import 'package:earneasy/app_screens/home/side_drawer.dart';
 import 'package:earneasy/app_screens/notification/notification_page.dart';
 import 'package:earneasy/app_screens/profile/profile_page.dart';
 import 'package:earneasy/app_screens/setting/setting_page.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:earneasy/services/auth.dart';
 import 'package:flutter/material.dart';
 
@@ -23,30 +24,35 @@ class Gigs extends StatefulWidget {
 
 class _GigsState extends State<Gigs> {
   final AuthService _authService = AuthService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: SideDrawer(),
-        appBar: AppBar(
-          title: Text('Home'),
-          backgroundColor: Colors.blue[400],
-          elevation: 0.0,
-          actions: <Widget>[
-            FlatButton.icon(
-              icon: Icon(Icons.person),
-              label: Text("Logout"),
-              onPressed: () async {
-                await _authService.signOut();
-              },
-            )
-          ],
-        ),
-        body: Center(
-          child: Container(
-            child: Text('Home Screen'),
+      drawer: SideDrawer(),
+      appBar: AppBar(
+        title: Text('Home'),
+        backgroundColor: Colors.blue[400],
+        elevation: 0.0,
+        actions: <Widget>[
+          FlatButton.icon(
+            icon: Icon(Icons.person),
+            label: Text("Logout"),
+            onPressed: () async {
+              await _authService.signOut();
+            },
+          )
+        ],
+      ),
+      body: Stack(
+        children: <Widget>[
+          GoogleMap(
+            initialCameraPosition: CameraPosition(
+              target: LatLng(23.8103, 90.4125),
+              zoom: 12,
+            ),
           ),
-        ),
-      );
-
+        ],
+      ),
+    );
   }
 }
