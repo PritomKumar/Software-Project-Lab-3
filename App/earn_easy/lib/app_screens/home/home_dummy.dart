@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:earneasy/app_screens/home/side_drawer.dart';
 import 'package:earneasy/app_screens/notification/notification_page.dart';
 import 'package:earneasy/app_screens/profile/profile_page.dart';
@@ -25,6 +27,29 @@ class Gigs extends StatefulWidget {
 class _GigsState extends State<Gigs> {
   final AuthService _authService = AuthService();
 
+  Set<Marker> _markers = HashSet<Marker>();
+  GoogleMapController _mapController;
+
+  void _setMarkerIcon() async {
+
+  }
+  void _onMapCreated(GoogleMapController controller) {
+    _mapController = controller;
+    setState(() {
+      _markers.add(
+        Marker(
+          markerId: MarkerId("0"),
+          position: LatLng(23.8103, 90.4125),
+          infoWindow: InfoWindow(
+            title: "উপার্জন",
+            snippet: "একটি উত্তেজনাপূর্ণ জায়গা",
+          ),
+
+        ),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,10 +71,12 @@ class _GigsState extends State<Gigs> {
       body: Stack(
         children: <Widget>[
           GoogleMap(
+            onMapCreated: _onMapCreated,
             initialCameraPosition: CameraPosition(
               target: LatLng(23.8103, 90.4125),
               zoom: 12,
             ),
+            markers: _markers,
           ),
         ],
       ),
