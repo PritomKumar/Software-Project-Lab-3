@@ -29,10 +29,20 @@ class _GigsState extends State<Gigs> {
 
   Set<Marker> _markers = HashSet<Marker>();
   GoogleMapController _mapController;
+  BitmapDescriptor _markerIcon;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _setMarkerIcon();
+  }
 
   void _setMarkerIcon() async {
-
+    _markerIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(), "assets/images/money_icon.jpg");
   }
+
   void _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
     setState(() {
@@ -44,7 +54,7 @@ class _GigsState extends State<Gigs> {
             title: "উপার্জন",
             snippet: "একটি উত্তেজনাপূর্ণ জায়গা",
           ),
-
+          icon: _markerIcon,
         ),
       );
     });
