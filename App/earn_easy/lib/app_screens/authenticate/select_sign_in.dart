@@ -3,6 +3,7 @@ import 'package:earneasy/app_screens/authenticate/sign_in.dart';
 import 'package:earneasy/services/auth.dart';
 import 'package:earneasy/shared/loading.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SignInOptions extends StatefulWidget {
   @override
@@ -20,60 +21,160 @@ class _SignInOptionsState extends State<SignInOptions> {
     return loading
         ? Loading()
         : Scaffold(
-            appBar: AppBar(
-              title: Text("Choose Sign in option"),
-            ),
             body: Stack(
+              fit: StackFit.expand,
               children: <Widget>[
                 Container(
-                  alignment: Alignment.center,
-                  child: Form(
-                    key: _formKey,
-                    child: Center(
-                      child: Column(
-                        children: <Widget>[
-                          RaisedButton(
-                            color: Colors.orange[400],
-                            child: Text(
-                              "Google Sign In",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            onPressed: () async {
-                              if (_formKey.currentState.validate()) {
-                                setState(() {
-                                  loading = true;
-                                });
-                                dynamic result =
-                                    await _authService.signInWithGoogleAuth();
-                                if (result == null) {
-                                  setState(() {
-                                    loading = false;
-                                    error =
-                                        "could not sign in to your google account";
-                                  });
-                                }
-                              }
-                            },
-                          ),
-                          RaisedButton(
-                            color: Colors.blue[400],
-                            child: Text(
-                              "Sign In with Email",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            onPressed: () async {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                return Authenticate();
-                              },));
-                            },
-                          ),
-                        ],
-                      ),
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColorLight,
+                    gradient: LinearGradient(
+                      colors: [Colors.blue[200], Colors.blue[500]],
+                      begin: Alignment.bottomLeft,
+                      end: Alignment.topRight,
                     ),
+                  ),
+                ),
+
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        width: 250.0,
+                        child: RaisedButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          color: Colors.white,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Icon(
+                                FontAwesomeIcons.google,
+                                color: Colors.redAccent,
+                              ),
+                              SizedBox(
+                                width: 10.0,
+                              ),
+                              Text(
+                                "Sign in with Google",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18.0,
+                                ),
+                              ),
+                            ],
+                          ),
+                          onPressed: () async {
+                            if (_formKey.currentState.validate()) {
+                              setState(() {
+                                loading = true;
+                              });
+                              dynamic result =
+                                  await _authService.signInWithGoogleAuth();
+                              if (result == null) {
+                                setState(() {
+                                  loading = false;
+                                  error =
+                                  "could not sign in to your google account";
+                                });
+                              }
+                            }
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        width: 250.0,
+                        child: RaisedButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          color: Colors.white,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Icon(
+                                FontAwesomeIcons.facebook,
+                                color: Colors.blueAccent,
+                              ),
+                              SizedBox(
+                                width: 10.0,
+                              ),
+                              Text(
+                                "Sign in with Facebook",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18.0,
+                                ),
+                              ),
+                            ],
+                          ),
+                          onPressed: () async {
+
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        width: 250.0,
+                        child: RaisedButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          color: Colors.white,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Icon(
+                                FontAwesomeIcons.solidEnvelope,
+                                color: Colors.greenAccent,
+                              ),
+                              SizedBox(
+                                width: 10.0,
+                              ),
+                              Text(
+                                "Sign in with Email",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18.0,
+                                ),
+                              ),
+                            ],
+                          ),
+                          onPressed: () async {
+                            Navigator.push(context, MaterialPageRoute(
+                              builder: (context) {
+                                return AuthenticateWithEmail();
+                              },
+                            ));
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
           );
+  }
+}
+
+class SignInOptionsPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Builder(),
+    );
   }
 }
