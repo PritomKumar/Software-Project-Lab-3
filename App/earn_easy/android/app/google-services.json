@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "17571733476-76jfhikbgj16p9nlqhpspedhsu6obp1u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iit.earneasy",
+            "certificate_hash": "c790d22b08f7c22f4fcfe4a9586bc4e746cd8c68"
+          }
+        },
+        {
           "client_id": "17571733476-9j151l82ubplmpugjpf9goif47m0t0ci.apps.googleusercontent.com",
           "client_type": 3
         }

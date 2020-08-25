@@ -81,7 +81,7 @@ class _SignInState extends State<SignIn> {
                       },
                     ),
                     SizedBox(
-                      height: 20.0,
+                      height: 10.0,
                     ),
                     RaisedButton(
                       color: Colors.pink[400],
@@ -113,7 +113,7 @@ class _SignInState extends State<SignIn> {
                           color: Colors.red,
                           fontWeight: FontWeight.w700,
                           fontSize: 16.0),
-                    )
+                    ),
                   ],
                 ),
               ),

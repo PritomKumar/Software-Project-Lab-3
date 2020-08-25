@@ -1,4 +1,5 @@
 import 'package:earneasy/app_screens/authenticate/authenticate.dart';
+import 'package:earneasy/app_screens/authenticate/select_sign_in.dart';
 import 'package:earneasy/app_screens/home/home_dummy.dart';
 import 'package:earneasy/app_screens/home/login_screen.dart';
 import 'package:earneasy/app_screens/search_screen_loader.dart';
@@ -11,6 +12,6 @@ class Wrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
     print(user);
-    return user == null ? Authenticate() : Home();
+    return user == null ? SignInOptions() : Home();
   }
 }
