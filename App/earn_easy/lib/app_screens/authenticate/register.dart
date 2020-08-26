@@ -17,9 +17,18 @@ class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
 
   bool loading = false;
-  String email = "";
-  String password = "";
   String error = "";
+
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
+  bool hidePassword = true;
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,37 +59,44 @@ class _RegisterState extends State<Register> {
                       height: 20.0,
                     ),
                     TextFormField(
-                      decoration:
-                          emailInputDecoration,
+                      controller: emailController,
+                      decoration: emailInputDecoration,
                       validator: (value) {
                         return value.isEmpty ? "Enter a email" : null;
-                      },
-                      onChanged: (value) {
-                        setState(() {
-                          email = value;
-                        });
                       },
                     ),
                     SizedBox(
                       height: 20.0,
                     ),
                     TextFormField(
-                      decoration:
-                          passwordInputDecoration,
-                      obscureText: true,
+                      controller: passwordController,
+                      decoration: passwordInputDecoration.copyWith(
+                          hintText: "Password",
+                          suffixIcon: IconButton(
+                            icon: !hidePassword
+                                ? Icon(
+                              Icons.visibility_off,
+                              color: Colors.grey,
+                            )
+                                : Icon(
+                              Icons.visibility,
+
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                hidePassword = !hidePassword;
+                              });
+                            },
+                          )),
                       validator: (value) {
                         return value.length < 6
-                            ? "Enter a password  6+ chars long"
+                            ? "Enter a password  6 + chars long"
                             : null;
                       },
-                      onChanged: (value) {
-                        setState(() {
-                          password = value;
-                        });
-                      },
+                      obscureText: hidePassword,
                     ),
                     SizedBox(
-                      height: 20.0,
+                      height: 10.0,
                     ),
                     RaisedButton(
                       color: Colors.pink[400],
@@ -94,7 +110,7 @@ class _RegisterState extends State<Register> {
                             loading = true;
                           });
                           dynamic result = await _authService
-                              .registerWithEmailAndPassword(email, password);
+                              .registerWithEmailAndPassword(emailController.text, passwordController.text);
                           if (result == null) {
                             setState(() {
                               loading = false;

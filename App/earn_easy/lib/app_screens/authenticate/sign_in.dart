@@ -23,7 +23,7 @@ class _SignInState extends State<SignIn> {
 
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
-  bool hidePassword = false;
+  bool hidePassword = true;
 
   @override
   void dispose() {
