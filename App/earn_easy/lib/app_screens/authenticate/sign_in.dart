@@ -22,6 +22,16 @@ class _SignInState extends State<SignIn> {
   String password = "";
   String error = "";
 
+   var emailController = TextEditingController();
+   var passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return loading
@@ -51,21 +61,18 @@ class _SignInState extends State<SignIn> {
                       height: 20.0,
                     ),
                     TextFormField(
+                      controller: emailController,
                       decoration:
                           textInputDecoration.copyWith(hintText: "Email"),
                       validator: (value) {
                         return value.isEmpty ? "Enter a email" : null;
-                      },
-                      onChanged: (value) {
-                        setState(() {
-                          email = value;
-                        });
                       },
                     ),
                     SizedBox(
                       height: 20.0,
                     ),
                     TextFormField(
+                      controller: passwordController,
                       decoration:
                           textInputDecoration.copyWith(hintText: "Password"),
                       validator: (value) {
@@ -74,11 +81,6 @@ class _SignInState extends State<SignIn> {
                             : null;
                       },
                       obscureText: true,
-                      onChanged: (value) {
-                        setState(() {
-                          password = value;
-                        });
-                      },
                     ),
                     SizedBox(
                       height: 10.0,
@@ -95,7 +97,7 @@ class _SignInState extends State<SignIn> {
                             loading = true;
                           });
                           dynamic result = await _authService
-                              .signInWithEmailAndPassword(email, password);
+                              .signInWithEmailAndPassword(emailController.text, passwordController.text);
                           if (result == null) {
                             setState(() {
                               loading = false;

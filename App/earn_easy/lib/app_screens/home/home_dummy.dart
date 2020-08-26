@@ -84,7 +84,7 @@ class _GigsState extends State<Gigs> {
             onMapCreated: _onMapCreated,
             initialCameraPosition: CameraPosition(
               target: LatLng(23.8103, 90.4125),
-              zoom: 12,
+              zoom: 20.0,
             ),
             markers: _markers,
           ),
