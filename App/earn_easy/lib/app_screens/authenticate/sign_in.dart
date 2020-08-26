@@ -4,6 +4,7 @@ import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SignIn extends StatefulWidget {
   final Function toggleView;
@@ -18,12 +19,11 @@ class _SignInState extends State<SignIn> {
   final AuthService _authService = AuthService();
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
-  String email = "";
-  String password = "";
   String error = "";
 
-   var emailController = TextEditingController();
-   var passwordController = TextEditingController();
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
+  bool hidePassword = false;
 
   @override
   void dispose() {
@@ -62,8 +62,7 @@ class _SignInState extends State<SignIn> {
                     ),
                     TextFormField(
                       controller: emailController,
-                      decoration:
-                          textInputDecoration.copyWith(hintText: "Email"),
+                      decoration: emailInputDecoration,
                       validator: (value) {
                         return value.isEmpty ? "Enter a email" : null;
                       },
@@ -73,14 +72,30 @@ class _SignInState extends State<SignIn> {
                     ),
                     TextFormField(
                       controller: passwordController,
-                      decoration:
-                          textInputDecoration.copyWith(hintText: "Password"),
+                      decoration: passwordInputDecoration.copyWith(
+                          hintText: "Password",
+                          suffixIcon: IconButton(
+                            icon: !hidePassword
+                                ? Icon(
+                                    Icons.visibility_off,
+                                    color: Colors.grey,
+                                  )
+                                : Icon(
+                                    Icons.visibility,
+
+                                  ),
+                            onPressed: () {
+                              setState(() {
+                                hidePassword = !hidePassword;
+                              });
+                            },
+                          )),
                       validator: (value) {
                         return value.length < 6
                             ? "Enter a password  6 + chars long"
                             : null;
                       },
-                      obscureText: true,
+                      obscureText: hidePassword,
                     ),
                     SizedBox(
                       height: 10.0,
@@ -96,8 +111,10 @@ class _SignInState extends State<SignIn> {
                           setState(() {
                             loading = true;
                           });
-                          dynamic result = await _authService
-                              .signInWithEmailAndPassword(emailController.text, passwordController.text);
+                          dynamic result =
+                              await _authService.signInWithEmailAndPassword(
+                                  emailController.text,
+                                  passwordController.text);
                           if (result == null) {
                             setState(() {
                               loading = false;

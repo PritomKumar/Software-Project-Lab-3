@@ -51,7 +51,7 @@ class _RegisterState extends State<Register> {
                     ),
                     TextFormField(
                       decoration:
-                          textInputDecoration.copyWith(hintText: "Email"),
+                          emailInputDecoration,
                       validator: (value) {
                         return value.isEmpty ? "Enter a email" : null;
                       },
@@ -66,7 +66,7 @@ class _RegisterState extends State<Register> {
                     ),
                     TextFormField(
                       decoration:
-                          textInputDecoration.copyWith(hintText: "Password"),
+                          passwordInputDecoration,
                       obscureText: true,
                       validator: (value) {
                         return value.length < 6
