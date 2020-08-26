@@ -1,4 +1,5 @@
 import 'package:earneasy/app_screens/authenticate/register.dart';
+import 'package:earneasy/app_screens/home/home_dummy.dart';
 import 'package:earneasy/services/auth.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
@@ -25,12 +26,6 @@ class _SignInState extends State<SignIn> {
   var passwordController = TextEditingController();
   bool hidePassword = true;
 
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +70,7 @@ class _SignInState extends State<SignIn> {
                       decoration: passwordInputDecoration.copyWith(
                           hintText: "Password",
                           suffixIcon: IconButton(
-                            icon: !hidePassword
+                            icon: hidePassword
                                 ? Icon(
                                     Icons.visibility_off,
                                     color: Colors.grey,
@@ -113,13 +108,19 @@ class _SignInState extends State<SignIn> {
                           });
                           dynamic result =
                               await _authService.signInWithEmailAndPassword(
-                                  emailController.text,
-                                  passwordController.text);
+                                  emailController.text.trim(),
+                                  passwordController.text.trim());
                           if (result == null) {
                             setState(() {
                               loading = false;
                               error =
                                   "could not sign in with those credentials";
+                            });
+                          }
+                          else{
+                            setState(() {
+                              loading = false;
+                              Navigator.pop(context);
                             });
                           }
                         }

@@ -73,15 +73,14 @@ class _RegisterState extends State<Register> {
                       decoration: passwordInputDecoration.copyWith(
                           hintText: "Password",
                           suffixIcon: IconButton(
-                            icon: !hidePassword
+                            icon: hidePassword
                                 ? Icon(
-                              Icons.visibility_off,
-                              color: Colors.grey,
-                            )
+                                    Icons.visibility_off,
+                                    color: Colors.grey,
+                                  )
                                 : Icon(
-                              Icons.visibility,
-
-                            ),
+                                    Icons.visibility,
+                                  ),
                             onPressed: () {
                               setState(() {
                                 hidePassword = !hidePassword;
@@ -109,12 +108,19 @@ class _RegisterState extends State<Register> {
                           setState(() {
                             loading = true;
                           });
-                          dynamic result = await _authService
-                              .registerWithEmailAndPassword(emailController.text, passwordController.text);
+                          dynamic result =
+                              await _authService.registerWithEmailAndPassword(
+                                  emailController.text.trim(),
+                                  passwordController.text.trim());
                           if (result == null) {
                             setState(() {
                               loading = false;
                               error = "Please supply a valid email";
+                            });
+                          } else {
+                            setState(() {
+                              loading = false;
+                              Navigator.pop(context);
                             });
                           }
                         }

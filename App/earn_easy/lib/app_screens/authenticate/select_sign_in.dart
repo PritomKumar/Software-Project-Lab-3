@@ -170,11 +170,3 @@ class _SignInOptionsState extends State<SignInOptions> {
   }
 }
 
-class SignInOptionsPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Builder(),
-    );
-  }
-}
