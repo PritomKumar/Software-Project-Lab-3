@@ -18,6 +18,7 @@ class _ProfileState extends State<Profile> {
   var passwordController = TextEditingController();
   var firstNameController = TextEditingController();
   var lastNameController = TextEditingController();
+  bool isloading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +27,7 @@ class _ProfileState extends State<Profile> {
     return StreamBuilder<UserAccount>(
         stream: DatabaseService().userData,
         builder: (context, snapshot) {
+          isloading = snapshot.hasData;
           if (snapshot.hasData){
             var user = snapshot.data;
             firstNameController.text = user.name.substring(0, user.name.indexOf(" "));
