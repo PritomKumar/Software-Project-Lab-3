@@ -10,10 +10,12 @@ class AuthService {
   UserAccount _userFromFirebaseUser(User firebaseUser) {
     return firebaseUser != null
         ? UserAccount(
-            uid: firebaseUser.uid ?? "",
-            name: firebaseUser.displayName ?? "",
-            email: firebaseUser.email ?? "",
-            photoUrl: firebaseUser.photoURL ?? "")
+            uid: firebaseUser.uid ,
+            name: firebaseUser.displayName ,
+            email: firebaseUser.email ,
+            photoUrl: firebaseUser.photoURL ,
+            phoneNumber: firebaseUser.phoneNumber ,
+          )
         : null;
   }
 

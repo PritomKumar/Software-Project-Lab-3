@@ -57,6 +57,46 @@ class _ProfileState extends State<Profile> {
                       ),
                     ],
                   ),
+                  Row(
+                    children: <Widget>[
+                      Text(
+                        "Last Name :",
+                        style: TextStyle(fontSize: size.width / 25),
+                      ),
+                      SizedBox(
+                        width: size.width / 40,
+                      ),
+                      Expanded(
+                        child: TextFormField(
+                          controller: firstNameController,
+                          decoration: InputDecoration(hintText: "First Name"),
+                          validator: (value) {
+                            return value.isEmpty ? "Enter First Name" : null;
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text(
+                        "First Name :",
+                        style: TextStyle(fontSize: size.width / 25),
+                      ),
+                      SizedBox(
+                        width: size.width / 40,
+                      ),
+                      Expanded(
+                        child: TextFormField(
+                          controller: firstNameController,
+                          decoration: InputDecoration(hintText: "First Name"),
+                          validator: (value) {
+                            return value.isEmpty ? "Enter First Name" : null;
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                   RaisedButton(
                     color: Colors.pink[400],
                     child: Text(

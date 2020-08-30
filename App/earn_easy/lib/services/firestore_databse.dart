@@ -19,9 +19,25 @@ class DatabaseService{
   Future updateUserData(UserAccount userAccount){
     if(isLoggedIn()){
       userProfiles.doc(userAccount.uid).set({
-        "name" : userAccount.name,
-        "email" : userAccount.email,
-        "photoUrl" : userAccount.photoUrl,
+        "name" : userAccount.name ?? "",
+        "email" : userAccount.email ?? "",
+        "photoUrl" : userAccount.photoUrl ?? "",
+        "phoneNumber" : userAccount.phoneNumber ?? "",
+        "birthDay" : userAccount.birthDay ?? DateTime(1000,1,1),
+        "gender" : userAccount.gender ?? "",
+        "streetAddress" : userAccount.streetAddress ?? "",
+        "city" : userAccount.city ?? "",
+        "state" : userAccount.state ?? "",
+        "zipCode" : userAccount.zipCode ?? "",
+        "bio" : userAccount.bio ?? "",
+        "occupation" : userAccount.occupation ?? "",
+        "maritalStatus" : userAccount.maritalStatus ?? "",
+        "educationLevel" : userAccount.educationLevel ?? "",
+        "employmentStatus" : userAccount.employmentStatus ?? "",
+        "householdIncome" : userAccount.householdIncome ?? "",
+        "level" : userAccount.level ?? 1,
+        "type" : userAccount.type ?? "worker",
+        "writeAccess" : userAccount.writeAccess ?? false,
       });
     }
     else{
