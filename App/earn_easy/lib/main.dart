@@ -1,9 +1,12 @@
-
 import 'package:earneasy/app_screens/splash_screen.dart';
+import 'package:earneasy/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 
-void main() async{
+import 'models/user.dart';
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
@@ -13,13 +16,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return MaterialApp(
+    return  StreamProvider<UserAccount>.value(
+        value: AuthService().user,
+        child: MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Parking App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SplashScreen(),
+      home:SplashScreen(),
+      )
     );
   }
 }

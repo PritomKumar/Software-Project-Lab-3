@@ -28,10 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
         debugPrint("TODO splash screen done");
         Navigator.push(context, MaterialPageRoute(
           builder: (context) {
-            return StreamProvider<UserAccount>.value(
-              value: AuthService().user,
-              child: Wrapper(),
-            );
+            return Wrapper();
           },
         ));
       },
