@@ -51,15 +51,19 @@ class DatabaseService {
   }
 
   UserAccount _userDataFromSnapshot(DocumentSnapshot snapshot) {
-    return UserAccount(
-      uid: uid,
-      name: snapshot.data()['name'] ?? "",
-      email: snapshot.data()['email'] ?? "",
-      photoUrl: snapshot.data()['photoUrl'] ?? "",
-    );
+    return isLoggedIn()
+        ? UserAccount(
+            uid: uid,
+            name: snapshot.data()['name'] ?? "",
+            email: snapshot.data()['email'] ?? "",
+            photoUrl: snapshot.data()['photoUrl'] ?? "",
+          )
+        : null;
   }
 
   Stream<UserAccount> get userData {
-    return userProfiles.doc(uid).snapshots().map(_userDataFromSnapshot);
+    return isLoggedIn()
+        ? userProfiles.doc(uid).snapshots().map(_userDataFromSnapshot)
+        : null;
   }
 }
