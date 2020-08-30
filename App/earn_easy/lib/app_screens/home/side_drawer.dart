@@ -11,7 +11,7 @@ class SideDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context);
+    final user = Provider.of<UserAccount>(context);
     return Container(
       child: SafeArea(
         child: Drawer(

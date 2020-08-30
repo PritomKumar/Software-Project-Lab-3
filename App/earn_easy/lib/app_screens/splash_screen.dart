@@ -3,8 +3,11 @@ import 'dart:async';
 import 'file:///F:/IIT%207th%20Semester/SPL3/Software-Project-Lab-3/App/earn_easy/lib/app_screens/home/login_screen.dart';
 import 'package:earneasy/app_screens/search_screen_loader.dart';
 import 'package:earneasy/app_screens/wrapper.dart';
+import 'package:earneasy/models/user.dart';
+import 'package:earneasy/services/auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -23,7 +26,14 @@ class _SplashScreenState extends State<SplashScreen> {
       Duration(seconds: 1),
       () {
         debugPrint("TODO splash screen done");
-        Navigator.push(context, MaterialPageRoute(builder: (context) => (Wrapper()),));
+        Navigator.push(context, MaterialPageRoute(
+          builder: (context) {
+            return StreamProvider<UserAccount>.value(
+              value: AuthService().user,
+              child: Wrapper(),
+            );
+          },
+        ));
       },
     );
   }
@@ -41,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
             decoration: BoxDecoration(
               color: theme.primaryColorLight,
               gradient: LinearGradient(
-                colors: [Colors.blue[100],Colors.blue[500]],
+                colors: [Colors.blue[100], Colors.blue[500]],
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
               ),

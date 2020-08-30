@@ -6,19 +6,25 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  User _userFromFirebaseUser(FirebaseUser user) {
-    return user != null ? User(uid: user.uid,name: user.displayName,email: user.email,photoUrl: user.photoUrl) : null;
+  UserAccount _userFromFirebaseUser(User firebaseUser) {
+    return firebaseUser != null
+        ? UserAccount(
+            uid: firebaseUser.uid,
+            name: firebaseUser.displayName,
+            email: firebaseUser.email,
+            photoUrl: firebaseUser.photoURL)
+        : null;
   }
 
-  Stream<User> get user {
-    return _auth.onAuthStateChanged.map(_userFromFirebaseUser);
+  Stream<UserAccount> get user {
+    return _auth.authStateChanges().map(_userFromFirebaseUser);
   }
 
   Future registerWithEmailAndPassword(String email, String password) async {
     try {
-      AuthResult result = await _auth.createUserWithEmailAndPassword(
+      UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      FirebaseUser user = result.user;
+      User user = result.user;
       return _userFromFirebaseUser(user);
     } catch (e) {
       print(e.toString());
@@ -28,9 +34,9 @@ class AuthService {
 
   Future signInWithEmailAndPassword(String email, String password) async {
     try {
-      AuthResult result = await _auth.signInWithEmailAndPassword(
+      UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-      FirebaseUser user = result.user;
+      User user = result.user;
       return _userFromFirebaseUser(user);
     } catch (e) {
       print(e.toString());
@@ -46,8 +52,8 @@ class AuthService {
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      AuthResult result = await _auth.signInWithCredential(credential);
-      FirebaseUser user = result.user;
+      UserCredential result = await _auth.signInWithCredential(credential);
+      User user = result.user;
       return _userFromFirebaseUser(user);
     } catch (e) {
       print(e.toString());
@@ -57,7 +63,7 @@ class AuthService {
 
   Future signInAnon() async {
     try {
-      AuthResult result = await _auth.signInAnonymously();
+      UserCredential result = await _auth.signInAnonymously();
       FirebaseUser user = result.user;
       return _userFromFirebaseUser(user);
     } catch (e) {
@@ -68,7 +74,6 @@ class AuthService {
 
   Future signOut() async {
     try {
-
 //      bool googleIsSighnedIn = await _googleSignIn.isSignedIn();
 //      if (googleIsSighnedIn == true) {
 //        await _googleSignIn.signOut();
