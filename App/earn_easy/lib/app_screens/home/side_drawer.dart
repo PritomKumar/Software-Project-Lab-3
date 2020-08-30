@@ -19,12 +19,31 @@ class SideDrawer extends StatelessWidget {
             children: <Widget>[
               UserAccountsDrawerHeader(
                 accountEmail: Text(user.email),
-                accountName: Text(user.name,style: TextStyle(fontSize: 18.0,color: Colors.white,fontWeight: FontWeight.bold),),
+                accountName: Text(
+                  user.name,
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                ),
                 currentAccountPicture: CircleAvatar(
-                  child:  Text(
-                    "P",
-                  ),
-                  //backgroundColor: Colors.blue[600],
+                  backgroundImage: user.photoUrl == ""
+                      ? null
+                      : NetworkImage(
+                          user.photoUrl,
+                        ),
+                  child: user.photoUrl == ""
+                      ? Text(
+                          user.email[0].toUpperCase(),
+                          style: TextStyle(
+                            fontSize: 24.0,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      : null,
+                  backgroundColor: Colors.blue[600],
+                  radius: 50.0,
                 ),
                 otherAccountsPictures: <Widget>[
                   CircleAvatar(

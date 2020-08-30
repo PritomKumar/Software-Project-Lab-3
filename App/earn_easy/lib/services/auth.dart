@@ -1,4 +1,5 @@
 import 'package:earneasy/models/user.dart';
+import 'package:earneasy/services/firestore_databse.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -9,10 +10,10 @@ class AuthService {
   UserAccount _userFromFirebaseUser(User firebaseUser) {
     return firebaseUser != null
         ? UserAccount(
-            uid: firebaseUser.uid,
-            name: firebaseUser.displayName,
-            email: firebaseUser.email,
-            photoUrl: firebaseUser.photoURL)
+            uid: firebaseUser.uid ?? "",
+            name: firebaseUser.displayName ?? "",
+            email: firebaseUser.email ?? "",
+            photoUrl: firebaseUser.photoURL ?? "")
         : null;
   }
 
@@ -25,6 +26,7 @@ class AuthService {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       User user = result.user;
+      await DatabaseService().updateUserData(_userFromFirebaseUser(user));
       return _userFromFirebaseUser(user);
     } catch (e) {
       print(e.toString());
@@ -37,6 +39,7 @@ class AuthService {
       UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       User user = result.user;
+      await DatabaseService().updateUserData(_userFromFirebaseUser(user));
       return _userFromFirebaseUser(user);
     } catch (e) {
       print(e.toString());
@@ -54,6 +57,7 @@ class AuthService {
       );
       UserCredential result = await _auth.signInWithCredential(credential);
       User user = result.user;
+      await DatabaseService().updateUserData(_userFromFirebaseUser(user));
       return _userFromFirebaseUser(user);
     } catch (e) {
       print(e.toString());
@@ -64,7 +68,8 @@ class AuthService {
   Future signInAnon() async {
     try {
       UserCredential result = await _auth.signInAnonymously();
-      FirebaseUser user = result.user;
+      User user = result.user;
+      await DatabaseService().updateUserData(_userFromFirebaseUser(user));
       return _userFromFirebaseUser(user);
     } catch (e) {
       print(e.toString());
@@ -78,6 +83,7 @@ class AuthService {
 //      if (googleIsSighnedIn == true) {
 //        await _googleSignIn.signOut();
 //      }
+      await _googleSignIn.signOut();
       return await _auth.signOut();
     } catch (e) {
       print(e.toString());
