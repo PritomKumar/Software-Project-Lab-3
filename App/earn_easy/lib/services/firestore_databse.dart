@@ -32,7 +32,6 @@ class DatabaseService{
   Future userAccountOfCurrentUser() async {
     var result = await userProfiles.doc(FirebaseAuth.instance.currentUser.uid).get();
     print(result.data());
-
   }
 
 //  Future<UserAccount> userAccountOfCurrentUser() async {
