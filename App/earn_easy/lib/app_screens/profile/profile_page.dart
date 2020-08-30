@@ -122,11 +122,29 @@ class _ProfileState extends State<Profile> {
                                   style: TextStyle(color: Colors.white),
                                 ),
                                 onPressed: () async {
-                                  // TODO : Complete UserAccount (Major Important)
+                                  // TODO : Complete UserAccount
                                   if(_formKey.currentState.validate()){
                                     await DatabaseService().updateUserData(UserAccount(
                                       name: (firstNameController.text + " " + lastNameController.text) ?? user.name,
                                       email: emailController.text ?? user.email,
+                                      photoUrl:  user.photoUrl,
+                                      phoneNumber:  user.phoneNumber,
+                                      birthDay:  user.birthDay,
+                                      gender:  user.gender,
+                                      streetAddress:  user.streetAddress,
+                                      city:  user.city,
+                                      state:  user.state,
+                                      zipCode:  user.zipCode,
+                                      bio:  user.bio,
+                                      occupation:  user.occupation,
+                                      maritalStatus:  user.maritalStatus,
+                                      educationLevel:  user.educationLevel,
+                                      employmentStatus:  user.employmentStatus,
+                                      householdIncome:  user.householdIncome,
+                                      level:  user.level,
+                                      type:  user.type,
+                                      writeAccess:  user.writeAccess,
+
                                     ));
                                   }
                                 },
