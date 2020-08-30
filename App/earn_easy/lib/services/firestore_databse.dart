@@ -9,7 +9,7 @@ class DatabaseService {
   final String uid = FirebaseAuth.instance.currentUser.uid;
 
   bool isLoggedIn() {
-    if (FirebaseAuth.instance.currentUser != null) {
+    if (uid != null) {
       return true;
     } else {
       return false;
