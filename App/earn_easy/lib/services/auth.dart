@@ -7,7 +7,7 @@ class AuthService {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   User _userFromFirebaseUser(FirebaseUser user) {
-    return user != null ? User(uid: user.uid) : null;
+    return user != null ? User(uid: user.uid,name: user.displayName,email: user.email,photoUrl: user.photoUrl) : null;
   }
 
   Stream<User> get user {
