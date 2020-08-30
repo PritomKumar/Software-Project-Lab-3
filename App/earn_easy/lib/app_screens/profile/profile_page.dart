@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class Profile extends StatefulWidget {
+ // TODO : Complete the UI
   @override
   _ProfileState createState() => _ProfileState();
 }
@@ -25,12 +26,12 @@ class _ProfileState extends State<Profile> {
     return StreamBuilder<UserAccount>(
         stream: DatabaseService().userData,
         builder: (context, snapshot) {
-          var user = snapshot.data;
-          firstNameController.text = user.name;
-          lastNameController.text = user.name;
-          emailController.text = user.email;
-          return snapshot.hasData
-              ? MaterialApp(
+          if (snapshot.hasData){
+            var user = snapshot.data;
+            firstNameController.text = user.name.substring(0, user.name.indexOf(" "));
+            lastNameController.text = user.name.substring(user.name.indexOf(" ") + 1);
+            emailController.text = user.email;
+               return MaterialApp(
                   debugShowCheckedModeBanner: false,
                   home: Scaffold(
                     drawer: SideDrawer(),
@@ -120,7 +121,15 @@ class _ProfileState extends State<Profile> {
                                   "Update",
                                   style: TextStyle(color: Colors.white),
                                 ),
-                                onPressed: () async {},
+                                onPressed: () async {
+                                  // TODO : Complete UserAccount (Major Important)
+                                  if(_formKey.currentState.validate()){
+                                    await DatabaseService().updateUserData(UserAccount(
+                                      name: (firstNameController.text + " " + lastNameController.text) ?? user.name,
+                                      email: emailController.text ?? user.email,
+                                    ));
+                                  }
+                                },
                               ),
                             ],
                           ),
@@ -128,8 +137,11 @@ class _ProfileState extends State<Profile> {
                       ),
                     ),
                   ),
-                )
-              : Loading();
+                );}
+          else{
+            return Loading();
+          }
+
         });
   }
 }
