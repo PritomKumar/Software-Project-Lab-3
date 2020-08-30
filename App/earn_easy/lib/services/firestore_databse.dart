@@ -57,6 +57,22 @@ class DatabaseService {
             name: snapshot.data()['name'] ?? "",
             email: snapshot.data()['email'] ?? "",
             photoUrl: snapshot.data()['photoUrl'] ?? "",
+            phoneNumber: snapshot.data()['phoneNumber'] ?? "",
+            birthDay: snapshot.data()['birthDay'] ?? DateTime(1000, 1, 1),
+            gender: snapshot.data()['gender'] ?? "",
+            streetAddress: snapshot.data()['streetAddress'] ?? "",
+            city: snapshot.data()['city'] ?? "",
+            state: snapshot.data()['state'] ?? "",
+            zipCode: snapshot.data()['zipCode'] ?? "",
+            bio: snapshot.data()['bio'] ?? "",
+            occupation: snapshot.data()['occupation'] ?? "",
+            maritalStatus: snapshot.data()['maritalStatus'] ?? "",
+            educationLevel: snapshot.data()['educationLevel'] ?? "",
+            employmentStatus: snapshot.data()['employmentStatus'] ?? "",
+            householdIncome: snapshot.data()['householdIncome'] ?? "",
+            level: snapshot.data()['level'] ?? 1,
+            type: snapshot.data()['type'] ?? "worker",
+            writeAccess: snapshot.data()['writeAccess'] ?? false,
           )
         : null;
   }
