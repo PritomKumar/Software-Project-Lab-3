@@ -79,10 +79,6 @@ class AuthService {
 
   Future signOut() async {
     try {
-//      bool googleIsSighnedIn = await _googleSignIn.isSignedIn();
-//      if (googleIsSighnedIn == true) {
-//        await _googleSignIn.signOut();
-//      }
       await _googleSignIn.signOut();
       return await _auth.signOut();
     } catch (e) {
