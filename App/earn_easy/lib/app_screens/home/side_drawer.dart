@@ -20,7 +20,7 @@ class SideDrawer extends StatelessWidget {
               UserAccountsDrawerHeader(
                 accountEmail: Text(user.email),
                 accountName: Text(
-                  user.name,
+                  user.firstName + " " + user.lastName,
                   style: TextStyle(
                       fontSize: 18.0,
                       color: Colors.white,

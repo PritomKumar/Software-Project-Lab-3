@@ -188,8 +188,8 @@ class _ProfileState extends State<Profile> {
     });
 
     if (isloading) {
-      firstNameController.text = user.name.substring(0, user.name.indexOf(" "));
-      lastNameController.text = user.name.substring(user.name.indexOf(" ") + 1);
+      firstNameController.text = user.firstName;
+      lastNameController.text = user.lastName;
       emailController.text = user.email;
 
       return MaterialApp(
@@ -277,10 +277,9 @@ class _ProfileState extends State<Profile> {
 
                         if (_formKey.currentState.validate()) {
                           await DatabaseService().updateUserData(UserAccount(
-                            name: (firstNameController.text +
-                                    " " +
-                                    lastNameController.text) ??
-                                user.name,
+                            firstName:
+                                firstNameController.text ?? user.firstName,
+                            lastName: lastNameController.text ?? user.lastName,
                             email: emailController.text ?? user.email,
                             photoUrl: user.photoUrl,
                             phoneNumber: user.phoneNumber,

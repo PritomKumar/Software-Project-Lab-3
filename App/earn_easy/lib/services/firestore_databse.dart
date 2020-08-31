@@ -19,7 +19,8 @@ class DatabaseService {
   Future updateUserData(UserAccount userAccount) {
     if (isLoggedIn()) {
       userProfiles.doc(uid).set({
-        "name": userAccount.name ?? "",
+        "firstName": userAccount.firstName ?? "",
+        "lastName": userAccount.lastName ?? "",
         "email": userAccount.email ?? "",
         "photoUrl": userAccount.photoUrl ?? "",
         "phoneNumber": userAccount.phoneNumber ?? "",
@@ -54,7 +55,8 @@ class DatabaseService {
     return isLoggedIn()
         ? UserAccount(
             uid: uid,
-            name: snapshot.data()['name'] ,
+            firstName: snapshot.data()['firstName'] ,
+            lastName: snapshot.data()['lastName'] ,
             email: snapshot.data()['email'] ,
             photoUrl: snapshot.data()['photoUrl'] ,
             phoneNumber: snapshot.data()['phoneNumber'] ,
