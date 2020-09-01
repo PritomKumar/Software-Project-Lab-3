@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return  StreamProvider<UserAccount>.value(
+    return  StreamProvider<UserMinimum>.value(
         value: AuthService().user,
         child: MaterialApp(
       debugShowCheckedModeBanner: false,

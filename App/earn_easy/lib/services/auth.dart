@@ -7,20 +7,43 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  UserAccount _userFromFirebaseUser(User firebaseUser) {
+  UserMinimum _userFromFirebaseUser(User firebaseUser) {
     return firebaseUser != null
-        ? UserAccount(
-            uid: firebaseUser.uid ?? "" ,
-            firstName: firebaseUser.displayName!=null ?  firebaseUser.displayName.substring(0, firebaseUser.displayName.indexOf(" ")) : "" ,
-            lastName: firebaseUser.displayName!=null ? firebaseUser.displayName.substring(firebaseUser.displayName.indexOf(" ") + 1) : "",
+        ? UserMinimum(
+            uid: firebaseUser.uid ?? "",
+            firstName: firebaseUser.displayName != null
+                ? firebaseUser.displayName
+                    .substring(0, firebaseUser.displayName.indexOf(" "))
+                : "",
+            lastName: firebaseUser.displayName != null
+                ? firebaseUser.displayName
+                    .substring(firebaseUser.displayName.indexOf(" ") + 1)
+                : "",
             email: firebaseUser.email ?? "",
-            photoUrl: firebaseUser.photoURL ?? "" ,
-            phoneNumber: firebaseUser.phoneNumber ?? "",
+            photoUrl: firebaseUser.photoURL ?? "",
           )
         : null;
   }
 
-  Stream<UserAccount> get user {
+  UserAccount _userAccountFromUserMinimum(User firebaseUser) {
+    return firebaseUser != null
+        ? UserAccount(
+            uid: firebaseUser.uid ?? "",
+            firstName: firebaseUser.displayName != null
+                ? firebaseUser.displayName
+                    .substring(0, firebaseUser.displayName.indexOf(" "))
+                : "",
+            lastName: firebaseUser.displayName != null
+                ? firebaseUser.displayName
+                    .substring(firebaseUser.displayName.indexOf(" ") + 1)
+                : "",
+            email: firebaseUser.email ?? "",
+            photoUrl: firebaseUser.photoURL ?? "",
+          )
+        : null;
+  }
+
+  Stream<UserMinimum> get user {
     return _auth.authStateChanges().map(_userFromFirebaseUser);
   }
 
@@ -29,7 +52,10 @@ class AuthService {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       User user = result.user;
-      await DatabaseService().updateUserData(_userFromFirebaseUser(user));
+      if (DatabaseService().userData == null) {
+        await DatabaseService()
+            .updateUserData(_userAccountFromUserMinimum(user));
+      }
       return _userFromFirebaseUser(user);
     } catch (e) {
       print(e.toString());
@@ -42,7 +68,10 @@ class AuthService {
       UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       User user = result.user;
-      await DatabaseService().updateUserData(_userFromFirebaseUser(user));
+      if (DatabaseService().userData == null) {
+        await DatabaseService()
+            .updateUserData(_userAccountFromUserMinimum(user));
+      }
       return _userFromFirebaseUser(user);
     } catch (e) {
       print(e.toString());
@@ -50,17 +79,28 @@ class AuthService {
     }
   }
 
+  Future _checkIfUserDataExists()async {
+    return DatabaseService().userData;
+  }
+
   Future signInWithGoogleAuth() async {
     try {
       GoogleSignInAccount googleUser = await _googleSignIn.signIn();
       GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-      AuthCredential credential = GoogleAuthProvider.getCredential(
+      AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
       UserCredential result = await _auth.signInWithCredential(credential);
       User user = result.user;
-      await DatabaseService().updateUserData(_userFromFirebaseUser(user));
+      final userDataIshere = await _checkIfUserDataExists();
+      print("before userDataIshere " );
+      print(userDataIshere);
+      if (userDataIshere == null) {
+        print("After userDataIshere");
+        await DatabaseService()
+            .updateUserData(_userAccountFromUserMinimum(user));
+      }
       return _userFromFirebaseUser(user);
     } catch (e) {
       print(e.toString());
@@ -72,7 +112,10 @@ class AuthService {
     try {
       UserCredential result = await _auth.signInAnonymously();
       User user = result.user;
-      await DatabaseService().updateUserData(_userFromFirebaseUser(user));
+      if (DatabaseService().userData == null) {
+        await DatabaseService()
+            .updateUserData(_userAccountFromUserMinimum(user));
+      }
       return _userFromFirebaseUser(user);
     } catch (e) {
       print(e.toString());

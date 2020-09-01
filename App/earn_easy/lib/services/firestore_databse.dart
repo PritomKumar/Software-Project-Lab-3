@@ -55,33 +55,54 @@ class DatabaseService {
     return isLoggedIn()
         ? UserAccount(
             uid: uid,
-            firstName: snapshot.data()['firstName'] ,
-            lastName: snapshot.data()['lastName'] ,
-            email: snapshot.data()['email'] ,
-            photoUrl: snapshot.data()['photoUrl'] ,
-            phoneNumber: snapshot.data()['phoneNumber'] ,
-            birthDay: snapshot.data()['birthDay'] ,
-            gender: snapshot.data()['gender'] ,
-            streetAddress: snapshot.data()['streetAddress'] ,
-            city: snapshot.data()['city'] ,
-            state: snapshot.data()['state'] ,
-            zipCode: snapshot.data()['zipCode'],
-            bio: snapshot.data()['bio'],
-            occupation: snapshot.data()['occupation'] ,
-            maritalStatus: snapshot.data()['maritalStatus'] ,
-            educationLevel: snapshot.data()['educationLevel'] ,
-            employmentStatus: snapshot.data()['employmentStatus'],
-            householdIncome: snapshot.data()['householdIncome'] ,
-            level: snapshot.data()['level'] ,
-            type: snapshot.data()['type'] ,
-            writeAccess: snapshot.data()['writeAccess'] ,
+            firstName: snapshot.data()['firstName'],
+            lastName: snapshot.data()['lastName'],
+            email: snapshot.data()['email'],
+            photoUrl: snapshot.data()['photoUrl'],
+//            phoneNumber: snapshot.data()['phoneNumber'],
+//            birthDay: snapshot.data()['birthDay'],
+//            gender: snapshot.data()['gender'],
+//            streetAddress: snapshot.data()['streetAddress'],
+//            city: snapshot.data()['city'],
+//            state: snapshot.data()['state'],
+//            zipCode: snapshot.data()['zipCode'],
+//            bio: snapshot.data()['bio'],
+//            occupation: snapshot.data()['occupation'],
+//            maritalStatus: snapshot.data()['maritalStatus'],
+//            educationLevel: snapshot.data()['educationLevel'],
+//            employmentStatus: snapshot.data()['employmentStatus'],
+//            householdIncome: snapshot.data()['householdIncome'],
+//            level: snapshot.data()['level'],
+//            type: snapshot.data()['type'],
+//            writeAccess: snapshot.data()['writeAccess'],
           )
         : null;
   }
 
   Stream<UserAccount> get userData {
-    return isLoggedIn()
-        ? userProfiles.doc(uid).snapshots().map(_userDataFromSnapshot)
-        : null;
+    print("Before logged in");
+    if (isLoggedIn()) {
+      print("After logged in");
+      dynamic snapshot;
+      userProfiles.doc(uid).get().then((onValue) {
+        print("After logged in");
+        if (onValue.exists) {
+          snapshot = userProfiles.doc(uid).snapshots();
+        } else {
+          snapshot = null;
+        }
+      });
+      if (snapshot != null) {
+        print("After snapshot not null");
+        print(snapshot);
+        return userProfiles.doc(uid).snapshots().map(_userDataFromSnapshot);
+      } else {
+        print("After snapshot is null");
+        print(snapshot);
+        return null;
+      }
+    } else {
+      return null;
+    }
   }
 }
