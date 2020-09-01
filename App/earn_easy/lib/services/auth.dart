@@ -79,8 +79,8 @@ class AuthService {
     }
   }
 
-  Future _checkIfUserDataExists()async {
-    return DatabaseService().userData;
+  Future <bool> _checkIfUserDataExists()async {
+    return await DatabaseService().checkIfDataExists();
   }
 
   Future signInWithGoogleAuth() async {
@@ -96,7 +96,7 @@ class AuthService {
       final userDataIshere = await _checkIfUserDataExists();
       print("before userDataIshere " );
       print(userDataIshere);
-      if (userDataIshere == null) {
+      if (userDataIshere == false) {
         print("After userDataIshere");
         await DatabaseService()
             .updateUserData(_userAccountFromUserMinimum(user));

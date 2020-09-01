@@ -79,30 +79,54 @@ class DatabaseService {
         : null;
   }
 
-  Stream<UserAccount> get userData {
+  Future <bool> checkIfDataExists() async{
     print("Before logged in");
     if (isLoggedIn()) {
       print("After logged in");
-      dynamic snapshot;
-      userProfiles.doc(uid).get().then((onValue) {
+      bool dataExist = false;
+      await userProfiles.doc(uid).get().then((onValue) {
         print("After logged in");
         if (onValue.exists) {
-          snapshot = userProfiles.doc(uid).snapshots();
+          dataExist = true;
         } else {
-          snapshot = null;
+          dataExist = false;
         }
       });
-      if (snapshot != null) {
-        print("After snapshot not null");
-        print(snapshot);
-        return userProfiles.doc(uid).snapshots().map(_userDataFromSnapshot);
-      } else {
-        print("After snapshot is null");
-        print(snapshot);
-        return null;
-      }
+      return dataExist;
     } else {
-      return null;
+      return false;
     }
   }
+
+  Stream<UserAccount> get userData {
+    return isLoggedIn()
+        ? userProfiles.doc(uid).snapshots().map(_userDataFromSnapshot)
+        : null;
+  }
+//  Stream<UserAccount> get userData {
+//    print("Before logged in");
+//    if (isLoggedIn()) {
+//      print("After logged in");
+//      dynamic snapshot;
+//      userProfiles.doc(uid).get().then((onValue) {
+//        print("After logged in");
+//        if (onValue.exists) {
+//          snapshot = userProfiles.doc(uid).snapshots();
+//        } else {
+//          snapshot = null;
+//        }
+//      });
+//      if (snapshot != null) {
+//        print("After snapshot not null");
+//        print(snapshot);
+//        return userProfiles.doc(uid).snapshots().map(_userDataFromSnapshot);
+//      } else {
+//        print("After snapshot is null");
+//        print(snapshot);
+//        return null;
+//      }
+//    } else {
+//      return null;
+//    }
+//  }
 }
