@@ -47,12 +47,17 @@ class AuthService {
     return _auth.authStateChanges().map(_userFromFirebaseUser);
   }
 
+  Future <bool> _checkIfUserDataExists()async {
+    return await DatabaseService().checkIfDataExists();
+  }
+
   Future registerWithEmailAndPassword(String email, String password) async {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       User user = result.user;
-      if (DatabaseService().userData == null) {
+      final userDataExits = await _checkIfUserDataExists();
+      if (userDataExits == false) {
         await DatabaseService()
             .updateUserData(_userAccountFromUserMinimum(user));
       }
@@ -68,7 +73,8 @@ class AuthService {
       UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       User user = result.user;
-      if (DatabaseService().userData == null) {
+      final userDataExits = await _checkIfUserDataExists();
+      if (userDataExits == false) {
         await DatabaseService()
             .updateUserData(_userAccountFromUserMinimum(user));
       }
@@ -79,9 +85,7 @@ class AuthService {
     }
   }
 
-  Future <bool> _checkIfUserDataExists()async {
-    return await DatabaseService().checkIfDataExists();
-  }
+
 
   Future signInWithGoogleAuth() async {
     try {
@@ -93,11 +97,8 @@ class AuthService {
       );
       UserCredential result = await _auth.signInWithCredential(credential);
       User user = result.user;
-      final userDataIshere = await _checkIfUserDataExists();
-      print("before userDataIshere " );
-      print(userDataIshere);
-      if (userDataIshere == false) {
-        print("After userDataIshere");
+      final userDataExits = await _checkIfUserDataExists();
+      if (userDataExits == false) {
         await DatabaseService()
             .updateUserData(_userAccountFromUserMinimum(user));
       }
@@ -112,7 +113,8 @@ class AuthService {
     try {
       UserCredential result = await _auth.signInAnonymously();
       User user = result.user;
-      if (DatabaseService().userData == null) {
+      final userDataExits = await _checkIfUserDataExists();
+      if (userDataExits == false) {
         await DatabaseService()
             .updateUserData(_userAccountFromUserMinimum(user));
       }
