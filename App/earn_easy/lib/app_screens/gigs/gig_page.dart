@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:earneasy/app_screens/home/side_drawer.dart';
 import 'package:earneasy/services/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class GoogleMaps extends StatefulWidget {
@@ -47,7 +48,27 @@ class _GoogleMapsState extends State<GoogleMaps> {
     });
   }
 
+  void _updatePosition(CameraPosition _position) {
+    print(
+        'inside updatePosition ${_position.target.latitude} ${_position.target.longitude}');
+    Marker marker = _myMarkers.firstWhere(
+        (p) => p.markerId == MarkerId('marker_2'),
+        orElse: () => null);
+
+    _myMarkers.remove(marker);
+    _myMarkers.add(
+      Marker(
+        markerId: MarkerId('marker_2'),
+        position: LatLng(_position.target.latitude, _position.target.longitude),
+        draggable: true,
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
+      ),
+    );
+    setState(() {});
+  }
+
   _handleTap(LatLng tappedPoint) {
+    print(tappedPoint);
     setState(() {
       _myMarkers.clear();
       _myMarkers.add(Marker(
@@ -60,9 +81,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
         },
         infoWindow: InfoWindow(
           title: "Add Marker",
-
         ),
-
       ));
     });
   }
@@ -93,12 +112,12 @@ class _GoogleMapsState extends State<GoogleMaps> {
               target: LatLng(40.7128, -74.0060),
               zoom: 14.0,
             ),
-            markers: _markers,
+            markers: _myMarkers,
+            onCameraMove: ((_position) => _updatePosition(_position)),
             onTap: _handleTap,
             myLocationButtonEnabled: true,
             myLocationEnabled: true,
             compassEnabled: true,
-
           ),
         ],
       ),

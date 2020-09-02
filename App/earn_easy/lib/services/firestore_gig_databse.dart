@@ -94,6 +94,7 @@ class DatabaseServiceGigs {
         : null;
   }
 
+  //TODO : Chenck for true return statement
   Future<bool> checkIfDataExists() async {
     print("Before logged in");
     if (isLoggedIn()) {
@@ -113,7 +114,7 @@ class DatabaseServiceGigs {
     }
   }
 
-  Stream<List<Gig>> get gigData {
+  Stream<List<Gig>> get allGigData {
     return isLoggedIn() ? gigs.snapshots().map(_allGigDataFromSnapshot) : null;
   }
 
