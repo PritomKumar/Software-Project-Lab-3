@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import 'add_gig_page.dart';
+
 class GoogleMaps extends StatefulWidget {
   @override
   _GoogleMapsState createState() => _GoogleMapsState();
@@ -16,6 +18,8 @@ class _GoogleMapsState extends State<GoogleMaps> {
 
   Set<Marker> _markers = HashSet<Marker>();
   Set<Marker> _myMarkers = HashSet<Marker>();
+  bool isTapped = false;
+  LatLng tappedPosition;
   GoogleMapController _mapController;
   BitmapDescriptor _markerIcon;
 
@@ -49,6 +53,9 @@ class _GoogleMapsState extends State<GoogleMaps> {
   }
 
   void _updatePosition(CameraPosition _position) {
+    CameraPosition realCamera = _position;
+    CameraPosition tappedCamera = CameraPosition(target: tappedPosition);
+    _position = tappedCamera != null ?  tappedCamera :  _position ;
     print(
         'inside updatePosition ${_position.target.latitude} ${_position.target.longitude}');
     Marker marker = _myMarkers.firstWhere(
@@ -61,7 +68,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
         markerId: MarkerId('marker_2'),
         position: LatLng(_position.target.latitude, _position.target.longitude),
         draggable: true,
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRose),
       ),
     );
     setState(() {});
@@ -70,6 +77,8 @@ class _GoogleMapsState extends State<GoogleMaps> {
   _handleTap(LatLng tappedPoint) {
     print(tappedPoint);
     setState(() {
+      tappedPosition = tappedPoint;
+      isTapped = true;
       _myMarkers.clear();
       _myMarkers.add(Marker(
         markerId: MarkerId(tappedPoint.toString()),
@@ -90,6 +99,11 @@ class _GoogleMapsState extends State<GoogleMaps> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: SideDrawer(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          return GigAdd();
+        },
+      ),
       appBar: AppBar(
         title: Text('Home'),
         backgroundColor: Colors.blue[300],
@@ -113,7 +127,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
               zoom: 14.0,
             ),
             markers: _myMarkers,
-            onCameraMove: ((_position) => _updatePosition(_position)),
+            onCameraMove: isTapped ? ((_position) => _updatePosition(_position)) : null,
             onTap: _handleTap,
             myLocationButtonEnabled: true,
             myLocationEnabled: true,
