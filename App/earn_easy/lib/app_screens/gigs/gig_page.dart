@@ -5,12 +5,12 @@ import 'package:earneasy/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class Gigs extends StatefulWidget {
+class GoogleMaps extends StatefulWidget {
   @override
-  _GigsState createState() => _GigsState();
+  _GoogleMapsState createState() => _GoogleMapsState();
 }
 
-class _GigsState extends State<Gigs> {
+class _GoogleMapsState extends State<GoogleMaps> {
   final AuthService _authService = AuthService();
 
   Set<Marker> _markers = HashSet<Marker>();
@@ -30,7 +30,6 @@ class _GigsState extends State<Gigs> {
         ImageConfiguration(), "assets/images/money_icon.jpg");
   }
 
-
   void _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
     setState(() {
@@ -48,7 +47,7 @@ class _GigsState extends State<Gigs> {
     });
   }
 
-  _handleTap(LatLng tappedPoint){
+  _handleTap(LatLng tappedPoint) {
     setState(() {
       _myMarkers.clear();
       _myMarkers.add(Marker(
@@ -56,12 +55,18 @@ class _GigsState extends State<Gigs> {
         position: tappedPoint,
         draggable: true,
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
-        onDragEnd: (dragEndPosition){
+        onDragEnd: (dragEndPosition) {
           print(dragEndPosition);
-        }
+        },
+        infoWindow: InfoWindow(
+          title: "Add Marker",
+
+        ),
+
       ));
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,6 +95,10 @@ class _GigsState extends State<Gigs> {
             ),
             markers: _markers,
             onTap: _handleTap,
+            myLocationButtonEnabled: true,
+            myLocationEnabled: true,
+            compassEnabled: true,
+
           ),
         ],
       ),

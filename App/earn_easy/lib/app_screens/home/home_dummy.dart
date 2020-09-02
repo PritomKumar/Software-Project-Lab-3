@@ -8,7 +8,7 @@ class Home extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Material App',
-      home: Gigs(),
+      home: GoogleMaps(),
     );
   }
 }
