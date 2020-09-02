@@ -1,4 +1,4 @@
-import 'package:earneasy/app_screens/home/home_dummy.dart';
+import 'package:earneasy/app_screens/gigs/gig_page.dart';
 import 'package:earneasy/app_screens/notification/notification_page.dart';
 import 'package:earneasy/app_screens/profile/profile_page.dart';
 import 'package:earneasy/app_screens/setting/setting_page.dart';
