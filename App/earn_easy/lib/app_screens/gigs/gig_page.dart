@@ -19,7 +19,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
   Set<Marker> _markers = HashSet<Marker>();
   Set<Marker> _myMarkers = HashSet<Marker>();
   bool isTapped = false;
-  LatLng tappedPosition;
+  LatLng tappedPosition = LatLng(40.7128, -74.0060);
   GoogleMapController _mapController;
   BitmapDescriptor _markerIcon;
 
@@ -104,7 +104,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
         onPressed: () {
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
             return GigAdd(
-              location: tappedPosition,
+
             );
           },));
 

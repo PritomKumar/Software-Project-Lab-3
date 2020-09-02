@@ -9,22 +9,22 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 class GigAdd extends StatefulWidget {
-  final LatLng location;
+  //final LatLng location;
 
-  const GigAdd({Key key, this.location}) : super(key: key);
+  const GigAdd({Key key}) : super(key: key);
   @override
-  _GigAddState createState() => _GigAddState(location);
+  _GigAddState createState() => _GigAddState();
 }
 
 class _GigAddState extends State<GigAdd> {
-  final LatLng location;
+  //final LatLng location;
   final _formKey = GlobalKey<FormState>();
   var moneyController = TextEditingController();
   var titleController = TextEditingController();
   var descriptionController = TextEditingController();
   bool isloading = false;
 
-  _GigAddState(this.location);
+  _GigAddState();
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +65,7 @@ class _GigAddState extends State<GigAdd> {
                         ),
                         Expanded(
                           child: TextFormField(
+                            keyboardType: TextInputType.number,
                             controller: moneyController,
                             decoration: InputDecoration(hintText: "Money"),
                             validator: (value) {
@@ -137,7 +138,6 @@ class _GigAddState extends State<GigAdd> {
                             money: int.parse(moneyController.text.toString()) ?? 0,
                             title: titleController.text ?? "",
                             description: descriptionController.text ?? "",
-                            location: location,
                             providerId: user.uid,
 
                           ));

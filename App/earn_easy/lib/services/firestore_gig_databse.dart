@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/models/gig.dart';
 import 'package:earneasy/models/user.dart';
@@ -48,6 +47,11 @@ class DatabaseServiceGigs {
         "endTime": gig.endTime ?? DateTime(1000, 1, 1),
         "providerId": gig.providerId ?? "",
         "type": gig.type ?? "public",
+      }).then((docRef) {
+        docRef.update({
+          "gigId" : docRef.id,
+        });
+        print(docRef.id);
       });
     } else {
       return null;
