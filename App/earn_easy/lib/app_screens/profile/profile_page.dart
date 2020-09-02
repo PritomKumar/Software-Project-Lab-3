@@ -1,6 +1,6 @@
 import 'package:earneasy/app_screens/home/side_drawer.dart';
 import 'package:earneasy/models/user.dart';
-import 'package:earneasy/services/firestore_databse.dart';
+import 'package:earneasy/services/firestore_user_databse.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
 import 'package:flutter/material.dart';
@@ -422,7 +422,7 @@ class _ProfileState extends State<Profile> {
                         // TODO : Complete UserAccount
 
                         if (_formKey.currentState.validate()) {
-                          await DatabaseService().updateUserData(UserAccount(
+                          await DatabaseServiceUser().updateUserData(UserAccount(
                             firstName:
                             firstNameController.text ?? user.firstName,
                             lastName: lastNameController.text ?? user.lastName,

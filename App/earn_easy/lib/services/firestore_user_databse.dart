@@ -3,7 +3,7 @@ import 'package:earneasy/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
-class DatabaseService {
+class DatabaseServiceUser {
   final CollectionReference userProfiles =
       FirebaseFirestore.instance.collection("Users");
   final String uid = FirebaseAuth.instance.currentUser.uid;

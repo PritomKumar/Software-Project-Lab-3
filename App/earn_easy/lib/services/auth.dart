@@ -1,5 +1,5 @@
 import 'package:earneasy/models/user.dart';
-import 'package:earneasy/services/firestore_databse.dart';
+import 'package:earneasy/services/firestore_user_databse.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -48,7 +48,7 @@ class AuthService {
   }
 
   Future <bool> _checkIfUserDataExists()async {
-    return await DatabaseService().checkIfDataExists();
+    return await DatabaseServiceUser().checkIfDataExists();
   }
 
   Future registerWithEmailAndPassword(String email, String password) async {
@@ -58,7 +58,7 @@ class AuthService {
       User user = result.user;
       final userDataExits = await _checkIfUserDataExists();
       if (userDataExits == false) {
-        await DatabaseService()
+        await DatabaseServiceUser()
             .updateUserData(_userAccountFromUserMinimum(user));
       }
       return _userFromFirebaseUser(user);
@@ -75,7 +75,7 @@ class AuthService {
       User user = result.user;
       final userDataExits = await _checkIfUserDataExists();
       if (userDataExits == false) {
-        await DatabaseService()
+        await DatabaseServiceUser()
             .updateUserData(_userAccountFromUserMinimum(user));
       }
       return _userFromFirebaseUser(user);
@@ -99,7 +99,7 @@ class AuthService {
       User user = result.user;
       final userDataExits = await _checkIfUserDataExists();
       if (userDataExits == false) {
-        await DatabaseService()
+        await DatabaseServiceUser()
             .updateUserData(_userAccountFromUserMinimum(user));
       }
       return _userFromFirebaseUser(user);
@@ -115,7 +115,7 @@ class AuthService {
       User user = result.user;
       final userDataExits = await _checkIfUserDataExists();
       if (userDataExits == false) {
-        await DatabaseService()
+        await DatabaseServiceUser()
             .updateUserData(_userAccountFromUserMinimum(user));
       }
       return _userFromFirebaseUser(user);
