@@ -1,7 +1,6 @@
-import 'dart:html';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:earneasy/models/Gig.dart';
+import 'package:earneasy/models/gig.dart';
 import 'package:earneasy/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
