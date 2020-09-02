@@ -55,7 +55,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
   void _updatePosition(CameraPosition _position) {
     CameraPosition realCamera = _position;
     CameraPosition tappedCamera = CameraPosition(target: tappedPosition);
-    _position = tappedCamera != null ?  tappedCamera :  _position ;
+    _position = tappedCamera != null ? tappedCamera : _position;
     print(
         'inside updatePosition ${_position.target.latitude} ${_position.target.longitude}');
     Marker marker = _myMarkers.firstWhere(
@@ -99,9 +99,15 @@ class _GoogleMapsState extends State<GoogleMaps> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: SideDrawer(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          return GigAdd();
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+            return GigAdd(
+              location: tappedPosition,
+            );
+          },));
+
         },
       ),
       appBar: AppBar(
@@ -127,12 +133,14 @@ class _GoogleMapsState extends State<GoogleMaps> {
               zoom: 14.0,
             ),
             markers: _myMarkers,
-            onCameraMove: isTapped ? ((_position) => _updatePosition(_position)) : null,
+            onCameraMove:
+                isTapped ? ((_position) => _updatePosition(_position)) : null,
             onTap: _handleTap,
             myLocationButtonEnabled: true,
             myLocationEnabled: true,
             compassEnabled: true,
           ),
+
         ],
       ),
     );
