@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:earneasy/app_screens/home/side_drawer.dart';
 import 'package:earneasy/services/auth.dart';
+import 'package:earneasy/shared/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -19,7 +20,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
   Set<Marker> _markers = HashSet<Marker>();
   Set<Marker> _myMarkers = HashSet<Marker>();
   bool isTapped = false;
-  LatLng tappedPosition = LatLng(40.7128, -74.0060);
+  LatLng tappedPosition;
   GoogleMapController _mapController;
   BitmapDescriptor _markerIcon;
 
@@ -100,16 +101,6 @@ class _GoogleMapsState extends State<GoogleMaps> {
     return Scaffold(
       drawer: SideDrawer(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-            return GigAdd(
-
-            );
-          },));
-
-        },
-      ),
       appBar: AppBar(
         title: Text('Home'),
         backgroundColor: Colors.blue[300],
@@ -140,7 +131,23 @@ class _GoogleMapsState extends State<GoogleMaps> {
             myLocationEnabled: true,
             compassEnabled: true,
           ),
-
+          Container(
+            alignment: Alignment.bottomCenter,
+            child: RaisedButton(
+              child: Text("Add GIG"),
+              onPressed: () {
+                tappedPosition != null
+                    ? Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return GigAdd(
+                            locationStr: tappedPosition.latitude.toString() + ","+ tappedPosition.longitude.toString(),
+                          );
+                        },
+                      ))
+                    : Loading();
+              },
+            ),
+          )
         ],
       ),
     );

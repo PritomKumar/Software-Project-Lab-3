@@ -9,25 +9,29 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 class GigAdd extends StatefulWidget {
-  //final LatLng location;
 
-  const GigAdd({Key key}) : super(key: key);
+  final String locationStr ;
+
+  const GigAdd({Key key, this.locationStr}) : super(key: key);
   @override
-  _GigAddState createState() => _GigAddState();
+  _GigAddState createState() => _GigAddState(locationStr);
 }
 
 class _GigAddState extends State<GigAdd> {
-  //final LatLng location;
+  final String locationStr;
   final _formKey = GlobalKey<FormState>();
   var moneyController = TextEditingController();
   var titleController = TextEditingController();
   var descriptionController = TextEditingController();
   bool isloading = false;
 
-  _GigAddState();
+  _GigAddState(this.locationStr);
+
 
   @override
   Widget build(BuildContext context) {
+    print("This location = ");
+    print(this.locationStr);
     var size = MediaQuery.of(context).size;
     var user = Provider.of<UserAccount>(context);
     setState(() {
@@ -65,7 +69,6 @@ class _GigAddState extends State<GigAdd> {
                         ),
                         Expanded(
                           child: TextFormField(
-                            keyboardType: TextInputType.number,
                             controller: moneyController,
                             decoration: InputDecoration(hintText: "Money"),
                             validator: (value) {
@@ -134,10 +137,17 @@ class _GigAddState extends State<GigAdd> {
                         // type: doc.data()['type'],
 
                         if (_formKey.currentState.validate()) {
+                          print("Location inside update = ");
+                          print(this.locationStr);
+                          var latlong =  locationStr.split(",");
+                          double latitude = double.parse(latlong[0]);
+                          double longitude = double.parse(latlong[1]);
+                          LatLng location =  LatLng(latitude, longitude);
                           await DatabaseServiceGigs().createNewGig(Gig(
                             money: int.parse(moneyController.text.toString()) ?? 0,
                             title: titleController.text ?? "",
                             description: descriptionController.text ?? "",
+                            location: location ,
                             providerId: user.uid,
 
                           ));
