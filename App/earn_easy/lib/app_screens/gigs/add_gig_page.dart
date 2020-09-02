@@ -138,6 +138,7 @@ class _GigAddState extends State<GigAdd> {
                             title: titleController.text ?? "",
                             description: descriptionController.text ?? "",
                             location: location,
+                            providerId: user.uid,
 
                           ));
                         }
