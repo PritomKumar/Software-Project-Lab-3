@@ -21,7 +21,7 @@ class DatabaseServiceGigs {
 
   Future updateGigData(Gig gig) {
     if (isLoggedIn()) {
-      gigs.doc(gig.gigId).set({
+      return gigs.doc(gig.gigId).set({
         "gigId": gig.gigId ?? "",
         "money": gig.money ?? 0,
         "location": gig.location ?? null,
@@ -39,7 +39,7 @@ class DatabaseServiceGigs {
 
   Future createNewGig(Gig gig) {
     if (isLoggedIn()) {
-      gigs.add({
+      return gigs.add({
         "gigId": gig.gigId ?? "",
         "money": gig.money ?? 0,
         "location": gig.location ?? null,
@@ -122,30 +122,4 @@ class DatabaseServiceGigs {
         ? gigs.doc().snapshots().map(_singleGigFromSnapshot)
         : null;
   }
-//  Stream<UserAccount> get userData {
-//    print("Before logged in");
-//    if (isLoggedIn()) {
-//      print("After logged in");
-//      dynamic snapshot;
-//      userProfiles.doc(uid).get().then((onValue) {
-//        print("After logged in");
-//        if (onValue.exists) {
-//          snapshot = userProfiles.doc(uid).snapshots();
-//        } else {
-//          snapshot = null;
-//        }
-//      });
-//      if (snapshot != null) {
-//        print("After snapshot not null");
-//        print(snapshot);
-//        return userProfiles.doc(uid).snapshots().map(_userDataFromSnapshot);
-//      } else {
-//        print("After snapshot is null");
-//        print(snapshot);
-//        return null;
-//      }
-//    } else {
-//      return null;
-//    }
-//  }
 }

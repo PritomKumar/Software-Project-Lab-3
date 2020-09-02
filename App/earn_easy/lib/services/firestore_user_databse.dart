@@ -18,7 +18,7 @@ class DatabaseServiceUser {
 
   Future updateUserData(UserAccount userAccount) {
     if (isLoggedIn()) {
-      userProfiles.doc(uid).set({
+      return userProfiles.doc(uid).set({
         "uid": userAccount.uid ?? uid,
         "firstName": userAccount.firstName ?? "",
         "lastName": userAccount.lastName ?? "",
