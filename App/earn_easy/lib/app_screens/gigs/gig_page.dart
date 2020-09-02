@@ -14,6 +14,7 @@ class _GigsState extends State<Gigs> {
   final AuthService _authService = AuthService();
 
   Set<Marker> _markers = HashSet<Marker>();
+  Set<Marker> _myMarkers = HashSet<Marker>();
   GoogleMapController _mapController;
   BitmapDescriptor _markerIcon;
 
@@ -28,6 +29,7 @@ class _GigsState extends State<Gigs> {
     _markerIcon = await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(), "assets/images/money_icon.jpg");
   }
+
 
   void _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
@@ -46,13 +48,27 @@ class _GigsState extends State<Gigs> {
     });
   }
 
+  _handleTap(LatLng tappedPoint){
+    setState(() {
+      _myMarkers.clear();
+      _myMarkers.add(Marker(
+        markerId: MarkerId(tappedPoint.toString()),
+        position: tappedPoint,
+        draggable: true,
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
+        onDragEnd: (dragEndPosition){
+          print(dragEndPosition);
+        }
+      ));
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: SideDrawer(),
       appBar: AppBar(
         title: Text('Home'),
-        backgroundColor: Colors.blue[400],
+        backgroundColor: Colors.blue[300],
         elevation: 0.0,
         actions: <Widget>[
           FlatButton.icon(
@@ -69,10 +85,11 @@ class _GigsState extends State<Gigs> {
           GoogleMap(
             onMapCreated: _onMapCreated,
             initialCameraPosition: CameraPosition(
-              target: LatLng(23.8103, 90.4125),
-              zoom: 20.0,
+              target: LatLng(40.7128, -74.0060),
+              zoom: 14.0,
             ),
             markers: _markers,
+            onTap: _handleTap,
           ),
         ],
       ),
