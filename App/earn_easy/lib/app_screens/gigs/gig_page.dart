@@ -1,12 +1,15 @@
 import 'dart:collection';
 
 import 'package:earneasy/app_screens/home/side_drawer.dart';
+import 'package:earneasy/models/gig.dart';
+import 'package:earneasy/models/user.dart';
 import 'package:earneasy/services/auth.dart';
 import 'package:earneasy/shared/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 
 import 'add_gig_page.dart';
 
@@ -20,10 +23,12 @@ class _GoogleMapsState extends State<GoogleMaps> {
 
   Set<Marker> _markers = HashSet<Marker>();
   Set<Marker> _myMarkers = HashSet<Marker>();
+  Set<Marker> _gigMarkers = HashSet<Marker>();
   bool isTapped = false;
   LatLng tappedPosition;
   GoogleMapController _mapController;
   BitmapDescriptor _markerIcon;
+  bool isloading = false;
 
   @override
   void initState() {
@@ -99,75 +104,110 @@ class _GoogleMapsState extends State<GoogleMaps> {
     });
   }
 
+  addMarkersWIthGig(List <Gig>gigList){
+    _gigMarkers.clear();
+    for(int i=0 ; i<gigList.length ; i++){
+      _gigMarkers.add(Marker(
+        markerId: MarkerId(gigList[i].gigId),
+        position: LatLng(gigList[i].location.latitude , gigList[i].location.longitude),
+        draggable: true,
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+        onDragEnd: (dragEndPosition) {
+          print(dragEndPosition);
+        },
+        infoWindow: InfoWindow(
+          title: gigList[i].title,
+          snippet: gigList[i].description,
+        ),
+      ));
+    }
+
+
+
+  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: SideDrawer(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      appBar: AppBar(
-        title: Text('Home'),
-        backgroundColor: Colors.blue[300],
-        elevation: 0.0,
-        actions: <Widget>[
-          FlatButton.icon(
-            icon: Icon(Icons.person),
-            label: Text("Logout"),
-            onPressed: () async {
-              await _authService.signOut();
-            },
-          )
-        ],
-      ),
-      body: StyledToast(
-        textStyle: TextStyle(fontSize: 16.0, color: Colors.white),
-        backgroundColor: Color(0x99000000),
-        borderRadius: BorderRadius.circular(5.0),
-        textPadding: EdgeInsets.symmetric(horizontal: 17.0, vertical: 10.0),
-        toastPositions: StyledToastPosition.bottom,
-        toastAnimation: StyledToastAnimation.fade,
-        reverseAnimation: StyledToastAnimation.fade,
-        curve: Curves.fastOutSlowIn,
-        reverseCurve: Curves.fastLinearToSlowEaseIn,
-        duration: Duration(seconds: 4),
-        animDuration: Duration(seconds: 1),
-        dismissOtherOnShow: true,
-        movingOnWindowChange: true,
-        child: Stack(
-          children: <Widget>[
-            GoogleMap(
-              onMapCreated: _onMapCreated,
-              initialCameraPosition: CameraPosition(
-                target: LatLng(40.7128, -74.0060),
-                zoom: 14.0,
-              ),
-              markers: _myMarkers,
-              onCameraMove:
-                  isTapped ? ((_position) => _updatePosition(_position)) : null,
-              onTap: _handleTap,
-              myLocationButtonEnabled: true,
-              myLocationEnabled: true,
-              compassEnabled: true,
-            ),
-            Container(
-              alignment: Alignment.bottomCenter,
-              child: RaisedButton(
-                child: Text("Add GIG"),
-                onPressed: () {
-                  tappedPosition != null
-                      ? Navigator.push(context, MaterialPageRoute(
-                          builder: (context) {
-                            return GigAdd(
-                              location: tappedPosition,
-                            );
-                          },
-                        ))
-                      : Loading();
-                },
-              ),
+    //List<Gig> gigList = List<Gig>();
+    var gigList = Provider.of<List<Gig>>(context);
+    var user = Provider.of<UserAccount>(context);
+    setState(() {
+      if (gigList != null)
+        addMarkersWIthGig(gigList);
+        isloading = true;
+      });
+
+    if(isloading) {
+      return Scaffold(
+        drawer: SideDrawer(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        appBar: AppBar(
+          title: Text('Home'),
+          backgroundColor: Colors.blue[300],
+          elevation: 0.0,
+          actions: <Widget>[
+            FlatButton.icon(
+              icon: Icon(Icons.person),
+              label: Text("Logout"),
+              onPressed: () async {
+                await _authService.signOut();
+              },
             )
           ],
         ),
-      ),
-    );
+        body: StyledToast(
+          textStyle: TextStyle(fontSize: 16.0, color: Colors.white),
+          backgroundColor: Color(0x99000000),
+          borderRadius: BorderRadius.circular(5.0),
+          textPadding: EdgeInsets.symmetric(horizontal: 17.0, vertical: 10.0),
+          toastPositions: StyledToastPosition.bottom,
+          toastAnimation: StyledToastAnimation.fade,
+          reverseAnimation: StyledToastAnimation.fade,
+          curve: Curves.fastOutSlowIn,
+          reverseCurve: Curves.fastLinearToSlowEaseIn,
+          duration: Duration(seconds: 4),
+          animDuration: Duration(seconds: 1),
+          dismissOtherOnShow: true,
+          movingOnWindowChange: true,
+          child: Stack(
+            children: <Widget>[
+              GoogleMap(
+                onMapCreated: _onMapCreated,
+                initialCameraPosition: CameraPosition(
+                  target: LatLng(40.7128, -74.0060),
+                  zoom: 14.0,
+                ),
+                markers: _gigMarkers,
+                onCameraMove:
+                isTapped ? ((_position) => _updatePosition(_position)) : null,
+                onTap: _handleTap,
+                myLocationButtonEnabled: true,
+                myLocationEnabled: true,
+                compassEnabled: true,
+              ),
+              Container(
+                alignment: Alignment.bottomCenter,
+                child: RaisedButton(
+                  child: Text("Add GIG"),
+                  onPressed: () {
+                    tappedPosition != null
+                        ? Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return GigAdd(
+                          location: tappedPosition,
+                        );
+                      },
+                    ))
+                        : Loading();
+                  },
+                ),
+              )
+            ],
+          ),
+        ),
+      );
+    }
+    else{
+      return Loading();
+    }
   }
 }
