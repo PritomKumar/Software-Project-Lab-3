@@ -4,7 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Gig {
   final int money;
-  final LatLng location;
+  final GeoPoint location;
   final String title;
   final String description;
   final Timestamp startTime;

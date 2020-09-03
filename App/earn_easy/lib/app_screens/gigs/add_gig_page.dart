@@ -1,4 +1,5 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/models/gig.dart';
 import 'package:earneasy/models/user.dart';
 import 'package:earneasy/services/firestore_gig_databse.dart';
@@ -142,7 +143,7 @@ class _GigAddState extends State<GigAdd> {
                           var latlong =  locationStr.split(",");
                           double latitude = double.parse(latlong[0]);
                           double longitude = double.parse(latlong[1]);
-                          LatLng location =  LatLng(latitude, longitude);
+                          GeoPoint location =  GeoPoint(latitude, longitude);
                           await DatabaseServiceGigs().createNewGig(Gig(
                             money: int.parse(moneyController.text.toString()) ?? 0,
                             title: titleController.text ?? "",
