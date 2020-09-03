@@ -4,6 +4,7 @@ import 'package:earneasy/app_screens/home/side_drawer.dart';
 import 'package:earneasy/services/auth.dart';
 import 'package:earneasy/shared/loading.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -76,7 +77,8 @@ class _GoogleMapsState extends State<GoogleMaps> {
   }
 
   _handleTap(LatLng tappedPoint) {
-    print(tappedPoint);
+    // print(tappedPoint);
+    // showToast(tappedPoint.toString());
     setState(() {
       tappedPosition = tappedPoint;
       isTapped = true;
@@ -93,6 +95,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
           title: "Add Marker",
         ),
       ));
+
     });
   }
 
@@ -115,40 +118,55 @@ class _GoogleMapsState extends State<GoogleMaps> {
           )
         ],
       ),
-      body: Stack(
-        children: <Widget>[
-          GoogleMap(
-            onMapCreated: _onMapCreated,
-            initialCameraPosition: CameraPosition(
-              target: LatLng(40.7128, -74.0060),
-              zoom: 14.0,
+      body: StyledToast(
+        textStyle: TextStyle(fontSize: 16.0, color: Colors.white),
+        backgroundColor: Color(0x99000000),
+        borderRadius: BorderRadius.circular(5.0),
+        textPadding: EdgeInsets.symmetric(horizontal: 17.0, vertical: 10.0),
+        toastPositions: StyledToastPosition.bottom,
+        toastAnimation: StyledToastAnimation.fade,
+        reverseAnimation: StyledToastAnimation.fade,
+        curve: Curves.fastOutSlowIn,
+        reverseCurve: Curves.fastLinearToSlowEaseIn,
+        duration: Duration(seconds: 4),
+        animDuration: Duration(seconds: 1),
+        dismissOtherOnShow: true,
+        movingOnWindowChange: true,
+        child: Stack(
+          children: <Widget>[
+            GoogleMap(
+              onMapCreated: _onMapCreated,
+              initialCameraPosition: CameraPosition(
+                target: LatLng(40.7128, -74.0060),
+                zoom: 14.0,
+              ),
+              markers: _myMarkers,
+              onCameraMove:
+                  isTapped ? ((_position) => _updatePosition(_position)) : null,
+              onTap: _handleTap,
+              myLocationButtonEnabled: true,
+              myLocationEnabled: true,
+              compassEnabled: true,
             ),
-            markers: _myMarkers,
-            onCameraMove:
-                isTapped ? ((_position) => _updatePosition(_position)) : null,
-            onTap: _handleTap,
-            myLocationButtonEnabled: true,
-            myLocationEnabled: true,
-            compassEnabled: true,
-          ),
-          Container(
-            alignment: Alignment.bottomCenter,
-            child: RaisedButton(
-              child: Text("Add GIG"),
-              onPressed: () {
-                tappedPosition != null
-                    ? Navigator.push(context, MaterialPageRoute(
-                        builder: (context) {
-                          return GigAdd(
-                            location: tappedPosition,
-                          );
-                        },
-                      ))
-                    : Loading();
-              },
-            ),
-          )
-        ],
+            Container(
+              alignment: Alignment.bottomCenter,
+              child: RaisedButton(
+                child: Text("Add GIG"),
+                onPressed: () {
+                  tappedPosition != null
+                      ? Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return GigAdd(
+                              location: tappedPosition,
+                            );
+                          },
+                        ))
+                      : Loading();
+                },
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
