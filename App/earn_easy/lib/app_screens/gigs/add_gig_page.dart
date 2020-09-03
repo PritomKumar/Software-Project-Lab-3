@@ -5,6 +5,7 @@ import 'package:earneasy/models/user.dart';
 import 'package:earneasy/services/firestore_gig_databse.dart';
 import 'package:earneasy/services/firestore_user_databse.dart';
 import 'package:earneasy/shared/loading.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
@@ -70,6 +71,7 @@ class _GigAddState extends State<GigAdd> {
                         ),
                         Expanded(
                           child: TextFormField(
+                            keyboardType: TextInputType.number,
                             controller: moneyController,
                             decoration: InputDecoration(hintText: "Money"),
                             validator: (value) {

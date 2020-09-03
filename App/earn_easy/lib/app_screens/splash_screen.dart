@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Duration(seconds: 1),
       () {
         debugPrint("TODO splash screen done");
-        Navigator.push(context, MaterialPageRoute(
+        Navigator.pushReplacement(context, MaterialPageRoute(
           builder: (context) {
             return Wrapper();
           },
