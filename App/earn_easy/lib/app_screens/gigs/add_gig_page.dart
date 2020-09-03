@@ -11,28 +11,28 @@ import 'package:provider/provider.dart';
 
 class GigAdd extends StatefulWidget {
 
-  final String locationStr ;
+  final LatLng location ;
 
-  const GigAdd({Key key, this.locationStr}) : super(key: key);
+  const GigAdd({Key key, this.location}) : super(key: key);
   @override
-  _GigAddState createState() => _GigAddState(locationStr);
+  _GigAddState createState() => _GigAddState(location);
 }
 
 class _GigAddState extends State<GigAdd> {
-  final String locationStr;
+  final LatLng location;
   final _formKey = GlobalKey<FormState>();
   var moneyController = TextEditingController();
   var titleController = TextEditingController();
   var descriptionController = TextEditingController();
   bool isloading = false;
 
-  _GigAddState(this.locationStr);
+  _GigAddState(this.location);
 
 
   @override
   Widget build(BuildContext context) {
     print("This location = ");
-    print(this.locationStr);
+    print(this.location);
     var size = MediaQuery.of(context).size;
     var user = Provider.of<UserAccount>(context);
     setState(() {
@@ -139,16 +139,13 @@ class _GigAddState extends State<GigAdd> {
 
                         if (_formKey.currentState.validate()) {
                           print("Location inside update = ");
-                          print(this.locationStr);
-                          var latlong =  locationStr.split(",");
-                          double latitude = double.parse(latlong[0]);
-                          double longitude = double.parse(latlong[1]);
-                          GeoPoint location =  GeoPoint(latitude, longitude);
+                          print(this.location);
+                          GeoPoint geoLocation =  GeoPoint(location.latitude, location.longitude);
                           await DatabaseServiceGigs().createNewGig(Gig(
                             money: int.parse(moneyController.text.toString()) ?? 0,
                             title: titleController.text ?? "",
                             description: descriptionController.text ?? "",
-                            location: location ,
+                            location: geoLocation ,
                             providerId: user.uid,
 
                           ));

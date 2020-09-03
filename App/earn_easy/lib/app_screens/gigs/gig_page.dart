@@ -140,7 +140,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
                     ? Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
                           return GigAdd(
-                            locationStr: tappedPosition.latitude.toString() + ","+ tappedPosition.longitude.toString(),
+                            location: tappedPosition,
                           );
                         },
                       ))
