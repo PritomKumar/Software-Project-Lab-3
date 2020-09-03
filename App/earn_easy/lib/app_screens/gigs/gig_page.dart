@@ -97,7 +97,8 @@ class _GoogleMapsState extends State<GoogleMaps> {
           print(dragEndPosition);
         },
         infoWindow: InfoWindow(
-          title: "Add Marker",
+          title: "Add Gig",
+          snippet: "Create new gig?"
         ),
       ));
 
@@ -105,24 +106,24 @@ class _GoogleMapsState extends State<GoogleMaps> {
   }
 
   addMarkersWIthGig(List <Gig>gigList){
-    _gigMarkers.clear();
-    for(int i=0 ; i<gigList.length ; i++){
-      _gigMarkers.add(Marker(
-        markerId: MarkerId(gigList[i].gigId),
-        position: LatLng(gigList[i].location.latitude , gigList[i].location.longitude),
-        draggable: true,
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
-        onDragEnd: (dragEndPosition) {
-          print(dragEndPosition);
-        },
-        infoWindow: InfoWindow(
-          title: gigList[i].title,
-          snippet: gigList[i].description,
-        ),
-      ));
-    }
-
-
+    setState(() {
+      _gigMarkers.clear();
+      for(int i=0 ; i<gigList.length ; i++){
+        _gigMarkers.add(Marker(
+          markerId: MarkerId(gigList[i].gigId),
+          position: LatLng(gigList[i].location.latitude , gigList[i].location.longitude),
+          draggable: true,
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+          onDragEnd: (dragEndPosition) {
+            print(dragEndPosition);
+          },
+          infoWindow: InfoWindow(
+            title: gigList[i].title,
+            snippet: gigList[i].description,
+          ),
+        ));
+      }
+    });
 
   }
   @override
