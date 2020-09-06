@@ -1,4 +1,4 @@
-import 'package:earneasy/app_screens/gigs/gig_page.dart';
+import 'file:///F:/IIT%207th%20Semester/SPL3/Software-Project-Lab-3/App/earn_easy/lib/app_screens/map/google_map_gig.dart';
 import 'package:earneasy/app_screens/notification/notification_page.dart';
 import 'package:earneasy/app_screens/profile/profile_page.dart';
 import 'package:earneasy/app_screens/setting/setting_page.dart';
