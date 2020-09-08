@@ -335,10 +335,7 @@ class _ProfileState extends State<Profile> {
       }
     });
 
-
     if (isloading) {
-
-
       // if (firstNameController.text == "") {
       //   firstNameController.text = user.firstName;
       // } else if (firstNameController.text == user.firstName) {
@@ -347,10 +344,15 @@ class _ProfileState extends State<Profile> {
       //   firstNameController.text = firstNameController.text;
       // }
 
-      firstNameController.text = firstNameController.text == "" ? user.firstName : firstNameController.text;
-      lastNameController.text = lastNameController.text == "" ? user.lastName : lastNameController.text;
-      emailController.text = emailController.text == "" ? user.email : emailController.text;
-      birthdate = birthdate == null ? user.birthDay.toDate() : birthdate ;
+      firstNameController.text = firstNameController.text == ""
+          ? user.firstName
+          : firstNameController.text;
+      lastNameController.text = lastNameController.text == ""
+          ? user.lastName
+          : lastNameController.text;
+      emailController.text =
+          emailController.text == "" ? user.email : emailController.text;
+      birthdate = birthdate == null ? user.birthDay.toDate() : birthdate;
 
       return MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -435,28 +437,33 @@ class _ProfileState extends State<Profile> {
                         SizedBox(
                           width: size.width / 40,
                         ),
-                        Expanded(
-                          child: FlatButton(
-                            onPressed: () async {
-                              var clickedDate = await showDatePicker(
-                                context: context,
-                                initialDate: birthdate == DateTime(1000, 1, 1)
-                                    ? DateTime.now()
-                                    : birthdate,
-                                firstDate: DateTime(1850, 1, 1),
-                                lastDate: DateTime.now(),
-                                helpText: "MM/DD/YYYY",
-                              );
-                              if (clickedDate != null &&
-                                  clickedDate != birthdate)
-                                setState(() {
-                                  birthdate = clickedDate;
-                                  print(birthdate.toString());
-                                });
-                            },
-                            child: Text(birthdate == DateTime(1000, 1, 1) ? "MM/DD/YYYY" :  birthdate.toString()),
-                          ),
+                        FlatButton(
+                          onPressed: () async {
+                            var clickedDate = await showDatePicker(
+                              context: context,
+                              initialDate: birthdate == DateTime(1000, 1, 1)
+                                  ? DateTime.now()
+                                  : birthdate,
+                              firstDate: DateTime(1850, 1, 1),
+                              lastDate: DateTime.now(),
+                              helpText: "MM/DD/YYYY",
+                            );
+                            if (clickedDate != null && clickedDate != birthdate)
+                              setState(() {
+                                birthdate = clickedDate;
+                                print(birthdate.toString());
+                              });
+                          },
+                          child: Text(birthdate == DateTime(1000, 1, 1)
+                              ? "MM/DD/YYYY"
+                              : birthdate.day.toString().padLeft(2, '0') +
+                                  "/" +
+                                  birthdate.month.toString().padLeft(2, '0') +
+                                  "/" +
+                                  birthdate.year.toString()),
                         ),
+                        SizedBox(width: 10.0),
+                        Icon(Icons.calendar_today),
                       ],
                     ),
                     RaisedButton(
