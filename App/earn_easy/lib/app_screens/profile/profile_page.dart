@@ -317,10 +317,10 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final _formKey = GlobalKey<FormState>();
-  var emailController = TextEditingController();
-  var passwordController = TextEditingController();
-  var firstNameController = TextEditingController();
-  var lastNameController = TextEditingController();
+  var _emailController = TextEditingController();
+  var _passwordController = TextEditingController();
+  var _firstNameController = TextEditingController();
+  var _lastNameController = TextEditingController();
   DateTime _birthdate;
   bool isloading = false;
 
@@ -335,9 +335,9 @@ class _ProfileState extends State<Profile> {
     });
 
     if (isloading) {
-      firstNameController.text = user.firstName;
-      lastNameController.text = user.lastName;
-      emailController.text = user.email;
+      _firstNameController.text = user.firstName;
+      _lastNameController.text = user.lastName;
+      _emailController.text = user.email;
       _birthdate = user.birthDay.toDate();
 
       return MaterialApp(
@@ -365,7 +365,7 @@ class _ProfileState extends State<Profile> {
                         ),
                         Expanded(
                           child: TextFormField(
-                            controller: firstNameController,
+                            controller: _firstNameController,
                             decoration: InputDecoration(hintText: "First Name"),
                             validator: (value) {
                               return value.isEmpty ? "Enter First Name" : null;
@@ -385,7 +385,7 @@ class _ProfileState extends State<Profile> {
                         ),
                         Expanded(
                           child: TextFormField(
-                            controller: lastNameController,
+                            controller: _lastNameController,
                             decoration: InputDecoration(hintText: "Last Name"),
                             validator: (value) {
                               return value.isEmpty ? "Enter Last Name" : null;
@@ -405,7 +405,7 @@ class _ProfileState extends State<Profile> {
                         ),
                         Expanded(
                           child: TextFormField(
-                            controller: emailController,
+                            controller: _emailController,
                             decoration: InputDecoration(hintText: "Email"),
                             validator: (value) {
                               return value.isEmpty ? "Enter Email" : null;
@@ -457,12 +457,12 @@ class _ProfileState extends State<Profile> {
                           await DatabaseServiceUser()
                               .updateUserData(UserAccount(
                             firstName:
-                                firstNameController.text ?? user.firstName,
-                            lastName: lastNameController.text ?? user.lastName,
-                            email: emailController.text ?? user.email,
+                                _firstNameController.text ?? user.firstName,
+                            lastName: _lastNameController.text ?? user.lastName,
+                            email: _emailController.text ?? user.email,
                             photoUrl: user.photoUrl,
                             phoneNumber: user.phoneNumber,
-                            birthDay: user.birthDay,
+                            birthDay: _birthdate ?? user.birthDay,
                             gender: user.gender,
                             streetAddress: user.streetAddress,
                             city: user.city,
