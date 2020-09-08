@@ -25,7 +25,7 @@ class DatabaseServiceUser {
         "email": userAccount.email ?? "",
         "photoUrl": userAccount.photoUrl ?? "",
         "phoneNumber": userAccount.phoneNumber ?? "",
-        "birthDay": userAccount.birthDay ?? DateTime(1000, 1, 1),
+        "birthDay": userAccount.birthDay ?? Timestamp.fromDate(DateTime(1000, 1, 1)),
         "gender": userAccount.gender ?? "",
         "streetAddress": userAccount.streetAddress ?? "",
         "city": userAccount.city ?? "",

@@ -318,10 +318,9 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final _formKey = GlobalKey<FormState>();
-  var emailController = TextEditingController();
-  var passwordController = TextEditingController();
-  var firstNameController = TextEditingController();
-  var lastNameController = TextEditingController();
+  final emailController = TextEditingController();
+  final firstNameController = TextEditingController(text: "");
+  final lastNameController = TextEditingController();
   DateTime birthdate;
   bool isloading = false;
 
@@ -329,17 +328,29 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var user = Provider.of<UserAccount>(context);
+
     setState(() {
       if (user != null) {
         isloading = true;
       }
     });
 
+
     if (isloading) {
-      firstNameController.text = user.firstName;
-      lastNameController.text = user.lastName;
-      emailController.text = user.email;
-      birthdate = user.birthDay.toDate();
+
+
+      // if (firstNameController.text == "") {
+      //   firstNameController.text = user.firstName;
+      // } else if (firstNameController.text == user.firstName) {
+      //   firstNameController.text = user.firstName;
+      // } else {
+      //   firstNameController.text = firstNameController.text;
+      // }
+
+      firstNameController.text = firstNameController.text == "" ? user.firstName : firstNameController.text;
+      lastNameController.text = lastNameController.text == "" ? user.lastName : lastNameController.text;
+      emailController.text = emailController.text == "" ? user.email : emailController.text;
+      birthdate = birthdate == null ? user.birthDay.toDate() : birthdate ;
 
       return MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -371,9 +382,6 @@ class _ProfileState extends State<Profile> {
                             validator: (value) {
                               return value.isEmpty ? "Enter First Name" : null;
                             },
-                            onChanged: (value) {
-                              firstNameController.text = value;
-                            },
                           ),
                         ),
                       ],
@@ -394,9 +402,6 @@ class _ProfileState extends State<Profile> {
                             validator: (value) {
                               return value.isEmpty ? "Enter Last Name" : null;
                             },
-                            onChanged: (value) {
-                              lastNameController.text = value;
-                            },
                           ),
                         ),
                       ],
@@ -416,12 +421,6 @@ class _ProfileState extends State<Profile> {
                             decoration: InputDecoration(hintText: "Email"),
                             validator: (value) {
                               return value.isEmpty ? "Enter Email" : null;
-                            },
-                            onChanged: (value) {
-                              emailController.text = value;
-                            },
-                            onSaved:  (value) {
-                              emailController.text = value;
                             },
                           ),
                         ),
@@ -455,7 +454,7 @@ class _ProfileState extends State<Profile> {
                                   print(birthdate.toString());
                                 });
                             },
-                            child: Text(birthdate.toString()),
+                            child: Text(birthdate == DateTime(1000, 1, 1) ? "MM/DD/YYYY" :  birthdate.toString()),
                           ),
                         ),
                       ],
@@ -479,7 +478,8 @@ class _ProfileState extends State<Profile> {
                             email: emailController.text ?? user.email,
                             photoUrl: user.photoUrl,
                             phoneNumber: user.phoneNumber,
-                            birthDay: Timestamp.fromDate(birthdate) ?? user.birthDay,
+                            birthDay:
+                                Timestamp.fromDate(birthdate) ?? user.birthDay,
                             gender: user.gender,
                             streetAddress: user.streetAddress,
                             city: user.city,
