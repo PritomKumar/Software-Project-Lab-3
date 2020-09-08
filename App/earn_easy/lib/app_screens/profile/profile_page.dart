@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/app_screens/home/side_drawer.dart';
 import 'package:earneasy/models/user.dart';
 import 'package:earneasy/services/firestore_user_databse.dart';
@@ -317,11 +318,11 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final _formKey = GlobalKey<FormState>();
-  var _emailController = TextEditingController();
-  var _passwordController = TextEditingController();
-  var _firstNameController = TextEditingController();
-  var _lastNameController = TextEditingController();
-  DateTime _birthdate;
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
+  var firstNameController = TextEditingController();
+  var lastNameController = TextEditingController();
+  DateTime birthdate;
   bool isloading = false;
 
   @override
@@ -335,10 +336,10 @@ class _ProfileState extends State<Profile> {
     });
 
     if (isloading) {
-      _firstNameController.text = user.firstName;
-      _lastNameController.text = user.lastName;
-      _emailController.text = user.email;
-      _birthdate = user.birthDay.toDate();
+      firstNameController.text = user.firstName;
+      lastNameController.text = user.lastName;
+      emailController.text = user.email;
+      birthdate = user.birthDay.toDate();
 
       return MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -365,10 +366,13 @@ class _ProfileState extends State<Profile> {
                         ),
                         Expanded(
                           child: TextFormField(
-                            controller: _firstNameController,
+                            controller: firstNameController,
                             decoration: InputDecoration(hintText: "First Name"),
                             validator: (value) {
                               return value.isEmpty ? "Enter First Name" : null;
+                            },
+                            onChanged: (value) {
+                              firstNameController.text = value;
                             },
                           ),
                         ),
@@ -385,10 +389,13 @@ class _ProfileState extends State<Profile> {
                         ),
                         Expanded(
                           child: TextFormField(
-                            controller: _lastNameController,
+                            controller: lastNameController,
                             decoration: InputDecoration(hintText: "Last Name"),
                             validator: (value) {
                               return value.isEmpty ? "Enter Last Name" : null;
+                            },
+                            onChanged: (value) {
+                              lastNameController.text = value;
                             },
                           ),
                         ),
@@ -405,10 +412,16 @@ class _ProfileState extends State<Profile> {
                         ),
                         Expanded(
                           child: TextFormField(
-                            controller: _emailController,
+                            controller: emailController,
                             decoration: InputDecoration(hintText: "Email"),
                             validator: (value) {
                               return value.isEmpty ? "Enter Email" : null;
+                            },
+                            onChanged: (value) {
+                              emailController.text = value;
+                            },
+                            onSaved:  (value) {
+                              emailController.text = value;
                             },
                           ),
                         ),
@@ -425,21 +438,24 @@ class _ProfileState extends State<Profile> {
                         ),
                         Expanded(
                           child: FlatButton(
-                            child: _birthdate == DateTime(1000, 1, 1)
-                                ? Text("MM/DD/YYYY")
-                                : Text(_birthdate.toIso8601String()),
-                            onPressed: () {
-                              showDatePicker(
+                            onPressed: () async {
+                              var clickedDate = await showDatePicker(
                                 context: context,
-                                initialDate: _birthdate == DateTime(1000, 1, 1) ? DateTime.now() : _birthdate,
-                                firstDate: DateTime(1850,1,1),
+                                initialDate: birthdate == DateTime(1000, 1, 1)
+                                    ? DateTime.now()
+                                    : birthdate,
+                                firstDate: DateTime(1850, 1, 1),
                                 lastDate: DateTime.now(),
-                              ).then((date){
+                                helpText: "MM/DD/YYYY",
+                              );
+                              if (clickedDate != null &&
+                                  clickedDate != birthdate)
                                 setState(() {
-                                  _birthdate = date;
+                                  birthdate = clickedDate;
+                                  print(birthdate.toString());
                                 });
-                              });
                             },
+                            child: Text(birthdate.toString()),
                           ),
                         ),
                       ],
@@ -454,15 +470,16 @@ class _ProfileState extends State<Profile> {
                         // TODO : Complete UserAccount
 
                         if (_formKey.currentState.validate()) {
+                          print(birthdate.toString());
                           await DatabaseServiceUser()
                               .updateUserData(UserAccount(
                             firstName:
-                                _firstNameController.text ?? user.firstName,
-                            lastName: _lastNameController.text ?? user.lastName,
-                            email: _emailController.text ?? user.email,
+                                firstNameController.text ?? user.firstName,
+                            lastName: lastNameController.text ?? user.lastName,
+                            email: emailController.text ?? user.email,
                             photoUrl: user.photoUrl,
                             phoneNumber: user.phoneNumber,
-                            birthDay: _birthdate ?? user.birthDay,
+                            birthDay: Timestamp.fromDate(birthdate) ?? user.birthDay,
                             gender: user.gender,
                             streetAddress: user.streetAddress,
                             city: user.city,
