@@ -437,48 +437,28 @@ class _ProfileState extends State<Profile> {
                         SizedBox(
                           width: size.width / 40,
                         ),
-                        // ListTile(
-                        //   trailing:  Icon(Icons.calendar_today),
-                        //   title: Text(birthdate == DateTime(1000, 1, 1)
-                        //       ? "MM/DD/YYYY"
-                        //       : birthdate.day.toString().padLeft(2, '0') +
-                        //       "/" +
-                        //       birthdate.month.toString().padLeft(2, '0') +
-                        //       "/" +
-                        //       birthdate.year.toString()),
-                        //   enabled: true,
-                        //   onTap: () async {
-                        //   var clickedDate = await showDatePicker(
-                        //     context: context,
-                        //     initialDate: birthdate == DateTime(1000, 1, 1)
-                        //         ? DateTime.now()
-                        //         : birthdate,
-                        //     firstDate: DateTime(1850, 1, 1),
-                        //     lastDate: DateTime.now(),
-                        //     helpText: "MM/DD/YYYY",
-                        //   );
-                        //   if (clickedDate != null && clickedDate != birthdate)
-                        //     setState(() {
-                        //       birthdate = clickedDate;
-                        //       print(birthdate.toString());
-                        //     });
-                        // },),
                         InkWell(
                           child: Expanded(
                             child: Container(
-                              padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 5.0),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 5.0),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   Padding(
                                     padding: const EdgeInsets.all(5.0),
-                                    child: Text(birthdate == DateTime(1000, 1, 1)
-                                        ? "MM/DD/YYYY"
-                                        : birthdate.day.toString().padLeft(2, '0') +
-                                        "/" +
-                                        birthdate.month.toString().padLeft(2, '0') +
-                                        "/" +
-                                        birthdate.year.toString()),
+                                    child: Text(
+                                        birthdate == DateTime(1000, 1, 1)
+                                            ? "MM/DD/YYYY"
+                                            : birthdate.day
+                                                    .toString()
+                                                    .padLeft(2, '0') +
+                                                "/" +
+                                                birthdate.month
+                                                    .toString()
+                                                    .padLeft(2, '0') +
+                                                "/" +
+                                                birthdate.year.toString()),
                                   ),
                                   SizedBox(width: 10.0),
                                   Icon(Icons.calendar_today),
@@ -503,33 +483,6 @@ class _ProfileState extends State<Profile> {
                               });
                           },
                         ),
-                        // FlatButton(
-                        //   onPressed: () async {
-                        //     var clickedDate = await showDatePicker(
-                        //       context: context,
-                        //       initialDate: birthdate == DateTime(1000, 1, 1)
-                        //           ? DateTime.now()
-                        //           : birthdate,
-                        //       firstDate: DateTime(1850, 1, 1),
-                        //       lastDate: DateTime.now(),
-                        //       helpText: "MM/DD/YYYY",
-                        //     );
-                        //     if (clickedDate != null && clickedDate != birthdate)
-                        //       setState(() {
-                        //         birthdate = clickedDate;
-                        //         print(birthdate.toString());
-                        //       });
-                        //   },
-                        //   child: Text(birthdate == DateTime(1000, 1, 1)
-                        //       ? "MM/DD/YYYY"
-                        //       : birthdate.day.toString().padLeft(2, '0') +
-                        //           "/" +
-                        //           birthdate.month.toString().padLeft(2, '0') +
-                        //           "/" +
-                        //           birthdate.year.toString()),
-                        // ),
-                        // SizedBox(width: 10.0),
-                        // Icon(Icons.calendar_today),
                       ],
                     ),
                     RaisedButton(
