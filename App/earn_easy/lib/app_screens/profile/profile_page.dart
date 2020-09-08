@@ -321,6 +321,7 @@ class _ProfileState extends State<Profile> {
   var passwordController = TextEditingController();
   var firstNameController = TextEditingController();
   var lastNameController = TextEditingController();
+  DateTime _birthdate;
   bool isloading = false;
 
   @override
@@ -337,6 +338,7 @@ class _ProfileState extends State<Profile> {
       firstNameController.text = user.firstName;
       lastNameController.text = user.lastName;
       emailController.text = user.email;
+      _birthdate = user.birthDay.toDate();
 
       return MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -412,6 +414,36 @@ class _ProfileState extends State<Profile> {
                         ),
                       ],
                     ),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          "Date of Birth :",
+                          style: TextStyle(fontSize: size.width / 25),
+                        ),
+                        SizedBox(
+                          width: size.width / 40,
+                        ),
+                        Expanded(
+                          child: FlatButton(
+                            child: _birthdate == DateTime(1000, 1, 1)
+                                ? Text("MM/DD/YYYY")
+                                : Text(_birthdate.toIso8601String()),
+                            onPressed: () {
+                              showDatePicker(
+                                context: context,
+                                initialDate: _birthdate == DateTime(1000, 1, 1) ? DateTime.now() : _birthdate,
+                                firstDate: DateTime(1850,1,1),
+                                lastDate: DateTime.now(),
+                              ).then((date){
+                                setState(() {
+                                  _birthdate = date;
+                                });
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                     RaisedButton(
                       color: Colors.pink[400],
                       child: Text(
@@ -422,9 +454,10 @@ class _ProfileState extends State<Profile> {
                         // TODO : Complete UserAccount
 
                         if (_formKey.currentState.validate()) {
-                          await DatabaseServiceUser().updateUserData(UserAccount(
+                          await DatabaseServiceUser()
+                              .updateUserData(UserAccount(
                             firstName:
-                            firstNameController.text ?? user.firstName,
+                                firstNameController.text ?? user.firstName,
                             lastName: lastNameController.text ?? user.lastName,
                             email: emailController.text ?? user.email,
                             photoUrl: user.photoUrl,
