@@ -378,6 +378,11 @@ class _ProfileState extends State<Profile> {
     "Over 100,000 bdt"
   ];
   String householdIncome = "";
+  static final userTypeArray = [
+    "worker",
+    "provider"
+  ];
+  String userType = "";
 
   DateTime birthdate;
   bool isloading = false;
@@ -432,6 +437,7 @@ class _ProfileState extends State<Profile> {
           employmentStatus == "" ? user.employmentStatus : employmentStatus;
       householdIncome =
           householdIncome == "" ? user.householdIncome : householdIncome;
+      userType = userType == "" ? user.type : userType;
     }
 
     setState(() {
@@ -481,6 +487,9 @@ class _ProfileState extends State<Profile> {
               case "income":
                 this.householdIncome = value;
                 break;
+              case "type":
+                this.userType = value;
+                break;
             }
           });
         },
@@ -504,6 +513,27 @@ class _ProfileState extends State<Profile> {
                 padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                 child: ListView(
                   children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 0.0),
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                            "User Type :",
+                            style: TextStyle(fontSize: size.width / 25),
+                          ),
+                          SizedBox(
+                            width: size.width / 40,
+                          ),
+                          Expanded(
+                            child: profileDropDownItem(
+                                selectedItem: userType,
+                                itemList: userTypeArray,
+                                type: "type"),
+                          ),
+                        ],
+                      ),
+                    ),
                     Row(
                       children: <Widget>[
                         Text(
@@ -890,7 +920,7 @@ class _ProfileState extends State<Profile> {
                             householdIncome:
                                 this.householdIncome ?? user.householdIncome,
                             level: user.level,
-                            type: user.type,
+                            type: this.userType ?? user.type,
                             writeAccess: user.writeAccess,
                           ));
                         }
