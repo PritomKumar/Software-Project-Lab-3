@@ -621,22 +621,25 @@ class _ProfileState extends State<Profile> {
                         ),
                       ],
                     ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          "Gender :",
-                          style: TextStyle(fontSize: size.width / 25),
-                        ),
-                        SizedBox(
-                          width: size.width / 40,
-                        ),
-                        Expanded(
-                          child: profileDropDownItem(
-                              selectedItem: gender,
-                              itemList: genderArray,
-                              type: "gender"),
-                        ),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 0.0),
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                            "Gender :",
+                            style: TextStyle(fontSize: size.width / 25),
+                          ),
+                          SizedBox(
+                            width: size.width / 40,
+                          ),
+                          Expanded(
+                            child: profileDropDownItem(
+                                selectedItem: gender,
+                                itemList: genderArray,
+                                type: "gender"),
+                          ),
+                        ],
+                      ),
                     ),
                     Row(
                       children: <Widget>[
@@ -767,73 +770,85 @@ class _ProfileState extends State<Profile> {
                       ],
                     ),
 
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          "Marital Status :",
-                          style: TextStyle(fontSize: size.width / 25),
-                        ),
-                        SizedBox(
-                          width: size.width / 40,
-                        ),
-                        Expanded(
-                          child: profileDropDownItem(
-                              selectedItem: maritalStatus,
-                              itemList: maritalStatusArray,
-                              type: "marital"),
-                        ),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 0.0),
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                            "Marital Status :",
+                            style: TextStyle(fontSize: size.width / 25),
+                          ),
+                          SizedBox(
+                            width: size.width / 40,
+                          ),
+                          Expanded(
+                            child: profileDropDownItem(
+                                selectedItem: maritalStatus,
+                                itemList: maritalStatusArray,
+                                type: "marital"),
+                          ),
+                        ],
+                      ),
                     ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          "Gender :",
-                          style: TextStyle(fontSize: size.width / 25),
-                        ),
-                        SizedBox(
-                          width: size.width / 40,
-                        ),
-                        Expanded(
-                          child: profileDropDownItem(
-                              selectedItem: gender,
-                              itemList: genderArray,
-                              type: "gender"),
-                        ),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 0.0),
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                            "Gender :",
+                            style: TextStyle(fontSize: size.width / 25),
+                          ),
+                          SizedBox(
+                            width: size.width / 40,
+                          ),
+                          Expanded(
+                            child: profileDropDownItem(
+                                selectedItem: gender,
+                                itemList: genderArray,
+                                type: "gender"),
+                          ),
+                        ],
+                      ),
                     ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          "Gender :",
-                          style: TextStyle(fontSize: size.width / 25),
-                        ),
-                        SizedBox(
-                          width: size.width / 40,
-                        ),
-                        Expanded(
-                          child: profileDropDownItem(
-                              selectedItem: gender,
-                              itemList: genderArray,
-                              type: "gender"),
-                        ),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 0.0),
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                            "Gender :",
+                            style: TextStyle(fontSize: size.width / 25),
+                          ),
+                          SizedBox(
+                            width: size.width / 40,
+                          ),
+                          Expanded(
+                            child: profileDropDownItem(
+                                selectedItem: gender,
+                                itemList: genderArray,
+                                type: "gender"),
+                          ),
+                        ],
+                      ),
                     ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          "Gender :",
-                          style: TextStyle(fontSize: size.width / 25),
-                        ),
-                        SizedBox(
-                          width: size.width / 40,
-                        ),
-                        Expanded(
-                          child: profileDropDownItem(
-                              selectedItem: gender,
-                              itemList: genderArray,
-                              type: "gender"),
-                        ),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 0.0),
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                            "Gender :",
+                            style: TextStyle(fontSize: size.width / 25),
+                          ),
+                          SizedBox(
+                            width: size.width / 40,
+                          ),
+                          Expanded(
+                            child: profileDropDownItem(
+                                selectedItem: gender,
+                                itemList: genderArray,
+                                type: "gender"),
+                          ),
+                        ],
+                      ),
                     ),
                     RaisedButton(
                       color: Colors.pink[400],
