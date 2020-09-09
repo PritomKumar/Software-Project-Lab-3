@@ -606,6 +606,24 @@ class _ProfileState extends State<Profile> {
                         ),
                       ],
                     ),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          "Bio :",
+                          style: TextStyle(fontSize: size.width / 25),
+                        ),
+                        SizedBox(
+                          width: size.width / 40,
+                        ),
+                        Expanded(
+                          child: TextFormField(
+                            controller: bioController,
+                            decoration:
+                            InputDecoration(hintText: "Bio"),
+                          ),
+                        ),
+                      ],
+                    ),
                     RaisedButton(
                       color: Colors.pink[400],
                       child: Text(
