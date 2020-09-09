@@ -30,6 +30,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
   GoogleMapController _mapController;
   BitmapDescriptor _markerIcon;
   bool isloading = false;
+  String userType = "worker";
 
   @override
   void initState() {
@@ -144,6 +145,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
     });
 
     if (isloading) {
+      userType = user.type;
       return Scaffold(
         drawer: SideDrawer(),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -183,7 +185,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
                   target: LatLng(40.7128, -74.0060),
                   zoom: 14.0,
                 ),
-                markers: _gigMarkers,
+                markers: userType == "worker" ? _gigMarkers : _myMarkers,
                 onCameraMove: isTapped
                     ? ((_position) => _updatePosition(_position))
                     : null,
@@ -192,23 +194,27 @@ class _GoogleMapsState extends State<GoogleMaps> {
                 myLocationEnabled: true,
                 compassEnabled: true,
               ),
-              Container(
-                alignment: Alignment.bottomCenter,
-                child: RaisedButton(
-                  child: Text("Add GIG"),
-                  onPressed: () {
-                    tappedPosition != null
-                        ? Navigator.push(context, MaterialPageRoute(
-                            builder: (context) {
-                              return GigAdd(
-                                location: tappedPosition,
-                              );
-                            },
-                          ))
-                        : Loading();
-                  },
-                ),
-              )
+              userType == "provider"
+                  ? Container(
+                      alignment: Alignment.bottomCenter,
+                      child: RaisedButton(
+                        child: Text("Add GIG"),
+                        onPressed: () {
+                          tappedPosition != null
+                              ? Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) {
+                                    return GigAdd(
+                                      location: tappedPosition,
+                                    );
+                                  },
+                                ))
+                              : Loading();
+                        },
+                      ),
+                    )
+                  : Container(
+                      alignment: Alignment.bottomCenter,
+                    ),
             ],
           ),
         ),
