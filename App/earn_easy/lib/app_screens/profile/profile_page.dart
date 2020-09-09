@@ -426,6 +426,13 @@ class _ProfileState extends State<Profile> {
           : occupationController.text;
 
       gender = gender == "" ? user.gender : gender;
+      maritalStatus = maritalStatus == "" ? user.maritalStatus : maritalStatus;
+      educationLevel =
+          educationLevel == "" ? user.educationLevel : educationLevel;
+      employmentStatus =
+          employmentStatus == "" ? user.employmentStatus : employmentStatus;
+      householdIncome =
+          householdIncome == "" ? user.householdIncome : householdIncome;
     }
 
     setState(() {
@@ -463,23 +470,17 @@ class _ProfileState extends State<Profile> {
               case "gender":
                 this.gender = value;
                 break;
-              case "gender":
-                this.gender = value;
+              case "marital":
+                this.maritalStatus = value;
                 break;
-              case "gender":
-                this.gender = value;
+              case "education":
+                this.educationLevel = value;
                 break;
-              case "gender":
-                this.gender = value;
+              case "employment":
+                this.employmentStatus = value;
                 break;
-              case "gender":
-                this.gender = value;
-                break;
-              case "gender":
-                this.gender = value;
-                break;
-              case "gender":
-                this.gender = value;
+              case "income":
+                this.householdIncome = value;
                 break;
             }
           });
