@@ -336,13 +336,8 @@ class _ProfileState extends State<Profile> {
     var size = MediaQuery.of(context).size;
     var user = Provider.of<UserAccount>(context);
 
-    setState(() {
-      if (user != null) {
-        isloading = true;
-      }
-    });
+    _initializeControllars(){
 
-    if (isloading) {
       // if (firstNameController.text == "") {
       //   firstNameController.text = user.firstName;
       // } else if (firstNameController.text == user.firstName) {
@@ -358,26 +353,37 @@ class _ProfileState extends State<Profile> {
           ? user.lastName
           : lastNameController.text;
       emailController.text =
-          emailController.text == "" ? user.email : emailController.text;
+      emailController.text == "" ? user.email : emailController.text;
       birthdate = birthdate == null ? user.birthDay.toDate() : birthdate;
       streetController.text = streetController.text == ""
           ? user.streetAddress
           : streetController.text;
       cityController.text =
-          cityController.text == "" ? user.city : cityController.text;
+      cityController.text == "" ? user.city : cityController.text;
       stateController.text = stateController.text == ""
           ? user.streetAddress
           : stateController.text;
       zipCodeController.text =
-          zipCodeController.text == "" ? user.zipCode : zipCodeController.text;
+      zipCodeController.text == "" ? user.zipCode : zipCodeController.text;
       phoneNumberController.text = phoneNumberController.text == ""
           ? user.phoneNumber
           : phoneNumberController.text;
       bioController.text =
-          bioController.text == "" ? user.bio : bioController.text;
+      bioController.text == "" ? user.bio : bioController.text;
       occupationController.text = occupationController.text == ""
           ? user.occupation
           : occupationController.text;
+    }
+
+    setState(() {
+      if (user != null) {
+        isloading = true;
+      }
+    });
+
+    if (isloading) {
+
+      _initializeControllars();
 
       return MaterialApp(
         debugShowCheckedModeBanner: false,
