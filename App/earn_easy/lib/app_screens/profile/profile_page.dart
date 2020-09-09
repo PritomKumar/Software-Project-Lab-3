@@ -527,6 +527,7 @@ class _ProfileState extends State<Profile> {
                         ),
                         Expanded(
                           child: TextFormField(
+                            keyboardType: TextInputType.text,
                             controller: streetController,
                             decoration:
                                 InputDecoration(hintText: "Street address"),
@@ -620,6 +621,24 @@ class _ProfileState extends State<Profile> {
                             controller: bioController,
                             decoration:
                             InputDecoration(hintText: "Bio"),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          "Occupation :",
+                          style: TextStyle(fontSize: size.width / 25),
+                        ),
+                        SizedBox(
+                          width: size.width / 40,
+                        ),
+                        Expanded(
+                          child: TextFormField(
+                            controller: occupationController,
+                            decoration:
+                            InputDecoration(hintText: "Occupation"),
                           ),
                         ),
                       ],
