@@ -5,6 +5,7 @@ import 'package:earneasy/services/firestore_user_databse.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class Profile extends StatefulWidget {
@@ -328,12 +329,16 @@ class _ProfileState extends State<Profile> {
   final phoneNumberController = TextEditingController();
   final bioController = TextEditingController();
   final occupationController = TextEditingController();
+  static final genderArray = ["Not set", "Male", "Female", "Other"];
+  String gender = genderArray[0];
   DateTime birthdate;
   bool isloading = false;
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
+    var size = MediaQuery
+        .of(context)
+        .size;
     var user = Provider.of<UserAccount>(context);
 
     _initializeControllars() {
@@ -352,26 +357,28 @@ class _ProfileState extends State<Profile> {
           ? user.lastName
           : lastNameController.text;
       emailController.text =
-          emailController.text == "" ? user.email : emailController.text;
+      emailController.text == "" ? user.email : emailController.text;
       birthdate = birthdate == null ? user.birthDay.toDate() : birthdate;
       streetController.text = streetController.text == ""
           ? user.streetAddress
           : streetController.text;
       cityController.text =
-          cityController.text == "" ? user.city : cityController.text;
+      cityController.text == "" ? user.city : cityController.text;
       stateController.text = stateController.text == ""
           ? user.streetAddress
           : stateController.text;
       zipCodeController.text =
-          zipCodeController.text == "" ? user.zipCode : zipCodeController.text;
+      zipCodeController.text == "" ? user.zipCode : zipCodeController.text;
       phoneNumberController.text = phoneNumberController.text == ""
           ? user.phoneNumber
           : phoneNumberController.text;
       bioController.text =
-          bioController.text == "" ? user.bio : bioController.text;
+      bioController.text == "" ? user.bio : bioController.text;
       occupationController.text = occupationController.text == ""
           ? user.occupation
           : occupationController.text;
+
+      gender = gender == "" ? user.gender : gender;
     }
 
     setState(() {
@@ -379,6 +386,37 @@ class _ProfileState extends State<Profile> {
         isloading = true;
       }
     });
+
+    Widget profileDropDownItem({String selectedItem,List <String> itemList}){
+      return DropdownButtonFormField(
+        elevation: 5,
+        decoration: InputDecoration(
+          hoverColor: Colors.red,
+          filled: true,
+          focusColor: Colors.green,
+          fillColor: Colors.grey[150],
+          contentPadding: EdgeInsets.only(left: 5.0,right: 5.0),
+        ),
+        icon: Icon(FontAwesomeIcons.angleDown),
+        iconEnabledColor: Colors.blueGrey,
+        iconDisabledColor: Colors.grey[350],
+        isExpanded: true,
+        value: gender,
+        items: genderArray.map((String dropdownItem) {
+          return DropdownMenuItem<String>(
+            value: dropdownItem,
+            child: Text(dropdownItem),
+          );
+        }).toList(),
+        onChanged: (value) {
+          setState(() {
+            this.gender = value;
+          });
+        },
+      );
+
+
+    }
 
     if (isloading) {
       _initializeControllars();
@@ -477,14 +515,14 @@ class _ProfileState extends State<Profile> {
                                   birthdate == DateTime(1000, 1, 1)
                                       ? "MM/DD/YYYY"
                                       : birthdate.day
-                                              .toString()
-                                              .padLeft(2, '0') +
-                                          "/" +
-                                          birthdate.month
-                                              .toString()
-                                              .padLeft(2, '0') +
-                                          "/" +
-                                          birthdate.year.toString(),
+                                      .toString()
+                                      .padLeft(2, '0') +
+                                      "/" +
+                                      birthdate.month
+                                          .toString()
+                                          .padLeft(2, '0') +
+                                      "/" +
+                                      birthdate.year.toString(),
                                   style: TextStyle(
                                       fontWeight: FontWeight.w300,
                                       color: Colors.black),
@@ -516,6 +554,48 @@ class _ProfileState extends State<Profile> {
                     Row(
                       children: <Widget>[
                         Text(
+                          "Gender :",
+                          style: TextStyle(fontSize: size.width / 25),
+                        ),
+                        SizedBox(
+                          width: size.width / 40,
+                        ),
+                        Expanded(
+                          //child: profileDropDownItem(selectedItem: gender,itemList: genderArray),
+                          child: DropdownButtonFormField(
+                            elevation: 5,
+                            decoration: InputDecoration(
+                              hoverColor: Colors.red,
+                              filled: true,
+                              focusColor: Colors.green,
+                              fillColor: Colors.grey[150],
+                              contentPadding: EdgeInsets.only(left: 5.0,right: 5.0),
+                            ),
+                            icon: Icon(FontAwesomeIcons.angleDown),
+                            iconEnabledColor: Colors.blueGrey,
+                            iconDisabledColor: Colors.grey[350],
+                            isExpanded: true,
+                            value: gender,
+                            items: genderArray.map((String dropdownItem) {
+                              return DropdownMenuItem<String>(
+                                value: dropdownItem,
+                                child: Text(dropdownItem),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                this.gender = value;
+                              });
+                            },
+                          ),
+
+
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text(
                           "Street :",
                           style: TextStyle(fontSize: size.width / 25),
                         ),
@@ -527,7 +607,7 @@ class _ProfileState extends State<Profile> {
                             keyboardType: TextInputType.multiline,
                             controller: streetController,
                             decoration:
-                                InputDecoration(hintText: "Street address"),
+                            InputDecoration(hintText: "Street address"),
                           ),
                         ),
                       ],
@@ -600,7 +680,7 @@ class _ProfileState extends State<Profile> {
                             keyboardType: TextInputType.phone,
                             controller: phoneNumberController,
                             decoration:
-                                InputDecoration(hintText: "Phone number"),
+                            InputDecoration(hintText: "Phone number"),
                           ),
                         ),
                       ],
@@ -655,20 +735,22 @@ class _ProfileState extends State<Profile> {
                           await DatabaseServiceUser()
                               .updateUserData(UserAccount(
                             firstName:
-                                firstNameController.text ?? user.firstName,
+                            firstNameController.text ?? user.firstName,
                             lastName: lastNameController.text ?? user.lastName,
                             email: emailController.text ?? user.email,
                             photoUrl: user.photoUrl,
                             phoneNumber: user.phoneNumber,
                             birthDay:
-                                Timestamp.fromDate(birthdate) ?? user.birthDay,
+                            Timestamp.fromDate(birthdate) ?? user.birthDay,
                             gender: user.gender,
-                            streetAddress: streetController.text ?? user.streetAddress,
+                            streetAddress: streetController.text ??
+                                user.streetAddress,
                             city: cityController.text ?? user.city,
                             state: stateController.text ?? user.state,
-                            zipCode:zipCodeController.text ??  user.zipCode,
+                            zipCode: zipCodeController.text ?? user.zipCode,
                             bio: bioController.text ?? user.bio,
-                            occupation: occupationController.text ?? user.occupation,
+                            occupation: occupationController.text ??
+                                user.occupation,
                             maritalStatus: user.maritalStatus,
                             educationLevel: user.educationLevel,
                             employmentStatus: user.employmentStatus,
@@ -690,5 +772,8 @@ class _ProfileState extends State<Profile> {
     } else {
       return Loading();
     }
+
   }
 }
+
+
