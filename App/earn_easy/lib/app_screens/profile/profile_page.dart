@@ -414,11 +414,28 @@ class _ProfileState extends State<Profile> {
               case "gender":
                 this.gender = value;
                 break;
+              case "gender":
+                this.gender = value;
+                break;
+              case "gender":
+                this.gender = value;
+                break;
+              case "gender":
+                this.gender = value;
+                break;
+              case "gender":
+                this.gender = value;
+                break;
+              case "gender":
+                this.gender = value;
+                break;
+              case "gender":
+                this.gender = value;
+                break;
+
 
             }
 
-            print("gender  " + gender);
-            print("selectedItem  " + selectedItem);
           });
         },
       );
@@ -747,7 +764,7 @@ class _ProfileState extends State<Profile> {
                             phoneNumber: user.phoneNumber,
                             birthDay:
                                 Timestamp.fromDate(birthdate) ?? user.birthDay,
-                            gender: user.gender,
+                            gender: this.gender ?? user.gender,
                             streetAddress:
                                 streetController.text ?? user.streetAddress,
                             city: cityController.text ?? user.city,
