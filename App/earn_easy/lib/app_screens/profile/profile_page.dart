@@ -401,8 +401,8 @@ class _ProfileState extends State<Profile> {
         iconEnabledColor: Colors.blueGrey,
         iconDisabledColor: Colors.grey[350],
         isExpanded: true,
-        value: gender,
-        items: genderArray.map((String dropdownItem) {
+        value: selectedItem,
+        items: itemList.map((String dropdownItem) {
           return DropdownMenuItem<String>(
             value: dropdownItem,
             child: Text(dropdownItem),
@@ -410,7 +410,10 @@ class _ProfileState extends State<Profile> {
         }).toList(),
         onChanged: (value) {
           setState(() {
+            selectedItem = value;
             this.gender = value;
+            print("gender  " + gender);
+            print("selectedItem  " + selectedItem);
           });
         },
       );
@@ -561,35 +564,33 @@ class _ProfileState extends State<Profile> {
                           width: size.width / 40,
                         ),
                         Expanded(
-                          //child: profileDropDownItem(selectedItem: gender,itemList: genderArray),
-                          child: DropdownButtonFormField(
-                            elevation: 5,
-                            decoration: InputDecoration(
-                              hoverColor: Colors.red,
-                              filled: true,
-                              focusColor: Colors.green,
-                              fillColor: Colors.grey[150],
-                              contentPadding: EdgeInsets.only(left: 5.0,right: 5.0),
-                            ),
-                            icon: Icon(FontAwesomeIcons.angleDown),
-                            iconEnabledColor: Colors.blueGrey,
-                            iconDisabledColor: Colors.grey[350],
-                            isExpanded: true,
-                            value: gender,
-                            items: genderArray.map((String dropdownItem) {
-                              return DropdownMenuItem<String>(
-                                value: dropdownItem,
-                                child: Text(dropdownItem),
-                              );
-                            }).toList(),
-                            onChanged: (value) {
-                              setState(() {
-                                this.gender = value;
-                              });
-                            },
-                          ),
-
-
+                          child: profileDropDownItem(selectedItem: gender,itemList: genderArray),
+                          // child: DropdownButtonFormField(
+                          //   elevation: 5,
+                          //   decoration: InputDecoration(
+                          //     hoverColor: Colors.red,
+                          //     filled: true,
+                          //     focusColor: Colors.green,
+                          //     fillColor: Colors.grey[150],
+                          //     contentPadding: EdgeInsets.only(left: 5.0,right: 5.0),
+                          //   ),
+                          //   icon: Icon(FontAwesomeIcons.angleDown),
+                          //   iconEnabledColor: Colors.blueGrey,
+                          //   iconDisabledColor: Colors.grey[350],
+                          //   isExpanded: true,
+                          //   value: gender,
+                          //   items: genderArray.map((String dropdownItem) {
+                          //     return DropdownMenuItem<String>(
+                          //       value: dropdownItem,
+                          //       child: Text(dropdownItem),
+                          //     );
+                          //   }).toList(),
+                          //   onChanged: (value) {
+                          //     setState(() {
+                          //       this.gender = value;
+                          //     });
+                          //   },
+                          // ),
                         ),
                       ],
                     ),
