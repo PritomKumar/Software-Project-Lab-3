@@ -9,7 +9,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class Profile extends StatefulWidget {
-  // TODO : Complete the UI
   @override
   _ProfileState createState() => _ProfileState();
 }
@@ -622,7 +621,8 @@ class _ProfileState extends State<Profile> {
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 0.0),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 0.0),
                       child: Row(
                         children: <Widget>[
                           Text(
@@ -769,9 +769,9 @@ class _ProfileState extends State<Profile> {
                         ),
                       ],
                     ),
-
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 0.0),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 0.0),
                       child: Row(
                         children: <Widget>[
                           Text(
@@ -791,7 +791,8 @@ class _ProfileState extends State<Profile> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 0.0),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 0.0),
                       child: Row(
                         children: <Widget>[
                           Text(
@@ -811,7 +812,8 @@ class _ProfileState extends State<Profile> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 0.0),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 0.0),
                       child: Row(
                         children: <Widget>[
                           Text(
@@ -831,7 +833,8 @@ class _ProfileState extends State<Profile> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 0.0),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 0.0),
                       child: Row(
                         children: <Widget>[
                           Text(
@@ -857,8 +860,6 @@ class _ProfileState extends State<Profile> {
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () async {
-                        // TODO : Complete UserAccount
-
                         if (_formKey.currentState.validate()) {
                           print(birthdate.toString());
                           await DatabaseServiceUser()
@@ -880,10 +881,14 @@ class _ProfileState extends State<Profile> {
                             bio: bioController.text ?? user.bio,
                             occupation:
                                 occupationController.text ?? user.occupation,
-                            maritalStatus: this.maritalStatus ??user.maritalStatus,
-                            educationLevel: this.educationLevel ??user.educationLevel,
-                            employmentStatus: this.employmentStatus ??user.employmentStatus,
-                            householdIncome: this.householdIncome ??user.householdIncome,
+                            maritalStatus:
+                                this.maritalStatus ?? user.maritalStatus,
+                            educationLevel:
+                                this.educationLevel ?? user.educationLevel,
+                            employmentStatus:
+                                this.employmentStatus ?? user.employmentStatus,
+                            householdIncome:
+                                this.householdIncome ?? user.householdIncome,
                             level: user.level,
                             type: user.type,
                             writeAccess: user.writeAccess,
