@@ -330,7 +330,7 @@ class _ProfileState extends State<Profile> {
   final bioController = TextEditingController();
   final occupationController = TextEditingController();
   static final genderArray = ["Not set", "Male", "Female", "Other"];
-  String gender = genderArray[0];
+  String gender = "";
   static final maritalStatusArray = [
     "Not set",
     "Single",
