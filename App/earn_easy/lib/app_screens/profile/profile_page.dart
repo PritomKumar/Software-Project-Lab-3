@@ -552,6 +552,24 @@ class _ProfileState extends State<Profile> {
                         ),
                       ],
                     ),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          "State :",
+                          style: TextStyle(fontSize: size.width / 25),
+                        ),
+                        SizedBox(
+                          width: size.width / 40,
+                        ),
+                        Expanded(
+                          child: TextFormField(
+                            controller: stateController,
+                            decoration:
+                            InputDecoration(hintText: "State"),
+                          ),
+                        ),
+                      ],
+                    ),
                     RaisedButton(
                       color: Colors.pink[400],
                       child: Text(
