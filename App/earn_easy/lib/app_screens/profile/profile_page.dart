@@ -336,8 +336,7 @@ class _ProfileState extends State<Profile> {
     var size = MediaQuery.of(context).size;
     var user = Provider.of<UserAccount>(context);
 
-    _initializeControllars(){
-
+    _initializeControllars() {
       // if (firstNameController.text == "") {
       //   firstNameController.text = user.firstName;
       // } else if (firstNameController.text == user.firstName) {
@@ -353,23 +352,23 @@ class _ProfileState extends State<Profile> {
           ? user.lastName
           : lastNameController.text;
       emailController.text =
-      emailController.text == "" ? user.email : emailController.text;
+          emailController.text == "" ? user.email : emailController.text;
       birthdate = birthdate == null ? user.birthDay.toDate() : birthdate;
       streetController.text = streetController.text == ""
           ? user.streetAddress
           : streetController.text;
       cityController.text =
-      cityController.text == "" ? user.city : cityController.text;
+          cityController.text == "" ? user.city : cityController.text;
       stateController.text = stateController.text == ""
           ? user.streetAddress
           : stateController.text;
       zipCodeController.text =
-      zipCodeController.text == "" ? user.zipCode : zipCodeController.text;
+          zipCodeController.text == "" ? user.zipCode : zipCodeController.text;
       phoneNumberController.text = phoneNumberController.text == ""
           ? user.phoneNumber
           : phoneNumberController.text;
       bioController.text =
-      bioController.text == "" ? user.bio : bioController.text;
+          bioController.text == "" ? user.bio : bioController.text;
       occupationController.text = occupationController.text == ""
           ? user.occupation
           : occupationController.text;
@@ -382,7 +381,6 @@ class _ProfileState extends State<Profile> {
     });
 
     if (isloading) {
-
       _initializeControllars();
 
       return MaterialApp(
@@ -469,32 +467,31 @@ class _ProfileState extends State<Profile> {
                           width: size.width / 40,
                         ),
                         InkWell(
-                          child: Expanded(
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 10.0, horizontal: 5.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: Text(
-                                        birthdate == DateTime(1000, 1, 1)
-                                            ? "MM/DD/YYYY"
-                                            : birthdate.day
-                                                    .toString()
-                                                    .padLeft(2, '0') +
-                                                "/" +
-                                                birthdate.month
-                                                    .toString()
-                                                    .padLeft(2, '0') +
-                                                "/" +
-                                                birthdate.year.toString()),
-                                  ),
-                                  SizedBox(width: 10.0),
-                                  Icon(Icons.calendar_today),
-                                ],
-                              ),
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 5.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  birthdate == DateTime(1000, 1, 1)
+                                      ? "MM/DD/YYYY"
+                                      : birthdate.day
+                                              .toString()
+                                              .padLeft(2, '0') +
+                                          "/" +
+                                          birthdate.month
+                                              .toString()
+                                              .padLeft(2, '0') +
+                                          "/" +
+                                          birthdate.year.toString(),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w300,
+                                      color: Colors.black),
+                                ),
+                                SizedBox(width: 10.0),
+                                Icon(Icons.calendar_today),
+                              ],
                             ),
                           ),
                           onTap: () async {
@@ -527,7 +524,7 @@ class _ProfileState extends State<Profile> {
                         ),
                         Expanded(
                           child: TextFormField(
-                            keyboardType: TextInputType.text,
+                            keyboardType: TextInputType.multiline,
                             controller: streetController,
                             decoration:
                                 InputDecoration(hintText: "Street address"),
@@ -546,10 +543,9 @@ class _ProfileState extends State<Profile> {
                         ),
                         Expanded(
                           child: TextFormField(
-                            keyboardType: TextInputType.text,
+                            keyboardType: TextInputType.multiline,
                             controller: cityController,
-                            decoration:
-                            InputDecoration(hintText: "City"),
+                            decoration: InputDecoration(hintText: "City"),
                           ),
                         ),
                       ],
@@ -565,10 +561,9 @@ class _ProfileState extends State<Profile> {
                         ),
                         Expanded(
                           child: TextFormField(
-                            keyboardType: TextInputType.text,
+                            keyboardType: TextInputType.multiline,
                             controller: stateController,
-                            decoration:
-                            InputDecoration(hintText: "State"),
+                            decoration: InputDecoration(hintText: "State"),
                           ),
                         ),
                       ],
@@ -584,10 +579,9 @@ class _ProfileState extends State<Profile> {
                         ),
                         Expanded(
                           child: TextFormField(
-                            keyboardType: TextInputType.text,
+                            keyboardType: TextInputType.multiline,
                             controller: zipCodeController,
-                            decoration:
-                            InputDecoration(hintText: "Zip code"),
+                            decoration: InputDecoration(hintText: "Zip code"),
                           ),
                         ),
                       ],
@@ -603,10 +597,10 @@ class _ProfileState extends State<Profile> {
                         ),
                         Expanded(
                           child: TextFormField(
-                            keyboardType: TextInputType.number,
+                            keyboardType: TextInputType.phone,
                             controller: phoneNumberController,
                             decoration:
-                            InputDecoration(hintText: "Phone number"),
+                                InputDecoration(hintText: "Phone number"),
                           ),
                         ),
                       ],
@@ -622,10 +616,9 @@ class _ProfileState extends State<Profile> {
                         ),
                         Expanded(
                           child: TextFormField(
-                            keyboardType: TextInputType.text,
+                            keyboardType: TextInputType.multiline,
                             controller: bioController,
-                            decoration:
-                            InputDecoration(hintText: "Bio"),
+                            decoration: InputDecoration(hintText: "Bio"),
                           ),
                         ),
                       ],
@@ -641,10 +634,9 @@ class _ProfileState extends State<Profile> {
                         ),
                         Expanded(
                           child: TextFormField(
-                            keyboardType: TextInputType.text,
+                            keyboardType: TextInputType.multiline,
                             controller: occupationController,
-                            decoration:
-                            InputDecoration(hintText: "Occupation"),
+                            decoration: InputDecoration(hintText: "Occupation"),
                           ),
                         ),
                       ],
