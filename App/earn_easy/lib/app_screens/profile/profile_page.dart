@@ -321,6 +321,13 @@ class _ProfileState extends State<Profile> {
   final emailController = TextEditingController();
   final firstNameController = TextEditingController(text: "");
   final lastNameController = TextEditingController();
+  final streetController = TextEditingController();
+  final cityController = TextEditingController();
+  final stateController = TextEditingController();
+  final zipCodeController = TextEditingController();
+  final phoneNumberController = TextEditingController();
+  final bioController = TextEditingController();
+  final occupationController = TextEditingController();
   DateTime birthdate;
   bool isloading = false;
 
@@ -485,6 +492,24 @@ class _ProfileState extends State<Profile> {
                         ),
                       ],
                     ),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          "Street :",
+                          style: TextStyle(fontSize: size.width / 25),
+                        ),
+                        SizedBox(
+                          width: size.width / 40,
+                        ),
+                        Expanded(
+                          child: TextFormField(
+                            controller: emailController,
+                            decoration: InputDecoration(hintText: "Street address"),
+                          ),
+                        ),
+                      ],
+                    ),
+
                     RaisedButton(
                       color: Colors.pink[400],
                       child: Text(
