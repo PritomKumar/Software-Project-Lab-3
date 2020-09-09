@@ -527,9 +527,27 @@ class _ProfileState extends State<Profile> {
                         ),
                         Expanded(
                           child: TextFormField(
-                            controller: emailController,
+                            controller: streetController,
                             decoration:
                                 InputDecoration(hintText: "Street address"),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          "City :",
+                          style: TextStyle(fontSize: size.width / 25),
+                        ),
+                        SizedBox(
+                          width: size.width / 40,
+                        ),
+                        Expanded(
+                          child: TextFormField(
+                            controller: cityController,
+                            decoration:
+                            InputDecoration(hintText: "City"),
                           ),
                         ),
                       ],
