@@ -835,7 +835,7 @@ class _ProfileState extends State<Profile> {
                       child: Row(
                         children: <Widget>[
                           Text(
-                            "Gender :",
+                            "Household Income :",
                             style: TextStyle(fontSize: size.width / 25),
                           ),
                           SizedBox(
@@ -843,9 +843,9 @@ class _ProfileState extends State<Profile> {
                           ),
                           Expanded(
                             child: profileDropDownItem(
-                                selectedItem: gender,
-                                itemList: genderArray,
-                                type: "gender"),
+                                selectedItem: householdIncome,
+                                itemList: householdIncomeArray,
+                                type: "income"),
                           ),
                         ],
                       ),
