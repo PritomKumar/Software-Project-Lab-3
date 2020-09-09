@@ -331,6 +331,55 @@ class _ProfileState extends State<Profile> {
   final occupationController = TextEditingController();
   static final genderArray = ["Not set", "Male", "Female", "Other"];
   String gender = genderArray[0];
+  static final maritalStatusArray = [
+    "Not set",
+    "Single",
+    "Married",
+    "Widowed",
+    "Divorced",
+    "Separated",
+    "Other"
+  ];
+  String maritalStatus = maritalStatusArray[0];
+  static final educationLevelArray = [
+    "Not set",
+    "Less than high school diploma",
+    "High school degree or equivalent",
+    "Some college, no degree",
+    "Current college student",
+    "Associate degree",
+    "Bachelor's degree",
+    "Master's degree",
+    "Professional degree",
+    "Doctorate",
+    "Post-Doctorate",
+    "Other"
+  ];
+  String educationLevel = educationLevelArray[0];
+  static final employmentStatusArray = [
+    "Not set",
+    "Employed full time",
+    "Employed part time",
+    "Self-employed",
+    "Military",
+    "Student",
+    "Retired",
+    "Homemaker",
+    "Unemployed",
+    "Other"
+  ];
+  String employmentStatus = employmentStatusArray[0];
+  static final householdIncomeArray = [
+    "Not set",
+    "Less than 20,000 bdt",
+    "20,000 to 39,999 bdt",
+    "40,000 to 59,999 bdt",
+    "60,000 to 79,999 bdt",
+    "80,000 to 99,999 bdt",
+    "Over 100,000 bdt"
+  ];
+  String householdIncome = householdIncomeArray[0];
+
   DateTime birthdate;
   bool isloading = false;
 
@@ -432,10 +481,7 @@ class _ProfileState extends State<Profile> {
               case "gender":
                 this.gender = value;
                 break;
-
-
             }
-
           });
         },
       );
@@ -585,7 +631,9 @@ class _ProfileState extends State<Profile> {
                         ),
                         Expanded(
                           child: profileDropDownItem(
-                              selectedItem: gender, itemList: genderArray , type:"gender"),
+                              selectedItem: gender,
+                              itemList: genderArray,
+                              type: "gender"),
                           // child: DropdownButtonFormField(
                           //   elevation: 5,
                           //   decoration: InputDecoration(
