@@ -546,6 +546,7 @@ class _ProfileState extends State<Profile> {
                         ),
                         Expanded(
                           child: TextFormField(
+                            keyboardType: TextInputType.text,
                             controller: cityController,
                             decoration:
                             InputDecoration(hintText: "City"),
@@ -564,6 +565,7 @@ class _ProfileState extends State<Profile> {
                         ),
                         Expanded(
                           child: TextFormField(
+                            keyboardType: TextInputType.text,
                             controller: stateController,
                             decoration:
                             InputDecoration(hintText: "State"),
@@ -582,6 +584,7 @@ class _ProfileState extends State<Profile> {
                         ),
                         Expanded(
                           child: TextFormField(
+                            keyboardType: TextInputType.text,
                             controller: zipCodeController,
                             decoration:
                             InputDecoration(hintText: "Zip code"),
@@ -600,6 +603,7 @@ class _ProfileState extends State<Profile> {
                         ),
                         Expanded(
                           child: TextFormField(
+                            keyboardType: TextInputType.number,
                             controller: phoneNumberController,
                             decoration:
                             InputDecoration(hintText: "Phone number"),
@@ -618,6 +622,7 @@ class _ProfileState extends State<Profile> {
                         ),
                         Expanded(
                           child: TextFormField(
+                            keyboardType: TextInputType.text,
                             controller: bioController,
                             decoration:
                             InputDecoration(hintText: "Bio"),
@@ -636,6 +641,7 @@ class _ProfileState extends State<Profile> {
                         ),
                         Expanded(
                           child: TextFormField(
+                            keyboardType: TextInputType.text,
                             controller: occupationController,
                             decoration:
                             InputDecoration(hintText: "Occupation"),
