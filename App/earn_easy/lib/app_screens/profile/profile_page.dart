@@ -340,7 +340,7 @@ class _ProfileState extends State<Profile> {
     "Separated",
     "Other"
   ];
-  String maritalStatus = maritalStatusArray[0];
+  String maritalStatus = "";
   static final educationLevelArray = [
     "Not set",
     "Less than high school diploma",
@@ -355,7 +355,7 @@ class _ProfileState extends State<Profile> {
     "Post-Doctorate",
     "Other"
   ];
-  String educationLevel = educationLevelArray[0];
+  String educationLevel = "";
   static final employmentStatusArray = [
     "Not set",
     "Employed full time",
@@ -368,7 +368,7 @@ class _ProfileState extends State<Profile> {
     "Unemployed",
     "Other"
   ];
-  String employmentStatus = employmentStatusArray[0];
+  String employmentStatus = "";
   static final householdIncomeArray = [
     "Not set",
     "Less than 20,000 bdt",
@@ -378,7 +378,7 @@ class _ProfileState extends State<Profile> {
     "80,000 to 99,999 bdt",
     "Over 100,000 bdt"
   ];
-  String householdIncome = householdIncomeArray[0];
+  String householdIncome = "";
 
   DateTime birthdate;
   bool isloading = false;
@@ -635,32 +635,6 @@ class _ProfileState extends State<Profile> {
                               selectedItem: gender,
                               itemList: genderArray,
                               type: "gender"),
-                          // child: DropdownButtonFormField(
-                          //   elevation: 5,
-                          //   decoration: InputDecoration(
-                          //     hoverColor: Colors.red,
-                          //     filled: true,
-                          //     focusColor: Colors.green,
-                          //     fillColor: Colors.grey[150],
-                          //     contentPadding: EdgeInsets.only(left: 5.0,right: 5.0),
-                          //   ),
-                          //   icon: Icon(FontAwesomeIcons.angleDown),
-                          //   iconEnabledColor: Colors.blueGrey,
-                          //   iconDisabledColor: Colors.grey[350],
-                          //   isExpanded: true,
-                          //   value: gender,
-                          //   items: genderArray.map((String dropdownItem) {
-                          //     return DropdownMenuItem<String>(
-                          //       value: dropdownItem,
-                          //       child: Text(dropdownItem),
-                          //     );
-                          //   }).toList(),
-                          //   onChanged: (value) {
-                          //     setState(() {
-                          //       this.gender = value;
-                          //     });
-                          //   },
-                          // ),
                         ),
                       ],
                     ),
@@ -789,6 +763,75 @@ class _ProfileState extends State<Profile> {
                             controller: occupationController,
                             decoration: InputDecoration(hintText: "Occupation"),
                           ),
+                        ),
+                      ],
+                    ),
+
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          "Marital Status :",
+                          style: TextStyle(fontSize: size.width / 25),
+                        ),
+                        SizedBox(
+                          width: size.width / 40,
+                        ),
+                        Expanded(
+                          child: profileDropDownItem(
+                              selectedItem: maritalStatus,
+                              itemList: maritalStatusArray,
+                              type: "marital"),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          "Gender :",
+                          style: TextStyle(fontSize: size.width / 25),
+                        ),
+                        SizedBox(
+                          width: size.width / 40,
+                        ),
+                        Expanded(
+                          child: profileDropDownItem(
+                              selectedItem: gender,
+                              itemList: genderArray,
+                              type: "gender"),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          "Gender :",
+                          style: TextStyle(fontSize: size.width / 25),
+                        ),
+                        SizedBox(
+                          width: size.width / 40,
+                        ),
+                        Expanded(
+                          child: profileDropDownItem(
+                              selectedItem: gender,
+                              itemList: genderArray,
+                              type: "gender"),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          "Gender :",
+                          style: TextStyle(fontSize: size.width / 25),
+                        ),
+                        SizedBox(
+                          width: size.width / 40,
+                        ),
+                        Expanded(
+                          child: profileDropDownItem(
+                              selectedItem: gender,
+                              itemList: genderArray,
+                              type: "gender"),
                         ),
                       ],
                     ),
