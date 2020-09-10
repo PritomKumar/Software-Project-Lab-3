@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/models/gig.dart';
 import 'package:earneasy/models/user.dart';
+import 'package:earneasy/shared/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
@@ -25,8 +26,8 @@ class DatabaseServiceGigs {
         "location": gig.location ?? null,
         "title": gig.title ?? "",
         "description": gig.description ?? "",
-        "startTime": gig.startTime ?? DateTime(1000, 1, 1),
-        "endTime": gig.endTime ?? DateTime(1000, 1, 1),
+        "startTime": gig.startTime ?? defalultInitializedTimestamp,
+        "endTime": gig.endTime ?? defalultInitializedTimestamp,
         "providerId": gig.providerId ?? "",
         "type": gig.type ?? "public",
       });
@@ -43,8 +44,8 @@ class DatabaseServiceGigs {
         "location": gig.location ?? null,
         "title": gig.title ?? "",
         "description": gig.description ?? "",
-        "startTime": gig.startTime ?? DateTime(1000, 1, 1),
-        "endTime": gig.endTime ?? DateTime(1000, 1, 1),
+        "startTime": gig.startTime ?? defalultInitializedTimestamp,
+        "endTime": gig.endTime ?? defalultInitializedTimestamp,
         "providerId": gig.providerId ?? "",
         "type": gig.type ?? "public",
       }).then((docRef) {

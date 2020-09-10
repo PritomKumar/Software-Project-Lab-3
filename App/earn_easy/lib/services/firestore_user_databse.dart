@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/models/user.dart';
+import 'package:earneasy/shared/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +26,7 @@ class DatabaseServiceUser {
         "email": userAccount.email ?? "",
         "photoUrl": userAccount.photoUrl ?? "",
         "phoneNumber": userAccount.phoneNumber ?? "",
-        "birthDay": userAccount.birthDay ?? Timestamp.fromDate(DateTime(1000, 1, 1)),
+        "birthDay": userAccount.birthDay ?? defalultInitializedTimestamp,
         "gender": userAccount.gender ?? "Not set",
         "streetAddress": userAccount.streetAddress ?? "",
         "city": userAccount.city ?? "",

@@ -41,9 +41,6 @@ class _GigAddState extends State<GigAdd> {
     });
 
     if (isloading) {
-      // titleController.text = user.firstName;
-      // descriptionController.text = user.lastName;
-      // moneyController.text = user.email;
 
       return MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -55,7 +52,7 @@ class _GigAddState extends State<GigAdd> {
             textStyle: TextStyle(fontSize: 16.0, color: Colors.white),
             backgroundColor: Color(0x99000000),
             borderRadius: BorderRadius.circular(5.0),
-            textPadding: EdgeInsets.symmetric(horizontal: 17.0, vertical: 10.0),
+           // textPadding: EdgeInsets.symmetric(horizontal: 17.0, vertical: 10.0),
             toastPositions: StyledToastPosition.bottom,
             toastAnimation: StyledToastAnimation.fade,
             reverseAnimation: StyledToastAnimation.fade,
