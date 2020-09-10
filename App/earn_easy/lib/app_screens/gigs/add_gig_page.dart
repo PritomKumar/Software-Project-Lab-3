@@ -31,8 +31,14 @@ class _GigAddState extends State<GigAdd> {
   DateTime endDate = defalultInitializedTimestamp.toDate();
   bool isloading = false;
 
-  static final typeOfGigArray = ["Not set", "Image", "Survey", "Image and Survey","Other"];
-  String typeOfGig = "";
+  static final typeOfGigArray = [
+    "Not set",
+    "Image",
+    "Survey",
+    "Image and Survey",
+    "Other"
+  ];
+  String typeOfGig = typeOfGigArray[0];
 
   _GigAddState(this.location);
 
@@ -67,7 +73,7 @@ class _GigAddState extends State<GigAdd> {
             animDuration: Duration(seconds: 1),
             dismissOtherOnShow: true,
             movingOnWindowChange: true,
-            locale: null,
+            locale:  Localizations.localeOf(context),
             child: Form(
               key: _formKey,
               child: Center(
@@ -262,14 +268,13 @@ class _GigAddState extends State<GigAdd> {
                           ),
                         ],
                       ),
-
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 0.0),
                         child: Row(
                           children: <Widget>[
                             Text(
-                              "Marital Status :",
+                              "Type of Gig :",
                               style: TextStyle(fontSize: size.width / 25),
                             ),
                             SizedBox(
@@ -283,14 +288,16 @@ class _GigAddState extends State<GigAdd> {
                                   filled: true,
                                   focusColor: Colors.green,
                                   fillColor: Colors.grey[150],
-                                  contentPadding: EdgeInsets.only(left: 5.0, right: 5.0),
+                                  contentPadding:
+                                      EdgeInsets.only(left: 5.0, right: 5.0),
                                 ),
                                 icon: Icon(FontAwesomeIcons.angleDown),
                                 iconEnabledColor: Colors.blueGrey,
                                 iconDisabledColor: Colors.grey[350],
                                 isExpanded: true,
                                 value: typeOfGig,
-                                items: typeOfGigArray.map((String dropdownItem) {
+                                items:
+                                    typeOfGigArray.map((String dropdownItem) {
                                   return DropdownMenuItem<String>(
                                     value: dropdownItem,
                                     child: Text(dropdownItem),
