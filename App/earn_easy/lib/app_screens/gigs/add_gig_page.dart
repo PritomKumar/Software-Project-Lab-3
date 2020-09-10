@@ -3,6 +3,7 @@ import 'package:earneasy/models/gig.dart';
 import 'package:earneasy/models/user.dart';
 import 'package:earneasy/services/firestore_gig_databse.dart';
 import 'package:earneasy/services/firestore_user_databse.dart';
+import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,7 @@ class _GigAddState extends State<GigAdd> {
   var moneyController = TextEditingController();
   var titleController = TextEditingController();
   var descriptionController = TextEditingController();
+  DateTime startDate = defalultInitializedTimestamp.toDate();
   bool isloading = false;
 
   _GigAddState(this.location);
@@ -41,7 +43,6 @@ class _GigAddState extends State<GigAdd> {
     });
 
     if (isloading) {
-
       return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
@@ -52,7 +53,7 @@ class _GigAddState extends State<GigAdd> {
             textStyle: TextStyle(fontSize: 16.0, color: Colors.white),
             backgroundColor: Color(0x99000000),
             borderRadius: BorderRadius.circular(5.0),
-           // textPadding: EdgeInsets.symmetric(horizontal: 17.0, vertical: 10.0),
+            textPadding: EdgeInsets.symmetric(horizontal: 17.0, vertical: 10.0),
             toastPositions: StyledToastPosition.bottom,
             toastAnimation: StyledToastAnimation.fade,
             reverseAnimation: StyledToastAnimation.fade,
@@ -88,6 +89,62 @@ class _GigAddState extends State<GigAdd> {
                                 return value.isEmpty ? "Enter Money" : null;
                               },
                             ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            "Date of Birth :",
+                            style: TextStyle(fontSize: size.width / 25),
+                          ),
+                          SizedBox(
+                            width: size.width / 40,
+                          ),
+                          InkWell(
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 5.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    startDate == defalultInitializedTimestamp.toDate()
+                                        ? "MM/DD/YYYY"
+                                        : startDate.day
+                                        .toString()
+                                        .padLeft(2, '0') +
+                                        "/" +
+                                        startDate.month
+                                            .toString()
+                                            .padLeft(2, '0') +
+                                        "/" +
+                                        startDate.year.toString(),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        color: Colors.black),
+                                  ),
+                                  SizedBox(width: 10.0),
+                                  Icon(Icons.calendar_today),
+                                ],
+                              ),
+                            ),
+                            onTap: () async {
+                              var clickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: startDate == defalultInitializedTimestamp.toDate()
+                                    ? DateTime.now()
+                                    : startDate,
+                                firstDate: DateTime(1850, 1, 1),
+                                lastDate: DateTime.now(),
+                                helpText: "MM/DD/YYYY",
+                              );
+                              if (clickedDate != null && clickedDate != startDate)
+                                setState(() {
+                                  startDate = clickedDate;
+                                  print(startDate.toString());
+                                });
+                            },
                           ),
                         ],
                       ),
@@ -137,6 +194,7 @@ class _GigAddState extends State<GigAdd> {
                           ),
                         ],
                       ),
+
                       RaisedButton(
                         color: Colors.pink[400],
                         child: Text(
