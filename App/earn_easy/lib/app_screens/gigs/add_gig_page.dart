@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/models/gig.dart';
 import 'package:earneasy/models/user.dart';
 import 'package:earneasy/services/firestore_gig_databse.dart';
-import 'package:earneasy/services/firestore_user_databse.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
 import 'package:flutter/cupertino.dart';
@@ -31,6 +30,9 @@ class _GigAddState extends State<GigAdd> {
   DateTime startDate = defalultInitializedTimestamp.toDate();
   DateTime endDate = defalultInitializedTimestamp.toDate();
   bool isloading = false;
+
+  static final typeOfGigArray = ["Not set", "Image", "Survey", "Image and Survey","Other"];
+  String typeOfGig = "";
 
   _GigAddState(this.location);
 
@@ -65,6 +67,7 @@ class _GigAddState extends State<GigAdd> {
             animDuration: Duration(seconds: 1),
             dismissOtherOnShow: true,
             movingOnWindowChange: true,
+            locale: null,
             child: Form(
               key: _formKey,
               child: Center(
@@ -186,8 +189,8 @@ class _GigAddState extends State<GigAdd> {
                                         defalultInitializedTimestamp.toDate()
                                     ? DateTime.now()
                                     : startDate,
-                                firstDate: DateTime(1850, 1, 1),
-                                lastDate: DateTime.now(),
+                                firstDate: DateTime.now(),
+                                lastDate: DateTime(2050, 1, 1),
                                 helpText: "MM/DD/YYYY",
                               );
                               if (clickedDate != null &&
@@ -217,34 +220,37 @@ class _GigAddState extends State<GigAdd> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   Text(
-                                    endDate == defalultInitializedTimestamp.toDate()
+                                    endDate ==
+                                            defalultInitializedTimestamp
+                                                .toDate()
                                         ? "MM/DD/YYYY"
                                         : endDate.day
-                                        .toString()
-                                        .padLeft(2, '0') +
-                                        "/" +
-                                        endDate.month
-                                            .toString()
-                                            .padLeft(2, '0') +
-                                        "/" +
-                                        endDate.year.toString(),
+                                                .toString()
+                                                .padLeft(2, '0') +
+                                            "/" +
+                                            endDate.month
+                                                .toString()
+                                                .padLeft(2, '0') +
+                                            "/" +
+                                            endDate.year.toString(),
                                     style: TextStyle(
                                         fontWeight: FontWeight.w300,
                                         color: Colors.black),
                                   ),
                                   SizedBox(width: 10.0),
-                                  Icon(FontAwesomeIcons.calendarCheck),
+                                  Icon(FontAwesomeIcons.calendarTimes),
                                 ],
                               ),
                             ),
                             onTap: () async {
                               var clickedDate = await showDatePicker(
                                 context: context,
-                                initialDate: endDate == defalultInitializedTimestamp.toDate()
+                                initialDate: endDate ==
+                                        defalultInitializedTimestamp.toDate()
                                     ? DateTime.now()
                                     : endDate,
-                                firstDate: DateTime(1850, 1, 1),
-                                lastDate: DateTime.now(),
+                                firstDate: DateTime.now(),
+                                lastDate: DateTime(2050, 1, 1),
                                 helpText: "MM/DD/YYYY",
                               );
                               if (clickedDate != null && clickedDate != endDate)
@@ -256,10 +262,54 @@ class _GigAddState extends State<GigAdd> {
                           ),
                         ],
                       ),
+
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 0.0),
+                        child: Row(
+                          children: <Widget>[
+                            Text(
+                              "Marital Status :",
+                              style: TextStyle(fontSize: size.width / 25),
+                            ),
+                            SizedBox(
+                              width: size.width / 40,
+                            ),
+                            Expanded(
+                              child: DropdownButtonFormField(
+                                elevation: 5,
+                                decoration: InputDecoration(
+                                  hoverColor: Colors.red,
+                                  filled: true,
+                                  focusColor: Colors.green,
+                                  fillColor: Colors.grey[150],
+                                  contentPadding: EdgeInsets.only(left: 5.0, right: 5.0),
+                                ),
+                                icon: Icon(FontAwesomeIcons.angleDown),
+                                iconEnabledColor: Colors.blueGrey,
+                                iconDisabledColor: Colors.grey[350],
+                                isExpanded: true,
+                                value: typeOfGig,
+                                items: typeOfGigArray.map((String dropdownItem) {
+                                  return DropdownMenuItem<String>(
+                                    value: dropdownItem,
+                                    child: Text(dropdownItem),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    typeOfGig = value;
+                                  });
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       RaisedButton(
                         color: Colors.pink[400],
                         child: Text(
-                          "Update",
+                          "Create Gig",
                           style: TextStyle(color: Colors.white),
                         ),
                         onPressed: () async {
@@ -288,6 +338,8 @@ class _GigAddState extends State<GigAdd> {
                                 description: descriptionController.text ?? "",
                                 location: geoLocation,
                                 providerId: user.uid,
+                                startTime: Timestamp.fromDate(startDate),
+                                endTime: Timestamp.fromDate(endDate),
                               ))
                                   .then((value) {
                                 setState(() {

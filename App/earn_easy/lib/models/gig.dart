@@ -12,6 +12,7 @@ class Gig {
   final String gigId;
   final String providerId;
   final String type;
+  final String access;
 
   Gig({
     this.money = 0,
@@ -22,6 +23,7 @@ class Gig {
     this.endTime,
     this.gigId = "",
     this.providerId = "",
-    this.type = "",
+    this.type = "Not set",
+    this.access = "",
   });
 }

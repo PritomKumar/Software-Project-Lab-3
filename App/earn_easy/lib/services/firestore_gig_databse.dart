@@ -29,7 +29,8 @@ class DatabaseServiceGigs {
         "startTime": gig.startTime ?? defalultInitializedTimestamp,
         "endTime": gig.endTime ?? defalultInitializedTimestamp,
         "providerId": gig.providerId ?? "",
-        "type": gig.type ?? "public",
+        "type": gig.type ?? "Not set",
+        "access": gig.access ?? "public",
       });
     } else {
       return null;
@@ -47,7 +48,8 @@ class DatabaseServiceGigs {
         "startTime": gig.startTime ?? defalultInitializedTimestamp,
         "endTime": gig.endTime ?? defalultInitializedTimestamp,
         "providerId": gig.providerId ?? "",
-        "type": gig.type ?? "public",
+        "type": gig.type ?? "Not set",
+        "access": gig.access ?? "public",
       }).then((docRef) {
         docRef.update({
           "gigId" : docRef.id,
