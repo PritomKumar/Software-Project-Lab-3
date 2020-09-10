@@ -611,7 +611,7 @@ class _ProfileState extends State<Profile> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Text(
-                                  birthdate == DateTime(1000, 1, 1)
+                                  birthdate == defalultInitializedTimestamp.toDate()
                                       ? "MM/DD/YYYY"
                                       : birthdate.day
                                               .toString()
@@ -634,7 +634,7 @@ class _ProfileState extends State<Profile> {
                           onTap: () async {
                             var clickedDate = await showDatePicker(
                               context: context,
-                              initialDate: birthdate == DateTime(1000, 1, 1)
+                              initialDate: birthdate == defalultInitializedTimestamp.toDate()
                                   ? DateTime.now()
                                   : birthdate,
                               firstDate: DateTime(1850, 1, 1),
