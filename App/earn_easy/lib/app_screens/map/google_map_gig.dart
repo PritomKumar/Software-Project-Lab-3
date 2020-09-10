@@ -141,7 +141,9 @@ class _GoogleMapsState extends State<GoogleMaps> {
     var user = Provider.of<UserAccount>(context);
     setState(() {
       if (gigList != null) addMarkersWIthGig(gigList);
-      isloading = true;
+      if(gigList != null && user != null){
+        isloading = true;
+      }
     });
 
     if (isloading) {
