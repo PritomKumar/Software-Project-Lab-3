@@ -29,6 +29,7 @@ class _GigAddState extends State<GigAdd> {
   var titleController = TextEditingController();
   var descriptionController = TextEditingController();
   DateTime startDate = defalultInitializedTimestamp.toDate();
+  DateTime endDate = defalultInitializedTimestamp.toDate();
   bool isloading = false;
 
   _GigAddState(this.location);
@@ -142,7 +143,7 @@ class _GigAddState extends State<GigAdd> {
                       Row(
                         children: <Widget>[
                           Text(
-                            "StartDate :",
+                            "Start Date :",
                             style: TextStyle(fontSize: size.width / 25),
                           ),
                           SizedBox(
@@ -156,17 +157,19 @@ class _GigAddState extends State<GigAdd> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   Text(
-                                    startDate == defalultInitializedTimestamp.toDate()
+                                    startDate ==
+                                            defalultInitializedTimestamp
+                                                .toDate()
                                         ? "MM/DD/YYYY"
                                         : startDate.day
-                                        .toString()
-                                        .padLeft(2, '0') +
-                                        "/" +
-                                        startDate.month
-                                            .toString()
-                                            .padLeft(2, '0') +
-                                        "/" +
-                                        startDate.year.toString(),
+                                                .toString()
+                                                .padLeft(2, '0') +
+                                            "/" +
+                                            startDate.month
+                                                .toString()
+                                                .padLeft(2, '0') +
+                                            "/" +
+                                            startDate.year.toString(),
                                     style: TextStyle(
                                         fontWeight: FontWeight.w300,
                                         color: Colors.black),
@@ -179,17 +182,75 @@ class _GigAddState extends State<GigAdd> {
                             onTap: () async {
                               var clickedDate = await showDatePicker(
                                 context: context,
-                                initialDate: startDate == defalultInitializedTimestamp.toDate()
+                                initialDate: startDate ==
+                                        defalultInitializedTimestamp.toDate()
                                     ? DateTime.now()
                                     : startDate,
                                 firstDate: DateTime(1850, 1, 1),
                                 lastDate: DateTime.now(),
                                 helpText: "MM/DD/YYYY",
                               );
-                              if (clickedDate != null && clickedDate != startDate)
+                              if (clickedDate != null &&
+                                  clickedDate != startDate)
                                 setState(() {
                                   startDate = clickedDate;
                                   print(startDate.toString());
+                                });
+                            },
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            "End Date :",
+                            style: TextStyle(fontSize: size.width / 25),
+                          ),
+                          SizedBox(
+                            width: size.width / 40,
+                          ),
+                          InkWell(
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 5.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    endDate == defalultInitializedTimestamp.toDate()
+                                        ? "MM/DD/YYYY"
+                                        : endDate.day
+                                        .toString()
+                                        .padLeft(2, '0') +
+                                        "/" +
+                                        endDate.month
+                                            .toString()
+                                            .padLeft(2, '0') +
+                                        "/" +
+                                        endDate.year.toString(),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        color: Colors.black),
+                                  ),
+                                  SizedBox(width: 10.0),
+                                  Icon(FontAwesomeIcons.calendarCheck),
+                                ],
+                              ),
+                            ),
+                            onTap: () async {
+                              var clickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: endDate == defalultInitializedTimestamp.toDate()
+                                    ? DateTime.now()
+                                    : endDate,
+                                firstDate: DateTime(1850, 1, 1),
+                                lastDate: DateTime.now(),
+                                helpText: "MM/DD/YYYY",
+                              );
+                              if (clickedDate != null && clickedDate != endDate)
+                                setState(() {
+                                  endDate = clickedDate;
+                                  print(endDate.toString());
                                 });
                             },
                           ),
