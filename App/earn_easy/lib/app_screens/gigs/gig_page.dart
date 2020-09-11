@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/models/gig.dart';
 import 'package:earneasy/models/user.dart';
+import 'package:earneasy/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -193,7 +194,8 @@ class GigPage extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10.0,vertical: 5.0),
+                    margin:
+                        EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
                     width: double.infinity,
                     alignment: Alignment.bottomCenter,
                     child: RaisedButton(
@@ -206,10 +208,15 @@ class GigPage extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      onPressed: () async{
-                        DocumentReference firebaseGigRef = FirebaseFirestore.instance.collection("Gigs").doc(gig.gigId);
-                        await firebaseGigRef.update({'attemptedUsers':FieldValue.arrayUnion([user.uid])});
-
+                      onPressed: () async {
+                        await fireStoreGigsRef.doc(gig.gigId).update({
+                          'attemptedUsers': FieldValue.arrayUnion([user.uid])
+                        });
+                        await fireStoreUsersRef.doc(user.uid).update({
+                          'attemptedGigs': FieldValue.arrayUnion([gig.gigId]),
+                          'waitListGigs': FieldValue.arrayUnion([gig.gigId]),
+                          'allGigs': FieldValue.arrayUnion([gig.gigId]),
+                        });
                       },
                     ),
                   ),
