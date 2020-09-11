@@ -123,8 +123,13 @@ class GigPage extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        Icon(FontAwesomeIcons.moneyBillWave,color: Colors.green,),
-                        SizedBox(width: 10.0,),
+                        Icon(
+                          FontAwesomeIcons.moneyBillWave,
+                          color: Colors.green,
+                        ),
+                        SizedBox(
+                          width: 10.0,
+                        ),
                         Text(
                           "Money: ",
                           style: TextStyle(
@@ -151,19 +156,23 @@ class GigPage extends StatelessWidget {
                   ),
                   Container(
                     padding:
-                    EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                        EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        Icon(FontAwesomeIcons.envelopeOpenText,color: Colors.black,),
-                        SizedBox(width: 10.0,),
+                        Icon(
+                          FontAwesomeIcons.envelopeOpenText,
+                          color: Colors.black,
+                        ),
+                        SizedBox(
+                          width: 10.0,
+                        ),
                         Text(
                           "Description: ",
                           style: TextStyle(
-                            decorationColor: Colors.red,
-                            color: Colors.green,
+                            color: Colors.black,
                             fontSize: 24.0,
-                            fontWeight: FontWeight.w300,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                         SizedBox(
@@ -178,6 +187,25 @@ class GigPage extends StatelessWidget {
                           ),
                         ),
                       ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10.0,vertical: 5.0),
+                    width: double.infinity,
+                    alignment: Alignment.bottomCenter,
+                    child: RaisedButton(
+                      color: Colors.red,
+                      padding: EdgeInsets.all(10.0),
+                      child: Text(
+                        "Apply",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      onPressed: () {
+
+                      },
                     ),
                   ),
                 ],
