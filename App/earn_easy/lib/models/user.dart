@@ -47,6 +47,11 @@ class UserAccount {
   final String type;
   final bool writeAccess;
 
+  final List<String> attemptedGigs;
+  final List<String> completedigs;
+  final List<String> waitListGigs;
+  final List<String> allGigs;
+
   UserAccount({
     @required this.uid ,
     this.firstName= "",
@@ -69,5 +74,9 @@ class UserAccount {
     this.level = 1,
     this.type = "worker",
     this.writeAccess = false,
+    this.allGigs,
+    this.attemptedGigs,
+    this.completedigs,
+    this.waitListGigs,
   });
 }

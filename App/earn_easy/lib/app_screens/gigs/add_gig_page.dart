@@ -320,16 +320,6 @@ class _GigAddState extends State<GigAdd> {
                           style: TextStyle(color: Colors.white),
                         ),
                         onPressed: () async {
-                          // TODO : Complete Gig update
-                          // gigId: doc.data()['gigId'],
-                          // money: doc.data()['money'],
-                          // location: doc.data()['location'],
-                          // title: doc.data()['title'],
-                          // description: doc.data()['description'],
-                          // startTime: doc.data()['startTime'],
-                          // endTime: doc.data()['endTime'],
-                          // providerId: doc.data()['providerId'],
-                          // type: doc.data()['type'],
 
                           if (_formKey.currentState.validate()) {
                             bool checkAdded = false;
