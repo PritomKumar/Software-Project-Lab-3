@@ -306,7 +306,6 @@ class _GigAddState extends State<GigAdd> {
                                 onChanged: (value) {
                                   setState(() {
                                     typeOfGig = value;
-                                    print(typeOfGig);
                                   });
                                 },
                               ),
@@ -323,7 +322,6 @@ class _GigAddState extends State<GigAdd> {
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
                             bool checkAdded = false;
-                            print("Inside" + typeOfGig);
                             if (!alreadyAddedGig) {
                               GeoPoint geoLocation = GeoPoint(
                                   location.latitude, location.longitude);
