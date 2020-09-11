@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/models/gig.dart';
+import 'package:earneasy/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class GigPage extends StatelessWidget {
   final Gig gig;
@@ -9,7 +12,7 @@ class GigPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> lol = List<String>();
+    var user = Provider.of<UserAccount>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: gig.title,
@@ -203,7 +206,9 @@ class GigPage extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      onPressed: () {
+                      onPressed: () async{
+                        DocumentReference firebaseGigRef = FirebaseFirestore.instance.collection("Gigs").doc(gig.gigId);
+                        await firebaseGigRef.update({'attemptedUsers':FieldValue.arrayUnion([user.uid])});
 
                       },
                     ),
