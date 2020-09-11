@@ -117,6 +117,38 @@ class GigPage extends StatelessWidget {
                       ],
                     ),
                   ),
+                  Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Icon(FontAwesomeIcons.moneyBillWave,color: Colors.green,),
+                        SizedBox(width: 10.0,),
+                        Text(
+                          "Money: ",
+                          style: TextStyle(
+                            decorationColor: Colors.red,
+                            color: Colors.green,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        Text(
+                          gig.money.toString(),
+                          style: TextStyle(
+                            decorationColor: Colors.red,
+                            color: Colors.green,
+                            fontSize: 24.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   Text(gig.money.toString()),
                   Text(gig.description),
                   Text(gig.startTime.toDate().toString()),
