@@ -37,7 +37,7 @@ class DatabaseServiceGigs {
     }
   }
 
-  Future <DocumentReference>createNewGig(Gig gig) {
+  Future createNewGig(Gig gig) {
     if (isLoggedIn()) {
       return fireStoreGigsRef.add({
         "gigId": gig.gigId ?? "",
@@ -59,7 +59,6 @@ class DatabaseServiceGigs {
           'createdGigs':
           FieldValue.arrayUnion([docRef.id]),
         });
-        return docRef;
       });
     } else {
       return null;

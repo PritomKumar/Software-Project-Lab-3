@@ -327,7 +327,7 @@ class _GigAddState extends State<GigAdd> {
                             if (!alreadyAddedGig) {
                               GeoPoint geoLocation = GeoPoint(
                                   location.latitude, location.longitude);
-                              var createdGig = await DatabaseServiceGigs()
+                              await DatabaseServiceGigs()
                                   .createNewGig(Gig(
                                 money: int.parse(
                                         moneyController.text.toString()) ??
@@ -346,12 +346,6 @@ class _GigAddState extends State<GigAdd> {
                                   checkAdded = true;
                                 });
                               });
-                              if (createdGig != null) {
-                                await fireStoreUsersRef.doc(user.uid).update({
-                                  'createdGigs':
-                                  FieldValue.arrayUnion([createdGig.id]),
-                                });
-                              }
                               if (!checkAdded) {
                                 showToast("Request Failed");
                               } else {
