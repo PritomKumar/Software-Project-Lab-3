@@ -50,6 +50,32 @@ class GigPage extends StatelessWidget {
                           fontWeight: FontWeight.w300,
                         ),
                       ),
+                      SizedBox(width: 5.0,),
+                      Icon(FontAwesomeIcons.calendarTimes,color: Colors.black,),
+                      SizedBox(width: 2.0,),
+                      Text(
+                        "Ends: ",
+                        textDirection: TextDirection.ltr,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(width: 2.0,),
+                      Text(
+                        gig.endTime.toDate().day
+                            .toString()
+                            .padLeft(2, '0') +
+                            "/" +
+                            gig.endTime.toDate().month
+                                .toString()
+                                .padLeft(2, '0') +
+                            "/" +
+                            gig.endTime.toDate().year.toString(),
+                        textDirection: TextDirection.ltr,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
                     ],
                   ),
                   Text(gig.money.toString()),
