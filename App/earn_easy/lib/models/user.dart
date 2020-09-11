@@ -48,6 +48,7 @@ class UserAccount {
   final bool writeAccess;
 
   final List<String> attemptedGigs;
+  final List<String> createdGigs;
   final List<String> completedGigs;
   final List<String> waitListGigs;
   final List<String> allGigs;
@@ -78,5 +79,6 @@ class UserAccount {
     this.attemptedGigs,
     this.completedGigs,
     this.waitListGigs,
+    this.createdGigs,
   });
 }

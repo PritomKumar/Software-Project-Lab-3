@@ -14,7 +14,7 @@ class Gig {
   final String type;
   final String access;
   final List<String> attemptedUsers;
-  final List<String> finshTaskUsers;
+  final List<String> finishTaskUsers;
 
   Gig({
     this.money = 0,
@@ -28,6 +28,6 @@ class Gig {
     this.type = "Not set",
     this.access = "",
     this.attemptedUsers,
-    this.finshTaskUsers,
+    this.finishTaskUsers,
   });
 }

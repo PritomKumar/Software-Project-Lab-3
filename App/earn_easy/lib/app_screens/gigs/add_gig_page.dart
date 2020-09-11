@@ -73,7 +73,7 @@ class _GigAddState extends State<GigAdd> {
             animDuration: Duration(seconds: 1),
             dismissOtherOnShow: true,
             movingOnWindowChange: true,
-            locale:  Localizations.localeOf(context),
+            locale: Localizations.localeOf(context),
             child: Form(
               key: _formKey,
               child: Center(
@@ -306,6 +306,7 @@ class _GigAddState extends State<GigAdd> {
                                 onChanged: (value) {
                                   setState(() {
                                     typeOfGig = value;
+                                    print(typeOfGig);
                                   });
                                 },
                               ),
@@ -320,13 +321,13 @@ class _GigAddState extends State<GigAdd> {
                           style: TextStyle(color: Colors.white),
                         ),
                         onPressed: () async {
-
                           if (_formKey.currentState.validate()) {
                             bool checkAdded = false;
+                            print("Inside" + typeOfGig);
                             if (!alreadyAddedGig) {
                               GeoPoint geoLocation = GeoPoint(
                                   location.latitude, location.longitude);
-                              await DatabaseServiceGigs()
+                              var createdGig = await DatabaseServiceGigs()
                                   .createNewGig(Gig(
                                 money: int.parse(
                                         moneyController.text.toString()) ??
@@ -337,6 +338,7 @@ class _GigAddState extends State<GigAdd> {
                                 providerId: user.uid,
                                 startTime: Timestamp.fromDate(startDate),
                                 endTime: Timestamp.fromDate(endDate),
+                                type: typeOfGig,
                               ))
                                   .then((value) {
                                 setState(() {
@@ -344,6 +346,12 @@ class _GigAddState extends State<GigAdd> {
                                   checkAdded = true;
                                 });
                               });
+                              if (createdGig != null) {
+                                await fireStoreUsersRef.doc(user.uid).update({
+                                  'createdGigs':
+                                      FieldValue.arrayUnion([createdGig.id]),
+                                });
+                              }
                               if (!checkAdded) {
                                 showToast("Request Failed");
                               } else {
