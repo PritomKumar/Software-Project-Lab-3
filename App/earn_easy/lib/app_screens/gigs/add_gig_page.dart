@@ -341,16 +341,17 @@ class _GigAddState extends State<GigAdd> {
                                 type: typeOfGig,
                               ))
                                   .then((value) {
+                                fireStoreUsersRef.doc(user.uid).update({
+                                  'createdGigs':
+                                  FieldValue.arrayUnion([value.id]),
+                                });
                                 setState(() {
                                   alreadyAddedGig = true;
                                   checkAdded = true;
                                 });
                               });
                               if (createdGig != null) {
-                                await fireStoreUsersRef.doc(user.uid).update({
-                                  'createdGigs':
-                                      FieldValue.arrayUnion([createdGig.id]),
-                                });
+
                               }
                               if (!checkAdded) {
                                 showToast("Request Failed");
