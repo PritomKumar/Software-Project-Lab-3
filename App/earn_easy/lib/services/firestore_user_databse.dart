@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
 class DatabaseServiceUser {
-  final CollectionReference userProfiles =
+  final CollectionReference fireStoreUsersRef =
       FirebaseFirestore.instance.collection("Users");
   final String uid = FirebaseAuth.instance.currentUser.uid;
 
@@ -19,7 +19,7 @@ class DatabaseServiceUser {
 
   Future updateUserData(UserAccount userAccount) {
     if (isLoggedIn()) {
-      return userProfiles.doc(uid).set({
+      return fireStoreUsersRef.doc(uid).set({
         "uid": userAccount.uid ?? uid,
         "firstName": userAccount.firstName ?? "",
         "lastName": userAccount.lastName ?? "",
@@ -49,7 +49,7 @@ class DatabaseServiceUser {
 
   Future userAccountOfCurrentUser() async {
     var result =
-        await userProfiles.doc(FirebaseAuth.instance.currentUser.uid).get();
+        await fireStoreUsersRef.doc(FirebaseAuth.instance.currentUser.uid).get();
     print(result.data());
   }
 
@@ -86,7 +86,7 @@ class DatabaseServiceUser {
     if (isLoggedIn()) {
       print("After logged in");
       bool dataExist = false;
-      await userProfiles.doc(uid).get().then((onValue) {
+      await fireStoreUsersRef.doc(uid).get().then((onValue) {
         print("After logged in");
         if (onValue.exists) {
           dataExist = true;
@@ -102,7 +102,7 @@ class DatabaseServiceUser {
 
   Stream<UserAccount> get userData {
     return isLoggedIn()
-        ? userProfiles.doc(uid).snapshots().map(_userDataFromSnapshot)
+        ? fireStoreUsersRef.doc(uid).snapshots().map(_userDataFromSnapshot)
         : null;
   }
 //  Stream<UserAccount> get userData {

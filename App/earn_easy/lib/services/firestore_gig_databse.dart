@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
 class DatabaseServiceGigs {
-  final CollectionReference gigs =
+  final CollectionReference fireStoreGigsRef =
       FirebaseFirestore.instance.collection("Gigs");
   final String uid = FirebaseAuth.instance.currentUser.uid;
 
@@ -20,7 +20,7 @@ class DatabaseServiceGigs {
 
   Future updateGigData(Gig gig) {
     if (isLoggedIn()) {
-      return gigs.doc(gig.gigId).set({
+      return fireStoreGigsRef.doc(gig.gigId).set({
         "gigId": gig.gigId ?? "",
         "money": gig.money ?? 0,
         "location": gig.location ?? null,
@@ -39,7 +39,7 @@ class DatabaseServiceGigs {
 
   Future createNewGig(Gig gig) {
     if (isLoggedIn()) {
-      return gigs.add({
+      return fireStoreGigsRef.add({
         "gigId": gig.gigId ?? "",
         "money": gig.money ?? 0,
         "location": gig.location ?? null,
@@ -62,7 +62,7 @@ class DatabaseServiceGigs {
   }
 
   Future userAccountOfCurrentUser() async {
-    var result = await gigs.doc(FirebaseAuth.instance.currentUser.uid).get();
+    var result = await fireStoreGigsRef.doc(FirebaseAuth.instance.currentUser.uid).get();
     print(result.data());
   }
 
@@ -106,7 +106,7 @@ class DatabaseServiceGigs {
     if (isLoggedIn()) {
       print("After logged in");
       bool dataExist = false;
-      await gigs.doc(uid).get().then((onValue) {
+      await fireStoreGigsRef.doc(uid).get().then((onValue) {
         print("After logged in");
         if (onValue.exists) {
           dataExist = true;
@@ -121,12 +121,12 @@ class DatabaseServiceGigs {
   }
 
   Stream<List<Gig>> get allGigData {
-    return isLoggedIn() ? gigs.snapshots().map(_allGigDataFromSnapshot) : null;
+    return isLoggedIn() ? fireStoreGigsRef.snapshots().map(_allGigDataFromSnapshot) : null;
   }
 
   Stream<Gig> get selectedGigData {
     return isLoggedIn()
-        ? gigs.doc().snapshots().map(_singleGigFromSnapshot)
+        ? fireStoreGigsRef.doc().snapshots().map(_singleGigFromSnapshot)
         : null;
   }
 }
