@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
+import 'gig.dart';
+
 class UserMinimum {
   final String uid;
   final String photoUrl;
@@ -47,7 +49,7 @@ class UserAccount {
   final String type;
   final bool writeAccess;
 
-  final List<String> attemptedGigs;
+  final List<GigMini> attemptedGigs;
   final List<String> createdGigs;
   final List<String> completedGigs;
   final List<String> waitListGigs;
