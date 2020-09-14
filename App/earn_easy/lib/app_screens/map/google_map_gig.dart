@@ -31,6 +31,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
   BitmapDescriptor _markerIcon;
   bool isloading = false;
   String userType = "worker";
+  int _bottomNavigationBarIndex=0;
 
   @override
   void initState() {
@@ -165,6 +166,36 @@ class _GoogleMapsState extends State<GoogleMaps> {
             )
           ],
         ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _bottomNavigationBarIndex,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.directions_run),
+              title: Text("Available"),
+              backgroundColor: Colors.blue,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.assignment_turned_in),
+              title: Text("My gigs"),
+              backgroundColor: Colors.blue,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.hourglass_empty),
+              title: Text("Waitlisted"),
+              backgroundColor: Colors.blue,
+            ), BottomNavigationBarItem(
+              icon: Icon(Icons.assignment),
+              title: Text("Completed"),
+              backgroundColor: Colors.blue,
+            ),
+
+          ],
+          onTap: (value) {
+            setState(() {
+              _bottomNavigationBarIndex = value;
+            });
+          },
+        ),
         body: StyledToast(
           textStyle: TextStyle(fontSize: 16.0, color: Colors.white),
           backgroundColor: Color(0x99000000),
@@ -220,30 +251,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
             ],
           ),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.directions_run),
-              title: Text("Available"),
-              backgroundColor: Colors.blue,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.assignment_turned_in),
-              title: Text("My gigs"),
-              backgroundColor: Colors.blue,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.hourglass_empty),
-              title: Text("Waitlisted"),
-              backgroundColor: Colors.blue,
-            ), BottomNavigationBarItem(
-              icon: Icon(Icons.assignment),
-              title: Text("Completed"),
-              backgroundColor: Colors.blue,
-            ),
 
-          ],
-        ),
       );
     } else {
       return Loading();
