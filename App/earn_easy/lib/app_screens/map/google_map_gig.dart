@@ -249,14 +249,17 @@ class _GoogleMapsState extends State<GoogleMaps> {
                       alignment: Alignment.bottomCenter,
                       width: double.infinity,
                       height: MediaQuery.of(context).size.height / 2,
-                      child: ListView.builder(
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                            title: Text("TODO"),
-                            subtitle: Text("TODO"),
-                          );
-                        },
-                      ),
+                      // child: ListView.builder(
+                      //   itemBuilder: (context, index) {
+                      //     return ListTile(
+                      //       title: Text("TODO"),
+                      //       subtitle: Text("TODO"),
+                      //       onTap: () {
+                      //         print("Index $index");
+                      //       },
+                      //     );
+                      //   },
+                      // ),
                     ),
             ],
           ),

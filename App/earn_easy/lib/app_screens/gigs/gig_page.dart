@@ -216,6 +216,8 @@ class GigPage extends StatelessWidget {
                           'attemptedGigs': FieldValue.arrayUnion([gig.gigId]),
                           'waitListGigs': FieldValue.arrayUnion([gig.gigId]),
                           'allGigs': FieldValue.arrayUnion([gig.gigId]),
+                        }).then((value){
+                          print("Added in user");
                         });
                       },
                     ),

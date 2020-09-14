@@ -41,6 +41,12 @@ class DatabaseServiceUser {
         "level": userAccount.level ?? 1,
         "type": userAccount.type ?? "worker",
         "writeAccess": userAccount.writeAccess ?? false,
+        "allGigs": userAccount.allGigs ?? [],
+        "attemptedGigs": userAccount.attemptedGigs ?? [],
+        "completedGigs": userAccount.completedGigs ?? [],
+        "waitListGigs": userAccount.waitListGigs ?? [],
+        "createdGigs": userAccount.createdGigs ?? [],
+
       });
     } else {
       return null;
