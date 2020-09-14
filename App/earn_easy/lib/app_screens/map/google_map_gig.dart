@@ -31,7 +31,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
   BitmapDescriptor _markerIcon;
   bool isloading = false;
   String userType = "worker";
-  int _bottomNavigationBarIndex=0;
+  int _bottomNavigationBarIndex = 0;
 
   @override
   void initState() {
@@ -142,7 +142,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
     var user = Provider.of<UserAccount>(context);
     setState(() {
       if (gigList != null) addMarkersWIthGig(gigList);
-      if(gigList != null && user != null){
+      if (gigList != null && user != null) {
         isloading = true;
       }
     });
@@ -183,12 +183,12 @@ class _GoogleMapsState extends State<GoogleMaps> {
               icon: Icon(Icons.hourglass_empty),
               title: Text("Waitlisted"),
               backgroundColor: Colors.blue,
-            ), BottomNavigationBarItem(
+            ),
+            BottomNavigationBarItem(
               icon: Icon(Icons.assignment),
               title: Text("Completed"),
               backgroundColor: Colors.blue,
             ),
-
           ],
           onTap: (value) {
             setState(() {
@@ -247,11 +247,20 @@ class _GoogleMapsState extends State<GoogleMaps> {
                     )
                   : Container(
                       alignment: Alignment.bottomCenter,
+                      width: double.infinity,
+                      height: MediaQuery.of(context).size.height / 2,
+                      child: ListView.builder(
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            title: Text("TODO"),
+                            subtitle: Text("TODO"),
+                          );
+                        },
+                      ),
                     ),
             ],
           ),
         ),
-
       );
     } else {
       return Loading();
