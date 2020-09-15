@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:earneasy/models/gig.dart';
 import 'package:earneasy/models/user.dart';
+import 'package:earneasy/services/auth.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
@@ -46,7 +48,6 @@ class DatabaseServiceUser {
         "completedGigs": userAccount.completedGigs ?? [],
         "waitListGigs": userAccount.waitListGigs ?? [],
         "createdGigs": userAccount.createdGigs ?? [],
-
       });
     } else {
       return null;
@@ -54,8 +55,9 @@ class DatabaseServiceUser {
   }
 
   Future userAccountOfCurrentUser() async {
-    var result =
-        await fireStoreUsersRef.doc(FirebaseAuth.instance.currentUser.uid).get();
+    var result = await fireStoreUsersRef
+        .doc(FirebaseAuth.instance.currentUser.uid)
+        .get();
     print(result.data());
   }
 
@@ -83,11 +85,15 @@ class DatabaseServiceUser {
             level: snapshot.data()['level'],
             type: snapshot.data()['type'],
             writeAccess: snapshot.data()['writeAccess'],
+            allGigs: List.from(snapshot.data()['allGigs']),
+            // attemptedGigs: List.from(snapshot
+            //     .data()['attemptedGigs']
+            //     .map((index) => GigMini.fromMap(index))),
           )
         : null;
   }
 
-  Future <bool> checkIfDataExists() async{
+  Future<bool> checkIfDataExists() async {
     print("Before logged in");
     if (isLoggedIn()) {
       print("After logged in");

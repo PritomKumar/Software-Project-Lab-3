@@ -2,13 +2,25 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class GigMini{
+class GigMini {
   final String gigId;
-  final String title;
   final int money;
+  final String title;
 
-  GigMini({this.gigId, this.title, this.money});
+  GigMini({this.gigId, this.money, this.title});
 
+  GigMini.fromMap(Map<dynamic, dynamic> data)
+      : gigId = data["gigId"],
+        money = data["money"],
+        title = data["title"];
+
+  Map<String, dynamic> toMap() {
+    return {
+      'gigId': this.gigId,
+      'money': this.money,
+      'title': this.title,
+    };
+  }
 }
 
 class Gig {
@@ -27,10 +39,10 @@ class Gig {
 
   Gig({
     this.money = 0,
-    this.location ,
+    this.location,
     this.title = "",
     this.description = "",
-    this.startTime ,
+    this.startTime,
     this.endTime,
     this.gigId = "",
     this.providerId = "",
