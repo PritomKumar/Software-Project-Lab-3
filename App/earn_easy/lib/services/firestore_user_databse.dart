@@ -89,6 +89,15 @@ class DatabaseServiceUser {
             // attemptedGigs: List.from(snapshot
             //     .data()['attemptedGigs']
             //     .map((index) => GigMini.fromMap(index))),
+
+      
+            // attemptedGigs:
+            //     List.from(snapshot.data()['attemptedGigs'].map((index) {
+            //   var z = Map<dynamic, dynamic>.from(index);
+            //   //   print(z['description']);
+            //   //   return B.fromMap(z);
+            //   GigMini.fromMap(z);
+            // })),
           )
         : null;
   }
