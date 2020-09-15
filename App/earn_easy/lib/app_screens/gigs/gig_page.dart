@@ -213,10 +213,16 @@ class GigPage extends StatelessWidget {
                           'attemptedUsers': FieldValue.arrayUnion([user.uid])
                         });
                         await fireStoreUsersRef.doc(user.uid).update({
-                          'attemptedGigs': FieldValue.arrayUnion([gig.gigId]),
+                          'attemptedGigs': FieldValue.arrayUnion([
+                            {
+                              'gigId': gig.gigId,
+                              'title': gig.title,
+                              'money': gig.money,
+                            }
+                          ]),
                           'waitListGigs': FieldValue.arrayUnion([gig.gigId]),
                           'allGigs': FieldValue.arrayUnion([gig.gigId]),
-                        }).then((value){
+                        }).then((value) {
                           print("Added in user");
                         });
                       },
