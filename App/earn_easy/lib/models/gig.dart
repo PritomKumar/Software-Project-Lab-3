@@ -9,10 +9,10 @@ class GigMini {
 
   GigMini({this.gigId, this.money, this.title});
 
-  GigMini.fromMap(Map<dynamic, dynamic> data)
-      : gigId = data["gigId"],
-        money = data["money"],
-        title = data["title"];
+  GigMini.fromMap(Map<String, dynamic> data)
+      : this.gigId = data["gigId"],
+        this.money = data["money"],
+        this.title = data["title"];
 
   Map<String, dynamic> toMap() {
     return {

@@ -86,9 +86,9 @@ class DatabaseServiceUser {
             type: snapshot.data()['type'],
             writeAccess: snapshot.data()['writeAccess'],
             allGigs: List.from(snapshot.data()['allGigs']),
-            // attemptedGigs: List.from(snapshot
-            //     .data()['attemptedGigs']
-            //     .map((index) => GigMini.fromMap(index))),
+            attemptedGigs: List.from(snapshot
+                .data()['attemptedGigs']
+                .map((index) => GigMini.fromMap(index))),
 
       
             // attemptedGigs:

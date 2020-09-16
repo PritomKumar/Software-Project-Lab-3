@@ -150,13 +150,13 @@ class _GoogleMapsState extends State<GoogleMaps> {
     if (isloading) {
       userType = user.type;
 
-      for(int i=0 ; i<user.allGigs.length;i++){
-        print("Gig no $i and gig = ${user.allGigs[i]}");
-      }
-
-      // for(int i=0 ; i<user.attemptedGigs.length;i++){
-      //   print("Gig no $i and gig = ${user.attemptedGigs[i]}");
+      // for(int i=0 ; i<user.allGigs.length;i++){
+      //   print("Gig no $i and gig = ${user.allGigs[i]}");
       // }
+
+      for(int i=0 ; i<user.attemptedGigs.length;i++){
+        print("Gig no $i and gig = ${user.attemptedGigs[i].gigId} , ${user.attemptedGigs[i].money} , ${user.attemptedGigs[i].title}");
+      }
       return Scaffold(
         drawer: SideDrawer(),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

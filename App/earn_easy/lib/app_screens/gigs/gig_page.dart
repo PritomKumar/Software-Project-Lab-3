@@ -212,14 +212,11 @@ class GigPage extends StatelessWidget {
                         await fireStoreGigsRef.doc(gig.gigId).update({
                           'attemptedUsers': FieldValue.arrayUnion([user.uid])
                         });
+                        var gigMini = GigMini(gigId: gig.gigId,title: gig.title,money: gig.money);
+                        List <GigMini> gigs = List<GigMini>();
+                        gigs.add(gigMini);
                         await fireStoreUsersRef.doc(user.uid).update({
-                          'attemptedGigs': FieldValue.arrayUnion([
-                            {
-                              'gigId': gig.gigId,
-                              'title': gig.title,
-                              'money': gig.money,
-                            }
-                          ]),
+                          'attemptedGigs': FieldValue.arrayUnion([gigMini.toMap()]),
                           'waitListGigs': FieldValue.arrayUnion([gig.gigId]),
                           'allGigs': FieldValue.arrayUnion([gig.gigId]),
                         }).then((value) {
