@@ -355,6 +355,7 @@ class _GigAddState extends State<GigAdd> {
                           }
                         },
                       ),
+
                     ],
                   ),
                 ),

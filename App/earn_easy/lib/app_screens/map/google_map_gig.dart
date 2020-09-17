@@ -154,10 +154,10 @@ class _GoogleMapsState extends State<GoogleMaps> {
       //   print("Gig no $i and gig = ${user.allGigs[i]}");
       // }
 
-      for (int i = 0; i < user.attemptedGigs.length; i++) {
-        print(
-            "Gig no $i and gig = ${user.attemptedGigs[i].gigId} , ${user.attemptedGigs[i].money} , ${user.attemptedGigs[i].title}");
-      }
+      // for (int i = 0; i < user.attemptedGigs.length; i++) {
+      //   print(
+      //       "Gig no $i and gig = ${user.attemptedGigs[i].gigId} , ${user.attemptedGigs[i].money} , ${user.attemptedGigs[i].title}");
+      // }
       return Scaffold(
         drawer: SideDrawer(),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -255,6 +255,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
                       ),
                     )
                   : Container(
+                      //color: Colors.white,
                       alignment: Alignment.bottomCenter,
                       width: double.infinity,
                       height: MediaQuery.of(context).size.height / 2,

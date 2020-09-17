@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 
+import 'TestPage/test_page.dart';
 import 'app_screens/wrapper.dart';
 import 'models/user.dart';
 
@@ -17,16 +18,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return  StreamProvider<UserMinimum>.value(
+    return StreamProvider<UserMinimum>.value(
         value: AuthService().user,
         child: MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Parking App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home:SplashScreen(),
-      )
-    );
+          debugShowCheckedModeBanner: false,
+          title: 'Parking App',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: Test(),
+        ));
   }
 }
