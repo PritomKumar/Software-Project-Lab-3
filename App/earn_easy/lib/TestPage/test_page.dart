@@ -31,6 +31,13 @@ class _TestState extends State<Test> {
       money: 400,
       gigId: "fsdfuhfsjkdfhu",
     ));
+    bool isExpanded = false;
+    final sortOptionsArray = [
+      "Distance",
+      "Money",
+      "Title"
+    ];
+    String sortOption = sortOptionsArray[0];
     //sort function
     gigs.sort((a, b) => a.money.compareTo(b.money));
     return MaterialApp(
@@ -46,10 +53,47 @@ class _TestState extends State<Test> {
             shadowColor: Colors.green,
             color: Colors.blue,
             child: ExpansionTile(
+              onExpansionChanged: (value) {
+                setState(() {
+                  isExpanded = value;
+                });
+              },
               title: Text("Title"),
               backgroundColor: Colors.white,
               subtitle: Text("Subtitle"),
-              trailing: Icon(FontAwesomeIcons.arrowDown),
+              trailing:  SizedBox(
+                width: 100.0,
+                child: Expanded(
+                  child: DropdownButtonFormField(
+                    elevation: 5,
+                    decoration: InputDecoration(
+                      hoverColor: Colors.red,
+                      filled: true,
+                      focusColor: Colors.green,
+                      fillColor: Colors.grey[150],
+                      contentPadding:
+                      EdgeInsets.only(left: 5.0, right: 5.0),
+                    ),
+                    icon: Icon(FontAwesomeIcons.angleDown),
+                    iconEnabledColor: Colors.blueGrey,
+                    iconDisabledColor: Colors.grey[350],
+                    isExpanded: true,
+                    value: sortOption,
+                    items:
+                    sortOptionsArray.map((String dropdownItem) {
+                      return DropdownMenuItem<String>(
+                        value: dropdownItem,
+                        child: Text(dropdownItem),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        sortOption = value;
+                      });
+                    },
+                  ),
+                ),
+              ),
               children: <Widget>[
                 SizedBox(
                   height: MediaQuery.of(context).size.height / 3,
