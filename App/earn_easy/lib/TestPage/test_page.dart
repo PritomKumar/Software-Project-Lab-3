@@ -11,6 +11,7 @@ class _TestState extends State<Test> {
   bool isExpanded = false;
   static const List<String> sortOptionsArray = ["Distance", "Money", "Title"];
   String sortOption = sortOptionsArray[0];
+  String sortResult = "";
   final gigs = [
     GigMini(
       title: "First",
@@ -36,7 +37,6 @@ class _TestState extends State<Test> {
 
   @override
   Widget build(BuildContext context) {
-
     //sort function
     //gigs.sort((a, b) => b.money.compareTo(a.money));
     return MaterialApp(
@@ -69,7 +69,7 @@ class _TestState extends State<Test> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       Text(
-                        sortOption,
+                        sortResult == "" ? "Sort By" : sortOption,
                         textScaleFactor: 1.15,
                       ),
                       SizedBox(
@@ -92,6 +92,7 @@ class _TestState extends State<Test> {
                   onSelected: (value) {
                     setState(() {
                       sortOption = value;
+                      sortResult = value;
                       print(sortOption);
                       switch (sortOption) {
                         case "Distance":
