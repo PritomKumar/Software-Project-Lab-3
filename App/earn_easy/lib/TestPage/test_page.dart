@@ -11,33 +11,34 @@ class _TestState extends State<Test> {
   bool isExpanded = false;
   static const List<String> sortOptionsArray = ["Distance", "Money", "Title"];
   String sortOption = sortOptionsArray[0];
-
-  @override
-  Widget build(BuildContext context) {
-    List<GigMini> gigs = List<GigMini>();
-    gigs.add(GigMini(
+  final gigs = [
+    GigMini(
       title: "First",
       money: 100,
       gigId: "fsdfuhfsjkdfhu",
-    ));
-    gigs.add(GigMini(
+    ),
+    GigMini(
       title: "Second",
       money: 200,
       gigId: "fsdfuhfsjkdfhu",
-    ));
-    gigs.add(GigMini(
+    ),
+    GigMini(
       title: "Third",
       money: 300,
       gigId: "fsdfuhfsjkdfhu",
-    ));
-    gigs.add(GigMini(
+    ),
+    GigMini(
       title: "Fourth",
       money: 400,
       gigId: "fsdfuhfsjkdfhu",
-    ));
+    )
+  ];
+
+  @override
+  Widget build(BuildContext context) {
 
     //sort function
-    gigs.sort((a, b) => b.money.compareTo(a.money));
+    //gigs.sort((a, b) => b.money.compareTo(a.money));
     return MaterialApp(
       title: 'Material App',
       home: Scaffold(
