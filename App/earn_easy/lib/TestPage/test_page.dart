@@ -32,11 +32,7 @@ class _TestState extends State<Test> {
       gigId: "fsdfuhfsjkdfhu",
     ));
     bool isExpanded = false;
-    final sortOptionsArray = [
-      "Distance",
-      "Money",
-      "Title"
-    ];
+    List<String> sortOptionsArray = ["Distance", "Money", "Title"];
     String sortOption = sortOptionsArray[0];
     //sort function
     gigs.sort((a, b) => a.money.compareTo(b.money));
@@ -56,37 +52,30 @@ class _TestState extends State<Test> {
               onExpansionChanged: (value) {
                 setState(() {
                   isExpanded = value;
+                  print(isExpanded);
                 });
               },
               title: Text("Title"),
               backgroundColor: Colors.white,
               subtitle: Text("Subtitle"),
-              trailing:  SizedBox(
+              trailing: SizedBox(
                 width: 100.0,
                 child: Expanded(
-                  child: DropdownButtonFormField(
-                    elevation: 5,
-                    decoration: InputDecoration(
-                      hoverColor: Colors.red,
-                      filled: true,
-                      focusColor: Colors.green,
-                      fillColor: Colors.grey[150],
-                      contentPadding:
-                      EdgeInsets.only(left: 5.0, right: 5.0),
-                    ),
-                    icon: Icon(FontAwesomeIcons.angleDown),
-                    iconEnabledColor: Colors.blueGrey,
-                    iconDisabledColor: Colors.grey[350],
-                    isExpanded: true,
-                    value: sortOption,
-                    items:
-                    sortOptionsArray.map((String dropdownItem) {
-                      return DropdownMenuItem<String>(
-                        value: dropdownItem,
-                        child: Text(dropdownItem),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
+                  child: PopupMenuButton(
+                    initialValue: "Sort By",
+                    tooltip: "Sort Items",
+                    elevation: 5.0,
+                    enabled: isExpanded,
+                    icon: Icon(Icons.sort,size: 30.0,),
+                    itemBuilder: (context) {
+                      return sortOptionsArray.map((String choice) {
+                        return PopupMenuItem(
+                          value: choice,
+                          child: Text(choice),
+                        );
+                      }).toList();
+                    },
+                    onSelected: (value) {
                       setState(() {
                         sortOption = value;
                       });
