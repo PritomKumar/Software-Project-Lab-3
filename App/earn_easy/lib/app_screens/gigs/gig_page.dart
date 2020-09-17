@@ -220,8 +220,20 @@ class GigPage extends StatelessWidget {
                                     money: gig.money)
                                 .toMap()
                           ]),
-                          'waitListGigs': FieldValue.arrayUnion([gig.gigId]),
-                          'allGigs': FieldValue.arrayUnion([gig.gigId]),
+                          'waitListGigs': FieldValue.arrayUnion([
+                            GigMini(
+                                    gigId: gig.gigId,
+                                    title: gig.title,
+                                    money: gig.money)
+                                .toMap()
+                          ]),
+                          'allGigs': FieldValue.arrayUnion([
+                            GigMini(
+                                    gigId: gig.gigId,
+                                    title: gig.title,
+                                    money: gig.money)
+                                .toMap()
+                          ]),
                         }).then((value) {
                           print("Added in user");
                         });

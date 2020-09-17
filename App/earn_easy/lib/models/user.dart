@@ -50,10 +50,10 @@ class UserAccount {
   final bool writeAccess;
 
   final List<GigMini> attemptedGigs;
-  final List<String> createdGigs;
-  final List<String> completedGigs;
-  final List<String> waitListGigs;
-  final List<String> allGigs;
+  final List<GigMini> createdGigs;
+  final List<GigMini> completedGigs;
+  final List<GigMini> waitListGigs;
+  final List<GigMini> allGigs;
 
   UserAccount({
     @required this.uid ,

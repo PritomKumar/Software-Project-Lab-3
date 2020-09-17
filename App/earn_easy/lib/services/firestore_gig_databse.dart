@@ -52,12 +52,14 @@ class DatabaseServiceGigs {
         "access": gig.access ?? "public",
       }).then((docRef) {
         docRef.update({
-          "gigId" : docRef.id,
+          "gigId": docRef.id,
         });
         print(docRef.id);
         fireStoreUsersRef.doc(gig.providerId).update({
-          'createdGigs':
-          FieldValue.arrayUnion([docRef.id]),
+          'createdGigs': FieldValue.arrayUnion([
+            GigMini(gigId: gig.gigId, title: gig.title, money: gig.money)
+                .toMap()
+          ]),
         });
       });
     } else {
@@ -66,7 +68,8 @@ class DatabaseServiceGigs {
   }
 
   Future userAccountOfCurrentUser() async {
-    var result = await fireStoreGigsRef.doc(FirebaseAuth.instance.currentUser.uid).get();
+    var result =
+        await fireStoreGigsRef.doc(FirebaseAuth.instance.currentUser.uid).get();
     print(result.data());
   }
 
@@ -125,7 +128,9 @@ class DatabaseServiceGigs {
   }
 
   Stream<List<Gig>> get allGigData {
-    return isLoggedIn() ? fireStoreGigsRef.snapshots().map(_allGigDataFromSnapshot) : null;
+    return isLoggedIn()
+        ? fireStoreGigsRef.snapshots().map(_allGigDataFromSnapshot)
+        : null;
   }
 
   Stream<Gig> get selectedGigData {

@@ -85,9 +85,21 @@ class DatabaseServiceUser {
             level: snapshot.data()['level'],
             type: snapshot.data()['type'],
             writeAccess: snapshot.data()['writeAccess'],
-            allGigs: List.from(snapshot.data()['allGigs']),
+            allGigs: List.from(snapshot
+                .data()['allGigs']
+                .map((index) => GigMini.fromMap(index))),
             attemptedGigs: List.from(snapshot
                 .data()['attemptedGigs']
+                .map((index) => GigMini.fromMap(index))),
+            completedGigs: List.from(snapshot
+                .data()['completedGigs']
+                .map((index) => GigMini.fromMap(index))),
+            waitListGigs: List.from(snapshot
+                .data()['waitListGigs']
+                .map((index) => GigMini.fromMap(index))),
+            //TODO HAve to think about its use
+            createdGigs: List.from(snapshot
+                .data()['createdGigs']
                 .map((index) => GigMini.fromMap(index))),
           )
         : null;
