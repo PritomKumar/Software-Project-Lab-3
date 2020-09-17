@@ -32,6 +32,7 @@ class _TestState extends State<Test> {
       gigId: "fsdfuhfsjkdfhu",
     ));
     //sort function
+
     gigs.sort((a, b) => a.money.compareTo(b.money));
     return MaterialApp(
       title: 'Material App',
