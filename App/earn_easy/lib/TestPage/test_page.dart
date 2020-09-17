@@ -9,8 +9,9 @@ class Test extends StatefulWidget {
 
 class _TestState extends State<Test> {
   bool isExpanded = false;
-  static List<String> sortOptionsArray = ["Distance", "Money", "Title"];
+  static const List<String> sortOptionsArray = ["Distance", "Money", "Title"];
   String sortOption = sortOptionsArray[0];
+
   @override
   Widget build(BuildContext context) {
     List<GigMini> gigs = List<GigMini>();
@@ -35,9 +36,8 @@ class _TestState extends State<Test> {
       gigId: "fsdfuhfsjkdfhu",
     ));
 
-
     //sort function
-    gigs.sort((a, b) => a.money.compareTo(b.money));
+    gigs.sort((a, b) => b.money.compareTo(a.money));
     return MaterialApp(
       title: 'Material App',
       home: Scaffold(
@@ -59,23 +59,56 @@ class _TestState extends State<Test> {
               title: Text("Title"),
               backgroundColor: Colors.white,
               subtitle: Text("Subtitle "),
-              trailing: PopupMenuButton(
-                elevation: 5.0,
-                enabled: isExpanded,
-                icon: Text(sortOption),
-                itemBuilder: (context) {
-                  return sortOptionsArray.map((String choice) {
-                    return PopupMenuItem(
-                      value: choice,
-                      child: Text(choice),
-                    );
-                  }).toList();
-                },
-                onSelected: (value) {
-                  setState(() {
-                    sortOption = value;
-                  });
-                },
+              trailing: SizedBox(
+                width: 120.0,
+                child: PopupMenuButton(
+                  elevation: 5.0,
+                  enabled: isExpanded,
+                  icon: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Text(
+                        sortOption,
+                        textScaleFactor: 1.15,
+                      ),
+                      SizedBox(
+                        width: 5.0,
+                      ),
+                      Icon(
+                        Icons.sort,
+                        size: 30.0,
+                      ),
+                    ],
+                  ),
+                  itemBuilder: (context) {
+                    return sortOptionsArray.map((String choice) {
+                      return PopupMenuItem(
+                        value: choice,
+                        child: Text(choice),
+                      );
+                    }).toList();
+                  },
+                  onSelected: (value) {
+                    setState(() {
+                      sortOption = value;
+                      print(sortOption);
+                      switch (sortOption) {
+                        case "Distance":
+                          gigs.sort((a, b) => b.money.compareTo(a.money));
+                          break;
+                        case "Money":
+                          gigs.sort((a, b) => b.money.compareTo(a.money));
+                          break;
+                        case "Title":
+                          gigs.sort((a, b) => a.title.compareTo(b.title));
+                          break;
+                        default:
+                          gigs.sort((a, b) => b.money.compareTo(a.money));
+                          break;
+                      }
+                    });
+                  },
+                ),
               ),
               children: <Widget>[
                 SizedBox(
