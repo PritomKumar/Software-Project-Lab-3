@@ -143,6 +143,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
         return Container();
         break;
       case 1:
+        //Navigator.push(context, MaterialPageRoute(builder: (context) => MapCustomItemBoxViewer(gigs: user.allGigs),));
         return MapCustomItemBoxViewer(gigs: user.allGigs);
         break;
       case 2:
