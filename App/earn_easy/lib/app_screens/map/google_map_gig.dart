@@ -13,6 +13,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../gigs/add_gig_page.dart';
+import 'map_list_view.dart';
 
 class GoogleMaps extends StatefulWidget {
   @override
@@ -135,6 +136,27 @@ class _GoogleMapsState extends State<GoogleMaps> {
     });
   }
 
+  Widget _selectCustomMapBox(UserAccount user,int index) {
+    print("Bottom $index");
+    switch (index) {
+      case 0:
+        return Container();
+        break;
+      case 1:
+        return MapCustomItemBoxViewer(gigs: user.allGigs);
+        break;
+      case 2:
+        return MapCustomItemBoxViewer(gigs: user.waitListGigs);
+        break;
+      case 3:
+        return MapCustomItemBoxViewer(gigs: user.completedGigs);
+        break;
+      default:
+        return Container();
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     //List<Gig> gigList = List<Gig>();
@@ -155,8 +177,9 @@ class _GoogleMapsState extends State<GoogleMaps> {
       // }
 
       // for (int i = 0; i < user.attemptedGigs.length; i++) {
-      //   print(
-      //       "Gig no $i and gig = ${user.attemptedGigs[i].gigId} , ${user.attemptedGigs[i].money} , ${user.attemptedGigs[i].title}");
+      //   print("Gig no $i and gig = ${user.attemptedGigs[i].gigId} ,"
+      //       " ${user.attemptedGigs[i].money} ,"
+      //       " ${user.attemptedGigs[i].title}");
       // }
       return Scaffold(
         drawer: SideDrawer(),
@@ -254,23 +277,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
                         },
                       ),
                     )
-                  : Container(
-                      //color: Colors.white,
-                      alignment: Alignment.bottomCenter,
-                      width: double.infinity,
-                      height: MediaQuery.of(context).size.height / 2,
-                      // child: ListView.builder(
-                      //   itemBuilder: (context, index) {
-                      //     return ListTile(
-                      //       title: Text("TODO"),
-                      //       subtitle: Text("TODO"),
-                      //       onTap: () {
-                      //         print("Index $index");
-                      //       },
-                      //     );
-                      //   },
-                      // ),
-                    ),
+                  : _selectCustomMapBox(user,_bottomNavigationBarIndex),
             ],
           ),
         ),
