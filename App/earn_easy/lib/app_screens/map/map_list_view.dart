@@ -4,9 +4,8 @@ import 'package:provider/provider.dart';
 
 class MapCustomItemBoxViewer extends StatefulWidget {
   final List<GigMini> gigs;
-  final bool isExpanded;
 
-  const MapCustomItemBoxViewer({Key key, this.gigs,this.isExpanded}) : super(key: key);
+  const MapCustomItemBoxViewer({Key key, this.gigs}) : super(key: key);
 
   @override
   _MapCustomItemBoxViewerState createState() =>
@@ -14,7 +13,7 @@ class MapCustomItemBoxViewer extends StatefulWidget {
 }
 
 class _MapCustomItemBoxViewerState extends State<MapCustomItemBoxViewer> {
-  //bool isExpanded = false;
+  bool isExpanded = false;
   static const List<String> sortOptionsArray = ["Distance", "Money", "Title"];
   String sortOption = sortOptionsArray[0];
   String sortResult = "";
@@ -23,8 +22,6 @@ class _MapCustomItemBoxViewerState extends State<MapCustomItemBoxViewer> {
   Widget build(BuildContext context) {
 
     List<GigMini> gigs = widget.gigs;
-    bool isExpanded = Provider.of<bool>(context);
-    print("Is Expanded $isExpanded");
     return Align(
       alignment: Alignment.bottomCenter,
       child: Card(
