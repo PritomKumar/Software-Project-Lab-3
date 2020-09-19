@@ -8,7 +8,7 @@ class MapCustomItemBoxViewer extends StatefulWidget {
 
   @override
   _MapCustomItemBoxViewerState createState() =>
-      _MapCustomItemBoxViewerState(gigs);
+      _MapCustomItemBoxViewerState();
 }
 
 class _MapCustomItemBoxViewerState extends State<MapCustomItemBoxViewer> {
@@ -16,12 +16,10 @@ class _MapCustomItemBoxViewerState extends State<MapCustomItemBoxViewer> {
   static const List<String> sortOptionsArray = ["Distance", "Money", "Title"];
   String sortOption = sortOptionsArray[0];
   String sortResult = "";
-  final List<GigMini> gigs;
-
-  _MapCustomItemBoxViewerState(this.gigs);
 
   @override
   Widget build(BuildContext context) {
+    List<GigMini> gigs = widget.gigs;
     return Align(
       alignment: Alignment.bottomCenter,
       child: Card(
