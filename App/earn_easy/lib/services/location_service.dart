@@ -7,9 +7,10 @@ class LocationService {
   // Keep track of current Location
   UserLocation _currentLocation;
   Location location = Location();
+
   // Continuously emit location updates
   StreamController<UserLocation> _locationController =
-  StreamController<UserLocation>.broadcast();
+      StreamController<UserLocation>.broadcast();
 
   LocationService() {
     location.requestPermission().then((granted) {

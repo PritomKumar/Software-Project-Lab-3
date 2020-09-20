@@ -4,7 +4,9 @@ import 'package:earneasy/app_screens/gigs/gig_page.dart';
 import 'package:earneasy/app_screens/home/side_drawer.dart';
 import 'package:earneasy/models/gig.dart';
 import 'package:earneasy/models/user.dart';
+import 'package:earneasy/models/user_location.dart';
 import 'package:earneasy/services/auth.dart';
+import 'package:earneasy/services/location_service.dart';
 import 'package:earneasy/shared/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
@@ -33,12 +35,14 @@ class _GoogleMapsState extends State<GoogleMaps> {
   bool isloading = false;
   String userType = "worker";
   int _bottomNavigationBarIndex = 0;
+  LatLng currentLocation;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _setMarkerIcon();
+    //currentLocation = await _getCurrentLocationFromUserLocation();
   }
 
   void _setMarkerIcon() async {
@@ -136,7 +140,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
     });
   }
 
-  Widget _selectCustomMapBox(UserAccount user,int index) {
+  Widget _selectCustomMapBox(UserAccount user, int index) {
     print("Bottom $index");
     switch (index) {
       case 0:
@@ -154,6 +158,24 @@ class _GoogleMapsState extends State<GoogleMaps> {
       default:
         return Container();
         break;
+    }
+  }
+
+  Future<LatLng> _getCurrentLocationFromUserLocation() async {
+    UserLocation location = await LocationService().getLocation();
+    print(location.latitude.toString() + location.longitude.toString());
+    return LatLng(location.latitude, location.longitude);
+  }
+
+  Future _animateCameraToCurrentLocation() async {
+    LatLng location = await _getCurrentLocationFromUserLocation();
+    if (_mapController != null) {
+      _mapController
+          .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+        target: location,
+        zoom: 15.0,
+        tilt: 0,
+      )));
     }
   }
 
@@ -183,7 +205,12 @@ class _GoogleMapsState extends State<GoogleMaps> {
       // }
       return Scaffold(
         drawer: SideDrawer(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.location_searching),
+          onPressed: () async {
+            _animateCameraToCurrentLocation();
+          },
+        ),
         appBar: AppBar(
           title: Text('Home'),
           backgroundColor: Colors.blue[300],
@@ -224,7 +251,6 @@ class _GoogleMapsState extends State<GoogleMaps> {
           ],
           onTap: (value) {
             setState(() {
-
               _bottomNavigationBarIndex = value;
             });
           },
@@ -278,7 +304,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
                         },
                       ),
                     )
-                  : _selectCustomMapBox(user,_bottomNavigationBarIndex),
+                  : _selectCustomMapBox(user, _bottomNavigationBarIndex),
             ],
           ),
         ),
