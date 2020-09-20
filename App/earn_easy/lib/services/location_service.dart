@@ -1,7 +1,7 @@
 import 'dart:async';
 
+import 'package:earneasy/models/user_location.dart';
 import 'package:location/location.dart';
-import 'package:location_service/datamodels/user_location.dart';
 
 class LocationService {
   // Keep track of current Location
