@@ -167,7 +167,7 @@ class _ImageCaptureState extends State<ImageCapture> {
 
   //Select an image via gallery or camera
   Future<void> _pickImage(ImageSource source) async {
-    ImagePicker imagePicker;
+    ImagePicker imagePicker = ImagePicker();
     PickedFile selected = await imagePicker.getImage(source: source);
     setState(() {
       if (selected != null) {
@@ -297,7 +297,7 @@ class _UploaderState extends State<Uploader> {
           double progressPercent =
               event != null ? event.bytesTransferred / event.totalByteCount : 0;
 
-          return ListView(
+          return Column(
             children: <Widget>[
               if (_uploadTask.isComplete) Text("Upload Done"),
               if (_uploadTask.isPaused)

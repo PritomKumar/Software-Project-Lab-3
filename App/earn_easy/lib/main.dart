@@ -1,4 +1,4 @@
-import 'dart:html';
+import 'dart:io';
 
 import 'package:earneasy/app_screens/splash_screen.dart';
 import 'package:earneasy/services/auth.dart';
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         value: AuthService().user,
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Parking App',
+          title: 'Spl3 App',
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
