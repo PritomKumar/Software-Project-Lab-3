@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:earneasy/models/gig.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class TestBox extends StatefulWidget {
   final List<GigMini>gigs = List<GigMini>();
@@ -150,3 +153,33 @@ class _TestBoxState extends State<TestBox> {
     );
   }
 }
+
+
+class ImageCapture extends StatefulWidget {
+  @override
+  _ImageCaptureState createState() => _ImageCaptureState();
+}
+
+class _ImageCaptureState extends State<ImageCapture> {
+
+  File _imageFile;
+
+  //Select an image via gallery or camera
+  Future<void> _pickImage(ImageSource source) async{
+
+    ImagePicker imagePicker;
+    PickedFile selected = await imagePicker.getImage(source: source);
+    setState(() {
+
+    });
+  }
+
+  //Cropper
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
