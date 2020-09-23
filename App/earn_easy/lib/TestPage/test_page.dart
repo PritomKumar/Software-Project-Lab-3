@@ -220,6 +220,62 @@ class _ImageCaptureState extends State<ImageCapture> {
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.photo_camera),
+              onPressed: () {
+                _pickImage(ImageSource.camera);
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.photo_library),
+              onPressed: () {
+                _pickImage(ImageSource.gallery);
+              },
+            ),
+          ],
+        ),
+      ),
+      body: ListView(
+        children: <Widget>[
+          if(_imageFile!=null) ...[
+            Image.file(_imageFile),
+            Row(
+              children: <Widget>[
+                FlatButton(
+                  child: Icon(Icons.crop),
+                  onPressed: _cropImage,
+                ),
+                FlatButton(
+                  child: Icon(Icons.refresh),
+                  onPressed: _clear,
+                ),
+              ],
+            ),
+
+            Uploader(file: _imageFile),
+          ]
+        ],
+      ),
+    );
+  }
+}
+
+class Uploader extends StatefulWidget {
+  final File file;
+
+  const Uploader({Key key, this.file}) : super(key: key);
+  @override
+  _UploaderState createState() => _UploaderState();
+}
+
+class _UploaderState extends State<Uploader> {
+  @override
+  Widget build(BuildContext context) {
     return Container();
   }
 }
+
