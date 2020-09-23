@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:earneasy/models/gig.dart';
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 class TestBox extends StatefulWidget {
-  final List<GigMini>gigs = List<GigMini>();
+  final List<GigMini> gigs = List<GigMini>();
+
   @override
   _TestBoxState createState() => _TestBoxState();
 }
@@ -154,32 +156,70 @@ class _TestBoxState extends State<TestBox> {
   }
 }
 
-
 class ImageCapture extends StatefulWidget {
   @override
   _ImageCaptureState createState() => _ImageCaptureState();
 }
 
 class _ImageCaptureState extends State<ImageCapture> {
-
   File _imageFile;
 
   //Select an image via gallery or camera
-  Future<void> _pickImage(ImageSource source) async{
-
+  Future<void> _pickImage(ImageSource source) async {
     ImagePicker imagePicker;
     PickedFile selected = await imagePicker.getImage(source: source);
     setState(() {
-
+      if (selected != null) {
+        _imageFile = File(selected.path) ?? _imageFile;
+      }
     });
   }
 
   //Cropper
+  Future<void> _cropImage() async {
+    File croppedFile = await ImageCropper.cropImage(
+        sourcePath: _imageFile.path,
+        aspectRatioPresets: Platform.isAndroid
+            ? [
+                CropAspectRatioPreset.square,
+                CropAspectRatioPreset.ratio3x2,
+                CropAspectRatioPreset.original,
+                CropAspectRatioPreset.ratio4x3,
+                CropAspectRatioPreset.ratio16x9
+              ]
+            : [
+                CropAspectRatioPreset.original,
+                CropAspectRatioPreset.square,
+                CropAspectRatioPreset.ratio3x2,
+                CropAspectRatioPreset.ratio4x3,
+                CropAspectRatioPreset.ratio5x3,
+                CropAspectRatioPreset.ratio5x4,
+                CropAspectRatioPreset.ratio7x5,
+                CropAspectRatioPreset.ratio16x9
+              ],
+        androidUiSettings: AndroidUiSettings(
+            toolbarTitle: 'Crop It',
+            toolbarColor: Colors.deepOrange,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        iosUiSettings: IOSUiSettings(
+          title: 'Cropper',
+        ));
 
+    setState(() {
+      _imageFile = croppedFile ?? _imageFile;
+    });
+  }
+
+  _clear() {
+    setState(() {
+      _imageFile = null;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container();
   }
 }
-
