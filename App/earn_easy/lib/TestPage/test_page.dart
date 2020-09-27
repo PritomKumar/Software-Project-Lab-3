@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:earneasy/models/gig.dart';
+import 'package:earneasy/services/dialog_service.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -278,11 +279,37 @@ class Uploader extends StatefulWidget {
 class _UploaderState extends State<Uploader> {
   final FirebaseStorage _firebaseStorage =
       FirebaseStorage(storageBucket: "gs://earneasy-5e92c.appspot.com");
+  DialogService _dialogService = DialogService();
 
   StorageUploadTask _uploadTask;
 
   Future<String> getImageDownloadUrlFromFirebaseStorage() async {
     var url = await (await _uploadTask.onComplete).ref.getDownloadURL();
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        title: Text("Add More?"),
+        content: Text("Add More Images?"),
+        actions: <Widget>[
+          FlatButton(
+            child: Text("No"),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          FlatButton(
+            child: Text("YES"),
+            onPressed: () {
+              setState(() {
+                _uploadTask = null;
+              });
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
+    );
     return url.toString();
   }
 
@@ -291,7 +318,6 @@ class _UploaderState extends State<Uploader> {
         "images/${DateTime.now().millisecondsSinceEpoch.toString()}.png";
     setState(() {
       _uploadTask = _firebaseStorage.ref().child(filePath).putFile(widget.file);
-
     });
     String url = await getImageDownloadUrlFromFirebaseStorage();
     print(url);
@@ -332,9 +358,9 @@ class _UploaderState extends State<Uploader> {
       return FlatButton.icon(
         label: Text("Upload To FireBase"),
         icon: Icon(Icons.cloud_upload),
-        onPressed: () async{
+        onPressed: () async {
           await _startUpload();
-        } ,
+        },
       );
     }
   }
