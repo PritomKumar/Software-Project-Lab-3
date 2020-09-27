@@ -224,6 +224,8 @@ class _ImageCaptureState extends State<ImageCapture> {
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             IconButton(
               icon: Icon(Icons.photo_camera),
@@ -279,12 +281,20 @@ class _UploaderState extends State<Uploader> {
 
   StorageUploadTask _uploadTask;
 
-  void _startUpload() {
+  Future<String> getImageDownloadUrlFromFirebaseStorage() async {
+    var url = await (await _uploadTask.onComplete).ref.getDownloadURL();
+    return url.toString();
+  }
+
+  Future<void> _startUpload() async {
     String filePath =
         "images/${DateTime.now().millisecondsSinceEpoch.toString()}.png";
     setState(() {
       _uploadTask = _firebaseStorage.ref().child(filePath).putFile(widget.file);
+
     });
+    String url = await getImageDownloadUrlFromFirebaseStorage();
+    print(url);
   }
 
   @override
@@ -310,14 +320,10 @@ class _UploaderState extends State<Uploader> {
                   child: Icon(Icons.pause),
                   onPressed: _uploadTask.pause,
                 ),
-
               LinearProgressIndicator(
                 value: progressPercent,
               ),
-
-              Text(
-                "${(progressPercent*100).toStringAsFixed(2)} % "
-              ),
+              Text("${(progressPercent * 100).toStringAsFixed(2)} % "),
             ],
           );
         },
@@ -326,7 +332,9 @@ class _UploaderState extends State<Uploader> {
       return FlatButton.icon(
         label: Text("Upload To FireBase"),
         icon: Icon(Icons.cloud_upload),
-        onPressed: _startUpload,
+        onPressed: () async{
+          await _startUpload();
+        } ,
       );
     }
   }
