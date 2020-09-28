@@ -187,49 +187,6 @@ class _ImageTaskState extends State<ImageTask>
               textScaleFactor: 1.5,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            // Container(
-            //   padding: EdgeInsets.all(10.0),
-            //   child: GridView.count(
-            //     physics: ScrollPhysics(),
-            //     crossAxisCount: 3,
-            //     padding: EdgeInsets.all(5.0),
-            //     crossAxisSpacing: 8.0,
-            //     mainAxisSpacing: 20.0,
-            //     shrinkWrap: true,
-            //     children: <Widget>[
-            //       Card(
-            //         child: GridTile(
-            //           footer: Text("footer"),
-            //           header: Text("Header"),
-            //           child: Container(
-            //             color: Colors.blue,
-            //             margin: EdgeInsets.symmetric(vertical: 15.0),
-            //           ),
-            //         ),
-            //       ),
-            //       Container(
-            //         color: Colors.red,
-            //         child: Text("Image"),
-            //       ),
-            //       Container(
-            //         color: Colors.red,
-            //         child: Text("Image"),
-            //       ),
-            //       Container(
-            //         color: Colors.red,
-            //         child: Text("Image"),
-            //       ),
-            //       Container(
-            //         color: Colors.red,
-            //         child: Text("Image"),
-            //       ),
-            //       Container(
-            //         color: Colors.red,
-            //         child: Text("Image"),
-            //       ),
-            //     ],
-            //   ),
-            // ),
             Container(
               padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
               child: GridView.builder(
