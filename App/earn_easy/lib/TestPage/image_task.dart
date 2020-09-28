@@ -8,38 +8,60 @@ class ImageTask extends StatefulWidget {
 
 class _ImageTaskState extends State<ImageTask> {
   bool isItemAvailable = false;
-  Future<void> _selectImageSource() async{
-    switch(await showDialog(context: context,builder: (context) {
-      return SimpleDialog(
-        title: Text("Choose Option "),
-        elevation: 5.0,
-        children: <Widget>[
-          SimpleDialogOption(
-            child: Row(children: <Widget>[
-              Icon(Icons.photo_camera , size: 30.0,),
-              SizedBox(width: 10.0,),
-              Text("Take a photo"),
-            ],),
-            onPressed: () {
-              print("Camera");
-              Navigator.pop(context);
-            },
+
+  Future<void> _selectImageSource() async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5.0),
           ),
-          SimpleDialogOption(
-            child: Row(children: <Widget>[
-              Icon(Icons.photo_camera , size: 30.0,),
-              SizedBox(width: 10.0,),
-              Text("Browse gallery"),
-            ],),
-            onPressed: () {
-              print("Gallery");
-              Navigator.pop(context);
-            },
-          ),
-        ],
-      );
-    },)){}
+          title: Text("Choose Option "),
+          elevation: 5.0,
+          children: <Widget>[
+            SimpleDialogOption(
+              child: Row(
+                children: <Widget>[
+                  Icon(
+                    Icons.photo_camera,
+                    size: 30.0,
+                  ),
+                  SizedBox(
+                    width: 10.0,
+                  ),
+                  Text("Take a photo"),
+                ],
+              ),
+              onPressed: () {
+                print("Camera");
+                Navigator.pop(context);
+              },
+            ),
+            SimpleDialogOption(
+              child: Row(
+                children: <Widget>[
+                  Icon(
+                    Icons.photo_library,
+                    size: 30.0,
+                  ),
+                  SizedBox(
+                    width: 10.0,
+                  ),
+                  Text("Browse gallery"),
+                ],
+              ),
+              onPressed: () {
+                print("Gallery");
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -181,7 +203,7 @@ class _ImageTaskState extends State<ImageTask> {
                               iconSize: 50.0,
                               splashColor: Colors.green,
                               onPressed: () {
-                                  _selectImageSource();
+                                _selectImageSource();
                               },
                             ),
                           ),
