@@ -7,14 +7,18 @@ import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 
 class ImageTask extends StatefulWidget {
+  final List<File> imageFileList ;
+
+  const ImageTask({Key key, this.imageFileList}) : super(key: key);
+
   @override
   _ImageTaskState createState() => _ImageTaskState();
 }
 
-class _ImageTaskState extends State<ImageTask> {
+class _ImageTaskState extends State<ImageTask> with AutomaticKeepAliveClientMixin {
   bool isItemAvailable = false;
   File _imageFile;
-  List<File> _imageFileList = List<File>();
+  List<File> _imageFileList =  List<File>();
 
   //Select an image via gallery or camera
   Future<void> _pickFromCamera() async {
@@ -23,7 +27,7 @@ class _ImageTaskState extends State<ImageTask> {
         await imagePicker.getImage(source: ImageSource.camera);
     setState(() {
       if (selected != null) {
-        _imageFileList.clear();
+        //_imageFileList.clear();
         _imageFile = File(selected.path) ?? _imageFile;
         _imageFileList.add(_imageFile);
       }
@@ -35,8 +39,8 @@ class _ImageTaskState extends State<ImageTask> {
         .pickFiles(type: FileType.image, allowMultiple: true);
     setState(() {
       if (result != null) {
-        _imageFileList.clear();
-        _imageFileList = result.paths.map((path) => File(path)).toList();
+        //_imageFileList.clear();
+        _imageFileList.addAll(result.paths.map((path) => File(path)).toList());
       }
     });
   }
@@ -146,7 +150,16 @@ class _ImageTaskState extends State<ImageTask> {
   }
 
   @override
+  void updateKeepAlive() {
+    // TODO: implement updateKeepAlive
+    super.updateKeepAlive();
+  }
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("Image Task"),
@@ -303,4 +316,5 @@ class _ImageTaskState extends State<ImageTask> {
       ),
     );
   }
+
 }
