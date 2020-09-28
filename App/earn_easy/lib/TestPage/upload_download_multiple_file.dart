@@ -219,7 +219,7 @@ class UploadTaskListTile extends StatelessWidget {
   }
 
   String _bytesTransferred(StorageTaskSnapshot snapshot) {
-    return '${snapshot.bytesTransferred}/${snapshot.totalByteCount}';
+    return '${(snapshot.bytesTransferred / 1024).toStringAsFixed(2)} / ${(snapshot.totalByteCount / 1024).toStringAsFixed(2)}';
   }
 
   @override
@@ -232,18 +232,18 @@ class UploadTaskListTile extends StatelessWidget {
         if (asyncSnapshot.hasData) {
           final StorageTaskEvent event = asyncSnapshot.data;
           final StorageTaskSnapshot snapshot = event.snapshot;
-          subtitle = Text('$status: ${_bytesTransferred(snapshot)} bytes sent');
+          subtitle = Text('$status: ${_bytesTransferred(snapshot)} KB sent');
         } else {
           subtitle = const Text('Starting...');
         }
         var event = asyncSnapshot?.data?.snapshot;
         double progressPercent =
-        event != null ? event.bytesTransferred / event.totalByteCount : 0;
+            event != null ? event.bytesTransferred / event.totalByteCount : 0;
         return task.isComplete
             ? Container()
             : Column(
-              children: <Widget>[
-                Dismissible(
+                children: <Widget>[
+                  Dismissible(
                     key: Key(task.hashCode.toString()),
                     onDismissed: (_) => onDismissed(),
                     child: ListTile(
@@ -284,13 +284,13 @@ class UploadTaskListTile extends StatelessWidget {
                       ),
                     ),
                   ),
-                LinearProgressIndicator(
-                  value: progressPercent,
-                  backgroundColor: Colors.blue[100],
-                ),
-                //Text("${(progressPercent * 100).toStringAsFixed(2)} % "),
-              ],
-            );
+                  LinearProgressIndicator(
+                    value: progressPercent,
+                    backgroundColor: Colors.blue[100],
+                  ),
+                  //Text("${(progressPercent * 100).toStringAsFixed(2)} % "),
+                ],
+              );
       },
     );
   }
