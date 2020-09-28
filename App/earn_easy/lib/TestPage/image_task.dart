@@ -87,17 +87,17 @@ class _ImageTaskState extends State<ImageTask>
     return croppedFile ?? imageFile;
   }
 
-  uploadToFirebase() {
+  Future <void>uploadToFirebase()async {
     for (int i = 0; i < _imageFileList.length; i++) {
-      upload(basename(_imageFileList[i].path), _imageFileList[i].path);
+      await upload(basename(_imageFileList[i].path), _imageFileList[i].path);
     }
     //_paths.forEach((fileName, filePath) => {upload(fileName, filePath)});
   }
 
-  upload(fileName, filePath) {
+  Future <void> upload(fileName, filePath) async {
     String path =
-        "images/${DateTime.now().millisecondsSinceEpoch.toString()}.png";
-    StorageReference storageRef =
+        "images/ $fileName ${DateTime.now().millisecondsSinceEpoch.toString()}.png";
+    final StorageReference storageRef =
         FirebaseStorage(storageBucket: "gs://earneasy-5e92c.appspot.com")
             .ref()
             .child(path);
@@ -324,15 +324,13 @@ class _ImageTaskState extends State<ImageTask>
               child: FlatButton.icon(
                 label: Text("Upload To FireBase"),
                 icon: Icon(Icons.cloud_upload),
-                onPressed: () {
+                onPressed: () async {
                   uploadToFirebase();
                 },
               ),
             ),
-            ListView(
-              shrinkWrap: true,
-              children: uploadFileTileList,
-            )
+            ...uploadFileTileList,
+
           ],
         ),
       ),

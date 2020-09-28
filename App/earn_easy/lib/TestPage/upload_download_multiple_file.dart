@@ -30,17 +30,19 @@ class UploadMultipleImageDemoState extends State<UploadMultipleImageDemo> {
     try {
       _path = null;
       if (_multiPick) {
-        FilePickerResult result = await FilePicker.platform.pickFiles(type: _pickType,allowMultiple: true);
+        FilePickerResult result = await FilePicker.platform
+            .pickFiles(type: _pickType, allowMultiple: true);
 
-        if(result != null) {
+        if (result != null) {
           List<File> files = result.paths.map((path) => File(path)).toList();
-          _paths = { for (var file in files) basename(file.path): file.path };
+          _paths = {for (var file in files) basename(file.path): file.path};
         }
         // _paths = await FilePicker.getMultiFilePath(
         //     type: _pickType, fileExtension: _extension);
       } else {
-        FilePickerResult result = await FilePicker.platform.pickFiles(type: _pickType);
-        if(result != null) {
+        FilePickerResult result =
+            await FilePicker.platform.pickFiles(type: _pickType);
+        if (result != null) {
           _path = result.files.single.path;
         }
         // _path = await FilePicker.getFilePath(
@@ -66,7 +68,7 @@ class UploadMultipleImageDemoState extends State<UploadMultipleImageDemo> {
   upload(fileName, filePath) {
     _extension = fileName.toString().split('.').last;
     StorageReference storageRef =
-    FirebaseStorage.instance.ref().child(fileName);
+        FirebaseStorage.instance.ref().child(fileName);
     final StorageUploadTask uploadTask = storageRef.putFile(
       File(filePath),
       StorageMetadata(
@@ -175,7 +177,7 @@ class UploadMultipleImageDemoState extends State<UploadMultipleImageDemo> {
     final String path = await ref.getPath();
     print(
       'Success!\nDownloaded $name \nUrl: $url'
-          '\npath: $path \nBytes Count :: $byteCount',
+      '\npath: $path \nBytes Count :: $byteCount',
     );
     _scaffoldKey.currentState.showSnackBar(
       SnackBar(
@@ -234,47 +236,49 @@ class UploadTaskListTile extends StatelessWidget {
         } else {
           subtitle = const Text('Starting...');
         }
-        return Dismissible(
-          key: Key(task.hashCode.toString()),
-          onDismissed: (_) => onDismissed(),
-          child: ListTile(
-            title: Text('Upload Task #${task.hashCode}'),
-            subtitle: subtitle,
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Offstage(
-                  offstage: !task.isInProgress,
-                  child: IconButton(
-                    icon: const Icon(Icons.pause),
-                    onPressed: () => task.pause(),
+        return task.isComplete
+            ? Container()
+            : Dismissible(
+                key: Key(task.hashCode.toString()),
+                onDismissed: (_) => onDismissed(),
+                child: ListTile(
+                  title: Text('Upload Task #${task.hashCode}'),
+                  subtitle: subtitle,
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Offstage(
+                        offstage: !task.isInProgress,
+                        child: IconButton(
+                          icon: const Icon(Icons.pause),
+                          onPressed: () => task.pause(),
+                        ),
+                      ),
+                      Offstage(
+                        offstage: !task.isPaused,
+                        child: IconButton(
+                          icon: const Icon(Icons.file_upload),
+                          onPressed: () => task.resume(),
+                        ),
+                      ),
+                      Offstage(
+                        offstage: task.isComplete,
+                        child: IconButton(
+                          icon: const Icon(Icons.cancel),
+                          onPressed: () => task.cancel(),
+                        ),
+                      ),
+                      Offstage(
+                        offstage: !(task.isComplete && task.isSuccessful),
+                        child: IconButton(
+                          icon: const Icon(Icons.file_download),
+                          onPressed: onDownload,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Offstage(
-                  offstage: !task.isPaused,
-                  child: IconButton(
-                    icon: const Icon(Icons.file_upload),
-                    onPressed: () => task.resume(),
-                  ),
-                ),
-                Offstage(
-                  offstage: task.isComplete,
-                  child: IconButton(
-                    icon: const Icon(Icons.cancel),
-                    onPressed: () => task.cancel(),
-                  ),
-                ),
-                Offstage(
-                  offstage: !(task.isComplete && task.isSuccessful),
-                  child: IconButton(
-                    icon: const Icon(Icons.file_download),
-                    onPressed: onDownload,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
+              );
       },
     );
   }
