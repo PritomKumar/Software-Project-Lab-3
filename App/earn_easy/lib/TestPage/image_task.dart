@@ -38,6 +38,7 @@ class _ImageTaskState extends State<ImageTask> {
             Container(
               padding: EdgeInsets.all(10.0),
               child: GridView.count(
+                physics: ScrollPhysics(),
                 crossAxisCount: 3,
                 padding: EdgeInsets.all(5.0),
                 crossAxisSpacing: 8.0,
@@ -66,6 +67,26 @@ class _ImageTaskState extends State<ImageTask> {
                   ),
                 ],
               ),
+            ),
+            GridView.builder(
+              physics: ScrollPhysics(),
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              itemCount: 10,
+
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: (MediaQuery.of(context).orientation ==
+                          Orientation.portrait)
+                      ? 3
+                      : 3),
+              itemBuilder: (BuildContext context, int index) {
+                return new Card(
+                  child: new GridTile(
+                    footer: new Text("footer"),
+                    child: new Text('image'), //just for testing, will fill with image later
+                  ),
+                );
+              },
             ),
           ],
         ),
