@@ -7,6 +7,39 @@ class ImageTask extends StatefulWidget {
 }
 
 class _ImageTaskState extends State<ImageTask> {
+  bool isItemAvailable = false;
+  Future<void> _selectImageSource() async{
+    switch(await showDialog(context: context,builder: (context) {
+      return SimpleDialog(
+        title: Text("Choose Option "),
+        elevation: 5.0,
+        children: <Widget>[
+          SimpleDialogOption(
+            child: Row(children: <Widget>[
+              Icon(Icons.photo_camera , size: 30.0,),
+              SizedBox(width: 10.0,),
+              Text("Take a photo"),
+            ],),
+            onPressed: () {
+              print("Camera");
+              Navigator.pop(context);
+            },
+          ),
+          SimpleDialogOption(
+            child: Row(children: <Widget>[
+              Icon(Icons.photo_camera , size: 30.0,),
+              SizedBox(width: 10.0,),
+              Text("Browse gallery"),
+            ],),
+            onPressed: () {
+              print("Gallery");
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      );
+    },)){}
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,45 +118,74 @@ class _ImageTaskState extends State<ImageTask> {
                 physics: ScrollPhysics(),
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
-
-                itemCount: 5,
+                itemCount: 5 + 1,
+                // +1 for the special case
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: (MediaQuery.of(context).orientation ==
                             Orientation.portrait)
                         ? 3
                         : 4),
                 itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10.0,vertical: 10.0),
-                    child: Stack(
-                      fit: StackFit.expand,
-                      overflow: Overflow.visible,
-                      children: <Widget>[
-                        Positioned(
+                  return isItemAvailable
+                      ? Container(
+                          margin: EdgeInsets.symmetric(
+                              horizontal: 10.0, vertical: 10.0),
+                          child: Stack(
+                            fit: StackFit.expand,
+                            overflow: Overflow.visible,
+                            children: <Widget>[
+                              Positioned(
+                                child: Card(
+                                  elevation: 5.0,
+                                  shadowColor: Colors.green,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                  ),
+                                  child: GridTile(
+                                    footer: Text("footer"),
+                                    header: Text("Header"),
+                                    child: Container(
+                                      color: Colors.blue,
+                                      margin:
+                                          EdgeInsets.symmetric(vertical: 15.0),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                top: -20.0,
+                                right: -20.0,
+                                child: IconButton(
+                                  icon: Icon(Icons.cancel),
+                                  onPressed: () {},
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : Container(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 5.0),
                           child: Card(
                             elevation: 5.0,
-                            shadowColor: Colors.green,
-                            child: GridTile(
-                              footer: Text("footer"),
-                              header: Text("Header"),
-                              child: Container(
-                                color: Colors.blue,
-                                margin: EdgeInsets.symmetric(vertical: 15.0),
+                            shadowColor: Colors.black87,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            borderOnForeground: true,
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.add_circle_outline,
+                                color: Colors.grey[600],
                               ),
+                              iconSize: 50.0,
+                              splashColor: Colors.green,
+                              onPressed: () {
+                                  _selectImageSource();
+                              },
                             ),
                           ),
-                        ),
-                        Positioned(
-                          top:-20.0,
-                          right: -20.0,
-                          child: IconButton(
-                            icon: Icon(Icons.cancel),
-                            onPressed: () {},
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
+                        );
                 },
               ),
             ),
