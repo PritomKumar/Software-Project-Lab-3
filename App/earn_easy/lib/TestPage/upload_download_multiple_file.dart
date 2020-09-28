@@ -236,49 +236,61 @@ class UploadTaskListTile extends StatelessWidget {
         } else {
           subtitle = const Text('Starting...');
         }
+        var event = asyncSnapshot?.data?.snapshot;
+        double progressPercent =
+        event != null ? event.bytesTransferred / event.totalByteCount : 0;
         return task.isComplete
             ? Container()
-            : Dismissible(
-                key: Key(task.hashCode.toString()),
-                onDismissed: (_) => onDismissed(),
-                child: ListTile(
-                  title: Text('Upload Task #${task.hashCode}'),
-                  subtitle: subtitle,
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Offstage(
-                        offstage: !task.isInProgress,
-                        child: IconButton(
-                          icon: const Icon(Icons.pause),
-                          onPressed: () => task.pause(),
-                        ),
+            : Column(
+              children: <Widget>[
+                Dismissible(
+                    key: Key(task.hashCode.toString()),
+                    onDismissed: (_) => onDismissed(),
+                    child: ListTile(
+                      title: Text('Upload Task #${task.hashCode}'),
+                      subtitle: subtitle,
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Offstage(
+                            offstage: !task.isInProgress,
+                            child: IconButton(
+                              icon: const Icon(Icons.pause),
+                              onPressed: () => task.pause(),
+                            ),
+                          ),
+                          Offstage(
+                            offstage: !task.isPaused,
+                            child: IconButton(
+                              icon: const Icon(Icons.file_upload),
+                              onPressed: () => task.resume(),
+                            ),
+                          ),
+                          Offstage(
+                            offstage: task.isComplete,
+                            child: IconButton(
+                              icon: const Icon(Icons.cancel),
+                              onPressed: () => task.cancel(),
+                            ),
+                          ),
+                          Offstage(
+                            offstage: !(task.isComplete && task.isSuccessful),
+                            child: IconButton(
+                              icon: const Icon(Icons.file_download),
+                              onPressed: onDownload,
+                            ),
+                          ),
+                        ],
                       ),
-                      Offstage(
-                        offstage: !task.isPaused,
-                        child: IconButton(
-                          icon: const Icon(Icons.file_upload),
-                          onPressed: () => task.resume(),
-                        ),
-                      ),
-                      Offstage(
-                        offstage: task.isComplete,
-                        child: IconButton(
-                          icon: const Icon(Icons.cancel),
-                          onPressed: () => task.cancel(),
-                        ),
-                      ),
-                      Offstage(
-                        offstage: !(task.isComplete && task.isSuccessful),
-                        child: IconButton(
-                          icon: const Icon(Icons.file_download),
-                          onPressed: onDownload,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
+                LinearProgressIndicator(
+                  value: progressPercent,
+                  backgroundColor: Colors.blue[100],
                 ),
-              );
+                //Text("${(progressPercent * 100).toStringAsFixed(2)} % "),
+              ],
+            );
       },
     );
   }

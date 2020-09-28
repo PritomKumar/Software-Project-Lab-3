@@ -96,7 +96,7 @@ class _ImageTaskState extends State<ImageTask>
 
   Future <void> upload(fileName, filePath) async {
     String path =
-        "images/ $fileName ${DateTime.now().millisecondsSinceEpoch.toString()}.png";
+        "images/ $fileName ${DateTime.now().microsecondsSinceEpoch.toString()}.png";
     final StorageReference storageRef =
         FirebaseStorage(storageBucket: "gs://earneasy-5e92c.appspot.com")
             .ref()
