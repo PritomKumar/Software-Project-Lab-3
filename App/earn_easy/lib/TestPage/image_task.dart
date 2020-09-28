@@ -8,6 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:path/path.dart';
 
 class ImageTask extends StatefulWidget {
   final List<File> imageFileList;
@@ -86,65 +87,26 @@ class _ImageTaskState extends State<ImageTask>
     return croppedFile ?? imageFile;
   }
 
-  Future<void> _selectImageSource() async {
-    await showDialog(
-      context: context,
-      builder: (context) {
-        return SimpleDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5.0),
-          ),
-          title: Text("Choose Option "),
-          elevation: 5.0,
-          children: <Widget>[
-            SimpleDialogOption(
-              child: Row(
-                children: <Widget>[
-                  Icon(
-                    Icons.photo_camera,
-                    size: 30.0,
-                  ),
-                  SizedBox(
-                    width: 10.0,
-                  ),
-                  Text("Take a photo"),
-                ],
-              ),
-              onPressed: () async {
-                print("Camera");
-                Navigator.pop(context);
-                await _pickFromCamera();
-                for (int i = 0; i < _imageFileList.length; i++) {
-                  print("File name = ${_imageFileList[i].path}\n");
-                }
-              },
-            ),
-            SimpleDialogOption(
-              child: Row(
-                children: <Widget>[
-                  Icon(
-                    Icons.photo_library,
-                    size: 30.0,
-                  ),
-                  SizedBox(
-                    width: 10.0,
-                  ),
-                  Text("Browse gallery"),
-                ],
-              ),
-              onPressed: () async {
-                print("Gallery");
-                Navigator.pop(context);
-                await _pickFromGallery();
-                for (int i = 0; i < _imageFileList.length; i++) {
-                  print("File name = ${_imageFileList[i].path}\n");
-                }
-              },
-            ),
-          ],
-        );
-      },
+  uploadToFirebase() {
+    for (int i = 0; i < _imageFileList.length; i++) {
+      upload(basename(_imageFileList[i].path), _imageFileList[i].path);
+    }
+    //_paths.forEach((fileName, filePath) => {upload(fileName, filePath)});
+  }
+
+  upload(fileName, filePath) {
+    String path =
+        "images/${DateTime.now().millisecondsSinceEpoch.toString()}.png";
+    StorageReference storageRef =
+        FirebaseStorage(storageBucket: "gs://earneasy-5e92c.appspot.com")
+            .ref()
+            .child(path);
+    final StorageUploadTask uploadTask = storageRef.putFile(
+      File(filePath),
     );
+    setState(() {
+      _tasks.add(uploadTask);
+    });
   }
 
   @override
@@ -167,6 +129,68 @@ class _ImageTaskState extends State<ImageTask>
       );
       uploadFileTileList.add(tile);
     });
+
+    Future<void> _selectImageSource() async {
+      await showDialog(
+        context: context,
+        builder: (context) {
+          return SimpleDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            title: Text("Choose Option "),
+            elevation: 5.0,
+            children: <Widget>[
+              SimpleDialogOption(
+                child: Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.photo_camera,
+                      size: 30.0,
+                    ),
+                    SizedBox(
+                      width: 10.0,
+                    ),
+                    Text("Take a photo"),
+                  ],
+                ),
+                onPressed: () async {
+                  print("Camera");
+                  Navigator.pop(context);
+                  await _pickFromCamera();
+                  for (int i = 0; i < _imageFileList.length; i++) {
+                    print("File name = ${_imageFileList[i].path}\n");
+                  }
+                },
+              ),
+              SimpleDialogOption(
+                child: Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.photo_library,
+                      size: 30.0,
+                    ),
+                    SizedBox(
+                      width: 10.0,
+                    ),
+                    Text("Browse gallery"),
+                  ],
+                ),
+                onPressed: () async {
+                  print("Gallery");
+                  Navigator.pop(context);
+                  await _pickFromGallery();
+                  for (int i = 0; i < _imageFileList.length; i++) {
+                    print("File name = ${_imageFileList[i].path}\n");
+                  }
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Image Task"),
@@ -300,7 +324,9 @@ class _ImageTaskState extends State<ImageTask>
               child: FlatButton.icon(
                 label: Text("Upload To FireBase"),
                 icon: Icon(Icons.cloud_upload),
-                onPressed: () async {},
+                onPressed: () {
+                  uploadToFirebase();
+                },
               ),
             ),
             ListView(
