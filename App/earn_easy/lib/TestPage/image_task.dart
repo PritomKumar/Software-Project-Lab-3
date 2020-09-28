@@ -13,7 +13,7 @@ class ImageTask extends StatefulWidget {
 }
 
 class _ImageTaskState extends State<ImageTask> {
-  bool isItemAvailable = true;
+  bool isItemAvailable = false;
   File _imageFile;
   List<File> _imageFileList = List<File>();
 
@@ -40,9 +40,9 @@ class _ImageTaskState extends State<ImageTask> {
   }
 
   //Cropper
-  Future<void> _cropImage() async {
+  Future<void> _cropImage(File imageFile) async {
     File croppedFile = await ImageCropper.cropImage(
-        sourcePath: _imageFile.path,
+        sourcePath: imageFile.path,
         aspectRatioPresets: Platform.isAndroid
             ? [
           CropAspectRatioPreset.square,
@@ -106,9 +106,13 @@ class _ImageTaskState extends State<ImageTask> {
                   Text("Take a photo"),
                 ],
               ),
-              onPressed: () {
+              onPressed: () async {
                 print("Camera");
                 Navigator.pop(context);
+                await _pickFromCamera();
+                for(int i=0 ; i<_imageFileList.length;i++){
+                  print("File name = ${_imageFileList[i].path}\n");
+                }
               },
             ),
             SimpleDialogOption(
@@ -124,9 +128,13 @@ class _ImageTaskState extends State<ImageTask> {
                   Text("Browse gallery"),
                 ],
               ),
-              onPressed: () {
+              onPressed: () async {
                 print("Gallery");
                 Navigator.pop(context);
+                await _pickFromGallery();
+                for(int i=0 ; i<_imageFileList.length;i++){
+                  print("File name = ${_imageFileList[i].path}\n");
+                }
               },
             ),
           ],
