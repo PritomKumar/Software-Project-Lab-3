@@ -6,7 +6,6 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 
-
 class ImageTask extends StatefulWidget {
   @override
   _ImageTaskState createState() => _ImageTaskState();
@@ -20,7 +19,8 @@ class _ImageTaskState extends State<ImageTask> {
   //Select an image via gallery or camera
   Future<void> _pickFromCamera() async {
     ImagePicker imagePicker = ImagePicker();
-    PickedFile selected = await imagePicker.getImage(source: ImageSource.camera);
+    PickedFile selected =
+        await imagePicker.getImage(source: ImageSource.camera);
     setState(() {
       if (selected != null) {
         _imageFileList.clear();
@@ -29,10 +29,12 @@ class _ImageTaskState extends State<ImageTask> {
       }
     });
   }
+
   Future<void> _pickFromGallery() async {
-    FilePickerResult result = await FilePicker.platform.pickFiles(type: FileType.image,allowMultiple: true);
+    FilePickerResult result = await FilePicker.platform
+        .pickFiles(type: FileType.image, allowMultiple: true);
     setState(() {
-      if(result != null) {
+      if (result != null) {
         _imageFileList.clear();
         _imageFileList = result.paths.map((path) => File(path)).toList();
       }
@@ -45,22 +47,22 @@ class _ImageTaskState extends State<ImageTask> {
         sourcePath: imageFile.path,
         aspectRatioPresets: Platform.isAndroid
             ? [
-          CropAspectRatioPreset.square,
-          CropAspectRatioPreset.ratio3x2,
-          CropAspectRatioPreset.original,
-          CropAspectRatioPreset.ratio4x3,
-          CropAspectRatioPreset.ratio16x9
-        ]
+                CropAspectRatioPreset.square,
+                CropAspectRatioPreset.ratio3x2,
+                CropAspectRatioPreset.original,
+                CropAspectRatioPreset.ratio4x3,
+                CropAspectRatioPreset.ratio16x9
+              ]
             : [
-          CropAspectRatioPreset.original,
-          CropAspectRatioPreset.square,
-          CropAspectRatioPreset.ratio3x2,
-          CropAspectRatioPreset.ratio4x3,
-          CropAspectRatioPreset.ratio5x3,
-          CropAspectRatioPreset.ratio5x4,
-          CropAspectRatioPreset.ratio7x5,
-          CropAspectRatioPreset.ratio16x9
-        ],
+                CropAspectRatioPreset.original,
+                CropAspectRatioPreset.square,
+                CropAspectRatioPreset.ratio3x2,
+                CropAspectRatioPreset.ratio4x3,
+                CropAspectRatioPreset.ratio5x3,
+                CropAspectRatioPreset.ratio5x4,
+                CropAspectRatioPreset.ratio7x5,
+                CropAspectRatioPreset.ratio16x9
+              ],
         androidUiSettings: AndroidUiSettings(
             toolbarTitle: 'Crop It',
             toolbarColor: Colors.deepOrange,
@@ -110,7 +112,7 @@ class _ImageTaskState extends State<ImageTask> {
                 print("Camera");
                 Navigator.pop(context);
                 await _pickFromCamera();
-                for(int i=0 ; i<_imageFileList.length;i++){
+                for (int i = 0; i < _imageFileList.length; i++) {
                   print("File name = ${_imageFileList[i].path}\n");
                 }
               },
@@ -132,7 +134,7 @@ class _ImageTaskState extends State<ImageTask> {
                 print("Gallery");
                 Navigator.pop(context);
                 await _pickFromGallery();
-                for(int i=0 ; i<_imageFileList.length;i++){
+                for (int i = 0; i < _imageFileList.length; i++) {
                   print("File name = ${_imageFileList[i].path}\n");
                 }
               },
@@ -221,7 +223,7 @@ class _ImageTaskState extends State<ImageTask> {
                 physics: ScrollPhysics(),
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
-                itemCount: 5 + 1,
+                itemCount: _imageFileList.length + 1,
                 // +1 for the special case
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: (MediaQuery.of(context).orientation ==
@@ -229,44 +231,8 @@ class _ImageTaskState extends State<ImageTask> {
                         ? 3
                         : 4),
                 itemBuilder: (BuildContext context, int index) {
-                  return isItemAvailable
+                  return index == _imageFileList.length
                       ? Container(
-                          margin: EdgeInsets.symmetric(
-                              horizontal: 10.0, vertical: 10.0),
-                          child: Stack(
-                            fit: StackFit.expand,
-                            overflow: Overflow.visible,
-                            children: <Widget>[
-                              Positioned(
-                                child: Card(
-                                  elevation: 5.0,
-                                  shadowColor: Colors.green,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                  ),
-                                  child: GridTile(
-                                    footer: Text("footer"),
-                                    header: Text("Header"),
-                                    child: Container(
-                                      color: Colors.blue,
-                                      margin:
-                                          EdgeInsets.symmetric(vertical: 15.0),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                top: -20.0,
-                                right: -20.0,
-                                child: IconButton(
-                                  icon: Icon(Icons.cancel),
-                                  onPressed: () {},
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      : Container(
                           padding: EdgeInsets.symmetric(
                               vertical: 10.0, horizontal: 5.0),
                           child: Card(
@@ -287,6 +253,46 @@ class _ImageTaskState extends State<ImageTask> {
                                 _selectImageSource();
                               },
                             ),
+                          ),
+                        )
+                      : Container(
+                          margin: EdgeInsets.symmetric(
+                              horizontal: 10.0, vertical: 10.0),
+                          child: Stack(
+                            fit: StackFit.expand,
+                            overflow: Overflow.visible,
+                            children: <Widget>[
+                              Positioned(
+                                child: Card(
+                                  elevation: 5.0,
+                                  shadowColor: Colors.green,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                  ),
+                                  child: GridTile(
+                                    footer: Text("footer"),
+                                    header: Text("Header"),
+                                    child: Container(
+                                      child: Image.file(_imageFileList[index],fit: BoxFit.fill,),
+                                      margin:
+                                          EdgeInsets.symmetric(vertical: 15.0),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                top: -20.0,
+                                right: -20.0,
+                                child: IconButton(
+                                  icon: Icon(Icons.cancel),
+                                  onPressed: () {
+                                    setState(() {
+                                      _imageFileList.removeAt(index);
+                                    });
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
                         );
                 },
