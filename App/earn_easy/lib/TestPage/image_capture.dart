@@ -128,7 +128,6 @@ class Uploader extends StatefulWidget {
 class _UploaderState extends State<Uploader> {
   final FirebaseStorage _firebaseStorage =
   FirebaseStorage(storageBucket: "gs://earneasy-5e92c.appspot.com");
-  DialogService _dialogService = DialogService();
 
   StorageUploadTask _uploadTask;
 
