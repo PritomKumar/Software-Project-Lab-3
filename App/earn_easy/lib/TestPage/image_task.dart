@@ -39,6 +39,7 @@ class _ImageTaskState extends State<ImageTask> {
               padding: EdgeInsets.all(10.0),
               child: GridView.count(
                 physics: ScrollPhysics(),
+
                 crossAxisCount: 3,
                 padding: EdgeInsets.all(5.0),
                 crossAxisSpacing: 8.0,
