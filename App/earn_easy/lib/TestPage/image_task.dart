@@ -2,12 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 
 class ImageTask extends StatefulWidget {
-  final List<File> imageFileList ;
+  final List<File> imageFileList;
 
   const ImageTask({Key key, this.imageFileList}) : super(key: key);
 
@@ -15,10 +16,11 @@ class ImageTask extends StatefulWidget {
   _ImageTaskState createState() => _ImageTaskState();
 }
 
-class _ImageTaskState extends State<ImageTask> with AutomaticKeepAliveClientMixin {
+class _ImageTaskState extends State<ImageTask>
+    with AutomaticKeepAliveClientMixin {
   bool isItemAvailable = false;
   File _imageFile;
-  List<File> _imageFileList =  List<File>();
+  List<File> _imageFileList = List<File>();
 
   //Select an image via gallery or camera
   Future<void> _pickFromCamera() async {
@@ -46,7 +48,7 @@ class _ImageTaskState extends State<ImageTask> with AutomaticKeepAliveClientMixi
   }
 
   //Cropper
-  Future<void> _cropImage(File imageFile) async {
+  Future<File> _cropImage(File imageFile) async {
     File croppedFile = await ImageCropper.cropImage(
         sourcePath: imageFile.path,
         aspectRatioPresets: Platform.isAndroid
@@ -77,9 +79,7 @@ class _ImageTaskState extends State<ImageTask> with AutomaticKeepAliveClientMixi
           title: 'Cropper',
         ));
 
-    setState(() {
-      _imageFile = croppedFile ?? _imageFile;
-    });
+    return croppedFile ?? imageFile;
   }
 
   _clear() {
@@ -151,9 +151,9 @@ class _ImageTaskState extends State<ImageTask> with AutomaticKeepAliveClientMixi
 
   @override
   void updateKeepAlive() {
-    // TODO: implement updateKeepAlive
     super.updateKeepAlive();
   }
+
   @override
   bool get wantKeepAlive => true;
 
@@ -236,8 +236,8 @@ class _ImageTaskState extends State<ImageTask> with AutomaticKeepAliveClientMixi
                 physics: ScrollPhysics(),
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
-                itemCount: _imageFileList.length + 1,
                 // +1 for the special case
+                itemCount: _imageFileList.length + 1,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: (MediaQuery.of(context).orientation ==
                             Orientation.portrait)
@@ -280,15 +280,15 @@ class _ImageTaskState extends State<ImageTask> with AutomaticKeepAliveClientMixi
                                   elevation: 5.0,
                                   shadowColor: Colors.green,
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5.0),
+                                    borderRadius: BorderRadius.circular(10.0),
                                   ),
                                   child: GridTile(
-                                    footer: Text("footer"),
-                                    header: Text("Header"),
-                                    child: Container(
-                                      child: Image.file(_imageFileList[index],fit: BoxFit.fill,),
-                                      margin:
-                                          EdgeInsets.symmetric(vertical: 15.0),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      child: Image.file(
+                                        _imageFileList[index],
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -297,10 +297,30 @@ class _ImageTaskState extends State<ImageTask> with AutomaticKeepAliveClientMixi
                                 top: -20.0,
                                 right: -20.0,
                                 child: IconButton(
-                                  icon: Icon(Icons.cancel),
+                                  icon: Icon(
+                                    Icons.cancel,
+                                    color: Colors.redAccent,
+                                  ),
                                   onPressed: () {
                                     setState(() {
                                       _imageFileList.removeAt(index);
+                                    });
+                                  },
+                                ),
+                              ),
+                              Positioned(
+                                bottom: -20.0,
+                                left: -20.0,
+                                child: IconButton(
+                                  icon: Icon(
+                                    FontAwesomeIcons.solidEdit,
+                                    color: Colors.blueAccent,
+                                  ),
+                                  onPressed: () async{
+                                     File croppedImage = await
+                                        _cropImage(_imageFileList[index]);
+                                    setState(() {
+                                      _imageFileList[index] = croppedImage;
                                     });
                                   },
                                 ),
@@ -316,5 +336,4 @@ class _ImageTaskState extends State<ImageTask> with AutomaticKeepAliveClientMixi
       ),
     );
   }
-
 }
