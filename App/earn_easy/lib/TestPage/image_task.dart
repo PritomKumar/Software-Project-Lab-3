@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ImageTask extends StatefulWidget {
@@ -35,59 +36,96 @@ class _ImageTaskState extends State<ImageTask> {
               textScaleFactor: 1.5,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
+            // Container(
+            //   padding: EdgeInsets.all(10.0),
+            //   child: GridView.count(
+            //     physics: ScrollPhysics(),
+            //     crossAxisCount: 3,
+            //     padding: EdgeInsets.all(5.0),
+            //     crossAxisSpacing: 8.0,
+            //     mainAxisSpacing: 20.0,
+            //     shrinkWrap: true,
+            //     children: <Widget>[
+            //       Card(
+            //         child: GridTile(
+            //           footer: Text("footer"),
+            //           header: Text("Header"),
+            //           child: Container(
+            //             color: Colors.blue,
+            //             margin: EdgeInsets.symmetric(vertical: 15.0),
+            //           ),
+            //         ),
+            //       ),
+            //       Container(
+            //         color: Colors.red,
+            //         child: Text("Image"),
+            //       ),
+            //       Container(
+            //         color: Colors.red,
+            //         child: Text("Image"),
+            //       ),
+            //       Container(
+            //         color: Colors.red,
+            //         child: Text("Image"),
+            //       ),
+            //       Container(
+            //         color: Colors.red,
+            //         child: Text("Image"),
+            //       ),
+            //       Container(
+            //         color: Colors.red,
+            //         child: Text("Image"),
+            //       ),
+            //     ],
+            //   ),
+            // ),
             Container(
-              padding: EdgeInsets.all(10.0),
-              child: GridView.count(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
+              child: GridView.builder(
                 physics: ScrollPhysics(),
-
-                crossAxisCount: 3,
-                padding: EdgeInsets.all(5.0),
-                crossAxisSpacing: 8.0,
-                mainAxisSpacing: 20.0,
                 shrinkWrap: true,
-                children: <Widget>[
-                  Container(
-                    color: Colors.red,
-                    child: Text("Image"),
-                  ),
-                  Container(
-                    color: Colors.red,
-                    child: Text("Image"),
-                  ),
-                  Container(
-                    color: Colors.red,
-                    child: Text("Image"),
-                  ),
-                  Container(
-                    color: Colors.red,
-                    child: Text("Image"),
-                  ),
-                  Container(
-                    color: Colors.red,
-                    child: Text("Image"),
-                  ),
-                ],
-              ),
-            ),
-            GridView.builder(
-              physics: ScrollPhysics(),
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              itemCount: 10,
+                scrollDirection: Axis.vertical,
 
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: (MediaQuery.of(context).orientation ==
-                          Orientation.portrait)
-                      ? 3
-                      : 3),
-              itemBuilder: (BuildContext context, int index) {
-                return new Card(
-                  child: new GridTile(
-                    footer: new Text("footer"),
-                    child: new Text('image'), //just for testing, will fill with image later
-                  ),
-                );
-              },
+                itemCount: 5,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: (MediaQuery.of(context).orientation ==
+                            Orientation.portrait)
+                        ? 3
+                        : 4),
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10.0,vertical: 10.0),
+                    child: Stack(
+                      fit: StackFit.expand,
+                      overflow: Overflow.visible,
+                      children: <Widget>[
+                        Positioned(
+                          child: Card(
+                            elevation: 5.0,
+                            shadowColor: Colors.green,
+                            child: GridTile(
+                              footer: Text("footer"),
+                              header: Text("Header"),
+                              child: Container(
+                                color: Colors.blue,
+                                margin: EdgeInsets.symmetric(vertical: 15.0),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top:-20.0,
+                          right: -20.0,
+                          child: IconButton(
+                            icon: Icon(Icons.cancel),
+                            onPressed: () {},
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
           ],
         ),
