@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:file_picker/file_picker.dart';
+
 
 class ImageTask extends StatefulWidget {
   @override
@@ -13,14 +15,26 @@ class ImageTask extends StatefulWidget {
 class _ImageTaskState extends State<ImageTask> {
   bool isItemAvailable = true;
   File _imageFile;
+  List<File> _imageFileList = List<File>();
 
   //Select an image via gallery or camera
-  Future<void> _pickImage(ImageSource source) async {
+  Future<void> _pickFromCamera() async {
     ImagePicker imagePicker = ImagePicker();
-    PickedFile selected = await imagePicker.getImage(source: source);
+    PickedFile selected = await imagePicker.getImage(source: ImageSource.camera);
     setState(() {
       if (selected != null) {
+        _imageFileList.clear();
         _imageFile = File(selected.path) ?? _imageFile;
+        _imageFileList.add(_imageFile);
+      }
+    });
+  }
+  Future<void> _pickFromGallery() async {
+    FilePickerResult result = await FilePicker.platform.pickFiles(type: FileType.image,allowMultiple: true);
+    setState(() {
+      if(result != null) {
+        _imageFileList.clear();
+        _imageFileList = result.paths.map((path) => File(path)).toList();
       }
     });
   }

@@ -40,7 +40,6 @@ class UploadMultipleImageDemoState extends State<UploadMultipleImageDemo> {
         //     type: _pickType, fileExtension: _extension);
       } else {
         FilePickerResult result = await FilePicker.platform.pickFiles(type: _pickType);
-        File file;
         if(result != null) {
           _path = result.files.single.path;
         }
