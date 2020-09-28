@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 
+import 'TestPage/image_task.dart';
 import 'TestPage/test_page.dart';
 import 'app_screens/map/map_list_view.dart';
 import 'app_screens/wrapper.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: UploadMultipleImageDemo(),
+          home: ImageTask(),
         ));
   }
 }
