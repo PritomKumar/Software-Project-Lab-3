@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:earneasy/TestPage/upload_download_multiple_file.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -21,6 +23,8 @@ class _ImageTaskState extends State<ImageTask>
   bool isItemAvailable = false;
   File _imageFile;
   List<File> _imageFileList = List<File>();
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+  List<StorageUploadTask> _tasks = <StorageUploadTask>[];
 
   //Select an image via gallery or camera
   Future<void> _pickFromCamera() async {
@@ -80,12 +84,6 @@ class _ImageTaskState extends State<ImageTask>
         ));
 
     return croppedFile ?? imageFile;
-  }
-
-  _clear() {
-    setState(() {
-      _imageFile = null;
-    });
   }
 
   Future<void> _selectImageSource() async {
@@ -160,6 +158,15 @@ class _ImageTaskState extends State<ImageTask>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    final List<Widget> uploadFileTileList = <Widget>[];
+    _tasks.forEach((StorageUploadTask task) {
+      final Widget tile = UploadTaskListTile(
+        task: task,
+        onDismissed: () => setState(() => _tasks.remove(task)),
+        onDownload: () => null,
+      );
+      uploadFileTileList.add(tile);
+    });
     return Scaffold(
       appBar: AppBar(
         title: Text("Image Task"),
@@ -273,9 +280,9 @@ class _ImageTaskState extends State<ImageTask>
                                     FontAwesomeIcons.solidEdit,
                                     color: Colors.blueAccent,
                                   ),
-                                  onPressed: () async{
-                                     File croppedImage = await
-                                        _cropImage(_imageFileList[index]);
+                                  onPressed: () async {
+                                    File croppedImage =
+                                        await _cropImage(_imageFileList[index]);
                                     setState(() {
                                       _imageFileList[index] = croppedImage;
                                     });
@@ -288,6 +295,18 @@ class _ImageTaskState extends State<ImageTask>
                 },
               ),
             ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: FlatButton.icon(
+                label: Text("Upload To FireBase"),
+                icon: Icon(Icons.cloud_upload),
+                onPressed: () async {},
+              ),
+            ),
+            ListView(
+              shrinkWrap: true,
+              children: uploadFileTileList,
+            )
           ],
         ),
       ),
