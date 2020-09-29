@@ -37,11 +37,13 @@ class _ImageTaskState extends State<ImageTask>
     ImagePicker imagePicker = ImagePicker();
     PickedFile selected =
         await imagePicker.getImage(source: ImageSource.camera);
+    var compressedImage =
+        await compressImageFromImageFile(File(selected.path) ?? _imageFile);
     setState(() {
       if (selected != null) {
         //_imageFileList.clear();
         _imageFile = File(selected.path) ?? _imageFile;
-        _imageFileList.add(_imageFile);
+        _imageFileList.add(compressedImage);
       }
     });
   }
@@ -49,10 +51,15 @@ class _ImageTaskState extends State<ImageTask>
   Future<void> _pickFromGallery() async {
     FilePickerResult result = await FilePicker.platform
         .pickFiles(type: FileType.image, allowMultiple: true);
+
+    var compressedImageList = result.paths.map((path) => File(path)).toList();
+    for(int i=0 ; i<compressedImageList.length;i++){
+      compressedImageList[i] = await compressImageFromImageFile(compressedImageList[i] ?? _imageFile);
+    }
     setState(() {
-      if (result != null) {
+      if (compressedImageList != null) {
         //_imageFileList.clear();
-        _imageFileList.addAll(result.paths.map((path) => File(path)).toList());
+        _imageFileList.addAll(compressedImageList);
       }
     });
   }
@@ -92,15 +99,14 @@ class _ImageTaskState extends State<ImageTask>
     return croppedFile ?? imageFile;
   }
 
-
-  Future <void>uploadToFirebase()async {
+  Future<void> uploadToFirebase() async {
     for (int i = 0; i < _imageFileList.length; i++) {
       await upload(basename(_imageFileList[i].path), _imageFileList[i].path);
     }
     //_paths.forEach((fileName, filePath) => {upload(fileName, filePath)});
   }
 
-  Future <void> upload(fileName, filePath) async {
+  Future<void> upload(fileName, filePath) async {
     String path =
         "images/ $fileName ${DateTime.now().microsecondsSinceEpoch.toString()}.png";
     final StorageReference storageRef =
@@ -115,52 +121,53 @@ class _ImageTaskState extends State<ImageTask>
     });
   }
 
-  int _compressQualityMatrix(int length){
+  int _compressQualityMatrix(int length) {
     // Less than 1 MB
-    if(length <100000 && length>0){
+    if (length < 100000 && length > 0) {
       return 80;
     }
     // between 1-2 MB
-    else if(length <200000 && length>=100000){
+    else if (length < 200000 && length >= 100000) {
       return 70;
     }
     // between 2-3 MB
-    else if(length <300000 && length>=200000){
+    else if (length < 300000 && length >= 200000) {
       return 65;
     }
     // between 3-4 MB
-    else if(length <400000 && length>=300000){
+    else if (length < 400000 && length >= 300000) {
       return 60;
     }
     // between 4-5 MB
-    else if(length <500000 && length>=400000){
+    else if (length < 500000 && length >= 400000) {
       return 55;
     }
     // between 5-6 MB
-    else if(length <600000 && length>=500000){
+    else if (length < 600000 && length >= 500000) {
       return 50;
     }
     // between 6-7 MB
-    else if(length <700000 && length>=600000){
+    else if (length < 700000 && length >= 600000) {
       return 45;
     }
     // between 7-8 MB
-    else if(length <800000 && length>=700000){
+    else if (length < 800000 && length >= 700000) {
       return 40;
     }
     // between 8-9 MB
-    else if(length <900000 && length>=800000){
+    else if (length < 900000 && length >= 800000) {
       return 35;
     }
     // between 9-10 MB
-    else if(length <1000000 && length>=900000){
+    else if (length < 1000000 && length >= 900000) {
       return 30;
     }
     // Greater than 10 MB
-    else{
+    else {
       return 25;
     }
   }
+
   Future<File> testCompressAndGetFile(File file, String targetPath) async {
     int compressionQuality = _compressQualityMatrix(file.lengthSync());
     var result = await FlutterImageCompress.compressAndGetFile(
@@ -186,24 +193,33 @@ class _ImageTaskState extends State<ImageTask>
     return file;
   }
 
-  File imageFile;
+  Future<File> compressImageFromImageFile(File imgFile) async {
+    // final img = AssetImage("assets/images/compress.jpg");
+    // print("pre compress");
+    // final config = ImageConfiguration();
+    //
+    // AssetBundleImageKey key = await img.obtainKey(config);
+    // final ByteData data = await key.bundle.load(key.name);
+    // final dir = await path_provider.getTemporaryDirectory();
+    //
+    // File file = createFile("${dir.absolute.path}/test.png");
+    // file.writeAsBytesSync(data.buffer.asUint8List());
+    //
+    // final targetPath = dir.absolute.path + "/temp.jpg";
+    // final image = await testCompressAndGetFile(file, targetPath);
 
-  void getFileImage() async {
-    final img = AssetImage("assets/images/compress.jpg");
-    print("pre compress");
-    final config = new ImageConfiguration();
+    final filePath = imgFile.absolute.path;
 
-    AssetBundleImageKey key = await img.obtainKey(config);
-    final ByteData data = await key.bundle.load(key.name);
-    final dir = await path_provider.getTemporaryDirectory();
+    final lastIndex = filePath.lastIndexOf(RegExp(r'.jp'));
+    final split = filePath.substring(0, (lastIndex));
+    final outPath = "${split}_out${filePath.substring(lastIndex)}";
 
-    File file = createFile("${dir.absolute.path}/test.png");
-    file.writeAsBytesSync(data.buffer.asUint8List());
+    final image = await testCompressAndGetFile(imgFile, outPath);
 
-    final targetPath = dir.absolute.path + "/temp.jpg";
-    final image = await testCompressAndGetFile(file, targetPath);
     //_imageFileList.add(image);
-    await upload(basename(image.path), image.path);
+    //await upload(basename(image.path), image.path);
+
+    return image;
     // final dir2 = await path_provider.getExternalStorageDirectory();
     // final dir3 = await path_provider.getApplicationDocumentsDirectory();
     // // copy the file to a new path
@@ -213,9 +229,7 @@ class _ImageTaskState extends State<ImageTask>
     // }
 
     //provider = FileImage(imgFile);
-
   }
-
 
   @override
   void updateKeepAlive() {
@@ -433,13 +447,12 @@ class _ImageTaskState extends State<ImageTask>
                 label: Text("Upload To FireBase"),
                 icon: Icon(Icons.cloud_upload),
                 onPressed: () async {
-                  getFileImage();
-                  //await uploadToFirebase();
+                  //compressImageFromImageFile();
+                  await uploadToFirebase();
                 },
               ),
             ),
             ...uploadFileTileList,
-
           ],
         ),
       ),
