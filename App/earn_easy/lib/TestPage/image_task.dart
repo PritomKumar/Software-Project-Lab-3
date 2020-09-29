@@ -202,7 +202,7 @@ class _ImageTaskState extends State<ImageTask>
     // );
     // final u8list = Uint8List.fromList(result2);
     // ImageProvider im = MemoryImage(u8list);
-    print(file.path);
+
     var result = await FlutterImageCompress.compressAndGetFile(
       file.absolute.path,
       targetPath,
@@ -477,9 +477,20 @@ class _ImageTaskState extends State<ImageTask>
             ),
             Align(
               alignment: Alignment.bottomCenter,
-              child: FlatButton.icon(
-                label: Text("Upload To FireBase"),
-                icon: Icon(Icons.cloud_upload),
+              child: RaisedButton.icon(
+                elevation: 5.0,
+                color: Colors.white,
+                label: Text(
+                  "Finish Task",
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                icon: Icon(
+                  Icons.cloud_upload,
+                  color: Colors.blueAccent,
+                ),
                 onPressed: () async {
                   //compressImageFromImageFile();
                   await uploadToFirebase();
