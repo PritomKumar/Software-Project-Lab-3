@@ -9,6 +9,11 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart';
+import 'dart:typed_data';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
 
 class ImageTask extends StatefulWidget {
   final List<File> imageFileList;
@@ -87,6 +92,7 @@ class _ImageTaskState extends State<ImageTask>
     return croppedFile ?? imageFile;
   }
 
+
   Future <void>uploadToFirebase()async {
     for (int i = 0; i < _imageFileList.length; i++) {
       await upload(basename(_imageFileList[i].path), _imageFileList[i].path);
@@ -108,6 +114,61 @@ class _ImageTaskState extends State<ImageTask>
       _tasks.add(uploadTask);
     });
   }
+
+  Future<File> testCompressAndGetFile(File file, String targetPath) async {
+    var result = await FlutterImageCompress.compressAndGetFile(
+      file.absolute.path,
+      targetPath,
+      quality: 30,
+      minHeight: 1080,
+      minWidth: 1080,
+    );
+
+    print(file.lengthSync());
+    print(result.lengthSync());
+
+    return result;
+  }
+
+  File createFile(String path) {
+    final file = File(path);
+    if (!file.existsSync()) {
+      file.createSync(recursive: true);
+    }
+
+    return file;
+  }
+
+  File imageFile;
+
+  void getFileImage() async {
+    final img = AssetImage("assets/images/compress.jpg");
+    print("pre compress");
+    final config = new ImageConfiguration();
+
+    AssetBundleImageKey key = await img.obtainKey(config);
+    final ByteData data = await key.bundle.load(key.name);
+    final dir = await path_provider.getTemporaryDirectory();
+
+    File file = createFile("${dir.absolute.path}/test.png");
+    file.writeAsBytesSync(data.buffer.asUint8List());
+
+    final targetPath = dir.absolute.path + "/temp.jpg";
+    final image = await testCompressAndGetFile(file, targetPath);
+    //_imageFileList.add(image);
+    await upload(basename(image.path), image.path);
+    // final dir2 = await path_provider.getExternalStorageDirectory();
+    // final dir3 = await path_provider.getApplicationDocumentsDirectory();
+    // // copy the file to a new path
+    // if(image !=null)  {
+    //   print(image.lengthSync());
+    //   await image.copy('${dir2.absolute.path}/image.png');
+    // }
+
+    //provider = FileImage(imgFile);
+
+  }
+
 
   @override
   void updateKeepAlive() {
@@ -325,7 +386,8 @@ class _ImageTaskState extends State<ImageTask>
                 label: Text("Upload To FireBase"),
                 icon: Icon(Icons.cloud_upload),
                 onPressed: () async {
-                  uploadToFirebase();
+                  getFileImage();
+                  //await uploadToFirebase();
                 },
               ),
             ),
