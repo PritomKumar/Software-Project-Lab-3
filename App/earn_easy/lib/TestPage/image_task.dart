@@ -54,7 +54,7 @@ class _ImageTaskState extends State<ImageTask>
 
     var compressedImageList = result.paths.map((path) => File(path)).toList();
     for(int i=0 ; i<compressedImageList.length;i++){
-      compressedImageList[i] = await compressImageFromImageFile(compressedImageList[i] ?? _imageFile);
+      compressedImageList[i] = await compressImageFromImageFile(compressedImageList[i]);
     }
     setState(() {
       if (compressedImageList != null) {
@@ -168,14 +168,39 @@ class _ImageTaskState extends State<ImageTask>
     }
   }
 
+  CompressFormat getFormatBasedOnFile(String extension){
+    switch(extension.toLowerCase()){
+      case "jpg":
+        return CompressFormat.jpeg;
+        break;
+      case "jpeg":
+        return CompressFormat.jpeg;
+        break;
+      case "png":
+        return CompressFormat.png;
+        break;
+      case "heic":
+        return CompressFormat.heic;
+        break;
+      case "webp":
+        return CompressFormat.webp;
+        break;
+      default:
+        return CompressFormat.jpeg;
+        break;
+    }
+  }
   Future<File> testCompressAndGetFile(File file, String targetPath) async {
     int compressionQuality = _compressQualityMatrix(file.lengthSync());
+    String extension = basename(file.path).split('.').last;
+    print(extension);
     var result = await FlutterImageCompress.compressAndGetFile(
       file.absolute.path,
       targetPath,
       quality: compressionQuality,
       minHeight: 1080,
       minWidth: 1080,
+      format : getFormatBasedOnFile(extension),
     );
 
     print(file.lengthSync());
@@ -209,8 +234,8 @@ class _ImageTaskState extends State<ImageTask>
     // final image = await testCompressAndGetFile(file, targetPath);
 
     final filePath = imgFile.absolute.path;
-
-    final lastIndex = filePath.lastIndexOf(RegExp(r'.jp'));
+    print(filePath);
+    final lastIndex = filePath.lastIndexOf(RegExp('.'));
     final split = filePath.substring(0, (lastIndex));
     final outPath = "${split}_out${filePath.substring(lastIndex)}";
 
