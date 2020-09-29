@@ -115,11 +115,58 @@ class _ImageTaskState extends State<ImageTask>
     });
   }
 
+  int _compressQualityMatrix(int length){
+    // Less than 1 MB
+    if(length <100000 && length>0){
+      return 80;
+    }
+    // between 1-2 MB
+    else if(length <200000 && length>=100000){
+      return 70;
+    }
+    // between 2-3 MB
+    else if(length <300000 && length>=200000){
+      return 65;
+    }
+    // between 3-4 MB
+    else if(length <400000 && length>=300000){
+      return 60;
+    }
+    // between 4-5 MB
+    else if(length <500000 && length>=400000){
+      return 55;
+    }
+    // between 5-6 MB
+    else if(length <600000 && length>=500000){
+      return 50;
+    }
+    // between 6-7 MB
+    else if(length <700000 && length>=600000){
+      return 45;
+    }
+    // between 7-8 MB
+    else if(length <800000 && length>=700000){
+      return 40;
+    }
+    // between 8-9 MB
+    else if(length <900000 && length>=800000){
+      return 35;
+    }
+    // between 9-10 MB
+    else if(length <1000000 && length>=900000){
+      return 30;
+    }
+    // Greater than 10 MB
+    else{
+      return 25;
+    }
+  }
   Future<File> testCompressAndGetFile(File file, String targetPath) async {
+    int compressionQuality = _compressQualityMatrix(file.lengthSync());
     var result = await FlutterImageCompress.compressAndGetFile(
       file.absolute.path,
       targetPath,
-      quality: 30,
+      quality: compressionQuality,
       minHeight: 1080,
       minWidth: 1080,
     );
