@@ -26,9 +26,9 @@ class _GigAddState extends State<GigAddTest> {
   final _formKey = GlobalKey<FormState>();
   bool alreadyAddedGig = false;
   var moneyController = TextEditingController();
+  var taskDescriptionController = TextEditingController();
   var titleController = TextEditingController();
-  List<Task> taskList = List<Task>();
-  ImageTask  imageTask = ImageTask();
+  List<ImageTask> taskList = List<ImageTask>();
   var descriptionController = TextEditingController();
   DateTime startDate = defalultInitializedTimestamp.toDate();
   DateTime endDate = defalultInitializedTimestamp.toDate();
@@ -49,31 +49,75 @@ class _GigAddState extends State<GigAddTest> {
 
   @override
   Widget build(BuildContext context) {
-    Dialog errorDialog = Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)), //this right here
-      child: Container(
-        height: 300.0,
-        width: 300.0,
-
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding:  EdgeInsets.all(15.0),
-              child: Text('Cool', style: TextStyle(color: Colors.red),),
-            ),
-            Padding(
-              padding: EdgeInsets.all(15.0),
-              child: Text('Awesome', style: TextStyle(color: Colors.red),),
-            ),
-            Padding(padding: EdgeInsets.only(top: 50.0)),
-            FlatButton(onPressed: (){
+    SimpleDialog errorDialog = SimpleDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+      //this right here
+      title: Center(child: Text("Add Task")),
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.all(15.0),
+          child: TextFormField(
+            controller: taskDescriptionController,
+            decoration: InputDecoration(hintText: "First Name"),
+            validator: (value) {
+              return value.isEmpty ? "Enter First Name" : null;
+            },
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.all(15.0),
+          child: Text(
+            'Awesome',
+            style: TextStyle(color: Colors.red),
+          ),
+        ),
+        Padding(padding: EdgeInsets.only(top: 50.0)),
+        FlatButton(
+            onPressed: () {
               Navigator.of(context).pop();
             },
-                child: Text('Got It!', style: TextStyle(color: Colors.purple, fontSize: 18.0),))
-          ],
-        ),
-      ),
+            child: Text(
+              'Got It!',
+              style: TextStyle(color: Colors.purple, fontSize: 18.0),
+            )),
+      ],
+      // child: Container(
+      //   height: MediaQuery.of(context).size.height,
+      //   width: MediaQuery.of(context).size.width,
+      //   child: ListView(
+      //     children: <Widget>[
+      //       Padding(
+      //         padding: EdgeInsets.all(15.0),
+      //         child: TextFormField(
+      //           controller: taskDescriptionController,
+      //           decoration: InputDecoration(hintText: "First Name"),
+      //           validator: (value) {
+      //             return value.isEmpty ? "Enter First Name" : null;
+      //           },
+      //         ),
+      //       ),
+      //       SizedBox(
+      //         height: 1000,
+      //       ),
+      //       Padding(
+      //         padding: EdgeInsets.all(15.0),
+      //         child: Text(
+      //           'Awesome',
+      //           style: TextStyle(color: Colors.red),
+      //         ),
+      //       ),
+      //       Padding(padding: EdgeInsets.only(top: 50.0)),
+      //       FlatButton(
+      //           onPressed: () {
+      //             Navigator.of(context).pop();
+      //           },
+      //           child: Text(
+      //             'Got It!',
+      //             style: TextStyle(color: Colors.purple, fontSize: 18.0),
+      //           )),
+      //     ],
+      //   ),
+      // ),
     );
     var size = MediaQuery.of(context).size;
     //user = Provider.of<UserAccount>(context);
@@ -344,11 +388,9 @@ class _GigAddState extends State<GigAddTest> {
                           ],
                         ),
                       ),
-
                       Wrap(
                         direction: Axis.horizontal,
                         alignment: WrapAlignment.end,
-
                         children: <Widget>[
                           RaisedButton.icon(
                             color: Colors.lightGreen,
@@ -357,14 +399,16 @@ class _GigAddState extends State<GigAddTest> {
                             autofocus: true,
                             icon: Icon(Icons.add_circle),
                             label: Text("Add Task"),
-                            shape:  RoundedRectangleBorder(
+                            shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15.0)),
                             onPressed: () {
-                              showDialog(context: context, builder: (BuildContext context) => errorDialog);
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      errorDialog);
                             },
                           ),
                         ],
-
                       ),
                       RaisedButton(
                         color: Colors.pink[400],
