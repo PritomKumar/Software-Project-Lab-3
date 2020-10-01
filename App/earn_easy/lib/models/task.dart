@@ -1,16 +1,17 @@
-abstract class Task {
+import 'package:flutter/cupertino.dart';
+
+class ImageTask {
   final String type;
   final String submittedUser;
   final String taskHeader;
   final String taskDescription;
+  final List<String> submittedImageUrlList;
 
-  Task(Set<String> set, {this.type, this.submittedUser, this.taskHeader, this.taskDescription});
-}
-
-class ImageTask extends Task {
-  final List<String> imageFileUrlList;
-
-  ImageTask({String type, String submittedUser, String taskHeader,
-      String taskDescription, this.imageFileUrlList})
-      : super({type, submittedUser, taskHeader, taskDescription});
+  ImageTask({
+    @required this.type,
+    @required this.submittedUser,
+    @required this.taskHeader,
+    @required this.taskDescription,
+    @required this.submittedImageUrlList,
+  });
 }
