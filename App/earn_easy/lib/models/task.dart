@@ -8,9 +8,9 @@ abstract class Task {
 }
 
 class ImageTask extends Task {
-  final List<String> imageFileList;
+  final List<String> imageFileUrlList;
 
   ImageTask(String type, String submittedUser, String taskHeader,
-      String taskDescription, this.imageFileList)
+      String taskDescription, this.imageFileUrlList)
       : super(type, submittedUser, taskHeader, taskDescription);
 }
