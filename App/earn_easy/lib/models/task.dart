@@ -4,13 +4,13 @@ abstract class Task {
   final String taskHeader;
   final String taskDescription;
 
-  Task(this.type, this.submittedUser, this.taskHeader, this.taskDescription);
+  Task(Set<String> set, {this.type, this.submittedUser, this.taskHeader, this.taskDescription});
 }
 
 class ImageTask extends Task {
   final List<String> imageFileUrlList;
 
-  ImageTask(String type, String submittedUser, String taskHeader,
-      String taskDescription, this.imageFileUrlList)
-      : super(type, submittedUser, taskHeader, taskDescription);
+  ImageTask({String type, String submittedUser, String taskHeader,
+      String taskDescription, this.imageFileUrlList})
+      : super({type, submittedUser, taskHeader, taskDescription});
 }
