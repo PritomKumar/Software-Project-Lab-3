@@ -372,6 +372,7 @@ class _GigAddState extends State<GigAddTest> {
                                       onPressed: () {
                                         setState(() {
                                           //TODO Task Delete
+                                          taskList.removeAt(index);
                                         });
                                       },
                                     ),
