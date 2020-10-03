@@ -6,6 +6,7 @@ import 'package:earneasy/models/user.dart';
 import 'package:earneasy/services/firestore_gig_databse.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
+import 'package:earneasy/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
@@ -69,12 +70,14 @@ class _GigAddState extends State<GigAddTest> {
     }
   }
 
-  DateTime _combineDateTimeWithTimeOfDay({DateTime dateTime, TimeOfDay timeOfDay}) {
+  DateTime _combineDateTimeWithTimeOfDay(
+      {DateTime dateTime, TimeOfDay timeOfDay}) {
     if (dateTime != null) {
       return timeOfDay != null
-          ? DateTime(dateTime.year, dateTime.month, dateTime.day, timeOfDay.hour, timeOfDay.minute)
-          : DateTime(dateTime.year, dateTime.month, dateTime.day, TimeOfDay.now().hour,
-              TimeOfDay.now().minute);
+          ? DateTime(dateTime.year, dateTime.month, dateTime.day,
+              timeOfDay.hour, timeOfDay.minute)
+          : DateTime(dateTime.year, dateTime.month, dateTime.day,
+              TimeOfDay.now().hour, TimeOfDay.now().minute);
     } else {
       return defalultInitializedTimestamp.toDate();
     }
@@ -552,14 +555,12 @@ class _GigAddState extends State<GigAddTest> {
                                 location: geoLocation,
                                 //providerId: user.uid,
                                 startTime: Timestamp.fromDate(
-                                    _combineDateTimeWithTimeOfDay(
-                                        dateTime: startDate, timeOfDay: startTime)),
-                                endTime: Timestamp.fromDate(DateTime(
-                                    endDate.year,
-                                    endDate.month,
-                                    endDate.day,
-                                    endTime.hour,
-                                    endTime.minute)),
+                                    Utils.CombineDateTimeWithTimeOfDay(
+                                        dateTime: startDate,
+                                        timeOfDay: startTime)),
+                                endTime: Timestamp.fromDate(
+                                    Utils.CombineDateTimeWithTimeOfDay(
+                                        dateTime: endDate, timeOfDay: endTime)),
                                 type: typeOfGig,
                               ))
                                   .then((value) {
