@@ -34,6 +34,7 @@ class Gig {
   final String providerId;
   final String type;
   final String access;
+  final String importantNote;
   final List<String> attemptedUsers;
   final List<String> finishTaskUsers;
 
@@ -48,6 +49,7 @@ class Gig {
     this.providerId = "",
     this.type = "Not set",
     this.access = "",
+    this.importantNote = "",
     this.attemptedUsers,
     this.finishTaskUsers,
   });
