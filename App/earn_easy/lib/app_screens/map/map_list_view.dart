@@ -98,6 +98,7 @@ class _MapCustomItemBoxViewerState extends State<MapCustomItemBoxViewer> {
                 itemBuilder: (context, index) {
                   return ListTile(
                     title: Text(gigs[index].title),
+                    dense: true,
                     subtitle: Text("TODO"),
                     trailing: Text(
                       gigs[index].money.toString(),

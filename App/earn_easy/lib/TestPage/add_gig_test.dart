@@ -233,6 +233,52 @@ class _GigAddState extends State<GigAddTest> {
                                 });
                             },
                           ),
+                          SizedBox(
+                            width: size.width / 40,
+                          ),
+                          InkWell(
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 5.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    startDate ==
+                                        defalultInitializedTimestamp
+                                            .toDate()
+                                        ? "MM/DD/YYYY"
+                                        : startDate.day
+                                        .toString()
+                                        .padLeft(2, '0') +
+                                        "/" +
+                                        startDate.month
+                                            .toString()
+                                            .padLeft(2, '0') +
+                                        "/" +
+                                        startDate.year.toString(),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        color: Colors.black),
+                                  ),
+                                  SizedBox(width: 10.0),
+                                  Icon(FontAwesomeIcons.calendarCheck),
+                                ],
+                              ),
+                            ),
+                            onTap: () async {
+                              var clickedTime = await showTimePicker(
+                                context: context,
+                                initialTime: TimeOfDay.now(),
+                              );
+                              if (clickedTime != null
+                                  )
+                                setState(() {
+                                 // startDate = clickedTime;
+                                  print(clickedTime.toString());
+                                });
+                            },
+                          ),
                         ],
                       ),
                       Row(
@@ -374,11 +420,12 @@ class _GigAddState extends State<GigAddTest> {
                                     ),
                                     title: Text(
                                       "${taskList[index].taskDescription}",
+                                      //" asd sda sdasd adas asfdf asfsfafa dfsdf sadf sdfsdasasdgsad sd ssdffsd fsdfa sdfsdf asdfsd adf adfdasf asdfasdfasdf sdf sadsfd ",
+
                                       textScaleFactor: 1.5,
                                       style: TextStyle(
                                         fontWeight: FontWeight.w400,
                                       ),
-                                      //" asd sda sdasd adas asfdf asfsfafa dfsdf sadf sdfsdasasdgsad sd ssdffsd fsdfa sdfsdf asdfsd adf adfdasf asdfasdfasdf sdf sadsfd ",
                                     ),
                                     subtitle: Text(
                                       "Image Task #${index + 1}",
@@ -396,51 +443,6 @@ class _GigAddState extends State<GigAddTest> {
                                       },
                                     ),
                                   ),
-                                  //     Container(
-                                  //   padding: EdgeInsets.only(
-                                  //       right: 20.0, top: 5.0, bottom: 5.0),
-                                  //   child: Stack(
-                                  //     overflow: Overflow.visible,
-                                  //     fit: StackFit.loose,
-                                  //     alignment: Alignment.center,
-                                  //     children: <Widget>[
-                                  //       Positioned(
-                                  //         child: Container(
-                                  //           //color: Colors.blue,
-                                  //           child: Text(
-                                  //             "${taskList[index].taskDescription}",
-                                  //             // " asd sda sdasd adas asfdf asfsfafa dfsdf sadf sdfsdasasdgsad sd ssdffsd fsdfa sdfsdf asdfsd adf adfdasf asdfasdfasdf sdf sadsfd ",
-                                  //             textScaleFactor: 1.05,
-                                  //             maxLines: null,
-                                  //             overflow: TextOverflow.ellipsis,
-                                  //             softWrap: true,
-                                  //             textAlign: TextAlign.center,
-                                  //             style: TextStyle(
-                                  //               color: Colors.black87,
-                                  //               fontWeight: FontWeight.w500,
-                                  //             ),
-                                  //           ),
-                                  //         ),
-                                  //       ),
-                                  //       //Positioned(child: SizedBox(width: 100.0,)),
-                                  //       Positioned(
-                                  //         top: -18.0,
-                                  //         right: -20.0,
-                                  //         child: IconButton(
-                                  //           icon: Icon(
-                                  //             Icons.cancel,
-                                  //             color: Colors.redAccent,
-                                  //           ),
-                                  //           onPressed: () {
-                                  //             setState(() {
-                                  //               //TODO Task Delete
-                                  //             });
-                                  //           },
-                                  //         ),
-                                  //       ),
-                                  //     ],
-                                  //   ),
-                                  // ),
                                 ),
                               ),
                             ],
@@ -531,6 +533,7 @@ class _GigAddState extends State<GigAddTest> {
     }
   }
 }
+
 // class _GigAddState extends State<GigAddTest> {
 //   final LatLng location;
 //   final _formKey = GlobalKey<FormState>();
