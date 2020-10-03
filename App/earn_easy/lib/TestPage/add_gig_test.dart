@@ -37,6 +37,11 @@ class _GigAddState extends State<GigAddTest> {
   //bool isloading = false;
   bool isloading = true;
 
+  //later
+  TimeOfDay startTime;
+
+  TimeOfDay endTime;
+
   static final typeOfGigArray = [
     "Not set",
     "Image",
@@ -244,25 +249,21 @@ class _GigAddState extends State<GigAddTest> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   Text(
-                                    startDate ==
-                                        defalultInitializedTimestamp
-                                            .toDate()
-                                        ? "MM/DD/YYYY"
-                                        : startDate.day
-                                        .toString()
-                                        .padLeft(2, '0') +
-                                        "/" +
-                                        startDate.month
-                                            .toString()
-                                            .padLeft(2, '0') +
-                                        "/" +
-                                        startDate.year.toString(),
+                                    startTime == null
+                                        ? "HH : MM"
+                                        : startTime.hour
+                                                .toString()
+                                                .padLeft(2, '0') +
+                                            " : " +
+                                            startTime.minute
+                                                .toString()
+                                                .padLeft(2, '0'),
                                     style: TextStyle(
                                         fontWeight: FontWeight.w300,
                                         color: Colors.black),
                                   ),
                                   SizedBox(width: 10.0),
-                                  Icon(FontAwesomeIcons.calendarCheck),
+                                  Icon(FontAwesomeIcons.clock),
                                 ],
                               ),
                             ),
@@ -271,10 +272,9 @@ class _GigAddState extends State<GigAddTest> {
                                 context: context,
                                 initialTime: TimeOfDay.now(),
                               );
-                              if (clickedTime != null
-                                  )
+                              if (clickedTime != null)
                                 setState(() {
-                                 // startDate = clickedTime;
+                                  startTime = clickedTime;
                                   print(clickedTime.toString());
                                 });
                             },
@@ -499,8 +499,20 @@ class _GigAddState extends State<GigAddTest> {
                                 description: descriptionController.text ?? "",
                                 location: geoLocation,
                                 //providerId: user.uid,
-                                startTime: Timestamp.fromDate(startDate),
-                                endTime: Timestamp.fromDate(endDate),
+                                startTime: Timestamp.fromDate(DateTime(
+                                  startDate.year,
+                                  startDate.month,
+                                  startDate.day,
+                                  startTime.hour,
+                                  startTime.minute
+                                )),
+                                endTime: Timestamp.fromDate(DateTime(
+                                    endDate.year,
+                                    endDate.month,
+                                    endDate.day,
+                                    endTime.hour,
+                                    endTime.minute
+                                )),
                                 type: typeOfGig,
                               ))
                                   .then((value) {
