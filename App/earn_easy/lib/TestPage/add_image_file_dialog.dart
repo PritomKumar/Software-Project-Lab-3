@@ -1,5 +1,8 @@
+import 'package:earneasy/models/task.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'image_task.dart';
 
 class AddImageTaskDialog extends StatefulWidget {
   @override
@@ -7,13 +10,13 @@ class AddImageTaskDialog extends StatefulWidget {
 }
 
 class _AddImageTaskDialogState extends State<AddImageTaskDialog> {
-  var taskDescriptionController = TextEditingController();
-  var numberofImageController = TextEditingController();
-  double numberOfTaskImage = 1.0;
+  var _taskDescriptionController = TextEditingController();
+  var _numberOfImageController = TextEditingController();
+  double _numberOfTaskImage = 1.0;
 
   @override
   Widget build(BuildContext context) {
-    numberofImageController.text = numberOfTaskImage.round().toString();
+    _numberOfImageController.text = _numberOfTaskImage.round().toString();
     return SimpleDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
       //this right here
@@ -22,7 +25,7 @@ class _AddImageTaskDialogState extends State<AddImageTaskDialog> {
         Padding(
           padding: EdgeInsets.all(15.0),
           child: TextFormField(
-            controller: taskDescriptionController,
+            controller: _taskDescriptionController,
             decoration: InputDecoration(hintText: "Description"),
             autovalidate: true,
             keyboardType: TextInputType.multiline,
@@ -83,7 +86,7 @@ class _AddImageTaskDialogState extends State<AddImageTaskDialog> {
                     width: 10.0,
                   ),
                   Text(
-                    "${numberOfTaskImage.round()}",
+                    "${_numberOfTaskImage.round()}",
                     textAlign: TextAlign.center,
                     textScaleFactor: 2.0,
                     style: TextStyle(
@@ -94,35 +97,44 @@ class _AddImageTaskDialogState extends State<AddImageTaskDialog> {
                 ],
               ),
               Slider(
-                value: numberOfTaskImage,
+                value: _numberOfTaskImage,
                 min: 1.0,
                 max: 50.0,
                 onChanged: (value) {
                   setState(() {
-                    numberOfTaskImage = value;
+                    _numberOfTaskImage = value;
                   });
                 },
-                label: "$numberOfTaskImage",
+                label: "$_numberOfTaskImage",
               ),
             ],
           ),
         ),
-        Padding(
-          padding: EdgeInsets.all(15.0),
-          child: Text(
-            'Awesome',
-            style: TextStyle(color: Colors.red),
-          ),
+        Wrap(
+          alignment: WrapAlignment.spaceEvenly,
+          children: <Widget>[
+            RaisedButton(
+              elevation: 5.0,
+              splashColor: Colors.blue[700],
+              autofocus: true,
+              color: Colors.blue,
+              onPressed: () {
+                ImageTask newTask = ImageTask(
+                  type: "ImageTask",
+                  numberOfImages: _numberOfTaskImage.round(),
+                  submittedImageUrlList: null,
+                  taskDescription: _taskDescriptionController.text,
+                  // need submitted user
+                );
+                Navigator.pop(context,newTask);
+              },
+              child: Text(
+                "Finish",
+                style: TextStyle(color: Colors.white, fontSize: 18.0),
+              ),
+            ),
+          ],
         ),
-        Padding(padding: EdgeInsets.only(top: 50.0)),
-        FlatButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text(
-              'Got It!',
-              style: TextStyle(color: Colors.purple, fontSize: 18.0),
-            )),
       ],
       // child: Container(
       //   height: MediaQuery.of(context).size.height,

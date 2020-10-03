@@ -15,16 +15,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 
-class ImageTask extends StatefulWidget {
+class ImageTaskScreen extends StatefulWidget {
   final List<File> imageFileList;
 
-  const ImageTask({Key key, this.imageFileList}) : super(key: key);
+  const ImageTaskScreen({Key key, this.imageFileList}) : super(key: key);
 
   @override
-  _ImageTaskState createState() => _ImageTaskState();
+  _ImageTaskScreenState createState() => _ImageTaskScreenState();
 }
 
-class _ImageTaskState extends State<ImageTask>
+class _ImageTaskScreenState extends State<ImageTaskScreen>
     with AutomaticKeepAliveClientMixin {
   bool isItemAvailable = false;
   File _imageFile;
