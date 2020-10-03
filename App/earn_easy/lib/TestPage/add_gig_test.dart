@@ -342,17 +342,21 @@ class _GigAddState extends State<GigAddTest> {
                       if (taskList.length > 0)
                         Card(
                           elevation: 5.0,
+                          color: Colors.lightGreenAccent,
                           shadowColor: Colors.blue[200],
                           child: ExpansionTile(
                             initiallyExpanded: false,
                             title: Text(
                               "Image Tasks",
                               textScaleFactor: 1.35,
+                              style: TextStyle(
+                                  //color: Colors.red,
+                                  ),
                             ),
                             backgroundColor: Colors.white,
                             trailing: Icon(
                               Icons.arrow_downward,
-                              color: Colors.blue,
+                              color: Colors.black,
                             ),
                             children: <Widget>[
                               Container(
@@ -361,37 +365,35 @@ class _GigAddState extends State<GigAddTest> {
                                   itemCount: taskList.length,
                                   physics: ScrollPhysics(),
                                   shrinkWrap: true,
-                                  itemBuilder: (context, index) => Card(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(5.0)),
-                                    borderOnForeground: true,
-                                    child: ListTile(
-                                      enabled: true,
-                                      dense: true,
-                                      leading: Icon(
-                                        Icons.photo_library,
-                                        color: Colors.blue,
+                                  itemBuilder: (context, index) => ListTile(
+                                    enabled: true,
+                                    dense: true,
+                                    leading: Icon(
+                                      Icons.photo_library,
+                                      color: Colors.blue,
+                                    ),
+                                    title: Text(
+                                      "${taskList[index].taskDescription}",
+                                      textScaleFactor: 1.5,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w400,
                                       ),
-                                      title: Text(
-                                        "${taskList[index].taskDescription}",
-                                        textScaleFactor: 1.5,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w300,
-                                        ),
-                                        //" asd sda sdasd adas asfdf asfsfafa dfsdf sadf sdfsdasasdgsad sd ssdffsd fsdfa sdfsdf asdfsd adf adfdasf asdfasdfasdf sdf sadsfd ",
+                                      //" asd sda sdasd adas asfdf asfsfafa dfsdf sadf sdfsdasasdgsad sd ssdffsd fsdfa sdfsdf asdfsd adf adfdasf asdfasdfasdf sdf sadsfd ",
+                                    ),
+                                    subtitle: Text(
+                                      "Image Task #${index + 1}",
+                                      textScaleFactor: 1.1,
+                                    ),
+                                    trailing: IconButton(
+                                      icon: Icon(
+                                        Icons.cancel,
+                                        color: Colors.black87,
                                       ),
-                                      trailing: IconButton(
-                                        icon: Icon(
-                                          Icons.cancel,
-                                          color: Colors.black87,
-                                        ),
-                                        onPressed: () {
-                                          setState(() {
-                                            taskList.removeAt(index);
-                                          });
-                                        },
-                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          taskList.removeAt(index);
+                                        });
+                                      },
                                     ),
                                   ),
                                   //     Container(
