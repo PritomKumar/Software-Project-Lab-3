@@ -69,6 +69,17 @@ class _GigAddState extends State<GigAddTest> {
     }
   }
 
+  DateTime _combineDateTimeWithTimeOfDay({DateTime dateTime, TimeOfDay timeOfDay}) {
+    if (dateTime != null) {
+      return timeOfDay != null
+          ? DateTime(dateTime.year, dateTime.month, dateTime.day, timeOfDay.hour, timeOfDay.minute)
+          : DateTime(dateTime.year, dateTime.month, dateTime.day, TimeOfDay.now().hour,
+              TimeOfDay.now().minute);
+    } else {
+      return defalultInitializedTimestamp.toDate();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -352,12 +363,12 @@ class _GigAddState extends State<GigAddTest> {
                                     endTime == null
                                         ? "HH : MM"
                                         : endTime.hour
-                                        .toString()
-                                        .padLeft(2, '0') +
-                                        " : " +
-                                        endTime.minute
-                                            .toString()
-                                            .padLeft(2, '0'),
+                                                .toString()
+                                                .padLeft(2, '0') +
+                                            " : " +
+                                            endTime.minute
+                                                .toString()
+                                                .padLeft(2, '0'),
                                     style: TextStyle(
                                         fontWeight: FontWeight.w300,
                                         color: Colors.black),
@@ -540,20 +551,15 @@ class _GigAddState extends State<GigAddTest> {
                                 description: descriptionController.text ?? "",
                                 location: geoLocation,
                                 //providerId: user.uid,
-                                startTime: Timestamp.fromDate(DateTime(
-                                  startDate.year,
-                                  startDate.month,
-                                  startDate.day,
-                                  startTime.hour,
-                                  startTime.minute
-                                )),
+                                startTime: Timestamp.fromDate(
+                                    _combineDateTimeWithTimeOfDay(
+                                        dateTime: startDate, timeOfDay: startTime)),
                                 endTime: Timestamp.fromDate(DateTime(
                                     endDate.year,
                                     endDate.month,
                                     endDate.day,
                                     endTime.hour,
-                                    endTime.minute
-                                )),
+                                    endTime.minute)),
                                 type: typeOfGig,
                               ))
                                   .then((value) {
