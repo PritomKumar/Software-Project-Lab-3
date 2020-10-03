@@ -340,10 +340,10 @@ class _GigAddState extends State<GigAddTest> {
                       ),
                       Wrap(
                         direction: Axis.horizontal,
-                        alignment: WrapAlignment.end,
+                        alignment: WrapAlignment.spaceEvenly,
                         children: <Widget>[
                           RaisedButton.icon(
-                              color: Colors.lightGreen,
+                              color: Colors.lightGreenAccent,
                               splashColor: Colors.red,
                               elevation: 5.0,
                               autofocus: true,
@@ -352,6 +352,17 @@ class _GigAddState extends State<GigAddTest> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15.0)),
                               onPressed: _showAddImageTaskDialog,
+                          ),
+                          RaisedButton.icon(
+                            color: Colors.lightBlueAccent,
+                            splashColor: Colors.red,
+                            elevation: 5.0,
+                            autofocus: true,
+                            icon: Icon(Icons.add_circle),
+                            label: Text("Add Survey"),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0)),
+                            onPressed: _showAddImageTaskDialog,
                           ),
                         ],
                       ),
