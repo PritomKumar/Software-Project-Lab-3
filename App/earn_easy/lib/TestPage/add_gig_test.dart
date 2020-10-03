@@ -52,23 +52,21 @@ class _GigAddState extends State<GigAddTest> {
     // <-- note the async keyword here
 
     // this will contain the result from Navigator.pop(context, result)
-    final selectedTask = await showDialog<ImageTask>(
+    ImageTask selectedTask = await showDialog<ImageTask>(
       context: context,
       builder: (context) => AddImageTaskDialog(),
     );
 
     if (selectedTask != null) {
       setState(() {
-        //_fontSize = selectedFontSize;
+        taskList.add(selectedTask);
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery
-        .of(context)
-        .size;
+    var size = MediaQuery.of(context).size;
     //user = Provider.of<UserAccount>(context);
     // setState(() {
     //   if (user != null) {
@@ -76,6 +74,9 @@ class _GigAddState extends State<GigAddTest> {
     //   }
     // });
 
+    for(var task in taskList){
+      print("${task.taskDescription}  and ${task.numberOfImages} and size = ${taskList.length}");
+    }
     if (isloading) {
       return MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -347,11 +348,10 @@ class _GigAddState extends State<GigAddTest> {
                               elevation: 5.0,
                               autofocus: true,
                               icon: Icon(Icons.add_circle),
-                              label: Text("Add Task"),
+                              label: Text("Add Image Task"),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15.0)),
                               onPressed: _showAddImageTaskDialog,
-
                           ),
                         ],
                       ),

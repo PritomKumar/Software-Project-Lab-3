@@ -126,7 +126,7 @@ class _AddImageTaskDialogState extends State<AddImageTaskDialog> {
                   taskDescription: _taskDescriptionController.text,
                   // need submitted user
                 );
-                Navigator.pop(context,newTask);
+                Navigator.pop(context, newTask);
               },
               child: Text(
                 "Finish",
