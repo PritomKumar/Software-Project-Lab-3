@@ -40,7 +40,6 @@ class _GigAddState extends State<GigAddTest> {
 
   //later
   TimeOfDay startTime;
-
   TimeOfDay endTime;
 
   static final typeOfGigArray = [

@@ -6,6 +6,7 @@ import 'package:earneasy/models/user.dart';
 import 'package:earneasy/services/firestore_gig_databse.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
+import 'package:earneasy/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
@@ -33,6 +34,8 @@ class _GigAddState extends State<GigAdd> {
   var descriptionController = TextEditingController();
   DateTime startDate = defalultInitializedTimestamp.toDate();
   DateTime endDate = defalultInitializedTimestamp.toDate();
+  TimeOfDay startTime;
+  TimeOfDay endTime;
 
   bool isloading = false;
 
@@ -242,37 +245,32 @@ class _GigAddState extends State<GigAdd> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   Text(
-                                    startDate ==
-                                        defalultInitializedTimestamp
-                                            .toDate()
-                                        ? "MM/DD/YYYY"
-                                        : startDate.day
+                                    startTime == null
+                                        ? "HH : MM"
+                                        : startTime.hour
                                         .toString()
                                         .padLeft(2, '0') +
-                                        "/" +
-                                        startDate.month
+                                        " : " +
+                                        startTime.minute
                                             .toString()
-                                            .padLeft(2, '0') +
-                                        "/" +
-                                        startDate.year.toString(),
+                                            .padLeft(2, '0'),
                                     style: TextStyle(
                                         fontWeight: FontWeight.w300,
                                         color: Colors.black),
                                   ),
                                   SizedBox(width: 10.0),
-                                  Icon(FontAwesomeIcons.calendarCheck),
+                                  Icon(FontAwesomeIcons.clock),
                                 ],
                               ),
                             ),
                             onTap: () async {
                               var clickedTime = await showTimePicker(
                                 context: context,
-                                initialTime: TimeOfDay.now(),
+                                initialTime: startTime ?? TimeOfDay.now(),
                               );
-                              if (clickedTime != null
-                              )
+                              if (clickedTime != null)
                                 setState(() {
-                                  // startDate = clickedTime;
+                                  startTime = clickedTime;
                                   print(clickedTime.toString());
                                 });
                             },
@@ -333,6 +331,47 @@ class _GigAddState extends State<GigAdd> {
                                 setState(() {
                                   endDate = clickedDate;
                                   print(endDate.toString());
+                                });
+                            },
+                          ),
+                          SizedBox(
+                            width: size.width / 40,
+                          ),
+                          InkWell(
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 5.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    endTime == null
+                                        ? "HH : MM"
+                                        : endTime.hour
+                                        .toString()
+                                        .padLeft(2, '0') +
+                                        " : " +
+                                        endTime.minute
+                                            .toString()
+                                            .padLeft(2, '0'),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        color: Colors.black),
+                                  ),
+                                  SizedBox(width: 10.0),
+                                  Icon(FontAwesomeIcons.clock),
+                                ],
+                              ),
+                            ),
+                            onTap: () async {
+                              var clickedTime = await showTimePicker(
+                                context: context,
+                                initialTime: endTime ?? TimeOfDay.now(),
+                              );
+                              if (clickedTime != null)
+                                setState(() {
+                                  endTime = clickedTime;
+                                  print(clickedTime.toString());
                                 });
                             },
                           ),
@@ -496,9 +535,14 @@ class _GigAddState extends State<GigAdd> {
                                 title: titleController.text ?? "",
                                 description: descriptionController.text ?? "",
                                 location: geoLocation,
-                                providerId: user.uid,
-                                startTime: Timestamp.fromDate(startDate),
-                                endTime: Timestamp.fromDate(endDate),
+                                //providerId: user.uid,
+                                startTime: Timestamp.fromDate(
+                                    Utils.CombineDateTimeWithTimeOfDay(
+                                        dateTime: startDate,
+                                        timeOfDay: startTime)),
+                                endTime: Timestamp.fromDate(
+                                    Utils.CombineDateTimeWithTimeOfDay(
+                                        dateTime: endDate, timeOfDay: endTime)),
                                 type: typeOfGig,
                               ))
                                   .then((value) {
