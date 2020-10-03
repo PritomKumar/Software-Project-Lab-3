@@ -247,13 +247,12 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
 
     final outPath = dir.absolute.path +
         "/${DateTime.now().millisecondsSinceEpoch.toString()} ${basename(filePath)}.jpg";
-    print("After file");
+    //print("After file");
     final image = await testCompressAndGetFile(imgFile, outPath);
-    print("After Test");
+    //print("After Test");
     //_imageFileList.add(image);
     //await upload(basename(image.path), image.path);
 
-    return image;
     // final dir2 = await path_provider.getExternalStorageDirectory();
     // final dir3 = await path_provider.getApplicationDocumentsDirectory();
     // // copy the file to a new path
@@ -263,6 +262,7 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
     // }
 
     //provider = FileImage(imgFile);
+    return image;
   }
 
   @override
