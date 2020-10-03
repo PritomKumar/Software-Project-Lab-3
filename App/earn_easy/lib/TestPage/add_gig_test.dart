@@ -338,6 +338,27 @@ class _GigAddState extends State<GigAddTest> {
                           ],
                         ),
                       ),
+                      Container(
+                        padding: EdgeInsets.only(right: 50.0),
+                        child: Stack(
+                          overflow: Overflow.visible,
+                          children: <Widget>[
+                            Text(
+                              "Minimum number  sdfsd sdf sdfsdfs dfof  adasdas dadas asd asdas dasda asd asd as dasdas dasdas daimage : ",
+                              textScaleFactor: 1.05,
+                              maxLines: null,
+                              overflow: TextOverflow.ellipsis,
+                              softWrap: true,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
                       Wrap(
                         direction: Axis.horizontal,
                         alignment: WrapAlignment.spaceEvenly,
@@ -362,7 +383,9 @@ class _GigAddState extends State<GigAddTest> {
                             label: Text("Add Survey"),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15.0)),
-                            onPressed: _showAddImageTaskDialog,
+                            onPressed: () {
+                              //TODO Add Survey
+                            },
                           ),
                         ],
                       ),
