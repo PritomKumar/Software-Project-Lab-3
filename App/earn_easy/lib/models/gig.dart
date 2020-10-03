@@ -28,6 +28,7 @@ class Gig {
   final GeoPoint location;
   final String title;
   final String description;
+  final String details;
   final Timestamp startTime;
   final Timestamp endTime;
   final String gigId;
@@ -45,6 +46,7 @@ class Gig {
     this.location,
     this.title = "",
     this.description = "",
+    this.details = "",
     this.startTime,
     this.endTime,
     this.gigId = "",
