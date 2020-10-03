@@ -74,8 +74,9 @@ class _GigAddState extends State<GigAddTest> {
     //   }
     // });
 
-    for(var task in taskList){
-      print("${task.taskDescription}  and ${task.numberOfImages} and size = ${taskList.length}");
+    for (var task in taskList) {
+      print(
+          "${task.taskDescription}  and ${task.numberOfImages} and size = ${taskList.length}");
     }
     if (isloading) {
       return MaterialApp(
@@ -104,7 +105,7 @@ class _GigAddState extends State<GigAddTest> {
               child: Center(
                 child: Container(
                   padding:
-                  EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                   child: ListView(
                     children: <Widget>[
                       Row(
@@ -141,7 +142,7 @@ class _GigAddState extends State<GigAddTest> {
                             child: TextFormField(
                               controller: titleController,
                               decoration:
-                              InputDecoration(hintText: "Gig Title"),
+                                  InputDecoration(hintText: "Gig Title"),
                               validator: (value) {
                                 return value.isEmpty
                                     ? "Enter your gig title"
@@ -164,7 +165,7 @@ class _GigAddState extends State<GigAddTest> {
                             child: TextFormField(
                               controller: descriptionController,
                               decoration:
-                              InputDecoration(hintText: "Gig description"),
+                                  InputDecoration(hintText: "Gig description"),
                               validator: (value) {
                                 return value.isEmpty
                                     ? "Enter gig description"
@@ -192,18 +193,18 @@ class _GigAddState extends State<GigAddTest> {
                                 children: <Widget>[
                                   Text(
                                     startDate ==
-                                        defalultInitializedTimestamp
-                                            .toDate()
+                                            defalultInitializedTimestamp
+                                                .toDate()
                                         ? "MM/DD/YYYY"
                                         : startDate.day
-                                        .toString()
-                                        .padLeft(2, '0') +
-                                        "/" +
-                                        startDate.month
-                                            .toString()
-                                            .padLeft(2, '0') +
-                                        "/" +
-                                        startDate.year.toString(),
+                                                .toString()
+                                                .padLeft(2, '0') +
+                                            "/" +
+                                            startDate.month
+                                                .toString()
+                                                .padLeft(2, '0') +
+                                            "/" +
+                                            startDate.year.toString(),
                                     style: TextStyle(
                                         fontWeight: FontWeight.w300,
                                         color: Colors.black),
@@ -217,7 +218,7 @@ class _GigAddState extends State<GigAddTest> {
                               var clickedDate = await showDatePicker(
                                 context: context,
                                 initialDate: startDate ==
-                                    defalultInitializedTimestamp.toDate()
+                                        defalultInitializedTimestamp.toDate()
                                     ? DateTime.now()
                                     : startDate,
                                 firstDate: DateTime.now(),
@@ -252,18 +253,18 @@ class _GigAddState extends State<GigAddTest> {
                                 children: <Widget>[
                                   Text(
                                     endDate ==
-                                        defalultInitializedTimestamp
-                                            .toDate()
+                                            defalultInitializedTimestamp
+                                                .toDate()
                                         ? "MM/DD/YYYY"
                                         : endDate.day
-                                        .toString()
-                                        .padLeft(2, '0') +
-                                        "/" +
-                                        endDate.month
-                                            .toString()
-                                            .padLeft(2, '0') +
-                                        "/" +
-                                        endDate.year.toString(),
+                                                .toString()
+                                                .padLeft(2, '0') +
+                                            "/" +
+                                            endDate.month
+                                                .toString()
+                                                .padLeft(2, '0') +
+                                            "/" +
+                                            endDate.year.toString(),
                                     style: TextStyle(
                                         fontWeight: FontWeight.w300,
                                         color: Colors.black),
@@ -277,7 +278,7 @@ class _GigAddState extends State<GigAddTest> {
                               var clickedDate = await showDatePicker(
                                 context: context,
                                 initialDate: endDate ==
-                                    defalultInitializedTimestamp.toDate()
+                                        defalultInitializedTimestamp.toDate()
                                     ? DateTime.now()
                                     : endDate,
                                 firstDate: DateTime.now(),
@@ -314,7 +315,7 @@ class _GigAddState extends State<GigAddTest> {
                                   focusColor: Colors.green,
                                   fillColor: Colors.grey[150],
                                   contentPadding:
-                                  EdgeInsets.only(left: 5.0, right: 5.0),
+                                      EdgeInsets.only(left: 5.0, right: 5.0),
                                 ),
                                 icon: Icon(FontAwesomeIcons.angleDown),
                                 iconEnabledColor: Colors.blueGrey,
@@ -322,7 +323,7 @@ class _GigAddState extends State<GigAddTest> {
                                 isExpanded: true,
                                 value: typeOfGig,
                                 items:
-                                typeOfGigArray.map((String dropdownItem) {
+                                    typeOfGigArray.map((String dropdownItem) {
                                   return DropdownMenuItem<String>(
                                     value: dropdownItem,
                                     child: Text(dropdownItem),
@@ -339,40 +340,73 @@ class _GigAddState extends State<GigAddTest> {
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.only(right: 50.0),
-                        child: Stack(
-                          overflow: Overflow.visible,
-                          children: <Widget>[
-                            Text(
-                              "Minimum number  sdfsd sdf sdfsdfs dfof  adasdas dadas asd asdas dasda asd asd as dasdas dasdas daimage : ",
-                              textScaleFactor: 1.05,
-                              maxLines: null,
-                              overflow: TextOverflow.ellipsis,
-                              softWrap: true,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.black87,
-                                fontWeight: FontWeight.w500,
-                              ),
+                        padding: EdgeInsets.all(5.0),
+                        child: ListView.builder(
+                          itemCount: taskList.length,
+                          physics: ScrollPhysics(),
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) =>
+                              Container(
+                            padding: EdgeInsets.only(
+                                right: 20.0, top: 5.0, bottom: 5.0),
+                            child: Stack(
+                              overflow: Overflow.visible,
+                              fit: StackFit.loose,
+                              alignment: Alignment.center,
+                              children: <Widget>[
+                                Positioned(
+                                  child: Container(
+                                    //color: Colors.blue,
+                                    child: Text(
+                                      "${taskList[index].taskDescription}",
+                                      // " asd sda sdasd adas asfdf asfsfafa dfsdf sadf sdfsdasasdgsad sd ssdffsd fsdfa sdfsdf asdfsd adf adfdasf asdfasdfasdf sdf sadsfd ",
+                                      textScaleFactor: 1.05,
+                                      maxLines: null,
+                                      overflow: TextOverflow.ellipsis,
+                                      softWrap: true,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Colors.black87,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                //Positioned(child: SizedBox(width: 100.0,)),
+                                Positioned(
+                                  top: -18.0,
+                                  right: -20.0,
+                                  child: IconButton(
+                                    icon: Icon(
+                                      Icons.cancel,
+                                      color: Colors.redAccent,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        //TODO Task Delete
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
                       ),
-
                       Wrap(
                         direction: Axis.horizontal,
                         alignment: WrapAlignment.spaceEvenly,
                         children: <Widget>[
                           RaisedButton.icon(
-                              color: Colors.lightGreenAccent,
-                              splashColor: Colors.red,
-                              elevation: 5.0,
-                              autofocus: true,
-                              icon: Icon(Icons.add_circle),
-                              label: Text("Add Image Task"),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15.0)),
-                              onPressed: _showAddImageTaskDialog,
+                            color: Colors.lightGreenAccent,
+                            splashColor: Colors.red,
+                            elevation: 5.0,
+                            autofocus: true,
+                            icon: Icon(Icons.add_circle),
+                            label: Text("Add Image Task"),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0)),
+                            onPressed: _showAddImageTaskDialog,
                           ),
                           RaisedButton.icon(
                             color: Colors.lightBlueAccent,
@@ -404,7 +438,7 @@ class _GigAddState extends State<GigAddTest> {
                               await DatabaseServiceGigs()
                                   .createNewGig(Gig(
                                 money: int.parse(
-                                    moneyController.text.toString()) ??
+                                        moneyController.text.toString()) ??
                                     0,
                                 title: titleController.text ?? "",
                                 description: descriptionController.text ?? "",
