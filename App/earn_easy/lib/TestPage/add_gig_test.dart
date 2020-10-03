@@ -340,100 +340,110 @@ class _GigAddState extends State<GigAddTest> {
                         ),
                       ),
                       if (taskList.length > 0)
-                        Container(
-                          child: Text(
-                            //"asd sda sdasd adas asfdf asfsfafa dfsdf sadf sdfsdasasdgsad sd ssdffsd fsdfa sdfsdf asdfsd adf adfdasf asdfasdfasdf sdf sadsfd ",
-                            "Image Tasks : ",
-                            textScaleFactor: 1.25,
-                          ),
-                        ),
-                      Container(
-                        padding: EdgeInsets.all(5.0),
-                        child: ListView.builder(
-                          itemCount: taskList.length,
-                          physics: ScrollPhysics(),
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) => Card(
-                            elevation: 5.0,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5.0)),
-                            shadowColor: Colors.blue[200],
-                            borderOnForeground: true,
-                            child: ListTile(
-                              enabled: true,
-                              dense: true,
-                              leading: Icon(
-                                Icons.photo_library,
-                                color: Colors.blue,
-                              ),
-                              title: Text(
-                                "${taskList[index].taskDescription}",
-                                textScaleFactor: 1.5,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w300,
-                                ),
-                                //" asd sda sdasd adas asfdf asfsfafa dfsdf sadf sdfsdasasdgsad sd ssdffsd fsdfa sdfsdf asdfsd adf adfdasf asdfasdfasdf sdf sadsfd ",
-                              ),
-                              trailing: IconButton(
-                                icon: Icon(
-                                  Icons.cancel,
-                                  color: Colors.black87,
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    taskList.removeAt(index);
-                                  });
-                                },
-                              ),
+                        Card(
+                          elevation: 5.0,
+                          shadowColor: Colors.blue[200],
+                          child: ExpansionTile(
+                            initiallyExpanded: false,
+                            title: Text(
+                              "Image Tasks",
+                              textScaleFactor: 1.35,
                             ),
+                            backgroundColor: Colors.white,
+                            trailing: Icon(
+                              Icons.arrow_downward,
+                              color: Colors.blue,
+                            ),
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.all(5.0),
+                                child: ListView.builder(
+                                  itemCount: taskList.length,
+                                  physics: ScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) => Card(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(5.0)),
+                                    borderOnForeground: true,
+                                    child: ListTile(
+                                      enabled: true,
+                                      dense: true,
+                                      leading: Icon(
+                                        Icons.photo_library,
+                                        color: Colors.blue,
+                                      ),
+                                      title: Text(
+                                        "${taskList[index].taskDescription}",
+                                        textScaleFactor: 1.5,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w300,
+                                        ),
+                                        //" asd sda sdasd adas asfdf asfsfafa dfsdf sadf sdfsdasasdgsad sd ssdffsd fsdfa sdfsdf asdfsd adf adfdasf asdfasdfasdf sdf sadsfd ",
+                                      ),
+                                      trailing: IconButton(
+                                        icon: Icon(
+                                          Icons.cancel,
+                                          color: Colors.black87,
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            taskList.removeAt(index);
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  //     Container(
+                                  //   padding: EdgeInsets.only(
+                                  //       right: 20.0, top: 5.0, bottom: 5.0),
+                                  //   child: Stack(
+                                  //     overflow: Overflow.visible,
+                                  //     fit: StackFit.loose,
+                                  //     alignment: Alignment.center,
+                                  //     children: <Widget>[
+                                  //       Positioned(
+                                  //         child: Container(
+                                  //           //color: Colors.blue,
+                                  //           child: Text(
+                                  //             "${taskList[index].taskDescription}",
+                                  //             // " asd sda sdasd adas asfdf asfsfafa dfsdf sadf sdfsdasasdgsad sd ssdffsd fsdfa sdfsdf asdfsd adf adfdasf asdfasdfasdf sdf sadsfd ",
+                                  //             textScaleFactor: 1.05,
+                                  //             maxLines: null,
+                                  //             overflow: TextOverflow.ellipsis,
+                                  //             softWrap: true,
+                                  //             textAlign: TextAlign.center,
+                                  //             style: TextStyle(
+                                  //               color: Colors.black87,
+                                  //               fontWeight: FontWeight.w500,
+                                  //             ),
+                                  //           ),
+                                  //         ),
+                                  //       ),
+                                  //       //Positioned(child: SizedBox(width: 100.0,)),
+                                  //       Positioned(
+                                  //         top: -18.0,
+                                  //         right: -20.0,
+                                  //         child: IconButton(
+                                  //           icon: Icon(
+                                  //             Icons.cancel,
+                                  //             color: Colors.redAccent,
+                                  //           ),
+                                  //           onPressed: () {
+                                  //             setState(() {
+                                  //               //TODO Task Delete
+                                  //             });
+                                  //           },
+                                  //         ),
+                                  //       ),
+                                  //     ],
+                                  //   ),
+                                  // ),
+                                ),
+                              ),
+                            ],
                           ),
-                          //     Container(
-                          //   padding: EdgeInsets.only(
-                          //       right: 20.0, top: 5.0, bottom: 5.0),
-                          //   child: Stack(
-                          //     overflow: Overflow.visible,
-                          //     fit: StackFit.loose,
-                          //     alignment: Alignment.center,
-                          //     children: <Widget>[
-                          //       Positioned(
-                          //         child: Container(
-                          //           //color: Colors.blue,
-                          //           child: Text(
-                          //             "${taskList[index].taskDescription}",
-                          //             // " asd sda sdasd adas asfdf asfsfafa dfsdf sadf sdfsdasasdgsad sd ssdffsd fsdfa sdfsdf asdfsd adf adfdasf asdfasdfasdf sdf sadsfd ",
-                          //             textScaleFactor: 1.05,
-                          //             maxLines: null,
-                          //             overflow: TextOverflow.ellipsis,
-                          //             softWrap: true,
-                          //             textAlign: TextAlign.center,
-                          //             style: TextStyle(
-                          //               color: Colors.black87,
-                          //               fontWeight: FontWeight.w500,
-                          //             ),
-                          //           ),
-                          //         ),
-                          //       ),
-                          //       //Positioned(child: SizedBox(width: 100.0,)),
-                          //       Positioned(
-                          //         top: -18.0,
-                          //         right: -20.0,
-                          //         child: IconButton(
-                          //           icon: Icon(
-                          //             Icons.cancel,
-                          //             color: Colors.redAccent,
-                          //           ),
-                          //           onPressed: () {
-                          //             setState(() {
-                          //               //TODO Task Delete
-                          //             });
-                          //           },
-                          //         ),
-                          //       ),
-                          //     ],
-                          //   ),
-                          // ),
                         ),
-                      ),
                       Wrap(
                         direction: Axis.horizontal,
                         alignment: WrapAlignment.spaceEvenly,
