@@ -35,6 +35,7 @@ class Gig {
   final String type;
   final String access;
   final String importantNote;
+  final String notice;
   final List<String> fileAttachmentUrls;
   final List<String> attemptedUsers;
   final List<String> finishTaskUsers;
@@ -51,6 +52,7 @@ class Gig {
     this.type = "Not set",
     this.access = "",
     this.importantNote = "",
+    this.notice = "",
     this.fileAttachmentUrls,
     this.attemptedUsers,
     this.finishTaskUsers,
