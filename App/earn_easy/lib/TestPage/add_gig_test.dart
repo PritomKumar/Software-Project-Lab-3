@@ -270,7 +270,7 @@ class _GigAddState extends State<GigAddTest> {
                             onTap: () async {
                               var clickedTime = await showTimePicker(
                                 context: context,
-                                initialTime: TimeOfDay.now(),
+                                initialTime: startTime ?? TimeOfDay.now(),
                               );
                               if (clickedTime != null)
                                 setState(() {
@@ -335,6 +335,47 @@ class _GigAddState extends State<GigAddTest> {
                                 setState(() {
                                   endDate = clickedDate;
                                   print(endDate.toString());
+                                });
+                            },
+                          ),
+                          SizedBox(
+                            width: size.width / 40,
+                          ),
+                          InkWell(
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 5.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    endTime == null
+                                        ? "HH : MM"
+                                        : endTime.hour
+                                        .toString()
+                                        .padLeft(2, '0') +
+                                        " : " +
+                                        endTime.minute
+                                            .toString()
+                                            .padLeft(2, '0'),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        color: Colors.black),
+                                  ),
+                                  SizedBox(width: 10.0),
+                                  Icon(FontAwesomeIcons.clock),
+                                ],
+                              ),
+                            ),
+                            onTap: () async {
+                              var clickedTime = await showTimePicker(
+                                context: context,
+                                initialTime: endTime ?? TimeOfDay.now(),
+                              );
+                              if (clickedTime != null)
+                                setState(() {
+                                  endTime = clickedTime;
+                                  print(clickedTime.toString());
                                 });
                             },
                           ),
