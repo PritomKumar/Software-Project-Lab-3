@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:earneasy/shared/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -80,22 +81,22 @@ class Gig {
 
   Map<String, dynamic> toMap() {
     return {
-      'gigId': this.gigId,
-      'money': this.money,
-      'title': this.title,
-      'location': this.location,
-      'description': this.description,
-      'details': this.details,
-      'startTime': this.startTime,
-      'endTime': this.endTime,
-      'providerId': this.providerId,
-      'type': this.type,
-      'access': this.access,
-      'importantNote': this.importantNote,
-      'notice': this.notice,
-      'fileAttachmentUrls': this.fileAttachmentUrls,
-      'attemptedUsers': this.attemptedUsers,
-      'finishTaskUsers': this.finishTaskUsers,
+      'gigId': this.gigId ?? "",
+      'money': this.money?? 0,
+      'title': this.title?? "",
+      'location': this.location?? null,
+      'description': this.description?? "",
+      'details': this.details?? "",
+      'startTime': this.startTime ?? defalultInitializedTimestamp,
+      'endTime': this.endTime ?? defalultInitializedTimestamp,
+      'providerId': this.providerId?? "",
+      'type': this.type?? "Not set",
+      'access': this.access?? "public",
+      'importantNote': this.importantNote?? "",
+      'notice': this.notice?? "",
+      'fileAttachmentUrls': this.fileAttachmentUrls?? [],
+      'attemptedUsers': this.attemptedUsers?? [],
+      'finishTaskUsers': this.finishTaskUsers?? [],
     };
   }
 }

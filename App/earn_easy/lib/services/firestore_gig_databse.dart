@@ -39,9 +39,7 @@ class DatabaseServiceGigs {
 
   Future createNewGig(Gig gig) {
     if (isLoggedIn()) {
-      return fireStoreGigsRef.add(
-        gig.toMap()
-      ).then((docRef) {
+      return fireStoreGigsRef.add(gig.toMap()).then((docRef) {
         docRef.update({
           "gigId": docRef.id,
         });
