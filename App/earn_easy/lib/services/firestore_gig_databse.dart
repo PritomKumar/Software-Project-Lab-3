@@ -29,6 +29,13 @@ class DatabaseServiceGigs {
 
   Future createNewGig(Gig gig, List<ImageTask> imageTaskList) async {
     if (isLoggedIn()) {
+      if (imageTaskList != null) {
+        // fireStoreGigsRef.doc(docRef.id).collection("Tasks").add(imageTaskList[0].toMap());
+        FirebaseFirestore.instance.collection("Tasks").add({
+          "fsd": "fsdgfh",
+          "fsdfsd": "dsfsdfsd",
+        });
+      }
       return await fireStoreGigsRef.add(gig.toMap()).then((docRef) {
         docRef.update({
           "gigId": docRef.id,
@@ -42,9 +49,7 @@ class DatabaseServiceGigs {
         //   });
         // }
 
-        if(imageTaskList!=null){
-          fireStoreGigsRef.doc(docRef.id).collection("Tasks").add(imageTaskList[0].toMap());
-        }
+
 
         print(docRef.id);
         fireStoreUsersRef.doc(gig.providerId).update({

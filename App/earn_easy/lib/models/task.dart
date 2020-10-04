@@ -7,7 +7,8 @@ class ImageTask {
   final String type;
   final String taskDescription;
   final int numberOfImages;
-  final List<ImageTaskWorkerResponse> workerResponses;
+  List<ImageTaskWorkerResponse> workerResponses =
+      List<ImageTaskWorkerResponse>();
 
   ImageTask({
     @required this.taskId,
@@ -42,7 +43,7 @@ class ImageTask {
 
 class ImageTaskWorkerResponse {
   final String submittedUserUid;
-  final List<String> submittedImageUrlList;
+  List<String> submittedImageUrlList = List<String>();
 
   ImageTaskWorkerResponse(
       {@required this.submittedUserUid, @required this.submittedImageUrlList});
