@@ -548,7 +548,7 @@ class _GigAddState extends State<GigAddTest> {
                                     Utils.CombineDateTimeWithTimeOfDay(
                                         dateTime: endDate, timeOfDay: endTime)),
                                 type: typeOfGig,
-                              ))
+                              ),taskList)
                                   .then((value) {
                                 setState(() {
                                   alreadyAddedGig = true;

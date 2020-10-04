@@ -193,8 +193,7 @@ class _GigAddState extends State<GigAdd> {
                                 children: <Widget>[
                                   Text(
                                     startDate ==
-                                            defaultInitializedTimestamp
-                                                .toDate()
+                                            defaultInitializedTimestamp.toDate()
                                         ? "MM/DD/YYYY"
                                         : startDate.day
                                                 .toString()
@@ -294,8 +293,7 @@ class _GigAddState extends State<GigAdd> {
                                 children: <Widget>[
                                   Text(
                                     endDate ==
-                                            defaultInitializedTimestamp
-                                                .toDate()
+                                            defaultInitializedTimestamp.toDate()
                                         ? "MM/DD/YYYY"
                                         : endDate.day
                                                 .toString()
@@ -527,23 +525,29 @@ class _GigAddState extends State<GigAdd> {
                               GeoPoint geoLocation = GeoPoint(
                                   location.latitude, location.longitude);
                               await DatabaseServiceGigs()
-                                  .createNewGig(Gig(
-                                money: int.parse(
-                                        moneyController.text.toString()) ??
-                                    0,
-                                title: titleController.text ?? "",
-                                description: descriptionController.text ?? "",
-                                location: geoLocation,
-                                providerId: user.uid,
-                                startTime: Timestamp.fromDate(
-                                    Utils.CombineDateTimeWithTimeOfDay(
-                                        dateTime: startDate,
-                                        timeOfDay: startTime)),
-                                endTime: Timestamp.fromDate(
-                                    Utils.CombineDateTimeWithTimeOfDay(
-                                        dateTime: endDate, timeOfDay: endTime)),
-                                type: typeOfGig,
-                              ))
+                                  .createNewGig(
+                                      Gig(
+                                        money: int.parse(moneyController.text
+                                                .toString()) ??
+                                            0,
+                                        title: titleController.text ?? "",
+                                        description:
+                                            descriptionController.text ?? "",
+                                        location: geoLocation,
+                                        providerId: user.uid,
+                                        startTime: Timestamp.fromDate(
+                                            Utils.CombineDateTimeWithTimeOfDay(
+                                          dateTime: startDate,
+                                          timeOfDay: startTime,
+                                        )),
+                                        endTime: Timestamp.fromDate(
+                                            Utils.CombineDateTimeWithTimeOfDay(
+                                          dateTime: endDate,
+                                          timeOfDay: endTime,
+                                        )),
+                                        type: typeOfGig,
+                                      ),
+                                      taskList)
                                   .then((value) {
                                 setState(() {
                                   alreadyAddedGig = true;
