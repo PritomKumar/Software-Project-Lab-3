@@ -32,8 +32,8 @@ class _GigAddState extends State<GigAdd> {
 
   List<ImageTask> taskList = List<ImageTask>();
   var descriptionController = TextEditingController();
-  DateTime startDate = defalultInitializedTimestamp.toDate();
-  DateTime endDate = defalultInitializedTimestamp.toDate();
+  DateTime startDate = defaultInitializedTimestamp.toDate();
+  DateTime endDate = defaultInitializedTimestamp.toDate();
   TimeOfDay startTime;
   TimeOfDay endTime;
 
@@ -193,7 +193,7 @@ class _GigAddState extends State<GigAdd> {
                                 children: <Widget>[
                                   Text(
                                     startDate ==
-                                            defalultInitializedTimestamp
+                                            defaultInitializedTimestamp
                                                 .toDate()
                                         ? "MM/DD/YYYY"
                                         : startDate.day
@@ -218,7 +218,7 @@ class _GigAddState extends State<GigAdd> {
                               var clickedDate = await showDatePicker(
                                 context: context,
                                 initialDate: startDate ==
-                                        defalultInitializedTimestamp.toDate()
+                                        defaultInitializedTimestamp.toDate()
                                     ? DateTime.now()
                                     : startDate,
                                 firstDate: DateTime.now(),
@@ -294,7 +294,7 @@ class _GigAddState extends State<GigAdd> {
                                 children: <Widget>[
                                   Text(
                                     endDate ==
-                                            defalultInitializedTimestamp
+                                            defaultInitializedTimestamp
                                                 .toDate()
                                         ? "MM/DD/YYYY"
                                         : endDate.day
@@ -319,7 +319,7 @@ class _GigAddState extends State<GigAdd> {
                               var clickedDate = await showDatePicker(
                                 context: context,
                                 initialDate: endDate ==
-                                        defalultInitializedTimestamp.toDate()
+                                        defaultInitializedTimestamp.toDate()
                                     ? DateTime.now()
                                     : endDate,
                                 firstDate: DateTime.now(),

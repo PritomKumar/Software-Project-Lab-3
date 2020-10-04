@@ -9,7 +9,7 @@ class Utils{
           : DateTime(dateTime.year, dateTime.month, dateTime.day, TimeOfDay.now().hour,
           TimeOfDay.now().minute);
     } else {
-      return defalultInitializedTimestamp.toDate();
+      return defaultInitializedTimestamp.toDate();
     }
   }
 }

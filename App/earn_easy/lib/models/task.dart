@@ -11,7 +11,7 @@ class ImageTask {
   ImageTask({
     @required this.taskId,
     //TODO Have to create a constant for type of task , Preferably a map
-    this.type = "image",
+    this.type = ImageTaskType,
     @required this.taskDescription,
     @required this.numberOfImages,
     @required this.workerResponses,

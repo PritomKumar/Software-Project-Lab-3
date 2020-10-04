@@ -127,7 +127,7 @@ class UserAccount {
       "email": this.email ?? "",
       "photoUrl": this.photoUrl ?? "",
       "phoneNumber": this.phoneNumber ?? "",
-      "birthDay": this.birthDay ?? defalultInitializedTimestamp,
+      "birthDay": this.birthDay ?? defaultInitializedTimestamp,
       "gender": this.gender ?? "Not set",
       "streetAddress": this.streetAddress ?? "",
       "city": this.city ?? "",
