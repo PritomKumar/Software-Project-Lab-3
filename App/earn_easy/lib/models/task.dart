@@ -2,16 +2,22 @@ import 'package:flutter/cupertino.dart';
 
 class ImageTask {
   final String type;
-  final String submittedUser;
   final String taskDescription;
   final int numberOfImages;
-  final List<String> submittedImageUrlList;
+  final List<ImageTaskWorkerResponse> workerResponses;
 
   ImageTask({
     @required this.type,
-    this.submittedUser,
     @required this.taskDescription,
     @required this.numberOfImages,
-    @required this.submittedImageUrlList,
+    @required this.workerResponses,
   });
+}
+
+class ImageTaskWorkerResponse {
+  final String submittedUserUid;
+  final List<String> submittedImageUrlList;
+
+  ImageTaskWorkerResponse(
+      {@required this.submittedUserUid, @required this.submittedImageUrlList});
 }

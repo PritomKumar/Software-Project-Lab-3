@@ -122,7 +122,6 @@ class _AddImageTaskDialogState extends State<AddImageTaskDialog> {
                 ImageTask newTask = ImageTask(
                   type: "ImageTask",
                   numberOfImages: _numberOfTaskImage.round(),
-                  submittedImageUrlList: null,
                   taskDescription: _taskDescriptionController.text,
                   // need submitted user
                 );
