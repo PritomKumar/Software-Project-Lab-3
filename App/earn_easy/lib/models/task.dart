@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 class ImageTask {
   final String taskId;
+  final String gigId;
   final String type;
   final String taskDescription;
   final int numberOfImages;
@@ -10,7 +11,7 @@ class ImageTask {
 
   ImageTask({
     @required this.taskId,
-    //TODO Have to create a constant for type of task , Preferably a map
+    @required this.gigId,
     this.type = ImageTaskType,
     @required this.taskDescription,
     @required this.numberOfImages,
@@ -19,6 +20,7 @@ class ImageTask {
 
   ImageTask.fromMap(Map<String, dynamic> data)
       : this.taskId = data["taskId"],
+        this.gigId = data["gigId"],
         this.type = data["type"],
         this.taskDescription = data["taskDescription"],
         this.numberOfImages = data["numberOfImages"],
@@ -29,6 +31,7 @@ class ImageTask {
   Map<String, dynamic> toMap() {
     return {
       'taskId': this.taskId ?? "",
+      'gigId': this.gigId ?? "",
       'type': this.type ?? "",
       'taskDescription': this.taskDescription ?? "",
       'numberOfImages': this.numberOfImages ?? 0,

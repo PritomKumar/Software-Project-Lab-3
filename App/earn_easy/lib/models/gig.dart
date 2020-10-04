@@ -38,6 +38,7 @@ class Gig {
   final String access;
   final String importantNote;
   final String notice;
+  List<String> taskIdList = List<String>();
   List<String> fileAttachmentUrls = List<String>();
   List<String> attemptedUsers = List<String>();
   List<String> finishTaskUsers = List<String>();
@@ -56,6 +57,7 @@ class Gig {
     this.access = "",
     this.importantNote = "",
     this.notice = "",
+    this.taskIdList,
     this.fileAttachmentUrls,
     this.attemptedUsers,
     this.finishTaskUsers,
@@ -75,6 +77,8 @@ class Gig {
         this.access = data["access"],
         this.importantNote = data["importantNote"],
         this.notice = data["notice"],
+        this.taskIdList =
+            List.from(data["taskIdList"]) ?? List<String>(),
         this.fileAttachmentUrls =
             List.from(data["fileAttachmentUrls"]) ?? List<String>(),
         this.attemptedUsers =
@@ -97,6 +101,7 @@ class Gig {
       'access': this.access ?? "public",
       'importantNote': this.importantNote ?? "",
       'notice': this.notice ?? "",
+      'taskIdList': this.taskIdList ?? List<String>(),
       'fileAttachmentUrls': this.fileAttachmentUrls ?? List<String>(),
       'attemptedUsers': this.attemptedUsers ?? List<String>(),
       'finishTaskUsers': this.finishTaskUsers ?? List<String>(),
