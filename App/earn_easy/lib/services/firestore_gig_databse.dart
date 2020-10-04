@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/models/gig.dart';
+import 'package:earneasy/models/task.dart';
 import 'package:earneasy/models/user.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -26,12 +27,25 @@ class DatabaseServiceGigs {
     }
   }
 
-  Future createNewGig(Gig gig) {
+  Future createNewGig(Gig gig, List<ImageTask> imageTaskList) async {
     if (isLoggedIn()) {
-      return fireStoreGigsRef.add(gig.toMap()).then((docRef) {
+      return await fireStoreGigsRef.add(gig.toMap()).then((docRef) {
         docRef.update({
           "gigId": docRef.id,
         });
+        // for (var imageTask in imageTaskList) {
+        //   docRef.collection("Tasks").add(imageTask.toMap()).then((taskRef) {
+        //     taskRef.update({
+        //       "taskId": taskRef.id,
+        //       "gigId": docRef.id,
+        //     });
+        //   });
+        // }
+
+        if(imageTaskList!=null){
+          fireStoreGigsRef.doc(docRef.id).collection("Tasks").add(imageTaskList[0].toMap());
+        }
+
         print(docRef.id);
         fireStoreUsersRef.doc(gig.providerId).update({
           'createdGigs': FieldValue.arrayUnion([
