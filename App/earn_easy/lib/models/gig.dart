@@ -38,9 +38,9 @@ class Gig {
   final String access;
   final String importantNote;
   final String notice;
-  final List<String> fileAttachmentUrls;
-  final List<String> attemptedUsers;
-  final List<String> finishTaskUsers;
+  List<String> fileAttachmentUrls = List<String>();
+  List<String> attemptedUsers = List<String>();
+  List<String> finishTaskUsers = List<String>();
 
   Gig({
     this.money = 0,
@@ -75,9 +75,10 @@ class Gig {
         this.access = data["access"],
         this.importantNote = data["importantNote"],
         this.notice = data["notice"],
-        this.fileAttachmentUrls = data["fileAttachmentUrls"],
-        this.attemptedUsers = data["attemptedUsers"],
-        this.finishTaskUsers = data["finishTaskUsers"];
+        //List.from(data['allGigs'].map((index) => GigMini.fromMap(index))),
+        this.fileAttachmentUrls = List.from(data["fileAttachmentUrls"]) ?? List<String>(),
+        this.attemptedUsers = List.from(data["attemptedUsers"]) ?? List<String>(),
+        this.finishTaskUsers = List.from(data["finishTaskUsers"]) ?? List<String>();
 
   Map<String, dynamic> toMap() {
     return {
@@ -94,9 +95,9 @@ class Gig {
       'access': this.access ?? "public",
       'importantNote': this.importantNote ?? "",
       'notice': this.notice ?? "",
-      'fileAttachmentUrls': this.fileAttachmentUrls,
-      'attemptedUsers': this.attemptedUsers,
-      'finishTaskUsers': this.finishTaskUsers,
+      'fileAttachmentUrls': this.fileAttachmentUrls?? List<String>(),
+      'attemptedUsers': this.attemptedUsers?? List<String>(),
+      'finishTaskUsers': this.finishTaskUsers?? List<String>(),
     };
   }
 }

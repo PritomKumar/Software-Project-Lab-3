@@ -20,7 +20,7 @@ class DatabaseServiceGigs {
 
   Future updateGigData(Gig gig) {
     if (isLoggedIn()) {
-      return fireStoreGigsRef.doc(gig.gigId).update(gig.toMap());
+      return fireStoreGigsRef.doc(gig.gigId).set(gig.toMap());
     } else {
       return null;
     }

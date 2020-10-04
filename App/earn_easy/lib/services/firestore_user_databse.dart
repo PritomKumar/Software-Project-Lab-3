@@ -61,6 +61,12 @@ class DatabaseServiceUser {
     print(result.data());
   }
 
+  // UserAccount _userDataFromSnapshot(DocumentSnapshot snapshot) {
+  //   return isLoggedIn()
+  //       ? UserAccount.fromMap(snapshot.data())
+  //       : null;
+  // }
+
   UserAccount _userDataFromSnapshot(DocumentSnapshot snapshot) {
     return isLoggedIn()
         ? UserAccount(
