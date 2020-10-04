@@ -20,7 +20,7 @@ class DatabaseServiceGigs {
 
   Future updateGigData(Gig gig) {
     if (isLoggedIn()) {
-      return fireStoreGigsRef.doc(gig.gigId).set(gig.toMap());
+      return fireStoreGigsRef.doc(gig.gigId).update(gig.toMap());
     } else {
       return null;
     }
@@ -51,6 +51,17 @@ class DatabaseServiceGigs {
     print(result.data());
   }
 
+  // List<Gig> _allGigDataFromSnapshot(QuerySnapshot snapshot) {
+  //   // waitListGigs: List.from(snapshot
+  //   //     .data()['waitListGigs']
+  //   //     .map((index) => GigMini.fromMap(index)));
+  //   return isLoggedIn()
+  //       ? List.from(snapshot.docs.map((index) => Gig.fromMap(index.data())))
+  //       : null;
+  // }
+
+
+
   List<Gig> _allGigDataFromSnapshot(QuerySnapshot snapshot) {
     return isLoggedIn()
         ? snapshot.docs.map((doc) {
@@ -64,6 +75,7 @@ class DatabaseServiceGigs {
               endTime: doc.data()['endTime'],
               providerId: doc.data()['providerId'],
               type: doc.data()['type'],
+              attemptedUsers: doc.data()['attemptedUsers'],
             );
           }).toList()
         : null;
