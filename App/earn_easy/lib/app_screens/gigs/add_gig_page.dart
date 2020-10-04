@@ -15,7 +15,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 class GigAdd extends StatefulWidget {
-  final LatLng location ;
+  final LatLng location;
 
   const GigAdd({Key key, this.location}) : super(key: key);
 
@@ -51,7 +51,6 @@ class _GigAddState extends State<GigAdd> {
   _GigAddState(this.location);
 
   void _showAddImageTaskDialog() async {
-
     ImageTask selectedTask = await showDialog<ImageTask>(
       context: context,
       builder: (context) => AddImageTaskDialog(),
@@ -106,7 +105,7 @@ class _GigAddState extends State<GigAdd> {
               child: Center(
                 child: Container(
                   padding:
-                  EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                   child: ListView(
                     children: <Widget>[
                       Row(
@@ -143,7 +142,7 @@ class _GigAddState extends State<GigAdd> {
                             child: TextFormField(
                               controller: titleController,
                               decoration:
-                              InputDecoration(hintText: "Gig Title"),
+                                  InputDecoration(hintText: "Gig Title"),
                               validator: (value) {
                                 return value.isEmpty
                                     ? "Enter your gig title"
@@ -166,7 +165,7 @@ class _GigAddState extends State<GigAdd> {
                             child: TextFormField(
                               controller: descriptionController,
                               decoration:
-                              InputDecoration(hintText: "Gig description"),
+                                  InputDecoration(hintText: "Gig description"),
                               validator: (value) {
                                 return value.isEmpty
                                     ? "Enter gig description"
@@ -194,18 +193,18 @@ class _GigAddState extends State<GigAdd> {
                                 children: <Widget>[
                                   Text(
                                     startDate ==
-                                        defalultInitializedTimestamp
-                                            .toDate()
+                                            defalultInitializedTimestamp
+                                                .toDate()
                                         ? "MM/DD/YYYY"
                                         : startDate.day
-                                        .toString()
-                                        .padLeft(2, '0') +
-                                        "/" +
-                                        startDate.month
-                                            .toString()
-                                            .padLeft(2, '0') +
-                                        "/" +
-                                        startDate.year.toString(),
+                                                .toString()
+                                                .padLeft(2, '0') +
+                                            "/" +
+                                            startDate.month
+                                                .toString()
+                                                .padLeft(2, '0') +
+                                            "/" +
+                                            startDate.year.toString(),
                                     style: TextStyle(
                                         fontWeight: FontWeight.w300,
                                         color: Colors.black),
@@ -219,7 +218,7 @@ class _GigAddState extends State<GigAdd> {
                               var clickedDate = await showDatePicker(
                                 context: context,
                                 initialDate: startDate ==
-                                    defalultInitializedTimestamp.toDate()
+                                        defalultInitializedTimestamp.toDate()
                                     ? DateTime.now()
                                     : startDate,
                                 firstDate: DateTime.now(),
@@ -248,12 +247,12 @@ class _GigAddState extends State<GigAdd> {
                                     startTime == null
                                         ? "HH : MM"
                                         : startTime.hour
-                                        .toString()
-                                        .padLeft(2, '0') +
-                                        " : " +
-                                        startTime.minute
-                                            .toString()
-                                            .padLeft(2, '0'),
+                                                .toString()
+                                                .padLeft(2, '0') +
+                                            " : " +
+                                            startTime.minute
+                                                .toString()
+                                                .padLeft(2, '0'),
                                     style: TextStyle(
                                         fontWeight: FontWeight.w300,
                                         color: Colors.black),
@@ -295,18 +294,18 @@ class _GigAddState extends State<GigAdd> {
                                 children: <Widget>[
                                   Text(
                                     endDate ==
-                                        defalultInitializedTimestamp
-                                            .toDate()
+                                            defalultInitializedTimestamp
+                                                .toDate()
                                         ? "MM/DD/YYYY"
                                         : endDate.day
-                                        .toString()
-                                        .padLeft(2, '0') +
-                                        "/" +
-                                        endDate.month
-                                            .toString()
-                                            .padLeft(2, '0') +
-                                        "/" +
-                                        endDate.year.toString(),
+                                                .toString()
+                                                .padLeft(2, '0') +
+                                            "/" +
+                                            endDate.month
+                                                .toString()
+                                                .padLeft(2, '0') +
+                                            "/" +
+                                            endDate.year.toString(),
                                     style: TextStyle(
                                         fontWeight: FontWeight.w300,
                                         color: Colors.black),
@@ -320,7 +319,7 @@ class _GigAddState extends State<GigAdd> {
                               var clickedDate = await showDatePicker(
                                 context: context,
                                 initialDate: endDate ==
-                                    defalultInitializedTimestamp.toDate()
+                                        defalultInitializedTimestamp.toDate()
                                     ? DateTime.now()
                                     : endDate,
                                 firstDate: DateTime.now(),
@@ -348,12 +347,12 @@ class _GigAddState extends State<GigAdd> {
                                     endTime == null
                                         ? "HH : MM"
                                         : endTime.hour
-                                        .toString()
-                                        .padLeft(2, '0') +
-                                        " : " +
-                                        endTime.minute
-                                            .toString()
-                                            .padLeft(2, '0'),
+                                                .toString()
+                                                .padLeft(2, '0') +
+                                            " : " +
+                                            endTime.minute
+                                                .toString()
+                                                .padLeft(2, '0'),
                                     style: TextStyle(
                                         fontWeight: FontWeight.w300,
                                         color: Colors.black),
@@ -398,7 +397,7 @@ class _GigAddState extends State<GigAdd> {
                                   focusColor: Colors.green,
                                   fillColor: Colors.grey[150],
                                   contentPadding:
-                                  EdgeInsets.only(left: 5.0, right: 5.0),
+                                      EdgeInsets.only(left: 5.0, right: 5.0),
                                 ),
                                 icon: Icon(FontAwesomeIcons.angleDown),
                                 iconEnabledColor: Colors.blueGrey,
@@ -406,7 +405,7 @@ class _GigAddState extends State<GigAdd> {
                                 isExpanded: true,
                                 value: typeOfGig,
                                 items:
-                                typeOfGigArray.map((String dropdownItem) {
+                                    typeOfGigArray.map((String dropdownItem) {
                                   return DropdownMenuItem<String>(
                                     value: dropdownItem,
                                     child: Text(dropdownItem),
@@ -433,8 +432,8 @@ class _GigAddState extends State<GigAdd> {
                               "Image Tasks",
                               textScaleFactor: 1.35,
                               style: TextStyle(
-                                //color: Colors.red,
-                              ),
+                                  //color: Colors.red,
+                                  ),
                             ),
                             backgroundColor: Colors.white,
                             trailing: Icon(
@@ -530,7 +529,7 @@ class _GigAddState extends State<GigAdd> {
                               await DatabaseServiceGigs()
                                   .createNewGig(Gig(
                                 money: int.parse(
-                                    moneyController.text.toString()) ??
+                                        moneyController.text.toString()) ??
                                     0,
                                 title: titleController.text ?? "",
                                 description: descriptionController.text ?? "",
