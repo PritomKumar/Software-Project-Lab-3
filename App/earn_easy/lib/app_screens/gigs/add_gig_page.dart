@@ -535,7 +535,7 @@ class _GigAddState extends State<GigAdd> {
                                 title: titleController.text ?? "",
                                 description: descriptionController.text ?? "",
                                 location: geoLocation,
-                                //providerId: user.uid,
+                                providerId: user.uid,
                                 startTime: Timestamp.fromDate(
                                     Utils.CombineDateTimeWithTimeOfDay(
                                         dateTime: startDate,
