@@ -23,4 +23,16 @@ class ImageTaskWorkerResponse {
 
   ImageTaskWorkerResponse(
       {@required this.submittedUserUid, @required this.submittedImageUrlList});
+
+  ImageTaskWorkerResponse.fromMap(Map<String, dynamic> data)
+      : this.submittedUserUid = data["submittedUserUid"],
+        this.submittedImageUrlList = List.from(data["submittedImageUrlList"]) ?? List<String>();
+
+  Map<String, dynamic> toMap() {
+    return {
+      'submittedUserUid': this.submittedUserUid,
+      'submittedImageUrlList': this.submittedImageUrlList?? List<String>(),
+    };
+  }
+
 }
