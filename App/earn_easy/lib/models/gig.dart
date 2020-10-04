@@ -59,4 +59,43 @@ class Gig {
     this.attemptedUsers,
     this.finishTaskUsers,
   });
+
+  Gig.fromMap(Map<String, dynamic> data)
+      : this.gigId = data["gigId"],
+        this.money = data["money"],
+        this.title = data["title"],
+        this.location = data["location"],
+        this.description = data["description"],
+        this.details = data["details"],
+        this.startTime = data["startTime"],
+        this.endTime = data["endTime"],
+        this.providerId = data["providerId"],
+        this.type = data["type"],
+        this.access = data["access"],
+        this.importantNote = data["importantNote"],
+        this.notice = data["notice"],
+        this.fileAttachmentUrls = data["fileAttachmentUrls"],
+        this.attemptedUsers = data["attemptedUsers"],
+        this.finishTaskUsers = data["finishTaskUsers"];
+
+  Map<String, dynamic> toMap() {
+    return {
+      'gigId': this.gigId,
+      'money': this.money,
+      'title': this.title,
+      'location': this.location,
+      'description': this.description,
+      'details': this.details,
+      'startTime': this.startTime,
+      'endTime': this.endTime,
+      'providerId': this.providerId,
+      'type': this.type,
+      'access': this.access,
+      'importantNote': this.importantNote,
+      'notice': this.notice,
+      'fileAttachmentUrls': this.fileAttachmentUrls,
+      'attemptedUsers': this.attemptedUsers,
+      'finishTaskUsers': this.finishTaskUsers,
+    };
+  }
 }
