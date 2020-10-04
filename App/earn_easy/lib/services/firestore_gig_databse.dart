@@ -51,50 +51,14 @@ class DatabaseServiceGigs {
     print(result.data());
   }
 
-  // List<Gig> _allGigDataFromSnapshot(QuerySnapshot snapshot) {
-  //   // waitListGigs: List.from(snapshot
-  //   //     .data()['waitListGigs']
-  //   //     .map((index) => GigMini.fromMap(index)));
-  //   return isLoggedIn()
-  //       ? List.from(snapshot.docs.map((index) => Gig.fromMap(index.data())))
-  //       : null;
-  // }
-
-
-
   List<Gig> _allGigDataFromSnapshot(QuerySnapshot snapshot) {
     return isLoggedIn()
-        ? snapshot.docs.map((doc) {
-            return Gig(
-              gigId: doc.data()['gigId'],
-              money: doc.data()['money'],
-              location: doc.data()['location'],
-              title: doc.data()['title'],
-              description: doc.data()['description'],
-              startTime: doc.data()['startTime'],
-              endTime: doc.data()['endTime'],
-              providerId: doc.data()['providerId'],
-              type: doc.data()['type'],
-              attemptedUsers: doc.data()['attemptedUsers'],
-            );
-          }).toList()
+        ? List.from(snapshot.docs.map((index) => Gig.fromMap(index.data())))
         : null;
   }
 
   Gig _singleGigFromSnapshot(DocumentSnapshot snapshot) {
-    return isLoggedIn()
-        ? Gig(
-            gigId: snapshot.data()['gigId'],
-            money: snapshot.data()['money'],
-            location: snapshot.data()['location'],
-            title: snapshot.data()['title'],
-            description: snapshot.data()['description'],
-            startTime: snapshot.data()['startTime'],
-            endTime: snapshot.data()['endTime'],
-            providerId: snapshot.data()['providerId'],
-            type: snapshot.data()['type'],
-          )
-        : null;
+    return isLoggedIn() ? Gig.fromMap(snapshot.data()) : null;
   }
 
   //TODO : Chenck for true return statement
