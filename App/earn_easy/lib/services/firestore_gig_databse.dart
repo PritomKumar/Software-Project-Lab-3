@@ -20,18 +20,7 @@ class DatabaseServiceGigs {
 
   Future updateGigData(Gig gig) {
     if (isLoggedIn()) {
-      return fireStoreGigsRef.doc(gig.gigId).set({
-        "gigId": gig.gigId ?? "",
-        "money": gig.money ?? 0,
-        "location": gig.location ?? null,
-        "title": gig.title ?? "",
-        "description": gig.description ?? "",
-        "startTime": gig.startTime ?? defalultInitializedTimestamp,
-        "endTime": gig.endTime ?? defalultInitializedTimestamp,
-        "providerId": gig.providerId ?? "",
-        "type": gig.type ?? "Not set",
-        "access": gig.access ?? "public",
-      });
+      return fireStoreGigsRef.doc(gig.gigId).set(gig.toMap());
     } else {
       return null;
     }
@@ -55,36 +44,6 @@ class DatabaseServiceGigs {
       return null;
     }
   }
-
-  // Future createNewGig(Gig gig) {
-  //   if (isLoggedIn()) {
-  //     return fireStoreGigsRef.add({
-  //       "gigId": gig.gigId ?? "",
-  //       "money": gig.money ?? 0,
-  //       "location": gig.location ?? null,
-  //       "title": gig.title ?? "",
-  //       "description": gig.description ?? "",
-  //       "startTime": gig.startTime ?? defalultInitializedTimestamp,
-  //       "endTime": gig.endTime ?? defalultInitializedTimestamp,
-  //       "providerId": gig.providerId ?? "",
-  //       "type": gig.type ?? "Not set",
-  //       "access": gig.access ?? "public",
-  //     }).then((docRef) {
-  //       docRef.update({
-  //         "gigId": docRef.id,
-  //       });
-  //       print(docRef.id);
-  //       fireStoreUsersRef.doc(gig.providerId).update({
-  //         'createdGigs': FieldValue.arrayUnion([
-  //           GigMini(gigId: gig.gigId, title: gig.title, money: gig.money)
-  //               .toMap()
-  //         ]),
-  //       });
-  //     });
-  //   } else {
-  //     return null;
-  //   }
-  // }
 
   Future userAccountOfCurrentUser() async {
     var result =
