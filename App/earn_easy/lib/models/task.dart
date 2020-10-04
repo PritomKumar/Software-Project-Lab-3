@@ -15,6 +15,25 @@ class ImageTask {
     @required this.numberOfImages,
     @required this.workerResponses,
   });
+
+  ImageTask.fromMap(Map<String, dynamic> data)
+      : this.taskId = data["taskId"],
+        this.type = data["type"],
+        this.taskDescription = data["taskDescription"],
+        this.numberOfImages = data["numberOfImages"],
+        this.workerResponses = List.from(data["workerResponses"]
+                .map((index) => ImageTaskWorkerResponse.fromMap(index))) ??
+            [];
+
+  Map<String, dynamic> toMap() {
+    return {
+      'taskId': this.taskId,
+      'type': this.type,
+      'taskDescription': this.taskDescription,
+      'numberOfImages': this.numberOfImages,
+      'workerResponses': this.workerResponses ?? [],
+    };
+  }
 }
 
 class ImageTaskWorkerResponse {
@@ -26,13 +45,13 @@ class ImageTaskWorkerResponse {
 
   ImageTaskWorkerResponse.fromMap(Map<String, dynamic> data)
       : this.submittedUserUid = data["submittedUserUid"],
-        this.submittedImageUrlList = List.from(data["submittedImageUrlList"]) ?? List<String>();
+        this.submittedImageUrlList =
+            List.from(data["submittedImageUrlList"]) ?? List<String>();
 
   Map<String, dynamic> toMap() {
     return {
       'submittedUserUid': this.submittedUserUid,
-      'submittedImageUrlList': this.submittedImageUrlList?? List<String>(),
+      'submittedImageUrlList': this.submittedImageUrlList ?? List<String>(),
     };
   }
-
 }
