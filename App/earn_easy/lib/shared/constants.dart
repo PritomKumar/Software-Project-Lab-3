@@ -2,6 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+const Map<String, String> TaskType = {
+  "image": "ImageTask",
+  "checkBox": "CheckBoxTask",
+  "option": "MultipleChoiceTask",
+  "dropdown": "DropdownTask",
+  "comment": "FreeTextTask",
+};
+
 Timestamp defalultInitializedTimestamp =
     Timestamp.fromDate(DateTime(1000, 1, 1));
 final CollectionReference fireStoreUsersRef =

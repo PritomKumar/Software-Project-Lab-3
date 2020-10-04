@@ -1,3 +1,4 @@
+import 'package:earneasy/shared/constants.dart';
 import 'package:flutter/cupertino.dart';
 
 class ImageTask {
@@ -10,7 +11,7 @@ class ImageTask {
   ImageTask({
     @required this.taskId,
     //TODO Have to create a constant for type of task , Preferably a map
-    this.type = "ImageTask",
+    this.type = "image",
     @required this.taskDescription,
     @required this.numberOfImages,
     @required this.workerResponses,
