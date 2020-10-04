@@ -21,34 +21,7 @@ class DatabaseServiceUser {
 
   Future updateUserData(UserAccount userAccount) {
     if (isLoggedIn()) {
-      return fireStoreUsersRef.doc(uid).set({
-        "uid": userAccount.uid ?? uid,
-        "firstName": userAccount.firstName ?? "",
-        "lastName": userAccount.lastName ?? "",
-        "email": userAccount.email ?? "",
-        "photoUrl": userAccount.photoUrl ?? "",
-        "phoneNumber": userAccount.phoneNumber ?? "",
-        "birthDay": userAccount.birthDay ?? defalultInitializedTimestamp,
-        "gender": userAccount.gender ?? "Not set",
-        "streetAddress": userAccount.streetAddress ?? "",
-        "city": userAccount.city ?? "",
-        "state": userAccount.state ?? "",
-        "zipCode": userAccount.zipCode ?? "",
-        "bio": userAccount.bio ?? "",
-        "occupation": userAccount.occupation ?? "",
-        "maritalStatus": userAccount.maritalStatus ?? "Not set",
-        "educationLevel": userAccount.educationLevel ?? "Not set",
-        "employmentStatus": userAccount.employmentStatus ?? "Not set",
-        "householdIncome": userAccount.householdIncome ?? "Not set",
-        "level": userAccount.level ?? 1,
-        "type": userAccount.type ?? "worker",
-        "writeAccess": userAccount.writeAccess ?? false,
-        "allGigs": userAccount.allGigs ?? [],
-        "attemptedGigs": userAccount.attemptedGigs ?? [],
-        "completedGigs": userAccount.completedGigs ?? [],
-        "waitListGigs": userAccount.waitListGigs ?? [],
-        "createdGigs": userAccount.createdGigs ?? [],
-      });
+      return fireStoreUsersRef.doc(uid).set(userAccount.toMap());
     } else {
       return null;
     }
@@ -61,55 +34,91 @@ class DatabaseServiceUser {
     print(result.data());
   }
 
-  // UserAccount _userDataFromSnapshot(DocumentSnapshot snapshot) {
-  //   return isLoggedIn()
-  //       ? UserAccount.fromMap(snapshot.data())
-  //       : null;
-  // }
-
   UserAccount _userDataFromSnapshot(DocumentSnapshot snapshot) {
     return isLoggedIn()
-        ? UserAccount(
-            uid: this.uid,
-            firstName: snapshot.data()['firstName'],
-            lastName: snapshot.data()['lastName'],
-            email: snapshot.data()['email'],
-            photoUrl: snapshot.data()['photoUrl'],
-            phoneNumber: snapshot.data()['phoneNumber'],
-            birthDay: snapshot.data()['birthDay'],
-            gender: snapshot.data()['gender'],
-            streetAddress: snapshot.data()['streetAddress'],
-            city: snapshot.data()['city'],
-            state: snapshot.data()['state'],
-            zipCode: snapshot.data()['zipCode'],
-            bio: snapshot.data()['bio'],
-            occupation: snapshot.data()['occupation'],
-            maritalStatus: snapshot.data()['maritalStatus'],
-            educationLevel: snapshot.data()['educationLevel'],
-            employmentStatus: snapshot.data()['employmentStatus'],
-            householdIncome: snapshot.data()['householdIncome'],
-            level: snapshot.data()['level'],
-            type: snapshot.data()['type'],
-            writeAccess: snapshot.data()['writeAccess'],
-            allGigs: List.from(snapshot
-                .data()['allGigs']
-                .map((index) => GigMini.fromMap(index))),
-            attemptedGigs: List.from(snapshot
-                .data()['attemptedGigs']
-                .map((index) => GigMini.fromMap(index))),
-            completedGigs: List.from(snapshot
-                .data()['completedGigs']
-                .map((index) => GigMini.fromMap(index))),
-            waitListGigs: List.from(snapshot
-                .data()['waitListGigs']
-                .map((index) => GigMini.fromMap(index))),
-            //TODO HAve to think about its use
-            createdGigs: List.from(snapshot
-                .data()['createdGigs']
-                .map((index) => GigMini.fromMap(index))),
-          )
+        ? UserAccount.fromMap(snapshot.data())
         : null;
   }
+
+  //Old version
+
+  // Future updateUserData(UserAccount userAccount) {
+  //   if (isLoggedIn()) {
+  //     return fireStoreUsersRef.doc(uid).set({
+  //       "uid": userAccount.uid ?? uid,
+  //       "firstName": userAccount.firstName ?? "",
+  //       "lastName": userAccount.lastName ?? "",
+  //       "email": userAccount.email ?? "",
+  //       "photoUrl": userAccount.photoUrl ?? "",
+  //       "phoneNumber": userAccount.phoneNumber ?? "",
+  //       "birthDay": userAccount.birthDay ?? defalultInitializedTimestamp,
+  //       "gender": userAccount.gender ?? "Not set",
+  //       "streetAddress": userAccount.streetAddress ?? "",
+  //       "city": userAccount.city ?? "",
+  //       "state": userAccount.state ?? "",
+  //       "zipCode": userAccount.zipCode ?? "",
+  //       "bio": userAccount.bio ?? "",
+  //       "occupation": userAccount.occupation ?? "",
+  //       "maritalStatus": userAccount.maritalStatus ?? "Not set",
+  //       "educationLevel": userAccount.educationLevel ?? "Not set",
+  //       "employmentStatus": userAccount.employmentStatus ?? "Not set",
+  //       "householdIncome": userAccount.householdIncome ?? "Not set",
+  //       "level": userAccount.level ?? 1,
+  //       "type": userAccount.type ?? "worker",
+  //       "writeAccess": userAccount.writeAccess ?? false,
+  //       "allGigs": userAccount.allGigs ?? [],
+  //       "attemptedGigs": userAccount.attemptedGigs ?? [],
+  //       "completedGigs": userAccount.completedGigs ?? [],
+  //       "waitListGigs": userAccount.waitListGigs ?? [],
+  //       "createdGigs": userAccount.createdGigs ?? [],
+  //     });
+  //   } else {
+  //     return null;
+  //   }
+  // }
+  // UserAccount _userDataFromSnapshot(DocumentSnapshot snapshot) {
+  //   return isLoggedIn()
+  //       ? UserAccount(
+  //           uid: this.uid,
+  //           firstName: snapshot.data()['firstName'],
+  //           lastName: snapshot.data()['lastName'],
+  //           email: snapshot.data()['email'],
+  //           photoUrl: snapshot.data()['photoUrl'],
+  //           phoneNumber: snapshot.data()['phoneNumber'],
+  //           birthDay: snapshot.data()['birthDay'],
+  //           gender: snapshot.data()['gender'],
+  //           streetAddress: snapshot.data()['streetAddress'],
+  //           city: snapshot.data()['city'],
+  //           state: snapshot.data()['state'],
+  //           zipCode: snapshot.data()['zipCode'],
+  //           bio: snapshot.data()['bio'],
+  //           occupation: snapshot.data()['occupation'],
+  //           maritalStatus: snapshot.data()['maritalStatus'],
+  //           educationLevel: snapshot.data()['educationLevel'],
+  //           employmentStatus: snapshot.data()['employmentStatus'],
+  //           householdIncome: snapshot.data()['householdIncome'],
+  //           level: snapshot.data()['level'],
+  //           type: snapshot.data()['type'],
+  //           writeAccess: snapshot.data()['writeAccess'],
+  //           allGigs: List.from(snapshot
+  //               .data()['allGigs']
+  //               .map((index) => GigMini.fromMap(index))),
+  //           attemptedGigs: List.from(snapshot
+  //               .data()['attemptedGigs']
+  //               .map((index) => GigMini.fromMap(index))),
+  //           completedGigs: List.from(snapshot
+  //               .data()['completedGigs']
+  //               .map((index) => GigMini.fromMap(index))),
+  //           waitListGigs: List.from(snapshot
+  //               .data()['waitListGigs']
+  //               .map((index) => GigMini.fromMap(index))),
+  //           //TODO HAve to think about its use
+  //           createdGigs: List.from(snapshot
+  //               .data()['createdGigs']
+  //               .map((index) => GigMini.fromMap(index))),
+  //         )
+  //       : null;
+  // }
 
   Future<bool> checkIfDataExists() async {
     print("Before logged in");
