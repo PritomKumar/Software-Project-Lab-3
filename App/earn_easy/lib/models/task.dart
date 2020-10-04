@@ -27,10 +27,10 @@ class ImageTask {
 
   Map<String, dynamic> toMap() {
     return {
-      'taskId': this.taskId,
-      'type': this.type,
-      'taskDescription': this.taskDescription,
-      'numberOfImages': this.numberOfImages,
+      'taskId': this.taskId ?? "",
+      'type': this.type ?? "",
+      'taskDescription': this.taskDescription ?? "",
+      'numberOfImages': this.numberOfImages ?? 0,
       'workerResponses': this.workerResponses ?? [],
     };
   }
@@ -50,7 +50,7 @@ class ImageTaskWorkerResponse {
 
   Map<String, dynamic> toMap() {
     return {
-      'submittedUserUid': this.submittedUserUid,
+      'submittedUserUid': this.submittedUserUid ?? "",
       'submittedImageUrlList': this.submittedImageUrlList ?? List<String>(),
     };
   }
