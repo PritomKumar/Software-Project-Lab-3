@@ -56,6 +56,8 @@ class _TaskListPageState extends State<TaskListPage> {
                   //     .snapshots()
                   //     .map((taskFromDocument) =>
                   //         ImageTask.fromMap(taskFromDocument.data()));
+
+
                 },
                 // contentPadding: EdgeInsets.symmetric(vertical: 5.0,horizontal: 10.0),
               ),

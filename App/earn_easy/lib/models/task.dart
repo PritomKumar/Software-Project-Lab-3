@@ -3,17 +3,20 @@ import 'package:flutter/cupertino.dart';
 
 class TaskSnippet {
   final String taskId;
+  final String taskType;
   final String taskDescription;
 
-  TaskSnippet({this.taskId, this.taskDescription});
+  TaskSnippet({this.taskId,this.taskType, this.taskDescription});
 
   TaskSnippet.fromMap(Map<String, dynamic> data)
       : this.taskId = data["taskId"],
+        this.taskType = data["taskType"],
         this.taskDescription = data["taskDescription"];
 
   Map<String, dynamic> toMap() {
     return {
       'taskId': this.taskId ?? "",
+      'taskType': this.taskType ?? "",
       'taskDescription': this.taskDescription ?? "",
     };
   }
