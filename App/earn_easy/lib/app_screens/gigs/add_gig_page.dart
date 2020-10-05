@@ -14,16 +14,16 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
-class GigAdd extends StatefulWidget {
+class GigAddPage extends StatefulWidget {
   final LatLng location;
 
-  const GigAdd({Key key, this.location}) : super(key: key);
+  const GigAddPage({Key key, this.location}) : super(key: key);
 
   @override
-  _GigAddState createState() => _GigAddState(location);
+  _GigAddPageState createState() => _GigAddPageState(location);
 }
 
-class _GigAddState extends State<GigAdd> {
+class _GigAddPageState extends State<GigAddPage> {
   final LatLng location;
   final _formKey = GlobalKey<FormState>();
   bool alreadyAddedGig = false;
@@ -37,7 +37,7 @@ class _GigAddState extends State<GigAdd> {
   TimeOfDay startTime;
   TimeOfDay endTime;
 
-  bool isloading = false;
+  bool isLoading = false;
 
   static final typeOfGigArray = [
     "Not set",
@@ -48,7 +48,7 @@ class _GigAddState extends State<GigAdd> {
   ];
   String typeOfGig = typeOfGigArray[0];
 
-  _GigAddState(this.location);
+  _GigAddPageState(this.location);
 
   void _showAddImageTaskDialog() async {
     ImageTask selectedTask = await showDialog<ImageTask>(
@@ -66,11 +66,13 @@ class _GigAddState extends State<GigAdd> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    //var user = Provider.of<UserMinimum>(context);
     var user = Provider.of<UserAccount>(context);
-    user = Provider.of<UserAccount>(context);
     setState(() {
       if (user != null) {
-        isloading = true;
+        print("Gig Add user Uid = ${user.uid}");
+        print("Gig Add user Email = ${user.email}");
+        isLoading = true;
       }
     });
 
@@ -78,7 +80,7 @@ class _GigAddState extends State<GigAdd> {
       print(
           "${task.taskDescription}  and ${task.numberOfImages} and size = ${taskList.length}");
     }
-    if (isloading) {
+    if (isLoading) {
       return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(

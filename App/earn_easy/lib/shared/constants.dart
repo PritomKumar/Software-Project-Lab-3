@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -10,6 +11,7 @@ const String FreeTextTaskType = "FreeTextTask";
 
 Timestamp defaultInitializedTimestamp =
     Timestamp.fromDate(DateTime(1000, 1, 1));
+final String userUid = FirebaseAuth.instance.currentUser.uid;
 final CollectionReference fireStoreUsersRef =
     FirebaseFirestore.instance.collection("Users");
 final CollectionReference fireStoreGigsRef =

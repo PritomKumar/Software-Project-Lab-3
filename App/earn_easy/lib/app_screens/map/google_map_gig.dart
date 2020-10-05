@@ -295,7 +295,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
                           tappedPosition != null
                               ? Navigator.push(context, MaterialPageRoute(
                                   builder: (context) {
-                                    return GigAdd(
+                                    return GigAddPage(
                                       location: tappedPosition,
                                     );
                                   },

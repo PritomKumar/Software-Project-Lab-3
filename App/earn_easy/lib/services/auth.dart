@@ -25,7 +25,7 @@ class AuthService {
         : null;
   }
 
-  UserAccount _userAccountFromUserMinimum(User firebaseUser) {
+  UserAccount _userAccountFromFirebaseUser(User firebaseUser) {
     return firebaseUser != null
         ? UserAccount(
             uid: firebaseUser.uid ?? "",
@@ -59,7 +59,7 @@ class AuthService {
       final userDataExits = await _checkIfUserDataExists();
       if (userDataExits == false) {
         await DatabaseServiceUser()
-            .updateUserData(_userAccountFromUserMinimum(user));
+            .updateUserData(_userAccountFromFirebaseUser(user));
       }
       return _userFromFirebaseUser(user);
     } catch (e) {
@@ -76,7 +76,7 @@ class AuthService {
       final userDataExits = await _checkIfUserDataExists();
       if (userDataExits == false) {
         await DatabaseServiceUser()
-            .updateUserData(_userAccountFromUserMinimum(user));
+            .updateUserData(_userAccountFromFirebaseUser(user));
       }
       return _userFromFirebaseUser(user);
     } catch (e) {
@@ -97,10 +97,11 @@ class AuthService {
       );
       UserCredential result = await _auth.signInWithCredential(credential);
       User user = result.user;
+      print("Firebase user uid = ${user.uid}");
       final userDataExits = await _checkIfUserDataExists();
       if (userDataExits == false) {
         await DatabaseServiceUser()
-            .updateUserData(_userAccountFromUserMinimum(user));
+            .updateUserData(_userAccountFromFirebaseUser(user));
       }
       return _userFromFirebaseUser(user);
     } catch (e) {
@@ -116,7 +117,7 @@ class AuthService {
       final userDataExits = await _checkIfUserDataExists();
       if (userDataExits == false) {
         await DatabaseServiceUser()
-            .updateUserData(_userAccountFromUserMinimum(user));
+            .updateUserData(_userAccountFromFirebaseUser(user));
       }
       return _userFromFirebaseUser(user);
     } catch (e) {
