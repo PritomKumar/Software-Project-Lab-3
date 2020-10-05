@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 
 class GigPage extends StatefulWidget {
   final Gig gig;
+
   const GigPage({Key key, this.gig}) : super(key: key);
 
   @override
@@ -18,17 +19,31 @@ class _GigPageState extends State<GigPage> {
   bool checker = false;
 
   @override
-  Widget build(BuildContext context) {
-    var user = Provider.of<UserAccount>(context);
-    Gig gig = widget.gig;
-    _checkIfUserIsInAttemptedUsers(){
-      List<String> attemptedUserListFromGig = gig.attemptedUsers;
-      for(var attemptedUser in attemptedUserListFromGig){
-        if(attemptedUser == userUid){
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _checkIfUserIsInAttemptedUsers();
 
-        }
+  }
+  _checkIfUserIsInAttemptedUsers() {
+    List<String> attemptedUserListFromGig = widget.gig.attemptedUsers;
+    for (var attemptedUser in attemptedUserListFromGig) {
+      if (attemptedUser == userUid) {
+        print("User ${userUid} has accepted the gig ${widget.gig.gigId}");
+        setState(() {
+          checker = true;
+
+        });
       }
     }
+  }
+  @override
+  Widget build(BuildContext context) {
+    var user = Provider.of<UserAccount>(context);
+    print("User id = ${user.uid} ");
+    Gig gig = widget.gig;
+
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: gig.title,
@@ -208,53 +223,72 @@ class _GigPageState extends State<GigPage> {
                       ],
                     ),
                   ),
-                  Container(
-                    margin:
-                        EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-                    width: double.infinity,
-                    alignment: Alignment.bottomCenter,
-                    child: RaisedButton(
-                      color: Colors.red,
-                      padding: EdgeInsets.all(10.0),
-                      child: Text(
-                        "Apply",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
+                  checker
+                      ? Container(
+                          margin: EdgeInsets.symmetric(
+                              horizontal: 10.0, vertical: 5.0),
+                          width: double.infinity,
+                          alignment: Alignment.bottomCenter,
+                          child: RaisedButton(
+                            color: Colors.lightGreenAccent,
+                            child: Text("Start"),
+                            onPressed: () {
+                              print("Start pressed");
+                            },
+                          ),
+                        )
+                      : Container(
+                          margin: EdgeInsets.symmetric(
+                              horizontal: 10.0, vertical: 5.0),
+                          width: double.infinity,
+                          alignment: Alignment.bottomCenter,
+                          child: RaisedButton(
+                            color: Colors.red,
+                            padding: EdgeInsets.all(10.0),
+                            child: Text(
+                              "Apply",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onPressed: () async {
+                              await fireStoreGigsRef.doc(gig.gigId).update({
+                                'attemptedUsers':
+                                    FieldValue.arrayUnion([user.uid])
+                              }).then((value) {
+                                print("Attempted user updated with ${user.uid}");
+                              });
+                              await fireStoreUsersRef.doc(user.uid).update({
+                                'attemptedGigs': FieldValue.arrayUnion([
+                                  GigMini(
+                                          gigId: gig.gigId,
+                                          title: gig.title,
+                                          money: gig.money)
+                                      .toMap()
+                                ]),
+                                'waitListGigs': FieldValue.arrayUnion([
+                                  GigMini(
+                                          gigId: gig.gigId,
+                                          title: gig.title,
+                                          money: gig.money)
+                                      .toMap()
+                                ]),
+                                'allGigs': FieldValue.arrayUnion([
+                                  GigMini(
+                                          gigId: gig.gigId,
+                                          title: gig.title,
+                                          money: gig.money)
+                                      .toMap()
+                                ]),
+                              }).then((value) {
+                                print("Added in user");
+
+                              });
+                              _checkIfUserIsInAttemptedUsers();
+                            },
+                          ),
                         ),
-                      ),
-                      onPressed: () async {
-                        await fireStoreGigsRef.doc(gig.gigId).update({
-                          'attemptedUsers': FieldValue.arrayUnion([user.uid])
-                        });
-                        await fireStoreUsersRef.doc(user.uid).update({
-                          'attemptedGigs': FieldValue.arrayUnion([
-                            GigMini(
-                                    gigId: gig.gigId,
-                                    title: gig.title,
-                                    money: gig.money)
-                                .toMap()
-                          ]),
-                          'waitListGigs': FieldValue.arrayUnion([
-                            GigMini(
-                                    gigId: gig.gigId,
-                                    title: gig.title,
-                                    money: gig.money)
-                                .toMap()
-                          ]),
-                          'allGigs': FieldValue.arrayUnion([
-                            GigMini(
-                                    gigId: gig.gigId,
-                                    title: gig.title,
-                                    money: gig.money)
-                                .toMap()
-                          ]),
-                        }).then((value) {
-                          print("Added in user");
-                        });
-                      },
-                    ),
-                  ),
                 ],
               ),
             ),
