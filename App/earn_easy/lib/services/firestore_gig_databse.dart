@@ -31,10 +31,11 @@ class DatabaseServiceGigs {
     if (isLoggedIn()) {
       if (imageTaskList != null) {
         // fireStoreGigsRef.doc(docRef.id).collection("Tasks").add(imageTaskList[0].toMap());
-        FirebaseFirestore.instance.collection("Tasks").add({
-          "fsd": "fsdgfh",
-          "fsdfsd": "dsfsdfsd",
-        });
+
+        // await FirebaseFirestore.instance.collection("Tasks").add({
+        //   "fsd": "fsdgfh",
+        //   "fsdfsd": "dsfsdfsd",
+        // });
       }
       return await fireStoreGigsRef.add(gig.toMap()).then((docRef) {
         docRef.update({
@@ -50,13 +51,16 @@ class DatabaseServiceGigs {
         // }
 
 
-
+        print("After gig create and gigId update");
+        print("Provider id = ${gig.providerId}");
         print(docRef.id);
         fireStoreUsersRef.doc(gig.providerId).update({
           'createdGigs': FieldValue.arrayUnion([
             GigMini(gigId: gig.gigId, title: gig.title, money: gig.money)
                 .toMap()
           ]),
+        }).then((value) {
+          print("After added gig to user created gig list ");
         });
       });
     } else {
