@@ -78,8 +78,9 @@ class Gig {
         this.access = data["access"],
         this.importantNote = data["importantNote"],
         this.notice = data["notice"],
-        this.taskSnippetList =
-            List.from(data["taskIdList"]) ?? List<String>(),
+        this.taskSnippetList = List.from(data["taskSnippetList"]
+                .map((index) => TaskSnippet.fromMap(index))) ??
+            [],
         this.fileAttachmentUrls =
             List.from(data["fileAttachmentUrls"]) ?? List<String>(),
         this.attemptedUsers =
@@ -102,7 +103,7 @@ class Gig {
       'access': this.access ?? "public",
       'importantNote': this.importantNote ?? "",
       'notice': this.notice ?? "",
-      'taskIdList': this.taskSnippetList ?? List<String>(),
+      'taskSnippetList': this.taskSnippetList ?? [],
       'fileAttachmentUrls': this.fileAttachmentUrls ?? List<String>(),
       'attemptedUsers': this.attemptedUsers ?? List<String>(),
       'finishTaskUsers': this.finishTaskUsers ?? List<String>(),
