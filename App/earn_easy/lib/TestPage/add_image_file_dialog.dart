@@ -2,7 +2,7 @@ import 'package:earneasy/models/task.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'image_task.dart';
+import 'test_image_task.dart';
 
 class AddImageTaskDialog extends StatefulWidget {
   @override
