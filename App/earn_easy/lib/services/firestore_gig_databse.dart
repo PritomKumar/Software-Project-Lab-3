@@ -61,7 +61,7 @@ class DatabaseServiceGigs {
         fireStoreUsersRef.doc(gig.providerId).update({
           'createdGigs': FieldValue.arrayUnion([
             GigMini(
-              gigId: gig.gigId,
+              gigId: gigRef.id,
               title: gig.title,
               money: gig.money,
             ).toMap()
