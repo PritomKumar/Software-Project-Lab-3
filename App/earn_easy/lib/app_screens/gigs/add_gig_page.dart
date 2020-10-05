@@ -458,6 +458,8 @@ class _GigAddPageState extends State<GigAddPage> {
                                       //" asd sda sdasd adas asfdf asfsfafa dfsdf sadf sdfsdasasdgsad sd ssdffsd fsdfa sdfsdf asdfsd adf adfdasf asdfasdfasdf sdf sadsfd ",
 
                                       textScaleFactor: 1.5,
+                                      maxLines: 4,
+                                      overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
                                         fontWeight: FontWeight.w400,
                                       ),
