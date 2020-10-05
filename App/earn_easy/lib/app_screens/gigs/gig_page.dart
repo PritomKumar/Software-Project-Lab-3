@@ -6,14 +6,29 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-class GigPage extends StatelessWidget {
+class GigPage extends StatefulWidget {
   final Gig gig;
-
   const GigPage({Key key, this.gig}) : super(key: key);
+
+  @override
+  _GigPageState createState() => _GigPageState();
+}
+
+class _GigPageState extends State<GigPage> {
+  bool checker = false;
 
   @override
   Widget build(BuildContext context) {
     var user = Provider.of<UserAccount>(context);
+    Gig gig = widget.gig;
+    _checkIfUserIsInAttemptedUsers(){
+      List<String> attemptedUserListFromGig = gig.attemptedUsers;
+      for(var attemptedUser in attemptedUserListFromGig){
+        if(attemptedUser == userUid){
+
+        }
+      }
+    }
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: gig.title,
