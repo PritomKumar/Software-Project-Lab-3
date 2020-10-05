@@ -43,7 +43,6 @@ class _GigPageState extends State<GigPage> {
     print("User id = ${user.uid} ");
     Gig gig = widget.gig;
 
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: gig.title,
@@ -231,7 +230,7 @@ class _GigPageState extends State<GigPage> {
                           alignment: Alignment.bottomCenter,
                           child: RaisedButton(
                             color: Colors.lightGreenAccent,
-                            child: Text("Start"),
+                            child: Text("Start Tasks"),
                             onPressed: () {
                               print("Start pressed");
                             },
