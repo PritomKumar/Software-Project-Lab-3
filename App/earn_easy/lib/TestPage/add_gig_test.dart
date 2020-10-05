@@ -72,7 +72,7 @@ class _GigAddState extends State<GigAddTest> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    //user = Provider.of<UserAccount>(context);
+    //var user = Provider.of<UserAccount>(context);
     // setState(() {
     //   if (user != null) {
     //     isloading = true;

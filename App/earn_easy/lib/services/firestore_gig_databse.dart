@@ -29,30 +29,25 @@ class DatabaseServiceGigs {
 
   Future createNewGig(Gig gig, List<ImageTask> imageTaskList) async {
     if (isLoggedIn()) {
-      if (imageTaskList != null) {
-        // fireStoreGigsRef.doc(docRef.id).collection("Tasks").add(imageTaskList[0].toMap());
-
-        // await FirebaseFirestore.instance.collection("Tasks").add({
-        //   "fsd": "fsdgfh",
-        //   "fsdfsd": "dsfsdfsd",
-        // });
-      }
       return await fireStoreGigsRef.add(gig.toMap()).then((docRef) {
         docRef.update({
           "gigId": docRef.id,
         });
-        // for (var imageTask in imageTaskList) {
-        //   docRef.collection("Tasks").add(imageTask.toMap()).then((taskRef) {
-        //     taskRef.update({
-        //       "taskId": taskRef.id,
-        //       "gigId": docRef.id,
-        //     });
-        //   });
-        // }
-
-
+        //Add Tasks
+        if (imageTaskList != null) {
+          for (var imageTask in imageTaskList) {
+            docRef.collection("Tasks").add(imageTask.toMap()).then((taskRef) {
+              taskRef.update({
+                "taskId": taskRef.id,
+                "gigId": docRef.id,
+              });
+            });
+          }
+        }
+        //Checking gig provider Id
         print("After gig create and gigId update");
         print("Provider id = ${gig.providerId}");
+
         print(docRef.id);
         fireStoreUsersRef.doc(gig.providerId).update({
           'createdGigs': FieldValue.arrayUnion([

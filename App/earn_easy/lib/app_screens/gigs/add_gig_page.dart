@@ -71,7 +71,6 @@ class _GigAddPageState extends State<GigAddPage> {
     setState(() {
       if (user != null) {
         print("Gig Add user Uid = ${user.uid}");
-        print("Gig Add user Email = ${user.email}");
         isLoading = true;
       }
     });
