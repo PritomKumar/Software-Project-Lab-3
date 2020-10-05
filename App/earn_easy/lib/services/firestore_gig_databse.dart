@@ -29,17 +29,26 @@ class DatabaseServiceGigs {
 
   Future createNewGig(Gig gig, List<ImageTask> imageTaskList) async {
     if (isLoggedIn()) {
-      return await fireStoreGigsRef.add(gig.toMap()).then((docRef) {
-        docRef.update({
-          "gigId": docRef.id,
+      return await fireStoreGigsRef.add(gig.toMap()).then((gigRef) {
+        gigRef.update({
+          "gigId": gigRef.id,
         });
         //Add Tasks
         if (imageTaskList != null) {
           for (var imageTask in imageTaskList) {
-            docRef.collection("Tasks").add(imageTask.toMap()).then((taskRef) {
+            gigRef.collection("Tasks").add(imageTask.toMap()).then((taskRef) {
               taskRef.update({
                 "taskId": taskRef.id,
-                "gigId": docRef.id,
+                "gigId": gigRef.id,
+              });
+              //Update TaskSnippet List in gig
+              gigRef.update({
+                'taskSnippetList': FieldValue.arrayUnion([
+                  TaskSnippet(
+                    taskId: taskRef.id,
+                    taskDescription: imageTask.taskDescription,
+                  ).toMap()
+                ]),
               });
             });
           }
@@ -48,14 +57,17 @@ class DatabaseServiceGigs {
         print("After gig create and gigId update");
         print("Provider id = ${gig.providerId}");
 
-        print(docRef.id);
+        print(gigRef.id);
         fireStoreUsersRef.doc(gig.providerId).update({
           'createdGigs': FieldValue.arrayUnion([
-            GigMini(gigId: gig.gigId, title: gig.title, money: gig.money)
-                .toMap()
+            GigMini(
+              gigId: gig.gigId,
+              title: gig.title,
+              money: gig.money,
+            ).toMap()
           ]),
         }).then((value) {
-          print("After added gig to user created gig list ");
+          print("Add Gig to user created gig list ");
         });
       });
     } else {
