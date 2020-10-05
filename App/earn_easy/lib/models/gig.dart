@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:earneasy/models/task.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -38,7 +39,7 @@ class Gig {
   final String access;
   final String importantNote;
   final String notice;
-  List<String> taskIdList = List<String>();
+  List<TaskSnippet> taskSnippetList = List<TaskSnippet>();
   List<String> fileAttachmentUrls = List<String>();
   List<String> attemptedUsers = List<String>();
   List<String> finishTaskUsers = List<String>();
@@ -57,7 +58,7 @@ class Gig {
     this.access = "",
     this.importantNote = "",
     this.notice = "",
-    this.taskIdList,
+    this.taskSnippetList,
     this.fileAttachmentUrls,
     this.attemptedUsers,
     this.finishTaskUsers,
@@ -77,7 +78,7 @@ class Gig {
         this.access = data["access"],
         this.importantNote = data["importantNote"],
         this.notice = data["notice"],
-        this.taskIdList =
+        this.taskSnippetList =
             List.from(data["taskIdList"]) ?? List<String>(),
         this.fileAttachmentUrls =
             List.from(data["fileAttachmentUrls"]) ?? List<String>(),
@@ -101,7 +102,7 @@ class Gig {
       'access': this.access ?? "public",
       'importantNote': this.importantNote ?? "",
       'notice': this.notice ?? "",
-      'taskIdList': this.taskIdList ?? List<String>(),
+      'taskIdList': this.taskSnippetList ?? List<String>(),
       'fileAttachmentUrls': this.fileAttachmentUrls ?? List<String>(),
       'attemptedUsers': this.attemptedUsers ?? List<String>(),
       'finishTaskUsers': this.finishTaskUsers ?? List<String>(),

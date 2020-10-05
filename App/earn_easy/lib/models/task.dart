@@ -1,13 +1,13 @@
 import 'package:earneasy/shared/constants.dart';
 import 'package:flutter/cupertino.dart';
 
-class TaskMini{
+class TaskSnippet {
   final String taskId;
   final String taskDescription;
 
-  TaskMini({this.taskId, this.taskDescription});
+  TaskSnippet({this.taskId, this.taskDescription});
 
-  TaskMini.fromMap(Map<String, dynamic> data)
+  TaskSnippet.fromMap(Map<String, dynamic> data)
       : this.taskId = data["taskId"],
         this.taskDescription = data["taskDescription"];
 
@@ -17,8 +17,8 @@ class TaskMini{
       'taskDescription': this.taskDescription ?? "",
     };
   }
-
 }
+
 class ImageTask {
   final String taskId;
   final String gigId;
