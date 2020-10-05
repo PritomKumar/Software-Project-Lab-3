@@ -1,6 +1,24 @@
 import 'package:earneasy/shared/constants.dart';
 import 'package:flutter/cupertino.dart';
 
+class TaskMini{
+  final String taskId;
+  final String taskDescription;
+
+  TaskMini({this.taskId, this.taskDescription});
+
+  TaskMini.fromMap(Map<String, dynamic> data)
+      : this.taskId = data["taskId"],
+        this.taskDescription = data["taskDescription"];
+
+  Map<String, dynamic> toMap() {
+    return {
+      'taskId': this.taskId ?? "",
+      'taskDescription': this.taskDescription ?? "",
+    };
+  }
+
+}
 class ImageTask {
   final String taskId;
   final String gigId;
