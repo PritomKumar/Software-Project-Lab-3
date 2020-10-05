@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/shared/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'gig.dart';
@@ -121,7 +122,7 @@ class UserAccount {
 
   Map<String, dynamic> toMap() {
     return {
-      "uid": this.uid ?? uid,
+      "uid": FirebaseAuth.instance.currentUser.uid,
       "firstName": this.firstName ?? "",
       "lastName": this.lastName ?? "",
       "email": this.email ?? "",
