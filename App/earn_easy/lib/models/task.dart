@@ -6,7 +6,11 @@ class TaskSnippet {
   final String taskType;
   final String taskDescription;
 
-  TaskSnippet({this.taskId,this.taskType, this.taskDescription});
+  TaskSnippet({
+    @required this.taskId,
+    @required this.taskType,
+    @required this.taskDescription,
+  });
 
   TaskSnippet.fromMap(Map<String, dynamic> data)
       : this.taskId = data["taskId"],
@@ -25,7 +29,7 @@ class TaskSnippet {
 class ImageTask {
   final String taskId;
   final String gigId;
-  final String type;
+  final String type = ImageTaskType;
   final String taskDescription;
   final int numberOfImages;
   List<ImageTaskWorkerResponse> workerResponses =
@@ -34,7 +38,6 @@ class ImageTask {
   ImageTask({
     @required this.taskId,
     @required this.gigId,
-    this.type = ImageTaskType,
     @required this.taskDescription,
     @required this.numberOfImages,
     @required this.workerResponses,
@@ -43,7 +46,6 @@ class ImageTask {
   ImageTask.fromMap(Map<String, dynamic> data)
       : this.taskId = data["taskId"],
         this.gigId = data["gigId"],
-        this.type = data["type"],
         this.taskDescription = data["taskDescription"],
         this.numberOfImages = data["numberOfImages"],
         this.workerResponses = List.from(data["workerResponses"]
@@ -54,7 +56,6 @@ class ImageTask {
     return {
       'taskId': this.taskId ?? "",
       'gigId': this.gigId ?? "",
-      'type': this.type ?? "",
       'taskDescription': this.taskDescription ?? "",
       'numberOfImages': this.numberOfImages ?? 0,
       'workerResponses': this.workerResponses ?? [],

@@ -120,7 +120,6 @@ class _AddImageTaskDialogState extends State<AddImageTaskDialog> {
               color: Colors.blue,
               onPressed: () {
                 ImageTask newTask = ImageTask(
-                  type: "ImageTask",
                   numberOfImages: _numberOfTaskImage.round(),
                   taskDescription: _taskDescriptionController.text,
                   // need submitted user
