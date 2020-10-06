@@ -3,6 +3,7 @@ import 'package:earneasy/models/gig.dart';
 import 'package:earneasy/models/task.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'image_task.dart';
 
@@ -47,51 +48,57 @@ class _TaskListPageState extends State<TaskListPage> {
                 onTap: () async {
                   print("Inside Task list tapped  $index");
                   //TODO do this for other type of tasks
-                  if (taskList[index].taskType == ImageTaskType) {
+                  // if (taskList[index].taskType == ImageTaskType) {
+                  if (true) {
                     // TODO Have to send item based on type of task
                     // DocumentSnapshot  fullTask = await fireStoreGigsRef
                     //     .doc(widget.gig.gigId)
                     //     .collection("Tasks")
                     //     .doc(taskList[index].taskId).get();
-
-                    // var fullTask = await fireStoreGigsRef
+                    //<editor-fold desc="Stream builder try">
+                    // Stream<DocumentSnapshot> fullTaskStream = fireStoreGigsRef
                     //     .doc(widget.gig.gigId)
                     //     .collection("Tasks")
                     //     .doc(taskList[index].taskId)
-                    //     .snapshots()
-                    //     .map((taskFromDocument) =>
-                    //         ImageTask.fromMap(taskFromDocument.data()));
-
-                    Stream<DocumentSnapshot> fullTaskStream = fireStoreGigsRef
+                    //     .snapshots();
+                    // print(fullTaskStream.toString());
+                    // StreamBuilder<DocumentSnapshot>(
+                    //     stream: fullTaskStream,
+                    //     builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                    //       if (snapshot.connectionState ==
+                    //           ConnectionState.active) {
+                    //         final Map<String, dynamic> firebaseTask =
+                    //             snapshot.data.data;
+                    //         ImageTask selectedTask =
+                    //             ImageTask.fromMap(snapshot.data.data);
+                    //
+                    //         print(selectedTask.toMap());
+                    //         return Container();
+                    //       } else {
+                    //         return Container();
+                    //       }
+                    //     });
+                    //</editor-fold>
+                    var fullTask = fireStoreGigsRef
                         .doc(widget.gig.gigId)
                         .collection("Tasks")
                         .doc(taskList[index].taskId)
-                        .snapshots();
-                    print(fullTaskStream.toString());
-                    StreamBuilder<DocumentSnapshot>(
-                        stream: fullTaskStream,
-                        builder: (context,
-                            AsyncSnapshot<dynamic> snapshot) {
-                          //if (snapshot.connectionState == ConnectionState.active) {
+                        .snapshots()
+                        .map((taskFromDocument) =>
+                            ImageTask.fromMap(taskFromDocument.data()));
 
-                            final Map<String, dynamic> firebaseTask = snapshot.data.data;
-                            ImageTask selectedTask = ImageTask.fromMap(snapshot.data.data);
+                    print(fullTask.toString());
 
-                            print(selectedTask.toMap());
-                            return Container();
-                          //}
-                          //else{
-                           // return Container();
-                          //}
-                        });
-
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //       builder: (context) => ImageTaskScreen(
-                    //         index: index,
-                    //       ),
-                    //     ));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                StreamProvider<ImageTask>.value(
+                                  value: fullTask,
+                                  child: ImageTaskScreen(
+                                    index: index,
+                                  ),
+                                )));
                   }
                 },
                 // contentPadding: EdgeInsets.symmetric(vertical: 5.0,horizontal: 10.0),
