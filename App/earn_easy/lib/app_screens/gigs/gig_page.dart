@@ -23,8 +23,8 @@ class _GigPageState extends State<GigPage> {
     // TODO: implement initState
     super.initState();
     _checkIfUserIsInAttemptedUsers();
-
   }
+
   _checkIfUserIsInAttemptedUsers() {
     List<String> attemptedUserListFromGig = widget.gig.attemptedUsers;
     for (var attemptedUser in attemptedUserListFromGig) {
@@ -32,11 +32,11 @@ class _GigPageState extends State<GigPage> {
         print("User ${userUid} has accepted the gig ${widget.gig.gigId}");
         setState(() {
           checker = true;
-
         });
       }
     }
   }
+
   @override
   Widget build(BuildContext context) {
     var user = Provider.of<UserAccount>(context);
@@ -252,38 +252,49 @@ class _GigPageState extends State<GigPage> {
                               ),
                             ),
                             onPressed: () async {
-                              await fireStoreGigsRef.doc(gig.gigId).update({
-                                'attemptedUsers':
-                                    FieldValue.arrayUnion([user.uid])
-                              }).then((value) {
-                                print("Attempted user updated with ${user.uid}");
-                              });
-                              await fireStoreUsersRef.doc(user.uid).update({
-                                'attemptedGigs': FieldValue.arrayUnion([
-                                  GigMini(
-                                          gigId: gig.gigId,
-                                          title: gig.title,
-                                          money: gig.money)
-                                      .toMap()
-                                ]),
-                                'waitListGigs': FieldValue.arrayUnion([
-                                  GigMini(
-                                          gigId: gig.gigId,
-                                          title: gig.title,
-                                          money: gig.money)
-                                      .toMap()
-                                ]),
-                                'allGigs': FieldValue.arrayUnion([
-                                  GigMini(
-                                          gigId: gig.gigId,
-                                          title: gig.title,
-                                          money: gig.money)
-                                      .toMap()
-                                ]),
-                              }).then((value) {
-                                print("Added in user");
+                              try {
+                                await fireStoreGigsRef.doc(gig.gigId).update({
+                                  'attemptedUsers':
+                                      FieldValue.arrayUnion([user.uid])
+                                }).then((value) {
+                                  print(
+                                      "Attempted user updated with ${user.uid}");
+                                });
+                              } catch (e) {
+                                print("Attempted user update failed $e");
+                              }
+                              try {
+                                await fireStoreUsersRef.doc(user.uid).update({
+                                  'attemptedGigs': FieldValue.arrayUnion([
+                                    GigMini(
+                                            gigId: gig.gigId,
+                                            title: gig.title,
+                                            money: gig.money)
+                                        .toMap()
+                                  ]),
+                                  'waitListGigs': FieldValue.arrayUnion([
+                                    GigMini(
+                                            gigId: gig.gigId,
+                                            title: gig.title,
+                                            money: gig.money)
+                                        .toMap()
+                                  ]),
+                                  'allGigs': FieldValue.arrayUnion([
+                                    GigMini(
+                                            gigId: gig.gigId,
+                                            title: gig.title,
+                                            money: gig.money)
+                                        .toMap()
+                                  ]),
+                                }).then((value) {
+                                  print(
+                                      "attemptedGigs, waitListGigs and allGigs updated in user");
+                                });
+                              } catch (e) {
+                                print(
+                                    "attemptedGigs, waitListGigs and allGigs updated  failed $e");
+                              }
 
-                              });
                               _checkIfUserIsInAttemptedUsers();
                             },
                           ),
