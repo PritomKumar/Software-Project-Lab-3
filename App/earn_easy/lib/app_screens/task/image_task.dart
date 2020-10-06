@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:earneasy/app_screens/task/upload_task.dart';
+import 'package:earneasy/models/task.dart';
+import 'package:earneasy/shared/loading.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,12 +16,9 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
+import 'package:provider/provider.dart';
 
 class ImageTaskScreen extends StatefulWidget {
-  final imageFileList;
-  final int index;
-
-  const ImageTaskScreen({Key key, this.imageFileList,this.index}) : super(key: key);
 
   @override
   _ImageTaskScreenState createState() => _ImageTaskScreenState();
@@ -32,6 +31,8 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
   List<File> _imageFileList = List<File>();
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   List<StorageUploadTask> _tasks = <StorageUploadTask>[];
+  ImageTask _imageTask;
+  var _submittedImageUrlList = List<String>();
 
   //<editor-fold desc="Image Picking options">
   //Select an image via gallery or camera
@@ -120,7 +121,7 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
 
   Future<void> upload(fileName, filePath) async {
     String path =
-        "images/ $fileName ${DateTime.now().microsecondsSinceEpoch.toString()}.png";
+        "${_imageTask.gigId}/${_imageTask.taskId}/images/$fileName ${DateTime.now().microsecondsSinceEpoch.toString()}.png";
     final StorageReference storageRef =
         FirebaseStorage(storageBucket: "gs://earneasy-5e92c.appspot.com")
             .ref()
@@ -275,6 +276,13 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
     return image;
   }
 
+  _uploadUserResponse(StorageUploadTask task) async {
+    var url = await (await task.onComplete).ref.getDownloadURL();
+    if(url!=null){
+      _submittedImageUrlList.add(url);
+    }
+  }
+
   @override
   void updateKeepAlive() {
     super.updateKeepAlive();
@@ -286,7 +294,7 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-
+    _imageTask = Provider.of<ImageTask>(context);
     final List<Widget> uploadFileTileList = <Widget>[];
     _tasks.forEach((StorageUploadTask task) {
       final Widget tile = UploadTaskListTile(
@@ -294,6 +302,9 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
         onDismissed: () => setState(() => _tasks.remove(task)),
         onDownload: () => null,
       );
+      if(task.isSuccessful){
+        _uploadUserResponse(task);
+      }
       uploadFileTileList.add(tile);
     });
 
@@ -358,7 +369,7 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
       );
     }
 
-    return Scaffold(
+    return _imageTask !=null ? Scaffold(
       appBar: AppBar(
         title: Text("Image Task"),
       ),
@@ -381,7 +392,7 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
               height: 10.0,
             ),
             Text(
-              "Header",
+              "${_imageTask.taskDescription}",
               textScaleFactor: 1.5,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
@@ -512,6 +523,6 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
           ],
         ),
       ),
-    );
+    ) : Loading();
   }
 }

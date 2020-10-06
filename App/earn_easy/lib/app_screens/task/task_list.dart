@@ -96,7 +96,6 @@ class _TaskListPageState extends State<TaskListPage> {
                                 StreamProvider<ImageTask>.value(
                                   value: fullTask,
                                   child: ImageTaskScreen(
-                                    index: index,
                                   ),
                                 )));
                   }
