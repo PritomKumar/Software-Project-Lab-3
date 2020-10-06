@@ -32,7 +32,7 @@ class _TaskListPageState extends State<TaskListPage> {
                 leading: Icon(Icons.photo_library),
                 trailing: null,
                 title: Text(
-                  // "Hellasd asdas asd asdasd asdas sdfsdf dsf sdfsd sfd sdf sdf asdasd a asd as sdfds sdfsd fsdfjk shfjsdhf jksdhfjsdhf jksdhfjsdh fjsdhfjdsh jsdhfj shdfjsdhf jsdhfjsdh fsjdhf jskdhfsdjfh sdjfhsdjhf sdjfh jshdjf hsjdh jshfsdjhf sjdhfjskhfjsdhfj shfjsd hsj jsdkf jsdhf sjdhosdfsdf dsfsd sdf sfsdf sd",
+                  // ,
                   taskList[index].taskDescription,
                   style: TextStyle(
                     fontWeight: FontWeight.w400,
