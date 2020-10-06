@@ -37,6 +37,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
   int _bottomNavigationBarIndex = 0;
   LatLng currentLocation;
 
+  //region Google Map Methods
   @override
   void initState() {
     // TODO: implement initState
@@ -179,6 +180,8 @@ class _GoogleMapsState extends State<GoogleMaps> {
     }
   }
 
+//endregion Methods
+
   @override
   Widget build(BuildContext context) {
     //List<Gig> gigList = List<Gig>();
@@ -225,6 +228,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
             )
           ],
         ),
+        //#region bottomNavigationBar
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _bottomNavigationBarIndex,
           items: [
@@ -255,6 +259,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
             });
           },
         ),
+        //#endregion bottomNavigationBar
         body: StyledToast(
           textStyle: TextStyle(fontSize: 16.0, color: Colors.white),
           backgroundColor: Color(0x99000000),

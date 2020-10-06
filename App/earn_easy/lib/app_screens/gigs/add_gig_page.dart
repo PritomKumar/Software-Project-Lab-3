@@ -176,6 +176,7 @@ class _GigAddPageState extends State<GigAddPage> {
                           ),
                         ],
                       ),
+                      //region Start Date and End Date
                       Row(
                         children: <Widget>[
                           Text(
@@ -375,6 +376,7 @@ class _GigAddPageState extends State<GigAddPage> {
                           ),
                         ],
                       ),
+                      //endregion Start Date and End Date
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 0.0),
@@ -455,8 +457,7 @@ class _GigAddPageState extends State<GigAddPage> {
                                     ),
                                     title: Text(
                                       "${taskList[index].taskDescription}",
-                                      //" asd sda sdasd adas asfdf asfsfafa dfsdf sadf sdfsdasasdgsad sd ssdffsd fsdfa sdfsdf asdfsd adf adfdasf asdfasdfasdf sdf sadsfd ",
-
+                                      //VeryLongTextForTestingPurpose,
                                       textScaleFactor: 1.5,
                                       maxLines: 4,
                                       overflow: TextOverflow.ellipsis,

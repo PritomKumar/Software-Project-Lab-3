@@ -25,6 +25,7 @@ class _GigPageState extends State<GigPage> {
     _checkIfUserIsInAttemptedUsers();
   }
 
+  //#region Methods
   _checkIfUserIsInAttemptedUsers() {
     List<String> attemptedUserListFromGig = widget.gig.attemptedUsers;
     for (var attemptedUser in attemptedUserListFromGig) {
@@ -36,6 +37,8 @@ class _GigPageState extends State<GigPage> {
       }
     }
   }
+
+  //#endregion
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +59,7 @@ class _GigPageState extends State<GigPage> {
               alignment: Alignment.center,
               child: ListView(
                 children: <Widget>[
+                  //#region UI elements
                   Container(
                     color: Colors.grey[300],
                     padding:
@@ -222,6 +226,7 @@ class _GigPageState extends State<GigPage> {
                       ],
                     ),
                   ),
+                  //#endregion
                   checker
                       ? Container(
                           margin: EdgeInsets.symmetric(
