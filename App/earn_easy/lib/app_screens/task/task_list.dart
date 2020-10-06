@@ -43,21 +43,24 @@ class _TaskListPageState extends State<TaskListPage> {
                 ),
                 dense: false,
                 onTap: () async {
-                  // TODO Have to send item based on type of task
-                  // DocumentSnapshot  fullTask = await fireStoreGigsRef
-                  //     .doc(widget.gig.gigId)
-                  //     .collection("Tasks")
-                  //     .doc(taskList[index].taskId).get();
+                 //TODO do this for other type of tasks
+                  if(taskList[index].taskType == ImageTaskType){
 
-                  // var fullTask = await fireStoreGigsRef
-                  //     .doc(widget.gig.gigId)
-                  //     .collection("Tasks")
-                  //     .doc(taskList[index].taskId)
-                  //     .snapshots()
-                  //     .map((taskFromDocument) =>
-                  //         ImageTask.fromMap(taskFromDocument.data()));
+                    // TODO Have to send item based on type of task
+                    // DocumentSnapshot  fullTask = await fireStoreGigsRef
+                    //     .doc(widget.gig.gigId)
+                    //     .collection("Tasks")
+                    //     .doc(taskList[index].taskId).get();
 
+                    // var fullTask = await fireStoreGigsRef
+                    //     .doc(widget.gig.gigId)
+                    //     .collection("Tasks")
+                    //     .doc(taskList[index].taskId)
+                    //     .snapshots()
+                    //     .map((taskFromDocument) =>
+                    //         ImageTask.fromMap(taskFromDocument.data()));
 
+                  }
                 },
                 // contentPadding: EdgeInsets.symmetric(vertical: 5.0,horizontal: 10.0),
               ),
