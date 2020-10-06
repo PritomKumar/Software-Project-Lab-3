@@ -16,9 +16,10 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 
 class ImageTaskScreen extends StatefulWidget {
-  final List<File> imageFileList;
+  final imageFileList;
+  final int index;
 
-  const ImageTaskScreen({Key key, this.imageFileList}) : super(key: key);
+  const ImageTaskScreen({Key key, this.imageFileList,this.index}) : super(key: key);
 
   @override
   _ImageTaskScreenState createState() => _ImageTaskScreenState();
@@ -32,6 +33,7 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   List<StorageUploadTask> _tasks = <StorageUploadTask>[];
 
+  //<editor-fold desc="Image Picking options">
   //Select an image via gallery or camera
   Future<void> _pickFromCamera() async {
     ImagePicker imagePicker = ImagePicker();
@@ -68,6 +70,9 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
     });
   }
 
+  //</editor-fold>
+
+  //<editor-fold desc="Image Cropper">
   //Cropper
   Future<File> _cropImage(File imageFile) async {
     File croppedFile = await ImageCropper.cropImage(
@@ -103,6 +108,9 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
     return croppedFile ?? imageFile;
   }
 
+  //</editor-fold>
+
+  //<editor-fold desc="Upload">
   Future<void> uploadToFirebase() async {
     for (int i = 0; i < _imageFileList.length; i++) {
       await upload(basename(_imageFileList[i].path), _imageFileList[i].path);
@@ -124,6 +132,8 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
       _tasks.add(uploadTask);
     });
   }
+
+  //</editor-fold>
 
   int _compressQualityMatrix(int length) {
     // Less than 1 MB
@@ -276,6 +286,7 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
     final List<Widget> uploadFileTileList = <Widget>[];
     _tasks.forEach((StorageUploadTask task) {
       final Widget tile = UploadTaskListTile(

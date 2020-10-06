@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:earneasy/app_screens/task/task_list.dart';
 import 'package:earneasy/models/gig.dart';
 import 'package:earneasy/models/user.dart';
 import 'package:earneasy/shared/constants.dart';
@@ -237,7 +238,14 @@ class _GigPageState extends State<GigPage> {
                             color: Colors.lightGreenAccent,
                             child: Text("Start Tasks"),
                             onPressed: () {
-                              print("Start pressed");
+                              //print("Start pressed");
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => TaskListPage(
+                                      gig: gig,
+                                    ),
+                                  ));
                             },
                           ),
                         )

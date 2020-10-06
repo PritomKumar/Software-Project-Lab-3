@@ -561,7 +561,7 @@ class _GigAddPageState extends State<GigAddPage> {
                               if (!checkAdded) {
                                 showToast("Request Failed");
                               } else {
-                                showToast("Your Gig is added sucessfully");
+                                showToast("Your Gig is added successfully");
                               }
                             } else {
                               showToast("Your Gig is already added");

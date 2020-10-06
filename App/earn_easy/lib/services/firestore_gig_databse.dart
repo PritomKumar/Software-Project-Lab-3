@@ -47,6 +47,7 @@ class DatabaseServiceGigs {
                   TaskSnippet(
                     taskId: taskRef.id,
                     taskDescription: imageTask.taskDescription,
+                    taskType: imageTask.type,
                   ).toMap()
                 ]),
               });

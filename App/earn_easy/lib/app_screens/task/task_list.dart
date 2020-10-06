@@ -4,6 +4,8 @@ import 'package:earneasy/models/task.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:flutter/material.dart';
 
+import 'image_task.dart';
+
 class TaskListPage extends StatefulWidget {
   final Gig gig;
 
@@ -43,9 +45,9 @@ class _TaskListPageState extends State<TaskListPage> {
                 ),
                 dense: false,
                 onTap: () async {
-                 //TODO do this for other type of tasks
-                  if(taskList[index].taskType == ImageTaskType){
-
+                  print("Inside Task list tapped  $index");
+                  //TODO do this for other type of tasks
+                  if (taskList[index].taskType == ImageTaskType) {
                     // TODO Have to send item based on type of task
                     // DocumentSnapshot  fullTask = await fireStoreGigsRef
                     //     .doc(widget.gig.gigId)
@@ -60,6 +62,36 @@ class _TaskListPageState extends State<TaskListPage> {
                     //     .map((taskFromDocument) =>
                     //         ImageTask.fromMap(taskFromDocument.data()));
 
+                    Stream<DocumentSnapshot> fullTaskStream = fireStoreGigsRef
+                        .doc(widget.gig.gigId)
+                        .collection("Tasks")
+                        .doc(taskList[index].taskId)
+                        .snapshots();
+                    print(fullTaskStream.toString());
+                    StreamBuilder<DocumentSnapshot>(
+                        stream: fullTaskStream,
+                        builder: (context,
+                            AsyncSnapshot<dynamic> snapshot) {
+                          //if (snapshot.connectionState == ConnectionState.active) {
+
+                            final Map<String, dynamic> firebaseTask = snapshot.data.data;
+                            ImageTask selectedTask = ImageTask.fromMap(snapshot.data.data);
+
+                            print(selectedTask.toMap());
+                            return Container();
+                          //}
+                          //else{
+                           // return Container();
+                          //}
+                        });
+
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //       builder: (context) => ImageTaskScreen(
+                    //         index: index,
+                    //       ),
+                    //     ));
                   }
                 },
                 // contentPadding: EdgeInsets.symmetric(vertical: 5.0,horizontal: 10.0),
