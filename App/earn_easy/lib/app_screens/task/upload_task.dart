@@ -3,12 +3,13 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 class UploadTaskListTile extends StatelessWidget {
   const UploadTaskListTile(
-      {Key key, this.task, this.onDismissed, this.onDownload})
+      {Key key, this.task, this.onDismissed, this.onDownload,this.onSuccessful})
       : super(key: key);
 
   final StorageUploadTask task;
   final VoidCallback onDismissed;
   final VoidCallback onDownload;
+  final VoidCallback onSuccessful;
 
   String get status {
     String result;
@@ -49,6 +50,9 @@ class UploadTaskListTile extends StatelessWidget {
         var event = asyncSnapshot?.data?.snapshot;
         double progressPercent =
         event != null ? event.bytesTransferred / event.totalByteCount : 0;
+        if(task.isSuccessful){
+          onSuccessful();
+        }
         return task.isComplete
             ? Container()
             : Column(
