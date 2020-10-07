@@ -85,8 +85,6 @@ class AuthService {
     }
   }
 
-
-
   Future signInWithGoogleAuth() async {
     try {
       GoogleSignInAccount googleUser = await _googleSignIn.signIn();

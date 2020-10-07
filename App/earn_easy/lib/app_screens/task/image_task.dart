@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/app_screens/task/upload_task.dart';
 import 'package:earneasy/models/task.dart';
+import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -275,9 +277,26 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
     return image;
   }
 
-  _uploadUserResponse(StorageUploadTask task) async {
-
-
+  Future<void> _uploadUserResponse() async {
+    await fireStoreGigsRef
+        .doc(_imageTask.gigId)
+        .collection("Tasks")
+        .doc(_imageTask.taskId)
+        .update({
+      'workerResponses': FieldValue.arrayUnion([
+        ImageTaskWorkerResponse(
+          submittedUserUid: userUid,
+          submittedImageUrlList: _submittedImageUrlList,
+        ).toMap()
+      ]),
+    }).then((value) {
+      setState(() {
+        _imageFileList.clear();
+        _submittedImageUrlList.clear();
+        print("_uploadUserResponse Download url List length ${_submittedImageUrlList.length} ");
+        print("_uploadUserResponse Image file list length = ${_imageFileList.length}");
+      });
+    });
   }
 
   @override
@@ -293,26 +312,34 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
     super.build(context);
     _imageTask = Provider.of<ImageTask>(context);
     final List<Widget> uploadFileTileList = <Widget>[];
-    _tasks.forEach((StorageUploadTask task) {
+    for (int i = 0; i < _tasks.length; i++) {
       final Widget tile = UploadTaskListTile(
-        task: task,
+        task: _tasks[i],
         onSuccessful: () async {
-          var url = await (await task.onComplete).ref.getDownloadURL();
+          var url = await (await _tasks[i].onComplete).ref.getDownloadURL();
           if (url != null) {
             _submittedImageUrlList.add(url);
+            print(url);
+            url = null;
+            print("Download urls ");
+            print("Download url List length ${_submittedImageUrlList.length} ");
+            print("Image file list length = ${_imageFileList.length}");
+
+            if (i == _imageFileList.length - 1) {
+              await _uploadUserResponse();
+            }
           }
-          print("Download urls ");
-          print("Download url List length ${_submittedImageUrlList.length} ");
         },
         onDismissed: () {
           setState(() {
-            _tasks.remove(task);
+            _tasks.remove(_tasks[i]);
           });
         },
         onDownload: () => null,
       );
       uploadFileTileList.add(tile);
-    });
+    }
+    ;
 
     Future<void> _selectImageSource() async {
       await showDialog(
