@@ -290,12 +290,10 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
         ).toMap()
       ]),
     }).then((value) {
-      setState(() {
         _imageFileList.clear();
         _submittedImageUrlList.clear();
         print("_uploadUserResponse Download url List length ${_submittedImageUrlList.length} ");
         print("_uploadUserResponse Image file list length = ${_imageFileList.length}");
-      });
     });
   }
 
@@ -318,14 +316,16 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
         onSuccessful: () async {
           var url = await (await _tasks[i].onComplete).ref.getDownloadURL();
           if (url != null) {
-            _submittedImageUrlList.add(url);
+            if(_submittedImageUrlList.length<=_imageFileList.length && _imageFileList.length!=0){
+              _submittedImageUrlList.add(url);
+            }
             print(url);
             url = null;
             print("Download urls ");
             print("Download url List length ${_submittedImageUrlList.length} ");
             print("Image file list length = ${_imageFileList.length}");
 
-            if (i == _imageFileList.length - 1) {
+            if ((i == _imageFileList.length - 1) &&  _imageFileList.length!=0) {
               await _uploadUserResponse();
             }
           }
