@@ -48,8 +48,7 @@ class _TaskListPageState extends State<TaskListPage> {
                 onTap: () async {
                   print("Inside Task list tapped  $index");
                   //TODO do this for other type of tasks
-                  // if (taskList[index].taskType == ImageTaskType) {
-                  if (true) {
+                  if (taskList[index].taskType == ImageTaskType) {
                     // TODO Have to send item based on type of task
                     // DocumentSnapshot  fullTask = await fireStoreGigsRef
                     //     .doc(widget.gig.gigId)
@@ -95,8 +94,7 @@ class _TaskListPageState extends State<TaskListPage> {
                             builder: (context) =>
                                 StreamProvider<ImageTask>.value(
                                   value: fullTask,
-                                  child: ImageTaskScreen(
-                                  ),
+                                  child: ImageTaskScreen(),
                                 )));
                   }
                 },
