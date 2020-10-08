@@ -290,10 +290,16 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
         ).toMap()
       ]),
     }).then((value) {
-        _imageFileList.clear();
-        _submittedImageUrlList.clear();
-        print("_uploadUserResponse Download url List length ${_submittedImageUrlList.length} ");
-        print("_uploadUserResponse Image file list length = ${_imageFileList.length}");
+      //TODO Set State on _imageFileList.clear() is causing this function to be called twice
+      // setState(() {
+      //   _imageFileList.clear();
+      // });
+      _imageFileList.clear();
+      _submittedImageUrlList.clear();
+      print(
+          "_uploadUserResponse Download url List length ${_submittedImageUrlList.length} ");
+      print(
+          "_uploadUserResponse Image file list length = ${_imageFileList.length}");
     });
   }
 
@@ -310,34 +316,39 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
     super.build(context);
     _imageTask = Provider.of<ImageTask>(context);
     final List<Widget> uploadFileTileList = <Widget>[];
-    for (int i = 0; i < _tasks.length; i++) {
-      final Widget tile = UploadTaskListTile(
-        task: _tasks[i],
-        onSuccessful: () async {
-          var url = await (await _tasks[i].onComplete).ref.getDownloadURL();
-          if (url != null) {
-            if(_submittedImageUrlList.length<=_imageFileList.length && _imageFileList.length!=0){
-              _submittedImageUrlList.add(url);
-            }
-            print(url);
-            url = null;
-            print("Download urls ");
-            print("Download url List length ${_submittedImageUrlList.length} ");
-            print("Image file list length = ${_imageFileList.length}");
+    if (_imageFileList.length != 0) {
+      for (int i = 0; i < _tasks.length; i++) {
+        final Widget tile = UploadTaskListTile(
+          task: _tasks[i],
+          onSuccessful: () async {
+            var url = await (await _tasks[i].onComplete).ref.getDownloadURL();
+            if (url != null) {
+              if (_submittedImageUrlList.length <= _imageFileList.length &&
+                  _imageFileList.length != 0) {
+                _submittedImageUrlList.add(url);
+              }
+              print(url);
+              url = null;
+              print("Download urls ");
+              print(
+                  "Download url List length ${_submittedImageUrlList.length} ");
+              print("Image file list length = ${_imageFileList.length}");
 
-            if ((i == _imageFileList.length - 1) &&  _imageFileList.length!=0) {
-              await _uploadUserResponse();
+              if ((i == _imageFileList.length - 1) &&
+                  _imageFileList.length != 0) {
+                await _uploadUserResponse();
+              }
             }
-          }
-        },
-        onDismissed: () {
-          setState(() {
-            _tasks.remove(_tasks[i]);
-          });
-        },
-        onDownload: () => null,
-      );
-      uploadFileTileList.add(tile);
+          },
+          onDismissed: () {
+            setState(() {
+              _tasks.remove(_tasks[i]);
+            });
+          },
+          onDownload: () => null,
+        );
+        uploadFileTileList.add(tile);
+      }
     }
     ;
 
