@@ -5,23 +5,29 @@ class TaskSnippet {
   final String taskId;
   final String taskType;
   final String taskDescription;
+  final bool require;
+
 
   TaskSnippet({
     @required this.taskId,
     @required this.taskType,
     @required this.taskDescription,
+    @required this.require,
   });
 
   TaskSnippet.fromMap(Map<String, dynamic> data)
       : this.taskId = data["taskId"],
         this.taskType = data["taskType"],
-        this.taskDescription = data["taskDescription"];
+        this.taskDescription = data["taskDescription"],
+        this.require = data["require"] ?? false;
+
 
   Map<String, dynamic> toMap() {
     return {
       'taskId': this.taskId ?? "",
       'taskType': this.taskType ?? "",
       'taskDescription': this.taskDescription ?? "",
+      'require': this.require ?? false,
     };
   }
 }
@@ -32,6 +38,7 @@ class ImageTask {
   final String type = ImageTaskType;
   final String taskDescription;
   final int numberOfImages;
+  final bool require;
   List<ImageTaskWorkerResponse> workerResponses =
       List<ImageTaskWorkerResponse>();
 
@@ -41,6 +48,7 @@ class ImageTask {
     @required this.taskDescription,
     @required this.numberOfImages,
     @required this.workerResponses,
+    @required this.require,
   });
 
   ImageTask.fromMap(Map<String, dynamic> data)
@@ -50,7 +58,8 @@ class ImageTask {
         this.numberOfImages = data["numberOfImages"],
         this.workerResponses = List.from(data["workerResponses"]
                 .map((index) => ImageTaskWorkerResponse.fromMap(index))) ??
-            [];
+            [],
+        this.require = data["require"] ?? false;
 
   Map<String, dynamic> toMap() {
     return {
@@ -59,6 +68,7 @@ class ImageTask {
       'taskDescription': this.taskDescription ?? "",
       'numberOfImages': this.numberOfImages ?? 0,
       'workerResponses': this.workerResponses ?? [],
+      'require': this.require ?? false,
     };
   }
 }
