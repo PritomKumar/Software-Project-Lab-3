@@ -13,6 +13,7 @@ class _SurveyTaskState extends State<SurveyTask> {
   final _formKey = GlobalKey<FormState>();
   String selectedType = MultipleChoiceTaskType;
   double _numberOfTaskImage = 1.0;
+  int _optionCounter = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -202,10 +203,7 @@ class _SurveyTaskState extends State<SurveyTask> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              Icon(
-                                FontAwesomeIcons.circle,
-                                color: Colors.grey[700],
-                              ),
+                              Text("$_optionCounter.",textScaleFactor: 1.2,),
                               SizedBox(
                                 width: 10.0,
                               ),
