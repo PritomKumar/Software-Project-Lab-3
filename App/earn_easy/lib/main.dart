@@ -11,6 +11,7 @@ import 'TestPage/add_gig_test.dart';
 import 'TestPage/test_image_task.dart';
 import 'TestPage/test_page.dart';
 import 'app_screens/map/map_list_view.dart';
+import 'app_screens/task/survey_task.dart';
 import 'app_screens/task/task_list.dart';
 import 'app_screens/wrapper.dart';
 import 'models/user.dart';
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: SplashScreen(),
+          home: SurveyTask(),
         ));
   }
 }
