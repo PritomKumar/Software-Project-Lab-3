@@ -167,7 +167,68 @@ class _SurveyTaskState extends State<SurveyTask> {
                                 icon: Icon(Icons.clear),
                               ),
                             ],
-                          )
+                          ),
+                        if (selectedType == CheckBoxTaskType)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Icon(
+                                FontAwesomeIcons.square,
+                                color: Colors.grey[700],
+                              ),
+                              SizedBox(
+                                width: 10.0,
+                              ),
+                              Expanded(
+                                child: TextFormField(
+                                  textAlign: TextAlign.start,
+                                  maxLines: 10,
+                                  scrollPhysics: BouncingScrollPhysics(),
+                                  minLines: 1,
+                                  decoration: InputDecoration(
+                                    hintText: "Option",
+                                  ),
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () {
+
+                                },
+                                icon: Icon(Icons.clear),
+                              ),
+                            ],
+                          ),
+                        if (selectedType == DropdownTaskType)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Icon(
+                                FontAwesomeIcons.circle,
+                                color: Colors.grey[700],
+                              ),
+                              SizedBox(
+                                width: 10.0,
+                              ),
+                              Expanded(
+                                child: TextFormField(
+                                  textAlign: TextAlign.start,
+                                  maxLines: 10,
+                                  scrollPhysics: BouncingScrollPhysics(),
+                                  minLines: 1,
+                                  decoration: InputDecoration(
+                                    hintText: "Option",
+                                  ),
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () {
+
+                                },
+                                icon: Icon(Icons.clear),
+                              ),
+                            ],
+                          ),
+
                       ],
                     ),
                   ),

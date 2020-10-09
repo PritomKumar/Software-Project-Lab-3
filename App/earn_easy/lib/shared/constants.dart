@@ -13,8 +13,8 @@ const String FreeTextTaskType = "Free text";
 
 const List<String> TaskTypeDropdownList = [
   ImageTaskType,
-  CheckBoxTaskType,
   MultipleChoiceTaskType,
+  CheckBoxTaskType,
   DropdownTaskType,
   FreeTextTaskType
 ];
