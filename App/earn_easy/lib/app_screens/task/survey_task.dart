@@ -12,6 +12,7 @@ class _SurveyTaskState extends State<SurveyTask> {
   TextEditingController question = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   String selectedType = MultipleChoiceTaskType;
+  double _numberOfTaskImage = 1.0;
 
   @override
   Widget build(BuildContext context) {
@@ -43,40 +44,107 @@ class _SurveyTaskState extends State<SurveyTask> {
                           padding: EdgeInsets.all(10.0),
                           child: TextFormField(
                             textAlign: TextAlign.start,
-                            textCapitalization: TextCapitalization.characters,
                             maxLines: 10,
                             scrollPhysics: BouncingScrollPhysics(),
                             minLines: 1,
-                            decoration: InputDecoration(hintText: VeryLongTextForTestingPurpose),
+                            decoration: InputDecoration(
+                                hintText: VeryLongTextForTestingPurpose),
                           ),
                         ),
-                        DropdownButtonFormField(
-                          elevation: 5,
-                          decoration: InputDecoration(
-                            hoverColor: Colors.red,
-                            filled: true,
-                            focusColor: Colors.green,
-                            fillColor: Colors.grey[150],
-                            contentPadding:
-                                EdgeInsets.only(left: 5.0, right: 5.0),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical:20.0),
+                          child: DropdownButtonFormField(
+                            elevation: 5,
+                            isExpanded: false,
+                            decoration: InputDecoration(
+                              hoverColor: Colors.red,
+                              filled: true,
+                              focusColor: Colors.green,
+                              fillColor: Colors.grey[150],
+                              contentPadding:
+                                  EdgeInsets.only(left: 5.0, right: 5.0),
+                            ),
+                            icon: Icon(FontAwesomeIcons.angleDown),
+                            iconEnabledColor: Colors.blueGrey,
+                            iconDisabledColor: Colors.grey[350],
+                            value: selectedType,
+                            items:
+                                TaskTypeDropdownList.map((String dropdownItem) {
+                              return DropdownMenuItem<String>(
+                                value: dropdownItem,
+                                child: Text(dropdownItem),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                selectedType = value;
+                              });
+                            },
                           ),
-                          icon: Icon(FontAwesomeIcons.angleDown),
-                          iconEnabledColor: Colors.blueGrey,
-                          iconDisabledColor: Colors.grey[350],
-                          value: selectedType,
-                          items:
-                              TaskTypeDropdownList.map((String dropdownItem) {
-                            return DropdownMenuItem<String>(
-                              value: dropdownItem,
-                              child: Text(dropdownItem),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              selectedType = value;
-                            });
-                          },
                         ),
+                        if (selectedType == ImageTaskType)
+                          Wrap(
+                            alignment: WrapAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  Flexible(
+                                    child: Container(
+                                      //padding: EdgeInsets.only(top: 20.0),
+                                      child: Text(
+                                        "Minimum number of image : ",
+                                        textScaleFactor: 1.05,
+                                        maxLines: null,
+                                        //overflow: TextOverflow.ellipsis,
+                                        softWrap: true,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: Colors.black87,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10.0,
+                                  ),
+                                  Container(
+                                   // padding: EdgeInsets.only(top: 20.0),
+                                    child: Text(
+                                      "${_numberOfTaskImage.round()}",
+                                      textAlign: TextAlign.center,
+                                      textScaleFactor: 2.0,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.green,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Slider(
+                                value: _numberOfTaskImage,
+                                min: 1.0,
+                                max: 50.0,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _numberOfTaskImage = value;
+                                  });
+                                },
+                                label: "$_numberOfTaskImage",
+                              ),
+                            ],
+                          ),
+                        if(selectedType == MultipleChoiceTaskType)
+                          Wrap(
+                            alignment: WrapAlignment.start,
+                            children: <Widget>[
+                              Icon(FontAwesomeIcons.circle,color: Colors.grey[700],)
+                            ],
+                          )
+
                       ],
                     ),
                   ),
