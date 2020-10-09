@@ -52,7 +52,7 @@ class _SurveyTaskState extends State<SurveyTask> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical:20.0),
+                          padding: const EdgeInsets.symmetric(vertical: 20.0),
                           child: DropdownButtonFormField(
                             elevation: 5,
                             isExpanded: false,
@@ -88,7 +88,8 @@ class _SurveyTaskState extends State<SurveyTask> {
                             children: <Widget>[
                               Row(
                                 mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: <Widget>[
                                   Flexible(
                                     child: Container(
@@ -111,7 +112,7 @@ class _SurveyTaskState extends State<SurveyTask> {
                                     width: 10.0,
                                   ),
                                   Container(
-                                   // padding: EdgeInsets.only(top: 20.0),
+                                    // padding: EdgeInsets.only(top: 20.0),
                                     child: Text(
                                       "${_numberOfTaskImage.round()}",
                                       textAlign: TextAlign.center,
@@ -137,14 +138,36 @@ class _SurveyTaskState extends State<SurveyTask> {
                               ),
                             ],
                           ),
-                        if(selectedType == MultipleChoiceTaskType)
-                          Wrap(
-                            alignment: WrapAlignment.start,
+                        if (selectedType == MultipleChoiceTaskType)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              Icon(FontAwesomeIcons.circle,color: Colors.grey[700],)
+                              Icon(
+                                FontAwesomeIcons.circle,
+                                color: Colors.grey[700],
+                              ),
+                              SizedBox(
+                                width: 10.0,
+                              ),
+                              Expanded(
+                                child: TextFormField(
+                                  textAlign: TextAlign.start,
+                                  maxLines: 10,
+                                  scrollPhysics: BouncingScrollPhysics(),
+                                  minLines: 1,
+                                  decoration: InputDecoration(
+                                    hintText: "Option",
+                                  ),
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () {
+
+                                },
+                                icon: Icon(Icons.clear),
+                              ),
                             ],
                           )
-
                       ],
                     ),
                   ),
