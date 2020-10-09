@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:earneasy/TestPage/upload_download_multiple_file.dart';
 import 'package:earneasy/app_screens/splash_screen.dart';
+import 'package:earneasy/app_screens/task/survey_task.dart';
 import 'package:earneasy/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: SplashScreen(),
+          home: SurveyTask(),
         ));
   }
 }

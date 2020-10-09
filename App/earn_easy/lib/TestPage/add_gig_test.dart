@@ -541,11 +541,11 @@ class _GigAddState extends State<GigAddTest> {
                                 location: geoLocation,
                                 //providerId: user.uid,
                                 startTime: Timestamp.fromDate(
-                                    Utils.CombineDateTimeWithTimeOfDay(
+                                    Utils.combineDateTimeWithTimeOfDay(
                                         dateTime: startDate,
                                         timeOfDay: startTime)),
                                 endTime: Timestamp.fromDate(
-                                    Utils.CombineDateTimeWithTimeOfDay(
+                                    Utils.combineDateTimeWithTimeOfDay(
                                         dateTime: endDate, timeOfDay: endTime)),
                                 type: typeOfGig,
                               ),taskList)

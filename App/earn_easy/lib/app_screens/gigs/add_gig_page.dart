@@ -548,12 +548,12 @@ class _GigAddPageState extends State<GigAddPage> {
                                               location: geoLocation,
                                               providerId: user.uid,
                                               startTime: Timestamp.fromDate(Utils
-                                                  .CombineDateTimeWithTimeOfDay(
+                                                  .combineDateTimeWithTimeOfDay(
                                                 dateTime: startDate,
                                                 timeOfDay: startTime,
                                               )),
                                               endTime: Timestamp.fromDate(Utils
-                                                  .CombineDateTimeWithTimeOfDay(
+                                                  .combineDateTimeWithTimeOfDay(
                                                 dateTime: endDate,
                                                 timeOfDay: endTime,
                                               )),
