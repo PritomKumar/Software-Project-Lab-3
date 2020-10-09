@@ -6,14 +6,16 @@ class Setting extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        drawer: SideDrawer(),
-        appBar: AppBar(
-          title: Text('Setting'),
-        ),
-        body: Center(
-          child: Container(
-            child: Text('Setting'),
+      home: SafeArea(
+        child: Scaffold(
+          drawer: SideDrawer(),
+          appBar: AppBar(
+            title: Text('Setting'),
+          ),
+          body: Center(
+            child: Container(
+              child: Text('Setting'),
+            ),
           ),
         ),
       ),

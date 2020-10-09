@@ -6,14 +6,16 @@ class NotificationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        drawer: SideDrawer(),
-        appBar: AppBar(
-          title: Text('Notification'),
-        ),
-        body: Center(
-          child: Container(
-            child: Text('Notification'),
+      home: SafeArea(
+        child: Scaffold(
+          drawer: SideDrawer(),
+          appBar: AppBar(
+            title: Text('Notification'),
+          ),
+          body: Center(
+            child: Container(
+              child: Text('Notification'),
+            ),
           ),
         ),
       ),

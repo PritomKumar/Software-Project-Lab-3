@@ -501,432 +501,434 @@ class _ProfileState extends State<Profile> {
 
       return MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Scaffold(
-          drawer: SideDrawer(),
-          appBar: AppBar(
-            title: Text('Profile'),
-          ),
-          body: Form(
-            key: _formKey,
-            child: Center(
-              child: Container(
-                padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                child: ListView(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 0.0),
-                      child: Row(
+        home: SafeArea(
+          child: Scaffold(
+            drawer: SideDrawer(),
+            appBar: AppBar(
+              title: Text('Profile'),
+            ),
+            body: Form(
+              key: _formKey,
+              child: Center(
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                  child: ListView(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 0.0),
+                        child: Row(
+                          children: <Widget>[
+                            Text(
+                              "User Type :",
+                              style: TextStyle(fontSize: size.width / 25),
+                            ),
+                            SizedBox(
+                              width: size.width / 40,
+                            ),
+                            Expanded(
+                              child: profileDropDownItem(
+                                  selectedItem: userType,
+                                  itemList: userTypeArray,
+                                  type: "type"),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Row(
                         children: <Widget>[
                           Text(
-                            "User Type :",
+                            "First Name :",
                             style: TextStyle(fontSize: size.width / 25),
                           ),
                           SizedBox(
                             width: size.width / 40,
                           ),
                           Expanded(
-                            child: profileDropDownItem(
-                                selectedItem: userType,
-                                itemList: userTypeArray,
-                                type: "type"),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          "First Name :",
-                          style: TextStyle(fontSize: size.width / 25),
-                        ),
-                        SizedBox(
-                          width: size.width / 40,
-                        ),
-                        Expanded(
-                          child: TextFormField(
-                            controller: firstNameController,
-                            decoration: InputDecoration(hintText: "First Name"),
-                            validator: (value) {
-                              return value.isEmpty ? "Enter First Name" : null;
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          "Last Name :",
-                          style: TextStyle(fontSize: size.width / 25),
-                        ),
-                        SizedBox(
-                          width: size.width / 40,
-                        ),
-                        Expanded(
-                          child: TextFormField(
-                            controller: lastNameController,
-                            decoration: InputDecoration(hintText: "Last Name"),
-                            validator: (value) {
-                              return value.isEmpty ? "Enter Last Name" : null;
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          "Email :",
-                          style: TextStyle(fontSize: size.width / 25),
-                        ),
-                        SizedBox(
-                          width: size.width / 40,
-                        ),
-                        Expanded(
-                          child: TextFormField(
-                            controller: emailController,
-                            decoration: InputDecoration(hintText: "Email"),
-                            validator: (value) {
-                              return value.isEmpty ? "Enter Email" : null;
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          "Date of Birth :",
-                          style: TextStyle(fontSize: size.width / 25),
-                        ),
-                        SizedBox(
-                          width: size.width / 40,
-                        ),
-                        InkWell(
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 5.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  birthdate == defaultInitializedTimestamp.toDate()
-                                      ? "MM/DD/YYYY"
-                                      : birthdate.day
-                                              .toString()
-                                              .padLeft(2, '0') +
-                                          "/" +
-                                          birthdate.month
-                                              .toString()
-                                              .padLeft(2, '0') +
-                                          "/" +
-                                          birthdate.year.toString(),
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w300,
-                                      color: Colors.black),
-                                ),
-                                SizedBox(width: 10.0),
-                                Icon(Icons.calendar_today),
-                              ],
+                            child: TextFormField(
+                              controller: firstNameController,
+                              decoration: InputDecoration(hintText: "First Name"),
+                              validator: (value) {
+                                return value.isEmpty ? "Enter First Name" : null;
+                              },
                             ),
                           ),
-                          onTap: () async {
-                            var clickedDate = await showDatePicker(
-                              context: context,
-                              initialDate: birthdate == defaultInitializedTimestamp.toDate()
-                                  ? DateTime.now()
-                                  : birthdate,
-                              firstDate: DateTime(1850, 1, 1),
-                              lastDate: DateTime.now(),
-                              helpText: "MM/DD/YYYY",
-                            );
-                            if (clickedDate != null && clickedDate != birthdate)
-                              setState(() {
-                                birthdate = clickedDate;
-                                print(birthdate.toString());
-                              });
-                          },
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 0.0),
-                      child: Row(
+                        ],
+                      ),
+                      Row(
                         children: <Widget>[
                           Text(
-                            "Gender :",
+                            "Last Name :",
                             style: TextStyle(fontSize: size.width / 25),
                           ),
                           SizedBox(
                             width: size.width / 40,
                           ),
                           Expanded(
-                            child: profileDropDownItem(
-                                selectedItem: gender,
-                                itemList: genderArray,
-                                type: "gender"),
+                            child: TextFormField(
+                              controller: lastNameController,
+                              decoration: InputDecoration(hintText: "Last Name"),
+                              validator: (value) {
+                                return value.isEmpty ? "Enter Last Name" : null;
+                              },
+                            ),
                           ),
                         ],
                       ),
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          "Street :",
-                          style: TextStyle(fontSize: size.width / 25),
-                        ),
-                        SizedBox(
-                          width: size.width / 40,
-                        ),
-                        Expanded(
-                          child: TextFormField(
-                            keyboardType: TextInputType.multiline,
-                            controller: streetController,
-                            decoration:
-                                InputDecoration(hintText: "Street address"),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          "City :",
-                          style: TextStyle(fontSize: size.width / 25),
-                        ),
-                        SizedBox(
-                          width: size.width / 40,
-                        ),
-                        Expanded(
-                          child: TextFormField(
-                            keyboardType: TextInputType.multiline,
-                            controller: cityController,
-                            decoration: InputDecoration(hintText: "City"),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          "State :",
-                          style: TextStyle(fontSize: size.width / 25),
-                        ),
-                        SizedBox(
-                          width: size.width / 40,
-                        ),
-                        Expanded(
-                          child: TextFormField(
-                            keyboardType: TextInputType.multiline,
-                            controller: stateController,
-                            decoration: InputDecoration(hintText: "State"),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          "Zip Code :",
-                          style: TextStyle(fontSize: size.width / 25),
-                        ),
-                        SizedBox(
-                          width: size.width / 40,
-                        ),
-                        Expanded(
-                          child: TextFormField(
-                            keyboardType: TextInputType.multiline,
-                            controller: zipCodeController,
-                            decoration: InputDecoration(hintText: "Zip code"),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          "Phone :",
-                          style: TextStyle(fontSize: size.width / 25),
-                        ),
-                        SizedBox(
-                          width: size.width / 40,
-                        ),
-                        Expanded(
-                          child: TextFormField(
-                            keyboardType: TextInputType.phone,
-                            controller: phoneNumberController,
-                            decoration:
-                                InputDecoration(hintText: "Phone number"),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          "Bio :",
-                          style: TextStyle(fontSize: size.width / 25),
-                        ),
-                        SizedBox(
-                          width: size.width / 40,
-                        ),
-                        Expanded(
-                          child: TextFormField(
-                            keyboardType: TextInputType.multiline,
-                            controller: bioController,
-                            decoration: InputDecoration(hintText: "Bio"),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          "Occupation :",
-                          style: TextStyle(fontSize: size.width / 25),
-                        ),
-                        SizedBox(
-                          width: size.width / 40,
-                        ),
-                        Expanded(
-                          child: TextFormField(
-                            keyboardType: TextInputType.multiline,
-                            controller: occupationController,
-                            decoration: InputDecoration(hintText: "Occupation"),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 0.0),
-                      child: Row(
+                      Row(
                         children: <Widget>[
                           Text(
-                            "Marital Status :",
+                            "Email :",
                             style: TextStyle(fontSize: size.width / 25),
                           ),
                           SizedBox(
                             width: size.width / 40,
                           ),
                           Expanded(
-                            child: profileDropDownItem(
-                                selectedItem: maritalStatus,
-                                itemList: maritalStatusArray,
-                                type: "marital"),
+                            child: TextFormField(
+                              controller: emailController,
+                              decoration: InputDecoration(hintText: "Email"),
+                              validator: (value) {
+                                return value.isEmpty ? "Enter Email" : null;
+                              },
+                            ),
                           ),
                         ],
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 0.0),
-                      child: Row(
+                      Row(
                         children: <Widget>[
                           Text(
-                            "Education Level :",
+                            "Date of Birth :",
+                            style: TextStyle(fontSize: size.width / 25),
+                          ),
+                          SizedBox(
+                            width: size.width / 40,
+                          ),
+                          InkWell(
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 5.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    birthdate == defaultInitializedTimestamp.toDate()
+                                        ? "MM/DD/YYYY"
+                                        : birthdate.day
+                                                .toString()
+                                                .padLeft(2, '0') +
+                                            "/" +
+                                            birthdate.month
+                                                .toString()
+                                                .padLeft(2, '0') +
+                                            "/" +
+                                            birthdate.year.toString(),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        color: Colors.black),
+                                  ),
+                                  SizedBox(width: 10.0),
+                                  Icon(Icons.calendar_today),
+                                ],
+                              ),
+                            ),
+                            onTap: () async {
+                              var clickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: birthdate == defaultInitializedTimestamp.toDate()
+                                    ? DateTime.now()
+                                    : birthdate,
+                                firstDate: DateTime(1850, 1, 1),
+                                lastDate: DateTime.now(),
+                                helpText: "MM/DD/YYYY",
+                              );
+                              if (clickedDate != null && clickedDate != birthdate)
+                                setState(() {
+                                  birthdate = clickedDate;
+                                  print(birthdate.toString());
+                                });
+                            },
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 0.0),
+                        child: Row(
+                          children: <Widget>[
+                            Text(
+                              "Gender :",
+                              style: TextStyle(fontSize: size.width / 25),
+                            ),
+                            SizedBox(
+                              width: size.width / 40,
+                            ),
+                            Expanded(
+                              child: profileDropDownItem(
+                                  selectedItem: gender,
+                                  itemList: genderArray,
+                                  type: "gender"),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            "Street :",
                             style: TextStyle(fontSize: size.width / 25),
                           ),
                           SizedBox(
                             width: size.width / 40,
                           ),
                           Expanded(
-                            child: profileDropDownItem(
-                                selectedItem: educationLevel,
-                                itemList: educationLevelArray,
-                                type: "education"),
+                            child: TextFormField(
+                              keyboardType: TextInputType.multiline,
+                              controller: streetController,
+                              decoration:
+                                  InputDecoration(hintText: "Street address"),
+                            ),
                           ),
                         ],
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 0.0),
-                      child: Row(
+                      Row(
                         children: <Widget>[
                           Text(
-                            "Employment Status :",
+                            "City :",
                             style: TextStyle(fontSize: size.width / 25),
                           ),
                           SizedBox(
                             width: size.width / 40,
                           ),
                           Expanded(
-                            child: profileDropDownItem(
-                                selectedItem: employmentStatus,
-                                itemList: employmentStatusArray,
-                                type: "employment"),
+                            child: TextFormField(
+                              keyboardType: TextInputType.multiline,
+                              controller: cityController,
+                              decoration: InputDecoration(hintText: "City"),
+                            ),
                           ),
                         ],
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 0.0),
-                      child: Row(
+                      Row(
                         children: <Widget>[
                           Text(
-                            "Household Income :",
+                            "State :",
                             style: TextStyle(fontSize: size.width / 25),
                           ),
                           SizedBox(
                             width: size.width / 40,
                           ),
                           Expanded(
-                            child: profileDropDownItem(
-                                selectedItem: householdIncome,
-                                itemList: householdIncomeArray,
-                                type: "income"),
+                            child: TextFormField(
+                              keyboardType: TextInputType.multiline,
+                              controller: stateController,
+                              decoration: InputDecoration(hintText: "State"),
+                            ),
                           ),
                         ],
                       ),
-                    ),
-                    RaisedButton(
-                      color: Colors.pink[400],
-                      child: Text(
-                        "Update",
-                        style: TextStyle(color: Colors.white),
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            "Zip Code :",
+                            style: TextStyle(fontSize: size.width / 25),
+                          ),
+                          SizedBox(
+                            width: size.width / 40,
+                          ),
+                          Expanded(
+                            child: TextFormField(
+                              keyboardType: TextInputType.multiline,
+                              controller: zipCodeController,
+                              decoration: InputDecoration(hintText: "Zip code"),
+                            ),
+                          ),
+                        ],
                       ),
-                      onPressed: () async {
-                        if (_formKey.currentState.validate()) {
-                          print(birthdate.toString());
-                          await DatabaseServiceUser()
-                              .updateUserData(UserAccount(
-                            firstName:
-                                firstNameController.text ?? user.firstName,
-                            lastName: lastNameController.text ?? user.lastName,
-                            email: emailController.text ?? user.email,
-                            photoUrl: user.photoUrl,
-                            phoneNumber: user.phoneNumber,
-                            birthDay:
-                                Timestamp.fromDate(birthdate) ?? user.birthDay,
-                            gender: this.gender ?? user.gender,
-                            streetAddress:
-                                streetController.text ?? user.streetAddress,
-                            city: cityController.text ?? user.city,
-                            state: stateController.text ?? user.state,
-                            zipCode: zipCodeController.text ?? user.zipCode,
-                            bio: bioController.text ?? user.bio,
-                            occupation:
-                                occupationController.text ?? user.occupation,
-                            maritalStatus:
-                                this.maritalStatus ?? user.maritalStatus,
-                            educationLevel:
-                                this.educationLevel ?? user.educationLevel,
-                            employmentStatus:
-                                this.employmentStatus ?? user.employmentStatus,
-                            householdIncome:
-                                this.householdIncome ?? user.householdIncome,
-                            level: user.level,
-                            type: this.userType ?? user.type,
-                            writeAccess: user.writeAccess,
-                          ));
-                        }
-                      },
-                    ),
-                  ],
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            "Phone :",
+                            style: TextStyle(fontSize: size.width / 25),
+                          ),
+                          SizedBox(
+                            width: size.width / 40,
+                          ),
+                          Expanded(
+                            child: TextFormField(
+                              keyboardType: TextInputType.phone,
+                              controller: phoneNumberController,
+                              decoration:
+                                  InputDecoration(hintText: "Phone number"),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            "Bio :",
+                            style: TextStyle(fontSize: size.width / 25),
+                          ),
+                          SizedBox(
+                            width: size.width / 40,
+                          ),
+                          Expanded(
+                            child: TextFormField(
+                              keyboardType: TextInputType.multiline,
+                              controller: bioController,
+                              decoration: InputDecoration(hintText: "Bio"),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            "Occupation :",
+                            style: TextStyle(fontSize: size.width / 25),
+                          ),
+                          SizedBox(
+                            width: size.width / 40,
+                          ),
+                          Expanded(
+                            child: TextFormField(
+                              keyboardType: TextInputType.multiline,
+                              controller: occupationController,
+                              decoration: InputDecoration(hintText: "Occupation"),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 0.0),
+                        child: Row(
+                          children: <Widget>[
+                            Text(
+                              "Marital Status :",
+                              style: TextStyle(fontSize: size.width / 25),
+                            ),
+                            SizedBox(
+                              width: size.width / 40,
+                            ),
+                            Expanded(
+                              child: profileDropDownItem(
+                                  selectedItem: maritalStatus,
+                                  itemList: maritalStatusArray,
+                                  type: "marital"),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 0.0),
+                        child: Row(
+                          children: <Widget>[
+                            Text(
+                              "Education Level :",
+                              style: TextStyle(fontSize: size.width / 25),
+                            ),
+                            SizedBox(
+                              width: size.width / 40,
+                            ),
+                            Expanded(
+                              child: profileDropDownItem(
+                                  selectedItem: educationLevel,
+                                  itemList: educationLevelArray,
+                                  type: "education"),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 0.0),
+                        child: Row(
+                          children: <Widget>[
+                            Text(
+                              "Employment Status :",
+                              style: TextStyle(fontSize: size.width / 25),
+                            ),
+                            SizedBox(
+                              width: size.width / 40,
+                            ),
+                            Expanded(
+                              child: profileDropDownItem(
+                                  selectedItem: employmentStatus,
+                                  itemList: employmentStatusArray,
+                                  type: "employment"),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 0.0),
+                        child: Row(
+                          children: <Widget>[
+                            Text(
+                              "Household Income :",
+                              style: TextStyle(fontSize: size.width / 25),
+                            ),
+                            SizedBox(
+                              width: size.width / 40,
+                            ),
+                            Expanded(
+                              child: profileDropDownItem(
+                                  selectedItem: householdIncome,
+                                  itemList: householdIncomeArray,
+                                  type: "income"),
+                            ),
+                          ],
+                        ),
+                      ),
+                      RaisedButton(
+                        color: Colors.pink[400],
+                        child: Text(
+                          "Update",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: () async {
+                          if (_formKey.currentState.validate()) {
+                            print(birthdate.toString());
+                            await DatabaseServiceUser()
+                                .updateUserData(UserAccount(
+                              firstName:
+                                  firstNameController.text ?? user.firstName,
+                              lastName: lastNameController.text ?? user.lastName,
+                              email: emailController.text ?? user.email,
+                              photoUrl: user.photoUrl,
+                              phoneNumber: user.phoneNumber,
+                              birthDay:
+                                  Timestamp.fromDate(birthdate) ?? user.birthDay,
+                              gender: this.gender ?? user.gender,
+                              streetAddress:
+                                  streetController.text ?? user.streetAddress,
+                              city: cityController.text ?? user.city,
+                              state: stateController.text ?? user.state,
+                              zipCode: zipCodeController.text ?? user.zipCode,
+                              bio: bioController.text ?? user.bio,
+                              occupation:
+                                  occupationController.text ?? user.occupation,
+                              maritalStatus:
+                                  this.maritalStatus ?? user.maritalStatus,
+                              educationLevel:
+                                  this.educationLevel ?? user.educationLevel,
+                              employmentStatus:
+                                  this.employmentStatus ?? user.employmentStatus,
+                              householdIncome:
+                                  this.householdIncome ?? user.householdIncome,
+                              level: user.level,
+                              type: this.userType ?? user.type,
+                              writeAccess: user.writeAccess,
+                            ));
+                          }
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

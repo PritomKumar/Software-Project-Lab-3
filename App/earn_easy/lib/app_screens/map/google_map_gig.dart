@@ -206,111 +206,113 @@ class _GoogleMapsState extends State<GoogleMaps> {
       //       " ${user.attemptedGigs[i].money} ,"
       //       " ${user.attemptedGigs[i].title}");
       // }
-      return Scaffold(
-        drawer: SideDrawer(),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.location_searching),
-          onPressed: () async {
-            _animateCameraToCurrentLocation();
-          },
-        ),
-        appBar: AppBar(
-          title: Text('Home'),
-          backgroundColor: Colors.blue[300],
-          elevation: 0.0,
-          actions: <Widget>[
-            FlatButton.icon(
-              icon: Icon(Icons.person),
-              label: Text("Logout"),
-              onPressed: () async {
-                await _authService.signOut();
-              },
-            )
-          ],
-        ),
-        //#region bottomNavigationBar
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _bottomNavigationBarIndex,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.directions_run),
-              title: Text("Available"),
-              backgroundColor: Colors.blue,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.assignment_turned_in),
-              title: Text("My gigs"),
-              backgroundColor: Colors.blue,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.hourglass_empty),
-              title: Text("Waitlisted"),
-              backgroundColor: Colors.blue,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.assignment),
-              title: Text("Completed"),
-              backgroundColor: Colors.blue,
-            ),
-          ],
-          onTap: (value) {
-            setState(() {
-              _bottomNavigationBarIndex = value;
-            });
-          },
-        ),
-        //#endregion bottomNavigationBar
-        body: StyledToast(
-          textStyle: TextStyle(fontSize: 16.0, color: Colors.white),
-          backgroundColor: Color(0x99000000),
-          borderRadius: BorderRadius.circular(5.0),
-          textPadding: EdgeInsets.symmetric(horizontal: 17.0, vertical: 10.0),
-          toastPositions: StyledToastPosition.bottom,
-          toastAnimation: StyledToastAnimation.fade,
-          reverseAnimation: StyledToastAnimation.fade,
-          curve: Curves.fastOutSlowIn,
-          reverseCurve: Curves.fastLinearToSlowEaseIn,
-          duration: Duration(seconds: 4),
-          animDuration: Duration(seconds: 1),
-          dismissOtherOnShow: true,
-          movingOnWindowChange: true,
-          child: Stack(
-            children: <Widget>[
-              GoogleMap(
-                onMapCreated: _onMapCreated,
-                initialCameraPosition: CameraPosition(
-                  target: LatLng(40.7128, -74.0060),
-                  zoom: 14.0,
-                ),
-                markers: userType == "worker" ? _gigMarkers : _myMarkers,
-                onCameraMove: isTapped
-                    ? ((_position) => _updatePosition(_position))
-                    : null,
-                onTap: _handleTap,
-                myLocationButtonEnabled: true,
-                myLocationEnabled: true,
-                compassEnabled: true,
-              ),
-              userType == "provider"
-                  ? Container(
-                      alignment: Alignment.bottomCenter,
-                      child: RaisedButton(
-                        child: Text("Add GIG"),
-                        onPressed: () {
-                          tappedPosition != null
-                              ? Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) {
-                                    return GigAddPage(
-                                      location: tappedPosition,
-                                    );
-                                  },
-                                ))
-                              : Loading();
-                        },
-                      ),
-                    )
-                  : _selectCustomMapBox(user, _bottomNavigationBarIndex),
+      return SafeArea(
+        child: Scaffold(
+          drawer: SideDrawer(),
+          floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.location_searching),
+            onPressed: () async {
+              _animateCameraToCurrentLocation();
+            },
+          ),
+          appBar: AppBar(
+            title: Text('Home'),
+            backgroundColor: Colors.blue[300],
+            elevation: 0.0,
+            actions: <Widget>[
+              FlatButton.icon(
+                icon: Icon(Icons.person),
+                label: Text("Logout"),
+                onPressed: () async {
+                  await _authService.signOut();
+                },
+              )
             ],
+          ),
+          //#region bottomNavigationBar
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: _bottomNavigationBarIndex,
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.directions_run),
+                title: Text("Available"),
+                backgroundColor: Colors.blue,
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.assignment_turned_in),
+                title: Text("My gigs"),
+                backgroundColor: Colors.blue,
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.hourglass_empty),
+                title: Text("Waitlisted"),
+                backgroundColor: Colors.blue,
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.assignment),
+                title: Text("Completed"),
+                backgroundColor: Colors.blue,
+              ),
+            ],
+            onTap: (value) {
+              setState(() {
+                _bottomNavigationBarIndex = value;
+              });
+            },
+          ),
+          //#endregion bottomNavigationBar
+          body: StyledToast(
+            textStyle: TextStyle(fontSize: 16.0, color: Colors.white),
+            backgroundColor: Color(0x99000000),
+            borderRadius: BorderRadius.circular(5.0),
+            textPadding: EdgeInsets.symmetric(horizontal: 17.0, vertical: 10.0),
+            toastPositions: StyledToastPosition.bottom,
+            toastAnimation: StyledToastAnimation.fade,
+            reverseAnimation: StyledToastAnimation.fade,
+            curve: Curves.fastOutSlowIn,
+            reverseCurve: Curves.fastLinearToSlowEaseIn,
+            duration: Duration(seconds: 4),
+            animDuration: Duration(seconds: 1),
+            dismissOtherOnShow: true,
+            movingOnWindowChange: true,
+            child: Stack(
+              children: <Widget>[
+                GoogleMap(
+                  onMapCreated: _onMapCreated,
+                  initialCameraPosition: CameraPosition(
+                    target: LatLng(40.7128, -74.0060),
+                    zoom: 14.0,
+                  ),
+                  markers: userType == "worker" ? _gigMarkers : _myMarkers,
+                  onCameraMove: isTapped
+                      ? ((_position) => _updatePosition(_position))
+                      : null,
+                  onTap: _handleTap,
+                  myLocationButtonEnabled: true,
+                  myLocationEnabled: true,
+                  compassEnabled: true,
+                ),
+                userType == "provider"
+                    ? Container(
+                        alignment: Alignment.bottomCenter,
+                        child: RaisedButton(
+                          child: Text("Add GIG"),
+                          onPressed: () {
+                            tappedPosition != null
+                                ? Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) {
+                                      return GigAddPage(
+                                        location: tappedPosition,
+                                      );
+                                    },
+                                  ))
+                                : Loading();
+                          },
+                        ),
+                      )
+                    : _selectCustomMapBox(user, _bottomNavigationBarIndex),
+              ],
+            ),
           ),
         ),
       );
