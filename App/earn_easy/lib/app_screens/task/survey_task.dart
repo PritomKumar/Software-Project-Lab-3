@@ -157,7 +157,7 @@ class _SurveyTaskState extends State<SurveyTask> {
                                   scrollPhysics: BouncingScrollPhysics(),
                                   minLines: 1,
                                   decoration: InputDecoration(
-                                    hintText: "Option",
+                                    hintText: "Option $_optionCounter",
                                   ),
                                 ),
                               ),
@@ -187,7 +187,7 @@ class _SurveyTaskState extends State<SurveyTask> {
                                   scrollPhysics: BouncingScrollPhysics(),
                                   minLines: 1,
                                   decoration: InputDecoration(
-                                    hintText: "Option",
+                                    hintText: "Option $_optionCounter",
                                   ),
                                 ),
                               ),
@@ -214,7 +214,7 @@ class _SurveyTaskState extends State<SurveyTask> {
                                   scrollPhysics: BouncingScrollPhysics(),
                                   minLines: 1,
                                   decoration: InputDecoration(
-                                    hintText: "Option",
+                                    hintText: "Option $_optionCounter",
                                   ),
                                 ),
                               ),
