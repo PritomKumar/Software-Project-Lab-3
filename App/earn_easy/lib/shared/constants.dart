@@ -5,11 +5,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 //#region Task Types
 
-const String ImageTaskType = "ImageTask";
-const String CheckBoxTaskType = "CheckBoxTask";
-const String MultipleChoiceTaskType = "MultipleChoiceTask";
-const String DropdownTaskType = "DropdownTask";
-const String FreeTextTaskType = "FreeTextTask";
+const String ImageTaskType = "Image";
+const String CheckBoxTaskType = "Checkboxes";
+const String MultipleChoiceTaskType = "Multiple choice";
+const String DropdownTaskType = "Dropdown";
+const String FreeTextTaskType = "Free text";
 
 const List<String> TaskTypeDropdownList = [
   ImageTaskType,

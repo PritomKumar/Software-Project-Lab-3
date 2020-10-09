@@ -45,6 +45,7 @@ class _SurveyTaskState extends State<SurveyTask> {
                             textAlign: TextAlign.start,
                             textCapitalization: TextCapitalization.characters,
                             maxLines: 10,
+                            scrollPhysics: BouncingScrollPhysics(),
                             minLines: 1,
                             decoration: InputDecoration(hintText: VeryLongTextForTestingPurpose),
                           ),
