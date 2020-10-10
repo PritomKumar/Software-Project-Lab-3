@@ -16,7 +16,7 @@ class _SurveyTaskState extends State<SurveyTask> {
   List<String> _multipleOptionList = List<String>();
   TextEditingController _instructionController = TextEditingController();
   List<TextEditingController> _multipleOptionControllerList = List<TextEditingController>();
-
+  bool isRequired = false;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -450,6 +450,33 @@ class _SurveyTaskState extends State<SurveyTask> {
                               ),
                             ),
                           ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisSize: MainAxisSize.max,
+                          children: <Widget>[
+                            IconButton(
+                              icon: Icon(Icons.delete_forever,color: Colors.redAccent,),
+                              onPressed: () {
+
+                              },
+                            ),
+
+                            Text("Required",textScaleFactor: 1.1,),
+                            Switch(
+                              value: isRequired,
+                              onChanged: (value){
+                                setState(() {
+                                  isRequired=value;
+                                  print(isRequired);
+                                });
+                              },
+                              activeTrackColor: Colors.deepPurple[200],
+                              focusColor: Colors.red,
+                              activeColor: Colors.deepPurple,
+                            ),
+
+                          ],
+                        ),
                       ],
                     ),
                   ),
