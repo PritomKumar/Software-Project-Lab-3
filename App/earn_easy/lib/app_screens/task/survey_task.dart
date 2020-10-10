@@ -11,12 +11,14 @@ class SurveyTask extends StatefulWidget {
 class _SurveyTaskState extends State<SurveyTask> {
   TextEditingController question = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  String selectedType = MultipleChoiceTaskType;
+  String _selectedType = MultipleChoiceTaskType;
   double _numberOfTaskImage = 1.0;
   List<String> _multipleOptionList = List<String>();
   TextEditingController _instructionController = TextEditingController();
-  List<TextEditingController> _multipleOptionControllerList = List<TextEditingController>();
-  bool isRequired = false;
+  List<TextEditingController> _multipleOptionControllerList =
+      List<TextEditingController>();
+  bool _isRequired = false;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -76,22 +78,36 @@ class _SurveyTaskState extends State<SurveyTask> {
                             icon: Icon(FontAwesomeIcons.angleDown),
                             iconEnabledColor: Colors.blueGrey,
                             iconDisabledColor: Colors.grey[350],
-                            value: selectedType,
+                            value: _selectedType,
                             items:
                                 TaskTypeDropdownList.map((String dropdownItem) {
                               return DropdownMenuItem<String>(
                                 value: dropdownItem,
-                                child: Text(dropdownItem),
+                                child: Row(
+                                  children: <Widget>[
+                                    if (_selectedType == ImageTaskType)
+                                      Icon(Icons.photo_library),
+                                    if (_selectedType == MultipleChoiceTaskType)
+                                      Icon(FontAwesomeIcons.circle),
+                                    if (_selectedType == CheckBoxTaskType)
+                                      Icon(FontAwesomeIcons.square),
+                                    if (_selectedType == DropdownTaskType)
+                                      Icon(FontAwesomeIcons.dropbox),
+                                    if (_selectedType == FreeTextTaskType)
+                                      Icon(FontAwesomeIcons.paragraph),
+                                    Text(dropdownItem),
+                                  ],
+                                ),
                               );
                             }).toList(),
                             onChanged: (value) {
                               setState(() {
-                                selectedType = value;
+                                _selectedType = value;
                               });
                             },
                           ),
                         ),
-                        if (selectedType == ImageTaskType)
+                        if (_selectedType == ImageTaskType)
                           Wrap(
                             alignment: WrapAlignment.spaceEvenly,
                             children: <Widget>[
@@ -147,7 +163,7 @@ class _SurveyTaskState extends State<SurveyTask> {
                               ),
                             ],
                           ),
-                        if (selectedType == MultipleChoiceTaskType)
+                        if (_selectedType == MultipleChoiceTaskType)
                           Column(
                             children: <Widget>[
                               ListView.builder(
@@ -168,11 +184,13 @@ class _SurveyTaskState extends State<SurveyTask> {
                                       Expanded(
                                         child: TextFormField(
                                           textAlign: TextAlign.start,
-                                          controller: _multipleOptionControllerList[index],
+                                          controller:
+                                              _multipleOptionControllerList[
+                                                  index],
                                           scrollPhysics:
                                               BouncingScrollPhysics(),
                                           decoration: InputDecoration(
-                                            hintText: "Option ${index+1}",
+                                            hintText: "Option ${index + 1}",
                                           ),
                                         ),
                                       ),
@@ -180,7 +198,8 @@ class _SurveyTaskState extends State<SurveyTask> {
                                         onPressed: () {
                                           setState(() {
                                             _multipleOptionList.removeAt(index);
-                                            _multipleOptionControllerList.removeAt(index);
+                                            _multipleOptionControllerList
+                                                .removeAt(index);
                                           });
                                         },
                                         icon: Icon(Icons.clear),
@@ -235,7 +254,8 @@ class _SurveyTaskState extends State<SurveyTask> {
                                       onPressed: () {
                                         setState(() {
                                           _multipleOptionList.add("");
-                                          _multipleOptionControllerList.add(TextEditingController());
+                                          _multipleOptionControllerList
+                                              .add(TextEditingController());
                                         });
                                       },
                                     ),
@@ -244,7 +264,7 @@ class _SurveyTaskState extends State<SurveyTask> {
                               ),
                             ],
                           ),
-                        if (selectedType == CheckBoxTaskType)
+                        if (_selectedType == CheckBoxTaskType)
                           Column(
                             children: <Widget>[
                               ListView.builder(
@@ -265,11 +285,13 @@ class _SurveyTaskState extends State<SurveyTask> {
                                       Expanded(
                                         child: TextFormField(
                                           textAlign: TextAlign.start,
-                                          controller: _multipleOptionControllerList[index],
+                                          controller:
+                                              _multipleOptionControllerList[
+                                                  index],
                                           scrollPhysics:
-                                          BouncingScrollPhysics(),
+                                              BouncingScrollPhysics(),
                                           decoration: InputDecoration(
-                                            hintText: "Option ${index+1}",
+                                            hintText: "Option ${index + 1}",
                                           ),
                                         ),
                                       ),
@@ -277,7 +299,8 @@ class _SurveyTaskState extends State<SurveyTask> {
                                         onPressed: () {
                                           setState(() {
                                             _multipleOptionList.removeAt(index);
-                                            _multipleOptionControllerList.removeAt(index);
+                                            _multipleOptionControllerList
+                                                .removeAt(index);
                                           });
                                         },
                                         icon: Icon(Icons.clear),
@@ -326,13 +349,14 @@ class _SurveyTaskState extends State<SurveyTask> {
                                       child: Text(
                                         "Add Option",
                                         style:
-                                        TextStyle(color: Colors.grey[700]),
+                                            TextStyle(color: Colors.grey[700]),
                                         textScaleFactor: 1.2,
                                       ),
                                       onPressed: () {
                                         setState(() {
                                           _multipleOptionList.add("");
-                                          _multipleOptionControllerList.add(TextEditingController());
+                                          _multipleOptionControllerList
+                                              .add(TextEditingController());
                                         });
                                       },
                                     ),
@@ -341,7 +365,7 @@ class _SurveyTaskState extends State<SurveyTask> {
                               ),
                             ],
                           ),
-                        if (selectedType == DropdownTaskType)
+                        if (_selectedType == DropdownTaskType)
                           Column(
                             children: <Widget>[
                               ListView.builder(
@@ -353,7 +377,7 @@ class _SurveyTaskState extends State<SurveyTask> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
                                       Text(
-                                        "${index+1}.",
+                                        "${index + 1}.",
                                         textScaleFactor: 1.2,
                                       ),
                                       SizedBox(
@@ -362,11 +386,13 @@ class _SurveyTaskState extends State<SurveyTask> {
                                       Expanded(
                                         child: TextFormField(
                                           textAlign: TextAlign.start,
-                                          controller: _multipleOptionControllerList[index],
+                                          controller:
+                                              _multipleOptionControllerList[
+                                                  index],
                                           scrollPhysics:
-                                          BouncingScrollPhysics(),
+                                              BouncingScrollPhysics(),
                                           decoration: InputDecoration(
-                                            hintText: "Option ${index+1}",
+                                            hintText: "Option ${index + 1}",
                                           ),
                                         ),
                                       ),
@@ -374,7 +400,8 @@ class _SurveyTaskState extends State<SurveyTask> {
                                         onPressed: () {
                                           setState(() {
                                             _multipleOptionList.removeAt(index);
-                                            _multipleOptionControllerList.removeAt(index);
+                                            _multipleOptionControllerList
+                                                .removeAt(index);
                                           });
                                         },
                                         icon: Icon(Icons.clear),
@@ -387,7 +414,7 @@ class _SurveyTaskState extends State<SurveyTask> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    "${_multipleOptionList.length+1}.",
+                                    "${_multipleOptionList.length + 1}.",
                                     textScaleFactor: 1.2,
                                   ),
                                   SizedBox(
@@ -423,13 +450,14 @@ class _SurveyTaskState extends State<SurveyTask> {
                                       child: Text(
                                         "Add Option",
                                         style:
-                                        TextStyle(color: Colors.grey[700]),
+                                            TextStyle(color: Colors.grey[700]),
                                         textScaleFactor: 1.2,
                                       ),
                                       onPressed: () {
                                         setState(() {
                                           _multipleOptionList.add("");
-                                          _multipleOptionControllerList.add(TextEditingController());
+                                          _multipleOptionControllerList
+                                              .add(TextEditingController());
                                         });
                                       },
                                     ),
@@ -438,13 +466,12 @@ class _SurveyTaskState extends State<SurveyTask> {
                               ),
                             ],
                           ),
-                        if (selectedType == FreeTextTaskType)
+                        if (_selectedType == FreeTextTaskType)
                           Expanded(
                             child: TextFormField(
                               textAlign: TextAlign.start,
                               readOnly: true,
-                              scrollPhysics:
-                              BouncingScrollPhysics(),
+                              scrollPhysics: BouncingScrollPhysics(),
                               decoration: InputDecoration(
                                 hintText: "Answer the question.",
                               ),
@@ -455,25 +482,28 @@ class _SurveyTaskState extends State<SurveyTask> {
                           mainAxisSize: MainAxisSize.max,
                           children: <Widget>[
                             IconButton(
-                              icon: Icon(FontAwesomeIcons.solidTrashAlt,color: Colors.redAccent,),
-                              onPressed: () {
-
-                              },
+                              icon: Icon(
+                                FontAwesomeIcons.solidTrashAlt,
+                                color: Colors.redAccent,
+                              ),
+                              onPressed: () {},
                             ),
-                            Text("Required",textScaleFactor: 1.1,),
+                            Text(
+                              "Required",
+                              textScaleFactor: 1.1,
+                            ),
                             Switch(
-                              value: isRequired,
-                              onChanged: (value){
+                              value: _isRequired,
+                              onChanged: (value) {
                                 setState(() {
-                                  isRequired=value;
-                                  print(isRequired);
+                                  _isRequired = value;
+                                  print(_isRequired);
                                 });
                               },
                               activeTrackColor: Colors.deepPurple[200],
                               focusColor: Colors.red,
                               activeColor: Colors.deepPurple,
                             ),
-
                           ],
                         ),
                       ],
