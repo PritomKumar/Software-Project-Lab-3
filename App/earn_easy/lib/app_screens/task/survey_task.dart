@@ -164,16 +164,57 @@ class _SurveyTaskState extends State<SurveyTask> {
                                     ),
                                   ),
                                   IconButton(
-                                    onPressed: () {
-
-                                    },
+                                    onPressed: () {},
                                     icon: Icon(Icons.clear),
                                   ),
                                 ],
                               ),
-                              Text("dfasf sad a"),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Icon(
+                                    FontAwesomeIcons.circle,
+                                    color: Colors.grey[700],
+                                  ),
+                                  SizedBox(
+                                    width: 10.0,
+                                  ),
+                                  // Expanded(
+                                  //   child: TextFormField(
+                                  //     textAlign: TextAlign.start,
+                                  //     maxLines: 10,
+                                  //     readOnly: true,
+                                  //     onTap: () {
+                                  //
+                                  //     },
+                                  //     scrollPhysics: BouncingScrollPhysics(),
+                                  //     minLines: 1,
+                                  //     decoration: InputDecoration(
+                                  //       hintText: "Add Option",
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                  Container(
+                                    alignment: Alignment.centerLeft,
+                                    padding: const EdgeInsets.only(
+                                      top: 5.0,
+                                    ),
+                                    child: FlatButton(
+                                      autofocus: true,
+                                      splashColor: Colors.grey[500],
+                                      child: Text(
+                                        "Add Option",
+                                        style: TextStyle(
+                                          color: Colors.grey[700]
+                                        ),
+                                        textScaleFactor: 1.2,
+                                      ),
+                                      onPressed: () {},
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ],
-
                           ),
                         if (selectedType == CheckBoxTaskType)
                           Row(
@@ -198,9 +239,7 @@ class _SurveyTaskState extends State<SurveyTask> {
                                 ),
                               ),
                               IconButton(
-                                onPressed: () {
-
-                                },
+                                onPressed: () {},
                                 icon: Icon(Icons.clear),
                               ),
                             ],
@@ -209,7 +248,10 @@ class _SurveyTaskState extends State<SurveyTask> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              Text("$_optionCounter.",textScaleFactor: 1.2,),
+                              Text(
+                                "$_optionCounter.",
+                                textScaleFactor: 1.2,
+                              ),
                               SizedBox(
                                 width: 10.0,
                               ),
@@ -225,14 +267,11 @@ class _SurveyTaskState extends State<SurveyTask> {
                                 ),
                               ),
                               IconButton(
-                                onPressed: () {
-
-                                },
+                                onPressed: () {},
                                 icon: Icon(Icons.clear),
                               ),
                             ],
                           ),
-
                       ],
                     ),
                   ),
