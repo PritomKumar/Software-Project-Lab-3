@@ -166,12 +166,16 @@ class _SurveyTaskState extends State<SurveyTask> {
                                               BouncingScrollPhysics(),
                                           minLines: 1,
                                           decoration: InputDecoration(
-                                            hintText: "Option $_optionCounter",
+                                            hintText: "Option ${index+1}",
                                           ),
                                         ),
                                       ),
                                       IconButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          setState(() {
+                                            _multipleOptionList.removeAt(index);
+                                          });
+                                        },
                                         icon: Icon(Icons.clear),
                                       ),
                                     ],
@@ -223,7 +227,7 @@ class _SurveyTaskState extends State<SurveyTask> {
                                       ),
                                       onPressed: () {
                                         setState(() {
-                                          //_multipleOptionWidgetList.add();
+                                          _multipleOptionList.add("");
                                         });
                                       },
                                     ),
