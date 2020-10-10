@@ -140,34 +140,40 @@ class _SurveyTaskState extends State<SurveyTask> {
                             ],
                           ),
                         if (selectedType == MultipleChoiceTaskType)
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                          Column(
                             children: <Widget>[
-                              Icon(
-                                FontAwesomeIcons.circle,
-                                color: Colors.grey[700],
-                              ),
-                              SizedBox(
-                                width: 10.0,
-                              ),
-                              Expanded(
-                                child: TextFormField(
-                                  textAlign: TextAlign.start,
-                                  maxLines: 10,
-                                  scrollPhysics: BouncingScrollPhysics(),
-                                  minLines: 1,
-                                  decoration: InputDecoration(
-                                    hintText: "Option $_optionCounter",
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Icon(
+                                    FontAwesomeIcons.circle,
+                                    color: Colors.grey[700],
                                   ),
-                                ),
-                              ),
-                              IconButton(
-                                onPressed: () {
+                                  SizedBox(
+                                    width: 10.0,
+                                  ),
+                                  Expanded(
+                                    child: TextFormField(
+                                      textAlign: TextAlign.start,
+                                      maxLines: 10,
+                                      scrollPhysics: BouncingScrollPhysics(),
+                                      minLines: 1,
+                                      decoration: InputDecoration(
+                                        hintText: "Option $_optionCounter",
+                                      ),
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
 
-                                },
-                                icon: Icon(Icons.clear),
+                                    },
+                                    icon: Icon(Icons.clear),
+                                  ),
+                                ],
                               ),
+                              Text("dfasf sad a"),
                             ],
+
                           ),
                         if (selectedType == CheckBoxTaskType)
                           Row(
