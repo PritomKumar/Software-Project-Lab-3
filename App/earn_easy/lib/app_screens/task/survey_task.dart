@@ -13,8 +13,8 @@ class _SurveyTaskState extends State<SurveyTask> {
   final _formKey = GlobalKey<FormState>();
   String selectedType = MultipleChoiceTaskType;
   double _numberOfTaskImage = 1.0;
-  int _optionCounter = 1;
   List<String> _multipleOptionList = List<String>();
+  TextEditingController _instructionController = TextEditingController();
   List<TextEditingController> _multipleOptionControllerList = List<TextEditingController>();
 
   @override
@@ -47,10 +47,11 @@ class _SurveyTaskState extends State<SurveyTask> {
                           padding: EdgeInsets.all(10.0),
                           child: TextFormField(
                             textAlign: TextAlign.start,
-                            maxLines: 10,
+                            controller: _instructionController,
+                            maxLines: null,
                             scrollPhysics: BouncingScrollPhysics(),
-                            minLines: 1,
                             decoration: InputDecoration(
+                                contentPadding: EdgeInsets.zero,
                                 hintText: VeryLongTextForTestingPurpose),
                           ),
                         ),
@@ -163,10 +164,8 @@ class _SurveyTaskState extends State<SurveyTask> {
                                         child: TextFormField(
                                           textAlign: TextAlign.start,
                                           controller: _multipleOptionControllerList[index],
-                                          maxLines: 100,
                                           scrollPhysics:
                                               BouncingScrollPhysics(),
-                                          minLines: 1,
                                           decoration: InputDecoration(
                                             hintText: "Option ${index+1}",
                                           ),
@@ -262,10 +261,8 @@ class _SurveyTaskState extends State<SurveyTask> {
                                         child: TextFormField(
                                           textAlign: TextAlign.start,
                                           controller: _multipleOptionControllerList[index],
-                                          maxLines: 100,
                                           scrollPhysics:
                                           BouncingScrollPhysics(),
-                                          minLines: 1,
                                           decoration: InputDecoration(
                                             hintText: "Option ${index+1}",
                                           ),
@@ -361,10 +358,8 @@ class _SurveyTaskState extends State<SurveyTask> {
                                         child: TextFormField(
                                           textAlign: TextAlign.start,
                                           controller: _multipleOptionControllerList[index],
-                                          maxLines: 100,
                                           scrollPhysics:
                                           BouncingScrollPhysics(),
-                                          minLines: 1,
                                           decoration: InputDecoration(
                                             hintText: "Option ${index+1}",
                                           ),
@@ -437,6 +432,18 @@ class _SurveyTaskState extends State<SurveyTask> {
                                 ],
                               ),
                             ],
+                          ),
+                        if (selectedType == FreeTextTaskType)
+                          Expanded(
+                            child: TextFormField(
+                              textAlign: TextAlign.start,
+                              readOnly: true,
+                              scrollPhysics:
+                              BouncingScrollPhysics(),
+                              decoration: InputDecoration(
+                                hintText: "Answer the question.",
+                              ),
+                            ),
                           ),
                       ],
                     ),
