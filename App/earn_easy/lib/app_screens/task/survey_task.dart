@@ -14,6 +14,7 @@ class _SurveyTaskState extends State<SurveyTask> {
   String selectedType = MultipleChoiceTaskType;
   double _numberOfTaskImage = 1.0;
   int _optionCounter = 1;
+  List<Widget> _multipleOptionWidgetList = List<Widget>();
 
   @override
   Widget build(BuildContext context) {
@@ -142,33 +143,7 @@ class _SurveyTaskState extends State<SurveyTask> {
                         if (selectedType == MultipleChoiceTaskType)
                           Column(
                             children: <Widget>[
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Icon(
-                                    FontAwesomeIcons.circle,
-                                    color: Colors.grey[700],
-                                  ),
-                                  SizedBox(
-                                    width: 10.0,
-                                  ),
-                                  Expanded(
-                                    child: TextFormField(
-                                      textAlign: TextAlign.start,
-                                      maxLines: 10,
-                                      scrollPhysics: BouncingScrollPhysics(),
-                                      minLines: 1,
-                                      decoration: InputDecoration(
-                                        hintText: "Option $_optionCounter",
-                                      ),
-                                    ),
-                                  ),
-                                  IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(Icons.clear),
-                                  ),
-                                ],
-                              ),
+                              ..._multipleOptionWidgetList,
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
@@ -209,7 +184,37 @@ class _SurveyTaskState extends State<SurveyTask> {
                                         ),
                                         textScaleFactor: 1.2,
                                       ),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        setState(() {
+                                          _multipleOptionWidgetList.add(Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: <Widget>[
+                                              Icon(
+                                                FontAwesomeIcons.circle,
+                                                color: Colors.grey[700],
+                                              ),
+                                              SizedBox(
+                                                width: 10.0,
+                                              ),
+                                              Expanded(
+                                                child: TextFormField(
+                                                  textAlign: TextAlign.start,
+                                                  maxLines: 10,
+                                                  scrollPhysics: BouncingScrollPhysics(),
+                                                  minLines: 1,
+                                                  decoration: InputDecoration(
+                                                    hintText: "Option $_optionCounter",
+                                                  ),
+                                                ),
+                                              ),
+                                              IconButton(
+                                                onPressed: () {},
+                                                icon: Icon(Icons.clear),
+                                              ),
+                                            ],
+                                          ));
+                                        });
+                                      },
                                     ),
                                   ),
                                 ],
