@@ -140,6 +140,40 @@ class DropdownTask {
   }
 }
 
+class FreeTextTask {
+  final String taskId;
+  final String gigId;
+  final String type = FreeTextTaskType;
+  final String taskDescription;
+  final String userResponse;
+  final bool require;
+
+  FreeTextTask({
+    @required this.taskId,
+    @required this.gigId,
+    @required this.taskDescription,
+    @required this.userResponse,
+    @required this.require,
+  });
+
+  FreeTextTask.fromMap(Map<String, dynamic> data)
+      : this.taskId = data["taskId"],
+        this.gigId = data["gigId"],
+        this.taskDescription = data["taskDescription"],
+        this.userResponse = data["userResponse"],
+        this.require = data["require"] ?? false;
+
+  Map<String, dynamic> toMap() {
+    return {
+      'taskId': this.taskId ?? "",
+      'gigId': this.gigId ?? "",
+      'taskDescription': this.taskDescription ?? "",
+      'userResponse': this.userResponse ?? "",
+      'require': this.require ?? false,
+    };
+  }
+}
+
 class ImageTask {
   final String taskId;
   final String gigId;
