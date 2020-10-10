@@ -15,6 +15,7 @@ class _SurveyTaskState extends State<SurveyTask> {
   double _numberOfTaskImage = 1.0;
   int _optionCounter = 1;
   List<String> _multipleOptionList = List<String>();
+  List<TextEditingController> _multipleOptionControllerList = List<TextEditingController>();
 
   @override
   Widget build(BuildContext context) {
@@ -161,7 +162,8 @@ class _SurveyTaskState extends State<SurveyTask> {
                                       Expanded(
                                         child: TextFormField(
                                           textAlign: TextAlign.start,
-                                          maxLines: 10,
+                                          controller: _multipleOptionControllerList[index],
+                                          maxLines: 100,
                                           scrollPhysics:
                                               BouncingScrollPhysics(),
                                           minLines: 1,
@@ -174,6 +176,7 @@ class _SurveyTaskState extends State<SurveyTask> {
                                         onPressed: () {
                                           setState(() {
                                             _multipleOptionList.removeAt(index);
+                                            _multipleOptionControllerList.removeAt(index);
                                           });
                                         },
                                         icon: Icon(Icons.clear),
@@ -228,6 +231,7 @@ class _SurveyTaskState extends State<SurveyTask> {
                                       onPressed: () {
                                         setState(() {
                                           _multipleOptionList.add("");
+                                          _multipleOptionControllerList.add(TextEditingController());
                                         });
                                       },
                                     ),
@@ -237,58 +241,200 @@ class _SurveyTaskState extends State<SurveyTask> {
                             ],
                           ),
                         if (selectedType == CheckBoxTaskType)
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                          Column(
                             children: <Widget>[
-                              Icon(
-                                FontAwesomeIcons.square,
-                                color: Colors.grey[700],
+                              ListView.builder(
+                                itemCount: _multipleOptionList.length,
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                itemBuilder: (context, index) {
+                                  return Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      Icon(
+                                        FontAwesomeIcons.square,
+                                        color: Colors.grey[700],
+                                      ),
+                                      SizedBox(
+                                        width: 10.0,
+                                      ),
+                                      Expanded(
+                                        child: TextFormField(
+                                          textAlign: TextAlign.start,
+                                          controller: _multipleOptionControllerList[index],
+                                          maxLines: 100,
+                                          scrollPhysics:
+                                          BouncingScrollPhysics(),
+                                          minLines: 1,
+                                          decoration: InputDecoration(
+                                            hintText: "Option ${index+1}",
+                                          ),
+                                        ),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            _multipleOptionList.removeAt(index);
+                                            _multipleOptionControllerList.removeAt(index);
+                                          });
+                                        },
+                                        icon: Icon(Icons.clear),
+                                      ),
+                                    ],
+                                  );
+                                },
                               ),
-                              SizedBox(
-                                width: 10.0,
-                              ),
-                              Expanded(
-                                child: TextFormField(
-                                  textAlign: TextAlign.start,
-                                  maxLines: 10,
-                                  scrollPhysics: BouncingScrollPhysics(),
-                                  minLines: 1,
-                                  decoration: InputDecoration(
-                                    hintText: "Option $_optionCounter",
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Icon(
+                                    FontAwesomeIcons.square,
+                                    color: Colors.grey[700],
                                   ),
-                                ),
-                              ),
-                              IconButton(
-                                onPressed: () {},
-                                icon: Icon(Icons.clear),
+                                  SizedBox(
+                                    width: 10.0,
+                                  ),
+
+                                  //<editor-fold desc="Expanded Try with add button">
+                                  // Expanded(
+                                  //   child: TextFormField(
+                                  //     textAlign: TextAlign.start,
+                                  //     maxLines: 10,
+                                  //     readOnly: true,
+                                  //     onTap: () {
+                                  //
+                                  //     },
+                                  //     scrollPhysics: BouncingScrollPhysics(),
+                                  //     minLines: 1,
+                                  //     decoration: InputDecoration(
+                                  //       hintText: "Add Option",
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                  //</editor-fold>
+
+                                  Container(
+                                    alignment: Alignment.centerLeft,
+                                    padding: const EdgeInsets.only(
+                                      top: 5.0,
+                                    ),
+                                    child: FlatButton(
+                                      autofocus: true,
+                                      splashColor: Colors.grey[500],
+                                      child: Text(
+                                        "Add Option",
+                                        style:
+                                        TextStyle(color: Colors.grey[700]),
+                                        textScaleFactor: 1.2,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          _multipleOptionList.add("");
+                                          _multipleOptionControllerList.add(TextEditingController());
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
                         if (selectedType == DropdownTaskType)
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                          Column(
                             children: <Widget>[
-                              Text(
-                                "$_optionCounter.",
-                                textScaleFactor: 1.2,
+                              ListView.builder(
+                                itemCount: _multipleOptionList.length,
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                itemBuilder: (context, index) {
+                                  return Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        "${index+1}.",
+                                        textScaleFactor: 1.2,
+                                      ),
+                                      SizedBox(
+                                        width: 10.0,
+                                      ),
+                                      Expanded(
+                                        child: TextFormField(
+                                          textAlign: TextAlign.start,
+                                          controller: _multipleOptionControllerList[index],
+                                          maxLines: 100,
+                                          scrollPhysics:
+                                          BouncingScrollPhysics(),
+                                          minLines: 1,
+                                          decoration: InputDecoration(
+                                            hintText: "Option ${index+1}",
+                                          ),
+                                        ),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            _multipleOptionList.removeAt(index);
+                                            _multipleOptionControllerList.removeAt(index);
+                                          });
+                                        },
+                                        icon: Icon(Icons.clear),
+                                      ),
+                                    ],
+                                  );
+                                },
                               ),
-                              SizedBox(
-                                width: 10.0,
-                              ),
-                              Expanded(
-                                child: TextFormField(
-                                  textAlign: TextAlign.start,
-                                  maxLines: 10,
-                                  scrollPhysics: BouncingScrollPhysics(),
-                                  minLines: 1,
-                                  decoration: InputDecoration(
-                                    hintText: "Option $_optionCounter",
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    "${_multipleOptionList.length+1}.",
+                                    textScaleFactor: 1.2,
                                   ),
-                                ),
-                              ),
-                              IconButton(
-                                onPressed: () {},
-                                icon: Icon(Icons.clear),
+                                  SizedBox(
+                                    width: 10.0,
+                                  ),
+
+                                  //<editor-fold desc="Expanded Try with add button">
+                                  // Expanded(
+                                  //   child: TextFormField(
+                                  //     textAlign: TextAlign.start,
+                                  //     maxLines: 10,
+                                  //     readOnly: true,
+                                  //     onTap: () {
+                                  //
+                                  //     },
+                                  //     scrollPhysics: BouncingScrollPhysics(),
+                                  //     minLines: 1,
+                                  //     decoration: InputDecoration(
+                                  //       hintText: "Add Option",
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                  //</editor-fold>
+
+                                  Container(
+                                    alignment: Alignment.centerLeft,
+                                    padding: const EdgeInsets.only(
+                                      top: 5.0,
+                                    ),
+                                    child: FlatButton(
+                                      autofocus: true,
+                                      splashColor: Colors.grey[500],
+                                      child: Text(
+                                        "Add Option",
+                                        style:
+                                        TextStyle(color: Colors.grey[700]),
+                                        textScaleFactor: 1.2,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          _multipleOptionList.add("");
+                                          _multipleOptionControllerList.add(TextEditingController());
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
