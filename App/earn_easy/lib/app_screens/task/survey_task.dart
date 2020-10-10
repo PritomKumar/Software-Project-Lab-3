@@ -455,12 +455,11 @@ class _SurveyTaskState extends State<SurveyTask> {
                           mainAxisSize: MainAxisSize.max,
                           children: <Widget>[
                             IconButton(
-                              icon: Icon(Icons.delete_forever,color: Colors.redAccent,),
+                              icon: Icon(FontAwesomeIcons.solidTrashAlt,color: Colors.redAccent,),
                               onPressed: () {
 
                               },
                             ),
-
                             Text("Required",textScaleFactor: 1.1,),
                             Switch(
                               value: isRequired,
