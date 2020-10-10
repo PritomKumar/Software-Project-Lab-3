@@ -14,7 +14,7 @@ class _SurveyTaskState extends State<SurveyTask> {
   String selectedType = MultipleChoiceTaskType;
   double _numberOfTaskImage = 1.0;
   int _optionCounter = 1;
-  List<Widget> _multipleOptionWidgetList = List<Widget>();
+  List<String> _multipleOptionList = List<String>();
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +143,41 @@ class _SurveyTaskState extends State<SurveyTask> {
                         if (selectedType == MultipleChoiceTaskType)
                           Column(
                             children: <Widget>[
-                              ..._multipleOptionWidgetList,
+                              ListView.builder(
+                                itemCount: _multipleOptionList.length,
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                itemBuilder: (context, index) {
+                                  return Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      Icon(
+                                        FontAwesomeIcons.circle,
+                                        color: Colors.grey[700],
+                                      ),
+                                      SizedBox(
+                                        width: 10.0,
+                                      ),
+                                      Expanded(
+                                        child: TextFormField(
+                                          textAlign: TextAlign.start,
+                                          maxLines: 10,
+                                          scrollPhysics:
+                                              BouncingScrollPhysics(),
+                                          minLines: 1,
+                                          decoration: InputDecoration(
+                                            hintText: "Option $_optionCounter",
+                                          ),
+                                        ),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {},
+                                        icon: Icon(Icons.clear),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
@@ -154,6 +188,8 @@ class _SurveyTaskState extends State<SurveyTask> {
                                   SizedBox(
                                     width: 10.0,
                                   ),
+
+                                  //<editor-fold desc="Expanded Try with add button">
                                   // Expanded(
                                   //   child: TextFormField(
                                   //     textAlign: TextAlign.start,
@@ -169,6 +205,8 @@ class _SurveyTaskState extends State<SurveyTask> {
                                   //     ),
                                   //   ),
                                   // ),
+                                  //</editor-fold>
+
                                   Container(
                                     alignment: Alignment.centerLeft,
                                     padding: const EdgeInsets.only(
@@ -179,40 +217,13 @@ class _SurveyTaskState extends State<SurveyTask> {
                                       splashColor: Colors.grey[500],
                                       child: Text(
                                         "Add Option",
-                                        style: TextStyle(
-                                          color: Colors.grey[700]
-                                        ),
+                                        style:
+                                            TextStyle(color: Colors.grey[700]),
                                         textScaleFactor: 1.2,
                                       ),
                                       onPressed: () {
                                         setState(() {
-                                          _multipleOptionWidgetList.add(Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: <Widget>[
-                                              Icon(
-                                                FontAwesomeIcons.circle,
-                                                color: Colors.grey[700],
-                                              ),
-                                              SizedBox(
-                                                width: 10.0,
-                                              ),
-                                              Expanded(
-                                                child: TextFormField(
-                                                  textAlign: TextAlign.start,
-                                                  maxLines: 10,
-                                                  scrollPhysics: BouncingScrollPhysics(),
-                                                  minLines: 1,
-                                                  decoration: InputDecoration(
-                                                    hintText: "Option $_optionCounter",
-                                                  ),
-                                                ),
-                                              ),
-                                              IconButton(
-                                                onPressed: () {},
-                                                icon: Icon(Icons.clear),
-                                              ),
-                                            ],
-                                          ));
+                                          //_multipleOptionWidgetList.add();
                                         });
                                       },
                                     ),
