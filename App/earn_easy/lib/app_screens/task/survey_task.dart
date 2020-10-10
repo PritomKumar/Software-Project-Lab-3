@@ -32,12 +32,17 @@ class _SurveyTaskState extends State<SurveyTask> {
           ),
         ),
         body: Container(
+          padding: EdgeInsets.all(5.0),
           child: Form(
             key: _formKey,
             child: ListView(
               children: <Widget>[
                 Card(
                   elevation: 10.0,
+                  shadowColor: Colors.blueAccent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Wrap(
