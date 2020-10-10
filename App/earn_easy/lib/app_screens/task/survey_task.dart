@@ -62,8 +62,10 @@ class _SurveyTaskState extends State<SurveyTask> {
                                 hintText: VeryLongTextForTestingPurpose),
                           ),
                         ),
-                        Padding(
+                        Container(
                           padding: const EdgeInsets.symmetric(vertical: 20.0),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10)),
                           child: DropdownButtonFormField(
                             elevation: 5,
                             isExpanded: false,
@@ -85,16 +87,17 @@ class _SurveyTaskState extends State<SurveyTask> {
                                 value: dropdownItem,
                                 child: Row(
                                   children: <Widget>[
-                                    if (_selectedType == ImageTaskType)
+                                    if (dropdownItem == ImageTaskType)
                                       Icon(Icons.photo_library),
-                                    if (_selectedType == MultipleChoiceTaskType)
-                                      Icon(FontAwesomeIcons.circle),
-                                    if (_selectedType == CheckBoxTaskType)
-                                      Icon(FontAwesomeIcons.square),
-                                    if (_selectedType == DropdownTaskType)
-                                      Icon(FontAwesomeIcons.dropbox),
-                                    if (_selectedType == FreeTextTaskType)
-                                      Icon(FontAwesomeIcons.paragraph),
+                                    if (dropdownItem == MultipleChoiceTaskType)
+                                      Icon(FontAwesomeIcons.dotCircle),
+                                    if (dropdownItem == CheckBoxTaskType)
+                                      Icon(FontAwesomeIcons.checkSquare),
+                                    if (dropdownItem == DropdownTaskType)
+                                      Icon(FontAwesomeIcons.chevronCircleDown),
+                                    if (dropdownItem == FreeTextTaskType)
+                                      Icon(FontAwesomeIcons.alignLeft),
+                                    SizedBox(width: 10.0,),
                                     Text(dropdownItem),
                                   ],
                                 ),
