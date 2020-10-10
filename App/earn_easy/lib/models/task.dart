@@ -1,3 +1,4 @@
+import 'package:earneasy/models/task_option.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -6,7 +7,6 @@ class TaskSnippet {
   final String taskType;
   final String taskDescription;
   final bool require;
-
 
   TaskSnippet({
     @required this.taskId,
@@ -21,12 +21,47 @@ class TaskSnippet {
         this.taskDescription = data["taskDescription"],
         this.require = data["require"] ?? false;
 
-
   Map<String, dynamic> toMap() {
     return {
       'taskId': this.taskId ?? "",
       'taskType': this.taskType ?? "",
       'taskDescription': this.taskDescription ?? "",
+      'require': this.require ?? false,
+    };
+  }
+}
+
+class CheckboxTask {
+  final String taskId;
+  final String gigId;
+  final String type = CheckBoxTaskType;
+  final String taskDescription;
+  final List<TaskOption> optionList;
+  final bool require;
+
+  CheckboxTask({
+    @required this.taskId,
+    @required this.gigId,
+    @required this.taskDescription,
+    @required this.optionList,
+    @required this.require,
+  });
+
+  CheckboxTask.fromMap(Map<String, dynamic> data)
+      : this.taskId = data["taskId"],
+        this.gigId = data["gigId"],
+        this.taskDescription = data["taskDescription"],
+        this.optionList = List.from(data["optionList"]
+            .map((index) => TaskOption.fromMap(index))) ??
+            [],
+        this.require = data["require"] ?? false;
+
+  Map<String, dynamic> toMap() {
+    return {
+      'taskId': this.taskId ?? "",
+      'gigId': this.gigId ?? "",
+      'taskDescription': this.taskDescription ?? "",
+      'optionList': this.optionList ?? [],
       'require': this.require ?? false,
     };
   }
