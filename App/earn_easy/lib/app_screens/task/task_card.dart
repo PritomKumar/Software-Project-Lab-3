@@ -6,11 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class TaskCard extends StatefulWidget {
+  //returnTask()=>createState().returnTask();
+  const TaskCard ({Key key}) : super(key: key);
   @override
-  _TaskCardState createState() => _TaskCardState();
+  TaskCardState createState() => TaskCardState();
 }
 
-class _TaskCardState extends State<TaskCard> {
+class TaskCardState extends State<TaskCard> {
   TextEditingController question = TextEditingController();
   String _selectedType = MultipleChoiceTaskType;
   double _numberOfTaskImage = 1.0;

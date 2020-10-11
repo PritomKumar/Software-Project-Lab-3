@@ -20,6 +20,7 @@ class _SurveyTaskState extends State<SurveyTask> {
       List<TextEditingController>();
   bool _isRequired = false;
   List<Widget> cardTest = List<Widget>();
+  List<GlobalKey<TaskCardState>> _myKeyList = List<GlobalKey<TaskCardState>>();
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,9 @@ class _SurveyTaskState extends State<SurveyTask> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             setState(() {
-              cardTest.add(TaskCard());
+              GlobalKey<TaskCardState> _newKey = GlobalKey<TaskCardState>();
+              _myKeyList.add(_newKey);
+              cardTest.add(TaskCard(key: _myKeyList[cardTest.length]));
             });
           },
           elevation: 5.0,
@@ -45,6 +48,7 @@ class _SurveyTaskState extends State<SurveyTask> {
             key: _formKey,
             child: ListView(
               children: <Widget>[
+                //<editor-fold desc="Test Card">
                 Card(
                   elevation: 10.0,
                   shadowColor: Colors.blueAccent,
@@ -521,7 +525,17 @@ class _SurveyTaskState extends State<SurveyTask> {
                     ),
                   ),
                 ),
+                //</editor-fold>
                 ...cardTest,
+                RaisedButton(
+                  child: Text("Finish"),
+                  onPressed: () {
+                    for (int i = 0; i < _myKeyList.length; i++) {
+                      var testReult = _myKeyList[i].currentState.returnTask();
+                      print(testReult.toMap().toString());
+                    }
+                  },
+                )
               ],
             ),
           ),
