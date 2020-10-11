@@ -350,7 +350,6 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
         uploadFileTileList.add(tile);
       }
     }
-    ;
 
     Future<void> _selectImageSource() async {
       await showDialog(

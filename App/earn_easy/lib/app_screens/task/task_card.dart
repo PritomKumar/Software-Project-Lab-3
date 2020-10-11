@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class TaskCard extends StatefulWidget {
+  final Function(int) deleteCard;
+  final int index;
+
+  const TaskCard({Key key, this.deleteCard,this.index}) : super(key: key);
   @override
   _TaskCardState createState() => _TaskCardState();
 }
@@ -469,7 +473,9 @@ class _TaskCardState extends State<TaskCard> {
                     FontAwesomeIcons.solidTrashAlt,
                     color: Colors.redAccent,
                   ),
-                  onPressed: () {},
+                //  onPressed: widget.deleteCard(widget),
+                  onPressed: widget.deleteCard(widget.index),
+
                 ),
                 Text(
                   "Required",

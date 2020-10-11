@@ -1,3 +1,4 @@
+import 'package:earneasy/app_screens/task/task_card.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,6 +19,7 @@ class _SurveyTaskState extends State<SurveyTask> {
   List<TextEditingController> _multipleOptionControllerList =
       List<TextEditingController>();
   bool _isRequired = false;
+  List<Widget> cardTest = List<Widget>();
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,11 @@ class _SurveyTaskState extends State<SurveyTask> {
       child: Scaffold(
         backgroundColor: Colors.lightBlueAccent,
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            setState(() {
+              cardTest.add(Container());
+            });
+          },
           elevation: 5.0,
           backgroundColor: Colors.green,
           splashColor: Colors.redAccent,
@@ -97,7 +103,9 @@ class _SurveyTaskState extends State<SurveyTask> {
                                       Icon(FontAwesomeIcons.chevronCircleDown),
                                     if (dropdownItem == FreeTextTaskType)
                                       Icon(FontAwesomeIcons.alignLeft),
-                                    SizedBox(width: 10.0,),
+                                    SizedBox(
+                                      width: 10.0,
+                                    ),
                                     Text(dropdownItem),
                                   ],
                                 ),
@@ -513,6 +521,19 @@ class _SurveyTaskState extends State<SurveyTask> {
                     ),
                   ),
                 ),
+                // ListView.builder(
+                //   itemCount: cardTest.length,
+                //   itemBuilder: (context, index) {
+                //     return TaskCard(
+                //       index: index,
+                //       deleteCard: (index) {
+                //         setState(() {
+                //           cardTest.removeAt(index);
+                //         });
+                //       },
+                //     );
+                //   },
+                // )
               ],
             ),
           ),
