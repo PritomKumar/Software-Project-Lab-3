@@ -1,4 +1,5 @@
 import 'package:earneasy/models/task.dart';
+import 'package:earneasy/models/task_option.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,23 @@ class _TaskCardState extends State<TaskCard> {
   List<TextEditingController> _multipleOptionControllerList =
       List<TextEditingController>();
   bool _isRequired = false;
+  List<TaskOption> _taskOptionList = List<TaskOption>();
+
+  _populateMultipleOptionListWithTextEditingController() {
+    for (int i = 0; i < _multipleOptionControllerList.length; i++) {
+      _multipleOptionList[i] = _multipleOptionControllerList[i].text;
+    }
+  }
+
+  _populateTaskOptionList() {
+    _populateMultipleOptionListWithTextEditingController();
+    for (int i = 0; i < _multipleOptionList.length; i++) {
+      _taskOptionList.add(TaskOption(
+        option: _multipleOptionList[i],
+        checked: false,
+      ));
+    }
+  }
 
   dynamic returnTask() {
     if (_selectedType == ImageTaskType) {
@@ -26,6 +44,35 @@ class _TaskCardState extends State<TaskCard> {
         require: _isRequired,
         numberOfImages: _numberOfTaskImage.round(),
       );
+    } else if (_selectedType == MultipleChoiceTaskType) {
+      _populateTaskOptionList();
+      return MultipleChoiceTask(
+        taskDescription: this._instructionController.text,
+        require: _isRequired,
+        optionList: _taskOptionList ?? [],
+      );
+    } else if (_selectedType == CheckBoxTaskType) {
+      _populateTaskOptionList();
+      return CheckboxTask(
+        taskDescription: this._instructionController.text,
+        require: _isRequired,
+        optionList: _taskOptionList ?? [],
+      );
+    } else if (_selectedType == DropdownTaskType) {
+      _populateTaskOptionList();
+      return DropdownTask(
+        taskDescription: this._instructionController.text,
+        require: _isRequired,
+        optionList: _taskOptionList ?? [],
+      );
+    } else if (_selectedType == FreeTextTaskType) {
+      _populateTaskOptionList();
+      return FreeTextTask(
+        taskDescription: this._instructionController.text,
+        require: _isRequired,
+      );
+    } else {
+      return null;
     }
   }
 
