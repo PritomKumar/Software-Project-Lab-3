@@ -32,7 +32,16 @@ class _SurveyTaskState extends State<SurveyTask> {
             setState(() {
               GlobalKey<TaskCardState> _newKey = GlobalKey<TaskCardState>();
               _myKeyList.add(_newKey);
-              cardTest.add(TaskCard(key: _myKeyList[cardTest.length]));
+              cardTest.add(TaskCard(
+                key: _myKeyList[cardTest.length],
+                deleteTask: () {
+                  setState(() {
+                    print("Delete task Pressed");
+                    cardTest.removeWhere((element) =>element.key == _newKey);
+                    _myKeyList.remove(_newKey);
+                  });
+                },
+              ));
             });
           },
           elevation: 5.0,

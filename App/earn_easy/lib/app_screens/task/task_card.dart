@@ -7,7 +7,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class TaskCard extends StatefulWidget {
   //returnTask()=>createState().returnTask();
-  const TaskCard ({Key key}) : super(key: key);
+  final Function deleteTask;
+  const TaskCard ({Key key, this.deleteTask}) : super(key: key);
   @override
   TaskCardState createState() => TaskCardState();
 }
@@ -23,6 +24,7 @@ class TaskCardState extends State<TaskCard> {
   bool _isRequired = false;
   List<TaskOption> _taskOptionList = List<TaskOption>();
 
+  //<editor-fold desc="All methods to return selected task And Type of task">
   _populateMultipleOptionListWithTextEditingController() {
     for (int i = 0; i < _multipleOptionControllerList.length; i++) {
       _multipleOptionList[i] = _multipleOptionControllerList[i].text;
@@ -77,6 +79,7 @@ class TaskCardState extends State<TaskCard> {
       return null;
     }
   }
+  //</editor-fold>
 
   @override
   Widget build(BuildContext context) {
@@ -514,7 +517,7 @@ class TaskCardState extends State<TaskCard> {
                     FontAwesomeIcons.solidTrashAlt,
                     color: Colors.redAccent,
                   ),
-                  onPressed: () {},
+                  onPressed: widget.deleteTask,
                 ),
                 Text(
                   "Required",
