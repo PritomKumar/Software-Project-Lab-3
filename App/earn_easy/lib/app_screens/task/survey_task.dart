@@ -29,7 +29,7 @@ class _SurveyTaskState extends State<SurveyTask> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             setState(() {
-              cardTest.add(Container());
+              cardTest.add(TaskCard());
             });
           },
           elevation: 5.0,
@@ -521,19 +521,7 @@ class _SurveyTaskState extends State<SurveyTask> {
                     ),
                   ),
                 ),
-                // ListView.builder(
-                //   itemCount: cardTest.length,
-                //   itemBuilder: (context, index) {
-                //     return TaskCard(
-                //       index: index,
-                //       deleteCard: (index) {
-                //         setState(() {
-                //           cardTest.removeAt(index);
-                //         });
-                //       },
-                //     );
-                //   },
-                // )
+                ...cardTest,
               ],
             ),
           ),

@@ -1,13 +1,10 @@
+import 'package:earneasy/models/task.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class TaskCard extends StatefulWidget {
-  final Function(int) deleteCard;
-  final int index;
-
-  const TaskCard({Key key, this.deleteCard,this.index}) : super(key: key);
   @override
   _TaskCardState createState() => _TaskCardState();
 }
@@ -19,8 +16,19 @@ class _TaskCardState extends State<TaskCard> {
   List<String> _multipleOptionList = List<String>();
   TextEditingController _instructionController = TextEditingController();
   List<TextEditingController> _multipleOptionControllerList =
-  List<TextEditingController>();
+      List<TextEditingController>();
   bool _isRequired = false;
+
+  dynamic returnTask() {
+    if (_selectedType == ImageTaskType) {
+      return ImageTask(
+        taskDescription: this._instructionController.text,
+        require: _isRequired,
+        numberOfImages: _numberOfTaskImage.round(),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -48,8 +56,8 @@ class _TaskCardState extends State<TaskCard> {
             ),
             Container(
               padding: const EdgeInsets.symmetric(vertical: 20.0),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10)),
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(10)),
               child: DropdownButtonFormField(
                 elevation: 5,
                 isExpanded: false,
@@ -58,15 +66,13 @@ class _TaskCardState extends State<TaskCard> {
                   filled: true,
                   focusColor: Colors.green,
                   fillColor: Colors.grey[150],
-                  contentPadding:
-                  EdgeInsets.only(left: 5.0, right: 5.0),
+                  contentPadding: EdgeInsets.only(left: 5.0, right: 5.0),
                 ),
                 icon: Icon(FontAwesomeIcons.angleDown),
                 iconEnabledColor: Colors.blueGrey,
                 iconDisabledColor: Colors.grey[350],
                 value: _selectedType,
-                items:
-                TaskTypeDropdownList.map((String dropdownItem) {
+                items: TaskTypeDropdownList.map((String dropdownItem) {
                   return DropdownMenuItem<String>(
                     value: dropdownItem,
                     child: Row(
@@ -81,7 +87,9 @@ class _TaskCardState extends State<TaskCard> {
                           Icon(FontAwesomeIcons.chevronCircleDown),
                         if (dropdownItem == FreeTextTaskType)
                           Icon(FontAwesomeIcons.alignLeft),
-                        SizedBox(width: 10.0,),
+                        SizedBox(
+                          width: 10.0,
+                        ),
                         Text(dropdownItem),
                       ],
                     ),
@@ -100,8 +108,7 @@ class _TaskCardState extends State<TaskCard> {
                 children: <Widget>[
                   Row(
                     mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment:
-                    MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       Flexible(
                         child: Container(
@@ -171,11 +178,8 @@ class _TaskCardState extends State<TaskCard> {
                           Expanded(
                             child: TextFormField(
                               textAlign: TextAlign.start,
-                              controller:
-                              _multipleOptionControllerList[
-                              index],
-                              scrollPhysics:
-                              BouncingScrollPhysics(),
+                              controller: _multipleOptionControllerList[index],
+                              scrollPhysics: BouncingScrollPhysics(),
                               decoration: InputDecoration(
                                 hintText: "Option ${index + 1}",
                               ),
@@ -185,8 +189,7 @@ class _TaskCardState extends State<TaskCard> {
                             onPressed: () {
                               setState(() {
                                 _multipleOptionList.removeAt(index);
-                                _multipleOptionControllerList
-                                    .removeAt(index);
+                                _multipleOptionControllerList.removeAt(index);
                               });
                             },
                             icon: Icon(Icons.clear),
@@ -234,8 +237,7 @@ class _TaskCardState extends State<TaskCard> {
                           splashColor: Colors.grey[500],
                           child: Text(
                             "Add Option",
-                            style:
-                            TextStyle(color: Colors.grey[700]),
+                            style: TextStyle(color: Colors.grey[700]),
                             textScaleFactor: 1.2,
                           ),
                           onPressed: () {
@@ -272,11 +274,8 @@ class _TaskCardState extends State<TaskCard> {
                           Expanded(
                             child: TextFormField(
                               textAlign: TextAlign.start,
-                              controller:
-                              _multipleOptionControllerList[
-                              index],
-                              scrollPhysics:
-                              BouncingScrollPhysics(),
+                              controller: _multipleOptionControllerList[index],
+                              scrollPhysics: BouncingScrollPhysics(),
                               decoration: InputDecoration(
                                 hintText: "Option ${index + 1}",
                               ),
@@ -286,8 +285,7 @@ class _TaskCardState extends State<TaskCard> {
                             onPressed: () {
                               setState(() {
                                 _multipleOptionList.removeAt(index);
-                                _multipleOptionControllerList
-                                    .removeAt(index);
+                                _multipleOptionControllerList.removeAt(index);
                               });
                             },
                             icon: Icon(Icons.clear),
@@ -335,8 +333,7 @@ class _TaskCardState extends State<TaskCard> {
                           splashColor: Colors.grey[500],
                           child: Text(
                             "Add Option",
-                            style:
-                            TextStyle(color: Colors.grey[700]),
+                            style: TextStyle(color: Colors.grey[700]),
                             textScaleFactor: 1.2,
                           ),
                           onPressed: () {
@@ -373,11 +370,8 @@ class _TaskCardState extends State<TaskCard> {
                           Expanded(
                             child: TextFormField(
                               textAlign: TextAlign.start,
-                              controller:
-                              _multipleOptionControllerList[
-                              index],
-                              scrollPhysics:
-                              BouncingScrollPhysics(),
+                              controller: _multipleOptionControllerList[index],
+                              scrollPhysics: BouncingScrollPhysics(),
                               decoration: InputDecoration(
                                 hintText: "Option ${index + 1}",
                               ),
@@ -387,8 +381,7 @@ class _TaskCardState extends State<TaskCard> {
                             onPressed: () {
                               setState(() {
                                 _multipleOptionList.removeAt(index);
-                                _multipleOptionControllerList
-                                    .removeAt(index);
+                                _multipleOptionControllerList.removeAt(index);
                               });
                             },
                             icon: Icon(Icons.clear),
@@ -436,8 +429,7 @@ class _TaskCardState extends State<TaskCard> {
                           splashColor: Colors.grey[500],
                           child: Text(
                             "Add Option",
-                            style:
-                            TextStyle(color: Colors.grey[700]),
+                            style: TextStyle(color: Colors.grey[700]),
                             textScaleFactor: 1.2,
                           ),
                           onPressed: () {
@@ -473,9 +465,7 @@ class _TaskCardState extends State<TaskCard> {
                     FontAwesomeIcons.solidTrashAlt,
                     color: Colors.redAccent,
                   ),
-                //  onPressed: widget.deleteCard(widget),
-                  onPressed: widget.deleteCard(widget.index),
-
+                  onPressed: () {},
                 ),
                 Text(
                   "Required",
