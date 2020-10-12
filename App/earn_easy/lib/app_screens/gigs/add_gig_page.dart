@@ -524,16 +524,19 @@ class _GigAddPageState extends State<GigAddPage> {
                                 //   onPressed: _showAddImageTaskDialog,
                                 // ),
                                 //</editor-fold>
-                                RaisedButton.icon(
-                                  color: Colors.lightBlueAccent,
-                                  splashColor: Colors.red,
-                                  elevation: 5.0,
-                                  autofocus: true,
-                                  icon: Icon(Icons.add_circle),
-                                  label: Text("Add Task"),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15.0)),
-                                  onPressed: _showAddTaskDialog,
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                  child: RaisedButton.icon(
+                                    color: Colors.lightGreenAccent,
+                                    splashColor: Colors.red,
+                                    elevation: 5.0,
+                                    autofocus: true,
+                                    icon: Icon(Icons.add_circle),
+                                    label: Text("Add Task"),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15.0)),
+                                    onPressed: _showAddTaskDialog,
+                                  ),
                                 ),
                               ],
                             ),

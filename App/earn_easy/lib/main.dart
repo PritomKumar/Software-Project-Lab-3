@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:earneasy/TestPage/upload_download_multiple_file.dart';
 import 'package:earneasy/app_screens/splash_screen.dart';
-import 'package:earneasy/app_screens/task/survey_task.dart';
+import 'file:///F:/IIT%207th%20Semester/SPL3/Software-Project-Lab-3/App/earn_easy/lib/app_screens/deprecated/survey_task.dart';
 import 'package:earneasy/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
