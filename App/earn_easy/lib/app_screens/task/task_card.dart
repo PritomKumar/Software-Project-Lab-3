@@ -1022,6 +1022,9 @@ class TaskCardState extends State<TaskCard> {
               Text(
                 "Required",
                 textScaleFactor: 1.1,
+                style: TextStyle(
+                  color: _isRequired ? Colors.redAccent:Colors.black87,
+                ),
               ),
               Switch(
                 value: _isRequired,

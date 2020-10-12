@@ -91,7 +91,7 @@ class _GigAddPageState extends State<GigAddPage> {
 
     for (var task in taskList) {
       print(
-          "${task.taskDescription}  and ${task.numberOfImages} and size = ${taskList.length}");
+          "${task.taskDescription}  and size = ${taskList.length}");
     }
     return SafeArea(
       child: isLoading
