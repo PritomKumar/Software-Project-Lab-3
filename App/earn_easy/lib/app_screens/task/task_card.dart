@@ -8,7 +8,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class TaskCard extends StatefulWidget {
   //returnTask()=>createState().returnTask();
   final Function deleteTask;
-  const TaskCard ({Key key, this.deleteTask}) : super(key: key);
+
+  const TaskCard({Key key, this.deleteTask}) : super(key: key);
+
   @override
   TaskCardState createState() => TaskCardState();
 }
@@ -79,6 +81,7 @@ class TaskCardState extends State<TaskCard> {
       return null;
     }
   }
+
   //</editor-fold>
 
   @override
@@ -154,6 +157,7 @@ class TaskCardState extends State<TaskCard> {
                 },
               ),
             ),
+            //<editor-fold desc="Image Task Type">
             if (_selectedType == ImageTaskType)
               Wrap(
                 alignment: WrapAlignment.spaceEvenly,
@@ -209,13 +213,14 @@ class TaskCardState extends State<TaskCard> {
                   ),
                 ],
               ),
+            //</editor-fold>
+            //<editor-fold desc="Multiple choice type">
             if (_selectedType == MultipleChoiceTaskType)
               Column(
                 children: <Widget>[
                   ListView.builder(
                     itemCount: _multipleOptionList.length,
                     shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) {
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -305,13 +310,14 @@ class TaskCardState extends State<TaskCard> {
                   ),
                 ],
               ),
+            //</editor-fold>
+            //<editor-fold desc="Check box type">
             if (_selectedType == CheckBoxTaskType)
               Column(
                 children: <Widget>[
                   ListView.builder(
                     itemCount: _multipleOptionList.length,
                     shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) {
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -401,13 +407,14 @@ class TaskCardState extends State<TaskCard> {
                   ),
                 ],
               ),
+            //</editor-fold>
+            //<editor-fold desc="Drop down type">
             if (_selectedType == DropdownTaskType)
               Column(
                 children: <Widget>[
                   ListView.builder(
                     itemCount: _multipleOptionList.length,
                     shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) {
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -497,17 +504,19 @@ class TaskCardState extends State<TaskCard> {
                   ),
                 ],
               ),
+            //</editor-fold>
+            //<editor-fold desc="Free Text type">
             if (_selectedType == FreeTextTaskType)
-              Expanded(
-                child: TextFormField(
-                  textAlign: TextAlign.start,
-                  readOnly: true,
-                  scrollPhysics: BouncingScrollPhysics(),
-                  decoration: InputDecoration(
-                    hintText: "Answer the question.",
-                  ),
+              TextFormField(
+                textAlign: TextAlign.start,
+                readOnly: true,
+                autofocus: false,
+                decoration: InputDecoration(
+                  hintText: "Answer the question.",
                 ),
               ),
+            //</editor-fold>
+            //<editor-fold desc="Delete and required button">
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               mainAxisSize: MainAxisSize.max,
@@ -537,6 +546,7 @@ class TaskCardState extends State<TaskCard> {
                 ),
               ],
             ),
+            //</editor-fold>
           ],
         ),
       ),

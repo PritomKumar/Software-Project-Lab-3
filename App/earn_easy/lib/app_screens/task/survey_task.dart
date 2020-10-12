@@ -552,11 +552,15 @@ class _SurveyTaskState extends State<SurveyTask> {
                   splashColor: Colors.blue[700],
                   onPressed: () {
                     for (int i = 0; i < _myKeyList.length; i++) {
-                      var testResult = _myKeyList[i].currentState.returnTask();
-                      if(testResult!=null){
-                        print(testResult.toMap().toString());
-                      }
+                      print ("Global key at index $i ${_myKeyList[i].currentState.toString()}");
+                    //   var testResult = _myKeyList[i].currentState.returnTask();
+                    //   if(testResult!=null){
+                    //     print(testResult.toMap().toString());
+                    //   }
+
+
                     }
+                    print("\n\n");
                   },
                 )
               ],
