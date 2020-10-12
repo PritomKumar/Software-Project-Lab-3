@@ -6,6 +6,7 @@ import 'package:earneasy/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:earneasy/services/firestore_gig_databse.dart';
 
 class GigPage extends StatefulWidget {
   final Gig gig;
@@ -266,17 +267,7 @@ class _GigPageState extends State<GigPage> {
                                 ),
                               ),
                               onPressed: () async {
-                                try {
-                                  await fireStoreGigsRef.doc(gig.gigId).update({
-                                    'attemptedUsers':
-                                        FieldValue.arrayUnion([user.uid])
-                                  }).then((value) {
-                                    print(
-                                        "Attempted user updated with ${user.uid}");
-                                  });
-                                } catch (e) {
-                                  print("Attempted user update failed $e");
-                                }
+                                await DatabaseServiceGigs().updateAttemptedUserInGig(gig);
                                 try {
                                   await fireStoreUsersRef.doc(user.uid).update({
                                     'attemptedGigs': FieldValue.arrayUnion([
@@ -308,7 +299,6 @@ class _GigPageState extends State<GigPage> {
                                   print(
                                       "attemptedGigs, waitListGigs and allGigs updated  failed $e");
                                 }
-
                                 _checkIfUserIsInAttemptedUsers();
                               },
                             ),

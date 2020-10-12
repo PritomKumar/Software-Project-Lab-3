@@ -37,7 +37,7 @@ class _SurveyTaskState extends State<SurveyTask> {
                 deleteTask: () {
                   setState(() {
                     print("Delete task Pressed");
-                    cardTest.removeWhere((element) =>element.key == _newKey);
+                    cardTest.removeWhere((element) => element.key == _newKey);
                     _myKeyList.remove(_newKey);
                   });
                 },
@@ -537,11 +537,26 @@ class _SurveyTaskState extends State<SurveyTask> {
                 //</editor-fold>
                 ...cardTest,
                 RaisedButton(
-                  child: Text("Finish"),
+                  child: Text(
+                    "Finish",
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
+                    textScaleFactor: 1.2,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  elevation: 5.0,
+                  color: Colors.yellow[800],
+                  splashColor: Colors.blue[700],
                   onPressed: () {
                     for (int i = 0; i < _myKeyList.length; i++) {
-                      var testReult = _myKeyList[i].currentState.returnTask();
-                      print(testReult.toMap().toString());
+                      var testResult = _myKeyList[i].currentState.returnTask();
+                      if(testResult!=null){
+
+                        print(testResult.toMap().toString());
+                      }
                     }
                   },
                 )

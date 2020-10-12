@@ -6,7 +6,7 @@ import 'package:earneasy/shared/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
-class DatabaseServiceGigs {
+class DatabaseServiceTasks {
   final CollectionReference fireStoreGigsRef =
       FirebaseFirestore.instance.collection("Gigs");
   final String uid = FirebaseAuth.instance.currentUser.uid;
@@ -73,20 +73,6 @@ class DatabaseServiceGigs {
       });
     } else {
       return null;
-    }
-  }
-
-  Future updateAttemptedUserInGig(Gig gig) async {
-    try {
-      await fireStoreGigsRef.doc(gig.gigId).update({
-        'attemptedUsers':
-        FieldValue.arrayUnion([userUid])
-      }).then((value) {
-        print(
-            "Attempted user updated with $userUid");
-      });
-    } catch (e) {
-      print("Attempted user update failed $e");
     }
   }
 
