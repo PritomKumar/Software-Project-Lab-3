@@ -61,7 +61,8 @@ class CheckboxTask {
       'taskId': this.taskId ?? "",
       'gigId': this.gigId ?? "",
       'taskDescription': this.taskDescription ?? "",
-      'optionList': this.optionList ?? [],
+      'optionList':
+      List.from(this.optionList.map((index) => index.toMap())) ?? [],
       'require': this.require ?? false,
     };
   }
@@ -98,7 +99,8 @@ class MultipleChoiceTask {
       'taskId': this.taskId ?? "",
       'gigId': this.gigId ?? "",
       'taskDescription': this.taskDescription ?? "",
-      'optionList': this.optionList ?? [],
+      'optionList':
+          List.from(this.optionList.map((index) => index.toMap())) ?? [],
       'require': this.require ?? false,
     };
   }
@@ -134,7 +136,8 @@ class DropdownTask {
       'taskId': this.taskId ?? "",
       'gigId': this.gigId ?? "",
       'taskDescription': this.taskDescription ?? "",
-      'optionList': this.optionList ?? [],
+      'optionList':
+      List.from(this.optionList.map((index) => index.toMap())) ?? [],
       'require': this.require ?? false,
     };
   }

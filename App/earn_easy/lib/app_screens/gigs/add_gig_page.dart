@@ -91,7 +91,7 @@ class _GigAddPageState extends State<GigAddPage> {
 
     for (var task in taskList) {
       print(
-          "${task.taskDescription}  and size = ${taskList.length}");
+          "${task.taskDescription},  ${task.type} and size = ${taskList.length}");
     }
     return SafeArea(
       child: isLoading
@@ -450,7 +450,7 @@ class _GigAddPageState extends State<GigAddPage> {
                                 child: ExpansionTile(
                                   initiallyExpanded: false,
                                   title: Text(
-                                    "Image Tasks",
+                                    "Tasks",
                                     textScaleFactor: 1.35,
                                     style: TextStyle(
                                         //color: Colors.red,
@@ -486,7 +486,7 @@ class _GigAddPageState extends State<GigAddPage> {
                                             ),
                                           ),
                                           subtitle: Text(
-                                            "Image Task #${index + 1}",
+                                            "Task #${index + 1}",
                                             textScaleFactor: 1.1,
                                           ),
                                           trailing: IconButton(

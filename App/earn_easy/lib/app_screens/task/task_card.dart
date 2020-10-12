@@ -572,6 +572,12 @@ class TaskCardState extends State<TaskCard> {
               controller: _instructionController,
               maxLines: null,
               scrollPhysics: BouncingScrollPhysics(),
+              autovalidate: true,
+              validator: (value) {
+                return value.isEmpty
+                    ? "Enter Instruction/Question"
+                    : null;
+              },
               decoration: InputDecoration(
                   contentPadding: EdgeInsets.zero,
                   hintText: VeryLongTextForTestingPurpose),
