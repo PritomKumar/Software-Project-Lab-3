@@ -693,6 +693,7 @@ class TaskCardState extends State<TaskCard> {
                 children: <Widget>[
                   ListView.builder(
                     itemCount: _multipleOptionList.length,
+                    physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       return Row(
@@ -710,7 +711,6 @@ class TaskCardState extends State<TaskCard> {
                               textAlign: TextAlign.start,
                               controller:
                               _multipleOptionControllerList[index],
-                              scrollPhysics: BouncingScrollPhysics(),
                               decoration: InputDecoration(
                                 hintText: "Option ${index + 1}",
                               ),
@@ -1030,6 +1030,7 @@ class TaskCardState extends State<TaskCard> {
           ),
           //</editor-fold>,
           Wrap(
+            alignment: WrapAlignment.spaceEvenly,
             children: <Widget>[
               RaisedButton(
                 elevation: 5.0,
