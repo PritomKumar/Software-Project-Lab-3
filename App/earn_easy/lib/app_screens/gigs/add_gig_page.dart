@@ -508,26 +508,29 @@ class _GigAddPageState extends State<GigAddPage> {
                               ),
                             Wrap(
                               direction: Axis.horizontal,
-                              alignment: WrapAlignment.spaceEvenly,
+                              alignment: WrapAlignment.end,
                               children: <Widget>[
-                                RaisedButton.icon(
-                                  color: Colors.lightGreenAccent,
-                                  splashColor: Colors.red,
-                                  elevation: 5.0,
-                                  autofocus: true,
-                                  icon: Icon(Icons.add_circle),
-                                  label: Text("Add Image Task"),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15.0)),
-                                  onPressed: _showAddImageTaskDialog,
-                                ),
+
+                                //<editor-fold desc="Add Image Task">
+                                // RaisedButton.icon(
+                                //   color: Colors.lightGreenAccent,
+                                //   splashColor: Colors.red,
+                                //   elevation: 5.0,
+                                //   autofocus: true,
+                                //   icon: Icon(Icons.add_circle),
+                                //   label: Text("Add Image Task"),
+                                //   shape: RoundedRectangleBorder(
+                                //       borderRadius: BorderRadius.circular(15.0)),
+                                //   onPressed: _showAddImageTaskDialog,
+                                // ),
+                                //</editor-fold>
                                 RaisedButton.icon(
                                   color: Colors.lightBlueAccent,
                                   splashColor: Colors.red,
                                   elevation: 5.0,
                                   autofocus: true,
                                   icon: Icon(Icons.add_circle),
-                                  label: Text("Add Survey"),
+                                  label: Text("Add Task"),
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(15.0)),
                                   onPressed: _showAddTaskDialog,
