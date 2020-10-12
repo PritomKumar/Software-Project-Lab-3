@@ -787,206 +787,214 @@ class TaskCardState extends State<TaskCard> {
               ),
             ),
           //</editor-fold>
-          // //<editor-fold desc="Check box type">
-          // if (_selectedType == CheckBoxTaskType)
-          //   Column(
-          //     mainAxisSize: MainAxisSize.min,
-          //     children: <Widget>[
-          //       ListView.builder(
-          //         itemCount: _multipleOptionList.length,
-          //         shrinkWrap: true,
-          //         itemBuilder: (context, index) {
-          //           return Row(
-          //             mainAxisAlignment: MainAxisAlignment.start,
-          //             children: <Widget>[
-          //               Icon(
-          //                 FontAwesomeIcons.square,
-          //                 color: Colors.grey[700],
-          //               ),
-          //               SizedBox(
-          //                 width: 10.0,
-          //               ),
-          //               Expanded(
-          //                 child: TextFormField(
-          //                   textAlign: TextAlign.start,
-          //                   controller:
-          //                   _multipleOptionControllerList[index],
-          //                   scrollPhysics: BouncingScrollPhysics(),
-          //                   decoration: InputDecoration(
-          //                     hintText: "Option ${index + 1}",
-          //                   ),
-          //                 ),
-          //               ),
-          //               IconButton(
-          //                 onPressed: () {
-          //                   setState(() {
-          //                     _multipleOptionList.removeAt(index);
-          //                     _multipleOptionControllerList
-          //                         .removeAt(index);
-          //                   });
-          //                 },
-          //                 icon: Icon(Icons.clear),
-          //               ),
-          //             ],
-          //           );
-          //         },
-          //       ),
-          //       Row(
-          //         mainAxisAlignment: MainAxisAlignment.start,
-          //         children: <Widget>[
-          //           Icon(
-          //             FontAwesomeIcons.square,
-          //             color: Colors.grey[700],
-          //           ),
-          //           SizedBox(
-          //             width: 10.0,
-          //           ),
-          //
-          //           //<editor-fold desc="Expanded Try with add button">
-          //           // Expanded(
-          //           //   child: TextFormField(
-          //           //     textAlign: TextAlign.start,
-          //           //     maxLines: 10,
-          //           //     readOnly: true,
-          //           //     onTap: () {
-          //           //
-          //           //     },
-          //           //     scrollPhysics: BouncingScrollPhysics(),
-          //           //     minLines: 1,
-          //           //     decoration: InputDecoration(
-          //           //       hintText: "Add Option",
-          //           //     ),
-          //           //   ),
-          //           // ),
-          //           //</editor-fold>
-          //
-          //           Container(
-          //             alignment: Alignment.centerLeft,
-          //             padding: const EdgeInsets.only(
-          //               top: 5.0,
-          //             ),
-          //             child: FlatButton(
-          //               autofocus: true,
-          //               splashColor: Colors.grey[500],
-          //               child: Text(
-          //                 "Add Option",
-          //                 style: TextStyle(color: Colors.grey[700]),
-          //                 textScaleFactor: 1.2,
-          //               ),
-          //               onPressed: () {
-          //                 setState(() {
-          //                   _multipleOptionList.add("");
-          //                   _multipleOptionControllerList
-          //                       .add(TextEditingController());
-          //                 });
-          //               },
-          //             ),
-          //           ),
-          //         ],
-          //       ),
-          //     ],
-          //   ),
-          // //</editor-fold>
-          // //<editor-fold desc="Drop down type">
-          // if (_selectedType == DropdownTaskType)
-          //   Column(
-          //     mainAxisSize: MainAxisSize.min,
-          //     children: <Widget>[
-          //       ListView.builder(
-          //         itemCount: _multipleOptionList.length,
-          //         shrinkWrap: true,
-          //         itemBuilder: (context, index) {
-          //           return Row(
-          //             mainAxisAlignment: MainAxisAlignment.start,
-          //             children: <Widget>[
-          //               Text(
-          //                 "${index + 1}.",
-          //                 textScaleFactor: 1.2,
-          //               ),
-          //               SizedBox(
-          //                 width: 10.0,
-          //               ),
-          //               Expanded(
-          //                 child: TextFormField(
-          //                   textAlign: TextAlign.start,
-          //                   controller:
-          //                   _multipleOptionControllerList[index],
-          //                   scrollPhysics: BouncingScrollPhysics(),
-          //                   decoration: InputDecoration(
-          //                     hintText: "Option ${index + 1}",
-          //                   ),
-          //                 ),
-          //               ),
-          //               IconButton(
-          //                 onPressed: () {
-          //                   setState(() {
-          //                     _multipleOptionList.removeAt(index);
-          //                     _multipleOptionControllerList
-          //                         .removeAt(index);
-          //                   });
-          //                 },
-          //                 icon: Icon(Icons.clear),
-          //               ),
-          //             ],
-          //           );
-          //         },
-          //       ),
-          //       Row(
-          //         mainAxisAlignment: MainAxisAlignment.start,
-          //         children: <Widget>[
-          //           Text(
-          //             "${_multipleOptionList.length + 1}.",
-          //             textScaleFactor: 1.2,
-          //           ),
-          //           SizedBox(
-          //             width: 10.0,
-          //           ),
-          //
-          //           //<editor-fold desc="Expanded Try with add button">
-          //           // Expanded(
-          //           //   child: TextFormField(
-          //           //     textAlign: TextAlign.start,
-          //           //     maxLines: 10,
-          //           //     readOnly: true,
-          //           //     onTap: () {
-          //           //
-          //           //     },
-          //           //     scrollPhysics: BouncingScrollPhysics(),
-          //           //     minLines: 1,
-          //           //     decoration: InputDecoration(
-          //           //       hintText: "Add Option",
-          //           //     ),
-          //           //   ),
-          //           // ),
-          //           //</editor-fold>
-          //
-          //           Container(
-          //             alignment: Alignment.centerLeft,
-          //             padding: const EdgeInsets.only(
-          //               top: 5.0,
-          //             ),
-          //             child: FlatButton(
-          //               autofocus: true,
-          //               splashColor: Colors.grey[500],
-          //               child: Text(
-          //                 "Add Option",
-          //                 style: TextStyle(color: Colors.grey[700]),
-          //                 textScaleFactor: 1.2,
-          //               ),
-          //               onPressed: () {
-          //                 setState(() {
-          //                   _multipleOptionList.add("");
-          //                   _multipleOptionControllerList
-          //                       .add(TextEditingController());
-          //                 });
-          //               },
-          //             ),
-          //           ),
-          //         ],
-          //       ),
-          //     ],
-          //   ),
-          // //</editor-fold>
+          //<editor-fold desc="Check box type">
+          if (_selectedType == CheckBoxTaskType)
+            Container(
+              width: double.maxFinite,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  ListView.builder(
+                    itemCount: _multipleOptionList.length,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Icon(
+                            FontAwesomeIcons.square,
+                            color: Colors.grey[700],
+                          ),
+                          SizedBox(
+                            width: 10.0,
+                          ),
+                          Expanded(
+                            child: TextFormField(
+                              textAlign: TextAlign.start,
+                              controller:
+                              _multipleOptionControllerList[index],
+                              scrollPhysics: BouncingScrollPhysics(),
+                              decoration: InputDecoration(
+                                hintText: "Option ${index + 1}",
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _multipleOptionList.removeAt(index);
+                                _multipleOptionControllerList
+                                    .removeAt(index);
+                              });
+                            },
+                            icon: Icon(Icons.clear),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Icon(
+                        FontAwesomeIcons.square,
+                        color: Colors.grey[700],
+                      ),
+                      SizedBox(
+                        width: 10.0,
+                      ),
+
+                      //<editor-fold desc="Expanded Try with add button">
+                      // Expanded(
+                      //   child: TextFormField(
+                      //     textAlign: TextAlign.start,
+                      //     maxLines: 10,
+                      //     readOnly: true,
+                      //     onTap: () {
+                      //
+                      //     },
+                      //     scrollPhysics: BouncingScrollPhysics(),
+                      //     minLines: 1,
+                      //     decoration: InputDecoration(
+                      //       hintText: "Add Option",
+                      //     ),
+                      //   ),
+                      // ),
+                      //</editor-fold>
+
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        padding: const EdgeInsets.only(
+                          top: 5.0,
+                        ),
+                        child: FlatButton(
+                          autofocus: true,
+                          splashColor: Colors.grey[500],
+                          child: Text(
+                            "Add Option",
+                            style: TextStyle(color: Colors.grey[700]),
+                            textScaleFactor: 1.2,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _multipleOptionList.add("");
+                              _multipleOptionControllerList
+                                  .add(TextEditingController());
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          //</editor-fold>
+          //<editor-fold desc="Drop down type">
+          if (_selectedType == DropdownTaskType)
+            Container(
+              width: double.maxFinite,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  ListView.builder(
+                    itemCount: _multipleOptionList.length,
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "${index + 1}.",
+                            textScaleFactor: 1.2,
+                          ),
+                          SizedBox(
+                            width: 10.0,
+                          ),
+                          Expanded(
+                            child: TextFormField(
+                              textAlign: TextAlign.start,
+                              controller:
+                              _multipleOptionControllerList[index],
+                              scrollPhysics: BouncingScrollPhysics(),
+                              decoration: InputDecoration(
+                                hintText: "Option ${index + 1}",
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _multipleOptionList.removeAt(index);
+                                _multipleOptionControllerList
+                                    .removeAt(index);
+                              });
+                            },
+                            icon: Icon(Icons.clear),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "${_multipleOptionList.length + 1}.",
+                        textScaleFactor: 1.2,
+                      ),
+                      SizedBox(
+                        width: 10.0,
+                      ),
+
+                      //<editor-fold desc="Expanded Try with add button">
+                      // Expanded(
+                      //   child: TextFormField(
+                      //     textAlign: TextAlign.start,
+                      //     maxLines: 10,
+                      //     readOnly: true,
+                      //     onTap: () {
+                      //
+                      //     },
+                      //     scrollPhysics: BouncingScrollPhysics(),
+                      //     minLines: 1,
+                      //     decoration: InputDecoration(
+                      //       hintText: "Add Option",
+                      //     ),
+                      //   ),
+                      // ),
+                      //</editor-fold>
+
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        padding: const EdgeInsets.only(
+                          top: 5.0,
+                        ),
+                        child: FlatButton(
+                          autofocus: true,
+                          splashColor: Colors.grey[500],
+                          child: Text(
+                            "Add Option",
+                            style: TextStyle(color: Colors.grey[700]),
+                            textScaleFactor: 1.2,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _multipleOptionList.add("");
+                              _multipleOptionControllerList
+                                  .add(TextEditingController());
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          //</editor-fold>
           //<editor-fold desc="Free Text type">
           if (_selectedType == FreeTextTaskType)
             TextFormField(
@@ -1003,13 +1011,14 @@ class TaskCardState extends State<TaskCard> {
             mainAxisAlignment: MainAxisAlignment.end,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              IconButton(
-                icon: Icon(
-                  FontAwesomeIcons.solidTrashAlt,
-                  color: Colors.redAccent,
-                ),
-                onPressed: widget.deleteTask,
-              ),
+              // IconButton(
+              //   icon: Icon(
+              //     FontAwesomeIcons.solidTrashAlt,
+              //     color: Colors.redAccent,
+              //   ),
+              //   onPressed: widget.deleteTask,
+              // ),
+
               Text(
                 "Required",
                 textScaleFactor: 1.1,
@@ -1032,6 +1041,19 @@ class TaskCardState extends State<TaskCard> {
           Wrap(
             alignment: WrapAlignment.spaceEvenly,
             children: <Widget>[
+              RaisedButton(
+                elevation: 5.0,
+                splashColor: Colors.grey[700],
+                autofocus: true,
+                color: Colors.black,
+                onPressed: () {
+                  Navigator.pop(context,null);
+                },
+                child: Text(
+                  "Cancel",
+                  style: TextStyle(color: Colors.white, fontSize: 18.0),
+                ),
+              ),
               RaisedButton(
                 elevation: 5.0,
                 splashColor: Colors.blue[700],
