@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/app_screens/task/task_list.dart';
 import 'package:earneasy/models/gig.dart';
 import 'package:earneasy/models/user.dart';
+import 'package:earneasy/services/firestore_user_databse.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -268,37 +269,7 @@ class _GigPageState extends State<GigPage> {
                               ),
                               onPressed: () async {
                                 await DatabaseServiceGigs().updateAttemptedUserInGig(gig);
-                                try {
-                                  await fireStoreUsersRef.doc(user.uid).update({
-                                    'attemptedGigs': FieldValue.arrayUnion([
-                                      GigMini(
-                                              gigId: gig.gigId,
-                                              title: gig.title,
-                                              money: gig.money)
-                                          .toMap()
-                                    ]),
-                                    'waitListGigs': FieldValue.arrayUnion([
-                                      GigMini(
-                                              gigId: gig.gigId,
-                                              title: gig.title,
-                                              money: gig.money)
-                                          .toMap()
-                                    ]),
-                                    'allGigs': FieldValue.arrayUnion([
-                                      GigMini(
-                                              gigId: gig.gigId,
-                                              title: gig.title,
-                                              money: gig.money)
-                                          .toMap()
-                                    ]),
-                                  }).then((value) {
-                                    print(
-                                        "attemptedGigs, waitListGigs and allGigs updated in user");
-                                  });
-                                } catch (e) {
-                                  print(
-                                      "attemptedGigs, waitListGigs and allGigs updated  failed $e");
-                                }
+                                await DatabaseServiceUser().updateAttemptedGigWaitListedGigAndAllGigsAtTheSameTime(gig);
                                 _checkIfUserIsInAttemptedUsers();
                               },
                             ),

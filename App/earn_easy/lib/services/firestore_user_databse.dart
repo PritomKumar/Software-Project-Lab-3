@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/models/gig.dart';
 import 'package:earneasy/models/user.dart';
-import 'package:earneasy/services/auth.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:provider/provider.dart';
 
 class DatabaseServiceUser {
   final CollectionReference fireStoreUsersRef =
@@ -35,9 +33,27 @@ class DatabaseServiceUser {
   }
 
   UserAccount _userDataFromSnapshot(DocumentSnapshot snapshot) {
-    return isLoggedIn()
-        ? UserAccount.fromMap(snapshot.data())
-        : null;
+    return isLoggedIn() ? UserAccount.fromMap(snapshot.data()) : null;
+  }
+
+  Future updateAttemptedGigWaitListedGigAndAllGigsAtTheSameTime(Gig gig) async {
+    try {
+      await fireStoreUsersRef.doc(userUid).update({
+        'attemptedGigs': FieldValue.arrayUnion([
+          GigMini(gigId: gig.gigId, title: gig.title, money: gig.money).toMap()
+        ]),
+        'waitListGigs': FieldValue.arrayUnion([
+          GigMini(gigId: gig.gigId, title: gig.title, money: gig.money).toMap()
+        ]),
+        'allGigs': FieldValue.arrayUnion([
+          GigMini(gigId: gig.gigId, title: gig.title, money: gig.money).toMap()
+        ]),
+      }).then((value) {
+        print("attemptedGigs, waitListGigs and allGigs updated in user");
+      });
+    } catch (e) {
+      print("attemptedGigs, waitListGigs and allGigs updated  failed $e");
+    }
   }
 
   //Old version
