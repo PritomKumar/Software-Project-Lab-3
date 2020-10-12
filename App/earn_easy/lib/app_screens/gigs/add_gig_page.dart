@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/TestPage/add_image_file_dialog.dart';
+import 'package:earneasy/app_screens/task/task_card.dart';
 import 'package:earneasy/models/gig.dart';
 import 'package:earneasy/models/task.dart';
 import 'package:earneasy/models/user.dart';
@@ -30,7 +31,7 @@ class _GigAddPageState extends State<GigAddPage> {
   var moneyController = TextEditingController();
   var titleController = TextEditingController();
 
-  List<ImageTask> taskList = List<ImageTask>();
+  List<dynamic> taskList = List<dynamic>();
   var descriptionController = TextEditingController();
   DateTime startDate = defaultInitializedTimestamp.toDate();
   DateTime endDate = defaultInitializedTimestamp.toDate();
@@ -54,6 +55,19 @@ class _GigAddPageState extends State<GigAddPage> {
     ImageTask selectedTask = await showDialog<ImageTask>(
       context: context,
       builder: (context) => AddImageTaskDialog(),
+    );
+
+    if (selectedTask != null) {
+      setState(() {
+        taskList.add(selectedTask);
+      });
+    }
+  }
+
+  void _showAddTaskDialog() async {
+    dynamic selectedTask = await showDialog<dynamic>(
+      context: context,
+      builder: (context) => TaskCard(),
     );
 
     if (selectedTask != null) {
@@ -516,9 +530,7 @@ class _GigAddPageState extends State<GigAddPage> {
                                   label: Text("Add Survey"),
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(15.0)),
-                                  onPressed: () {
-                                    //TODO Add Survey
-                                  },
+                                  onPressed: _showAddTaskDialog,
                                 ),
                               ],
                             ),
