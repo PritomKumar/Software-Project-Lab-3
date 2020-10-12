@@ -554,7 +554,6 @@ class _SurveyTaskState extends State<SurveyTask> {
                     for (int i = 0; i < _myKeyList.length; i++) {
                       var testResult = _myKeyList[i].currentState.returnTask();
                       if(testResult!=null){
-
                         print(testResult.toMap().toString());
                       }
                     }

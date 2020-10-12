@@ -27,31 +27,82 @@ class DatabaseServiceGigs {
     }
   }
 
-  Future createNewGig(Gig gig, List<ImageTask> imageTaskList) async {
+  // Future createNewGig(Gig gig, List<ImageTask> imageTaskList) async {
+  //   if (isLoggedIn()) {
+  //     return await fireStoreGigsRef.add(gig.toMap()).then((gigRef) {
+  //       gigRef.update({
+  //         "gigId": gigRef.id,
+  //       });
+  //       //Add Tasks
+  //       if (imageTaskList != null) {
+  //         for (var imageTask in imageTaskList) {
+  //           gigRef.collection("Tasks").add(imageTask.toMap()).then((taskRef) {
+  //             taskRef.update({
+  //               "taskId": taskRef.id,
+  //               "gigId": gigRef.id,
+  //             });
+  //             //Update TaskSnippet List in gig
+  //             gigRef.update({
+  //               'taskSnippetList': FieldValue.arrayUnion([
+  //                 TaskSnippet(
+  //                   taskId: taskRef.id,
+  //                   taskDescription: imageTask.taskDescription,
+  //                   taskType: imageTask.type,
+  //                 ).toMap()
+  //               ]),
+  //             });
+  //           });
+  //         }
+  //       }
+  //       //Checking gig provider Id
+  //       print("After gig create and gigId update");
+  //       print("Provider id = ${gig.providerId}");
+  //
+  //       print(gigRef.id);
+  //       fireStoreUsersRef.doc(gig.providerId).update({
+  //         'createdGigs': FieldValue.arrayUnion([
+  //           GigMini(
+  //             gigId: gigRef.id,
+  //             title: gig.title,
+  //             money: gig.money,
+  //           ).toMap()
+  //         ]),
+  //       }).then((value) {
+  //         print("Add Gig to user created gig list ");
+  //       });
+  //     });
+  //   } else {
+  //     return null;
+  //   }
+  // }
+
+  Future createNewGig(Gig gig, List<dynamic> taskList) async {
     if (isLoggedIn()) {
       return await fireStoreGigsRef.add(gig.toMap()).then((gigRef) {
         gigRef.update({
           "gigId": gigRef.id,
         });
         //Add Tasks
-        if (imageTaskList != null) {
-          for (var imageTask in imageTaskList) {
-            gigRef.collection("Tasks").add(imageTask.toMap()).then((taskRef) {
-              taskRef.update({
-                "taskId": taskRef.id,
-                "gigId": gigRef.id,
+        if (taskList != null) {
+          for (var newTask in taskList) {
+            if (newTask != null) {
+              gigRef.collection("Tasks").add(newTask.toMap()).then((taskRef) {
+                taskRef.update({
+                  "taskId": taskRef.id,
+                  "gigId": gigRef.id,
+                });
+                //Update TaskSnippet List in gig
+                gigRef.update({
+                  'taskSnippetList': FieldValue.arrayUnion([
+                    TaskSnippet(
+                      taskId: taskRef.id,
+                      taskDescription: newTask.taskDescription,
+                      taskType: newTask.type,
+                    ).toMap()
+                  ]),
+                });
               });
-              //Update TaskSnippet List in gig
-              gigRef.update({
-                'taskSnippetList': FieldValue.arrayUnion([
-                  TaskSnippet(
-                    taskId: taskRef.id,
-                    taskDescription: imageTask.taskDescription,
-                    taskType: imageTask.type,
-                  ).toMap()
-                ]),
-              });
-            });
+            }
           }
         }
         //Checking gig provider Id
@@ -79,11 +130,9 @@ class DatabaseServiceGigs {
   Future updateAttemptedUserInGig(Gig gig) async {
     try {
       await fireStoreGigsRef.doc(gig.gigId).update({
-        'attemptedUsers':
-        FieldValue.arrayUnion([userUid])
+        'attemptedUsers': FieldValue.arrayUnion([userUid])
       }).then((value) {
-        print(
-            "Attempted user updated with $userUid");
+        print("Attempted user updated with $userUid");
       });
     } catch (e) {
       print("Attempted user update failed $e");

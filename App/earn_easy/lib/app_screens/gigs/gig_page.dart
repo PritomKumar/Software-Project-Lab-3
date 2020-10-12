@@ -268,8 +268,11 @@ class _GigPageState extends State<GigPage> {
                                 ),
                               ),
                               onPressed: () async {
-                                await DatabaseServiceGigs().updateAttemptedUserInGig(gig);
-                                await DatabaseServiceUser().updateAttemptedGigWaitListedGigAndAllGigsAtTheSameTime(gig);
+                                await DatabaseServiceGigs()
+                                    .updateAttemptedUserInGig(gig);
+                                await DatabaseServiceUser()
+                                    .updateAttemptedGigWaitListedGigAndAllGigsAtTheSameTime(
+                                        gig);
                                 _checkIfUserIsInAttemptedUsers();
                               },
                             ),

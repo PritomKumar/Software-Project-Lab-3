@@ -92,26 +92,6 @@ class DatabaseServiceTasks {
     return isLoggedIn() ? Gig.fromMap(snapshot.data()) : null;
   }
 
-  //TODO : Chenck for true return statement
-  Future<bool> checkIfDataExists() async {
-    print("Before logged in");
-    if (isLoggedIn()) {
-      print("After logged in");
-      bool dataExist = false;
-      await fireStoreGigsRef.doc(uid).get().then((onValue) {
-        print("After logged in");
-        if (onValue.exists) {
-          dataExist = true;
-        } else {
-          dataExist = false;
-        }
-      });
-      return dataExist;
-    } else {
-      return false;
-    }
-  }
-
   Stream<List<Gig>> get allGigData {
     return isLoggedIn()
         ? fireStoreGigsRef.snapshots().map(_allGigDataFromSnapshot)
