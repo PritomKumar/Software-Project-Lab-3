@@ -92,15 +92,24 @@ class DatabaseServiceTasks {
     return isLoggedIn() ? Gig.fromMap(snapshot.data()) : null;
   }
 
+  ImageTask _singleImageTaskFromSnapshot(DocumentSnapshot snapshot) {
+    return isLoggedIn() ? ImageTask.fromMap(snapshot.data()) : null;
+  }
+
   Stream<List<Gig>> get allGigData {
     return isLoggedIn()
         ? fireStoreGigsRef.snapshots().map(_allGigDataFromSnapshot)
         : null;
   }
 
-  Stream<Gig> get selectedGigData {
+  Stream<ImageTask> selectedImageTaskData(Gig gig,TaskSnippet taskSnippet) {
     return isLoggedIn()
-        ? fireStoreGigsRef.doc().snapshots().map(_singleGigFromSnapshot)
+        ? fireStoreGigsRef
+        .doc(gig.gigId)
+        .collection("Tasks")
+        .doc(taskSnippet.taskId)
+        .snapshots().map((taskFromDocument) =>
+        ImageTask.fromMap(taskFromDocument.data()))
         : null;
   }
 }

@@ -412,168 +412,178 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
       );
     }
 
-    return SafeArea(
-      child: _imageTask != null
-          ? Scaffold(
-              appBar: AppBar(
-                title: Text("Image Task"),
-              ),
-              body: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: ListView(
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Icon(
-                          Icons.image,
-                          size: 20.0,
-                        ),
-                        SizedBox(width: 10.0),
-                        Text("Photo"),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    Text(
-                      "${_imageTask.taskDescription}",
-                      textScaleFactor: 1.5,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
-                      child: GridView.builder(
-                        physics: ScrollPhysics(),
-                        shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
-                        // +1 for the special case
-                        itemCount: _imageFileList.length + 1,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: (MediaQuery.of(context).orientation ==
-                                    Orientation.portrait)
-                                ? 3
-                                : 4),
-                        itemBuilder: (BuildContext context, int index) {
-                          return index == _imageFileList.length
-                              ? Container(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 10.0, horizontal: 5.0),
-                                  child: Card(
-                                    elevation: 5.0,
-                                    shadowColor: Colors.black87,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5.0),
-                                    ),
-                                    borderOnForeground: true,
-                                    child: IconButton(
-                                      icon: Icon(
-                                        Icons.add_circle_outline,
-                                        color: Colors.grey[600],
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pop(context, false);
+        return true;
+      },
+      child: SafeArea(
+        child: _imageTask != null
+            ? Scaffold(
+                appBar: AppBar(
+                  title: Text("Image Task"),
+                ),
+                body: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: ListView(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Icon(
+                            Icons.image,
+                            size: 20.0,
+                          ),
+                          SizedBox(width: 10.0),
+                          Text("Photo"),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Text(
+                        "${_imageTask.taskDescription}",
+                        textScaleFactor: 1.5,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 5.0),
+                        child: GridView.builder(
+                          physics: ScrollPhysics(),
+                          shrinkWrap: true,
+                          scrollDirection: Axis.vertical,
+                          // +1 for the special case
+                          itemCount: _imageFileList.length + 1,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount:
+                                      (MediaQuery.of(context).orientation ==
+                                              Orientation.portrait)
+                                          ? 3
+                                          : 4),
+                          itemBuilder: (BuildContext context, int index) {
+                            return index == _imageFileList.length
+                                ? Container(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 10.0, horizontal: 5.0),
+                                    child: Card(
+                                      elevation: 5.0,
+                                      shadowColor: Colors.black87,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(5.0),
                                       ),
-                                      iconSize: 50.0,
-                                      splashColor: Colors.green,
-                                      onPressed: () {
-                                        _selectImageSource();
-                                      },
+                                      borderOnForeground: true,
+                                      child: IconButton(
+                                        icon: Icon(
+                                          Icons.add_circle_outline,
+                                          color: Colors.grey[600],
+                                        ),
+                                        iconSize: 50.0,
+                                        splashColor: Colors.green,
+                                        onPressed: () {
+                                          _selectImageSource();
+                                        },
+                                      ),
                                     ),
-                                  ),
-                                )
-                              : Container(
-                                  margin: EdgeInsets.symmetric(
-                                      horizontal: 10.0, vertical: 10.0),
-                                  child: Stack(
-                                    fit: StackFit.expand,
-                                    overflow: Overflow.visible,
-                                    children: <Widget>[
-                                      Positioned(
-                                        child: Card(
-                                          elevation: 5.0,
-                                          shadowColor: Colors.green,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ),
-                                          child: GridTile(
-                                            child: ClipRRect(
+                                  )
+                                : Container(
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal: 10.0, vertical: 10.0),
+                                    child: Stack(
+                                      fit: StackFit.expand,
+                                      overflow: Overflow.visible,
+                                      children: <Widget>[
+                                        Positioned(
+                                          child: Card(
+                                            elevation: 5.0,
+                                            shadowColor: Colors.green,
+                                            shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(10.0),
-                                              child: Image.file(
-                                                _imageFileList[index],
-                                                fit: BoxFit.cover,
+                                            ),
+                                            child: GridTile(
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                                child: Image.file(
+                                                  _imageFileList[index],
+                                                  fit: BoxFit.cover,
+                                                ),
                                               ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      Positioned(
-                                        top: -20.0,
-                                        right: -20.0,
-                                        child: IconButton(
-                                          icon: Icon(
-                                            Icons.cancel,
-                                            color: Colors.redAccent,
+                                        Positioned(
+                                          top: -20.0,
+                                          right: -20.0,
+                                          child: IconButton(
+                                            icon: Icon(
+                                              Icons.cancel,
+                                              color: Colors.redAccent,
+                                            ),
+                                            onPressed: () {
+                                              setState(() {
+                                                _imageFileList.removeAt(index);
+                                              });
+                                            },
                                           ),
-                                          onPressed: () {
-                                            setState(() {
-                                              _imageFileList.removeAt(index);
-                                            });
-                                          },
                                         ),
-                                      ),
-                                      Positioned(
-                                        bottom: -20.0,
-                                        left: -20.0,
-                                        child: IconButton(
-                                          icon: Icon(
-                                            FontAwesomeIcons.solidEdit,
-                                            color: Colors.blueAccent,
+                                        Positioned(
+                                          bottom: -20.0,
+                                          left: -20.0,
+                                          child: IconButton(
+                                            icon: Icon(
+                                              FontAwesomeIcons.solidEdit,
+                                              color: Colors.blueAccent,
+                                            ),
+                                            onPressed: () async {
+                                              File croppedImage =
+                                                  await _cropImage(
+                                                      _imageFileList[index]);
+                                              setState(() {
+                                                _imageFileList[index] =
+                                                    croppedImage;
+                                              });
+                                            },
                                           ),
-                                          onPressed: () async {
-                                            File croppedImage = await _cropImage(
-                                                _imageFileList[index]);
-                                            setState(() {
-                                              _imageFileList[index] =
-                                                  croppedImage;
-                                            });
-                                          },
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                        },
+                                      ],
+                                    ),
+                                  );
+                          },
+                        ),
                       ),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: RaisedButton.icon(
-                        elevation: 5.0,
-                        color: Colors.white,
-                        label: Text(
-                          "Finish Task",
-                          style: TextStyle(
-                            color: Colors.black87,
-                            fontWeight: FontWeight.bold,
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: RaisedButton.icon(
+                          elevation: 5.0,
+                          color: Colors.white,
+                          label: Text(
+                            "Finish Task",
+                            style: TextStyle(
+                              color: Colors.black87,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
+                          icon: Icon(
+                            Icons.cloud_upload,
+                            color: Colors.blueAccent,
+                          ),
+                          onPressed: () async {
+                            //compressImageFromImageFile();
+                            await uploadToFirebase();
+                          },
                         ),
-                        icon: Icon(
-                          Icons.cloud_upload,
-                          color: Colors.blueAccent,
-                        ),
-                        onPressed: () async {
-                          //compressImageFromImageFile();
-                          await uploadToFirebase();
-                        },
                       ),
-                    ),
-                    ...uploadFileTileList,
-                  ],
+                      ...uploadFileTileList,
+                    ],
+                  ),
                 ),
-              ),
-            )
-          : Loading(),
+              )
+            : Loading(),
+      ),
     );
   }
 }
