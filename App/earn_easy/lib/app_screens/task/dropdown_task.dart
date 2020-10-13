@@ -22,28 +22,31 @@ class _DropdownTaskScreenState extends State<DropdownTaskScreen> {
               appBar: AppBar(
                 title: Text("Dropdown Task"),
               ),
-              body: ListView(
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Icon(
-                        FontAwesomeIcons.chevronCircleDown,
-                        size: 20.0,
-                      ),
-                      SizedBox(width: 10.0),
-                      Text("Dropdown"),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  Text(
-                    "${_dropdownTask.taskDescription}",
-                    textScaleFactor: 1.5,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ],
+              body: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: ListView(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Icon(
+                          FontAwesomeIcons.chevronCircleDown,
+                          size: 20.0,
+                        ),
+                        SizedBox(width: 10.0),
+                        Text("Dropdown"),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Text(
+                      "${_dropdownTask.taskDescription}",
+                      textScaleFactor: 1.5,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
               ),
             )
           : Loading(),

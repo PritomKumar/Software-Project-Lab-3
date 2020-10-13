@@ -23,28 +23,31 @@ class _MultipleChoiceTaskScreenState extends State<MultipleChoiceTaskScreen> {
               appBar: AppBar(
                 title: Text("Multiple choice Task"),
               ),
-              body: ListView(
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Icon(
-                        FontAwesomeIcons.dotCircle,
-                        size: 20.0,
-                      ),
-                      SizedBox(width: 10.0),
-                      Text("Multiple choice"),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  Text(
-                    "${_multipleChoiceTask.taskDescription}",
-                    textScaleFactor: 1.5,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ],
+              body: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: ListView(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Icon(
+                          FontAwesomeIcons.dotCircle,
+                          size: 20.0,
+                        ),
+                        SizedBox(width: 10.0),
+                        Text("Multiple choice"),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Text(
+                      "${_multipleChoiceTask.taskDescription}",
+                      textScaleFactor: 1.5,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
               ),
             )
           : Loading(),

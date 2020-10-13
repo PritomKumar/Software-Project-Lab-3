@@ -22,28 +22,31 @@ class _CheckBoxTaskScreenState extends State<CheckBoxTaskScreen> {
               appBar: AppBar(
                 title: Text("Checkbox Task"),
               ),
-              body: ListView(
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Icon(
-                        FontAwesomeIcons.checkSquare,
-                        size: 20.0,
-                      ),
-                      SizedBox(width: 10.0),
-                      Text("Checkbox"),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  Text(
-                    "${_checkboxTask.taskDescription}",
-                    textScaleFactor: 1.5,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ],
+              body: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: ListView(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Icon(
+                          FontAwesomeIcons.checkSquare,
+                          size: 20.0,
+                        ),
+                        SizedBox(width: 10.0),
+                        Text("Checkbox"),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Text(
+                      "${_checkboxTask.taskDescription}",
+                      textScaleFactor: 1.5,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
               ),
             )
           : Loading(),
