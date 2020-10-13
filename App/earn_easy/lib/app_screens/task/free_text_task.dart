@@ -12,6 +12,7 @@ class FreeTextTaskScreen extends StatefulWidget {
 
 class _FreeTextTaskScreenState extends State<FreeTextTaskScreen> {
   FreeTextTask _freeTextTask;
+  TextEditingController _freeTextEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +43,46 @@ class _FreeTextTaskScreenState extends State<FreeTextTaskScreen> {
                     ),
                     Text(
                       "${_freeTextTask.taskDescription}",
-
                       textScaleFactor: 1.5,
                       style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Container(
+                      height: 200.0,
+                      child: Card(
+                          color: Colors.grey[100],
+                          elevation: 2.0,
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: TextField(
+                              maxLines: null,
+                              autofocus: true,
+                              controller: _freeTextEditingController,
+                              decoration: InputDecoration.collapsed(hintText: "Enter your answer here"),
+                            ),
+                          )
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: RaisedButton.icon(
+                        elevation: 5.0,
+                        color: Colors.white,
+                        label: Text(
+                          "Finish Task",
+                          style: TextStyle(
+                            color: Colors.black87,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        icon: Icon(
+                          Icons.cloud_upload,
+                          color: Colors.blueAccent,
+                        ),
+                        onPressed: () async {
+                          //compressImageFromImageFile();
+                          //await uploadToFirebase();
+                        },
+                      ),
                     ),
                   ],
                 ),
