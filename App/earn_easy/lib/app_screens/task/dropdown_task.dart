@@ -39,8 +39,7 @@ class _DropdownTaskScreenState extends State<DropdownTaskScreen> {
                     height: 10.0,
                   ),
                   Text(
-                    //"${_imageTask.taskDescription}",
-                    "Header",
+                    "${_dropdownTask.taskDescription}",
                     textScaleFactor: 1.5,
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),

@@ -40,8 +40,7 @@ class _MultipleChoiceTaskScreenState extends State<MultipleChoiceTaskScreen> {
                     height: 10.0,
                   ),
                   Text(
-                    //"${_imageTask.taskDescription}",
-                    "Header",
+                    "${_multipleChoiceTask.taskDescription}",
                     textScaleFactor: 1.5,
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),

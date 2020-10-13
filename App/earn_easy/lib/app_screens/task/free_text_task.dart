@@ -39,8 +39,8 @@ class _FreeTextTaskScreenState extends State<FreeTextTaskScreen> {
                     height: 10.0,
                   ),
                   Text(
-                    //"${_imageTask.taskDescription}",
-                    "Header",
+                    "${_freeTextTask.taskDescription}",
+
                     textScaleFactor: 1.5,
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),

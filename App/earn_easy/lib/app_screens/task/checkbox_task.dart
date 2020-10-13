@@ -39,8 +39,7 @@ class _CheckBoxTaskScreenState extends State<CheckBoxTaskScreen> {
                     height: 10.0,
                   ),
                   Text(
-                    //"${_imageTask.taskDescription}",
-                    "Header",
+                    "${_checkboxTask.taskDescription}",
                     textScaleFactor: 1.5,
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
