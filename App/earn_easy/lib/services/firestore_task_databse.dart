@@ -88,13 +88,28 @@ class DatabaseServiceTasks {
         : null;
   }
 
-  Gig _singleGigFromSnapshot(DocumentSnapshot snapshot) {
-    return isLoggedIn() ? Gig.fromMap(snapshot.data()) : null;
-  }
 
+  //<editor-fold desc="Single task Getter">
   ImageTask _singleImageTaskFromSnapshot(DocumentSnapshot snapshot) {
     return isLoggedIn() ? ImageTask.fromMap(snapshot.data()) : null;
   }
+
+  CheckboxTask _singleCheckboxTaskFromSnapshot(DocumentSnapshot snapshot) {
+    return isLoggedIn() ? CheckboxTask.fromMap(snapshot.data()) : null;
+  }
+
+  MultipleChoiceTask _singleMultipleChoiceTaskFromSnapshot(DocumentSnapshot snapshot) {
+    return isLoggedIn() ? MultipleChoiceTask.fromMap(snapshot.data()) : null;
+  }
+
+  DropdownTask _singleDropdownTaskFromSnapshot(DocumentSnapshot snapshot) {
+    return isLoggedIn() ? DropdownTask.fromMap(snapshot.data()) : null;
+  }
+
+  FreeTextTask _singleFreeTextTaskFromSnapshot(DocumentSnapshot snapshot) {
+    return isLoggedIn() ? FreeTextTask.fromMap(snapshot.data()) : null;
+  }
+  //</editor-fold>
 
   Stream<List<Gig>> get allGigData {
     return isLoggedIn()
@@ -102,6 +117,7 @@ class DatabaseServiceTasks {
         : null;
   }
 
+  //<editor-fold desc="Stream<Task> getter">
   Stream<ImageTask> selectedImageTaskData(Gig gig,TaskSnippet taskSnippet) {
     return isLoggedIn()
         ? fireStoreGigsRef
@@ -156,4 +172,6 @@ class DatabaseServiceTasks {
         FreeTextTask.fromMap(taskFromDocument.data()))
         : null;
   }
+//</editor-fold>
+
 }
