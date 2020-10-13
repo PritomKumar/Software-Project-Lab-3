@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/models/task.dart';
+import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -88,8 +90,11 @@ class _CheckBoxTaskScreenState extends State<CheckBoxTaskScreen> {
                           color: Colors.blueAccent,
                         ),
                         onPressed: () async {
-                          //compressImageFromImageFile();
-                          //await uploadToFirebase();
+                          await fireStoreGigsRef
+                              .doc(_checkboxTask.gigId)
+                              .collection("Tasks")
+                              .doc(_checkboxTask.taskId)
+                              .set(_checkboxTask.toMap());
                         },
                       ),
                     ),

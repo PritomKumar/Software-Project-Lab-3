@@ -56,7 +56,7 @@ class DatabaseServiceUser {
     }
   }
 
-  //Old version
+  //<editor-fold desc="Old Version">
 
   // Future updateUserData(UserAccount userAccount) {
   //   if (isLoggedIn()) {
@@ -135,6 +135,7 @@ class DatabaseServiceUser {
   //         )
   //       : null;
   // }
+  //</editor-fold>
 
   Future<bool> checkIfDataExists() async {
     print("Before logged in");
@@ -160,6 +161,7 @@ class DatabaseServiceUser {
         ? fireStoreUsersRef.doc(uid).snapshots().map(_userDataFromSnapshot)
         : null;
   }
+
 //  Stream<UserAccount> get userData {
 //    print("Before logged in");
 //    if (isLoggedIn()) {
