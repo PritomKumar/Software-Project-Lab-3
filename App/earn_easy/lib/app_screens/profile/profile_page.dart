@@ -378,10 +378,7 @@ class _ProfileState extends State<Profile> {
     "Over 100,000 bdt"
   ];
   String householdIncome = "";
-  static final userTypeArray = [
-    "worker",
-    "provider"
-  ];
+  static final userTypeArray = ["worker", "provider"];
   String userType = "";
 
   DateTime birthdate;
@@ -511,7 +508,8 @@ class _ProfileState extends State<Profile> {
               key: _formKey,
               child: Center(
                 child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                   child: ListView(
                     children: <Widget>[
                       Padding(
@@ -547,9 +545,12 @@ class _ProfileState extends State<Profile> {
                           Expanded(
                             child: TextFormField(
                               controller: firstNameController,
-                              decoration: InputDecoration(hintText: "First Name"),
+                              decoration:
+                                  InputDecoration(hintText: "First Name"),
                               validator: (value) {
-                                return value.isEmpty ? "Enter First Name" : null;
+                                return value.isEmpty
+                                    ? "Enter First Name"
+                                    : null;
                               },
                             ),
                           ),
@@ -567,7 +568,8 @@ class _ProfileState extends State<Profile> {
                           Expanded(
                             child: TextFormField(
                               controller: lastNameController,
-                              decoration: InputDecoration(hintText: "Last Name"),
+                              decoration:
+                                  InputDecoration(hintText: "Last Name"),
                               validator: (value) {
                                 return value.isEmpty ? "Enter Last Name" : null;
                               },
@@ -612,7 +614,8 @@ class _ProfileState extends State<Profile> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   Text(
-                                    birthdate == defaultInitializedTimestamp.toDate()
+                                    birthdate ==
+                                            defaultInitializedTimestamp.toDate()
                                         ? "MM/DD/YYYY"
                                         : birthdate.day
                                                 .toString()
@@ -635,14 +638,16 @@ class _ProfileState extends State<Profile> {
                             onTap: () async {
                               var clickedDate = await showDatePicker(
                                 context: context,
-                                initialDate: birthdate == defaultInitializedTimestamp.toDate()
+                                initialDate: birthdate ==
+                                        defaultInitializedTimestamp.toDate()
                                     ? DateTime.now()
                                     : birthdate,
                                 firstDate: DateTime(1850, 1, 1),
                                 lastDate: DateTime.now(),
                                 helpText: "MM/DD/YYYY",
                               );
-                              if (clickedDate != null && clickedDate != birthdate)
+                              if (clickedDate != null &&
+                                  clickedDate != birthdate)
                                 setState(() {
                                   birthdate = clickedDate;
                                   print(birthdate.toString());
@@ -795,7 +800,8 @@ class _ProfileState extends State<Profile> {
                             child: TextFormField(
                               keyboardType: TextInputType.multiline,
                               controller: occupationController,
-                              decoration: InputDecoration(hintText: "Occupation"),
+                              decoration:
+                                  InputDecoration(hintText: "Occupation"),
                             ),
                           ),
                         ],
@@ -897,12 +903,13 @@ class _ProfileState extends State<Profile> {
                                 .updateUserData(UserAccount(
                               firstName:
                                   firstNameController.text ?? user.firstName,
-                              lastName: lastNameController.text ?? user.lastName,
+                              lastName:
+                                  lastNameController.text ?? user.lastName,
                               email: emailController.text ?? user.email,
                               photoUrl: user.photoUrl,
                               phoneNumber: user.phoneNumber,
-                              birthDay:
-                                  Timestamp.fromDate(birthdate) ?? user.birthDay,
+                              birthDay: Timestamp.fromDate(birthdate) ??
+                                  user.birthDay,
                               gender: this.gender ?? user.gender,
                               streetAddress:
                                   streetController.text ?? user.streetAddress,
@@ -916,8 +923,8 @@ class _ProfileState extends State<Profile> {
                                   this.maritalStatus ?? user.maritalStatus,
                               educationLevel:
                                   this.educationLevel ?? user.educationLevel,
-                              employmentStatus:
-                                  this.employmentStatus ?? user.employmentStatus,
+                              employmentStatus: this.employmentStatus ??
+                                  user.employmentStatus,
                               householdIncome:
                                   this.householdIncome ?? user.householdIncome,
                               level: user.level,
