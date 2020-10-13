@@ -2,6 +2,7 @@ import 'package:earneasy/models/task.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 
 class CheckBoxTaskScreen extends StatefulWidget {
   @override
@@ -12,7 +13,7 @@ class _CheckBoxTaskScreenState extends State<CheckBoxTaskScreen> {
   CheckboxTask _checkboxTask;
   @override
   Widget build(BuildContext context) {
-
+    _checkboxTask = Provider.of<CheckboxTask>(context);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(

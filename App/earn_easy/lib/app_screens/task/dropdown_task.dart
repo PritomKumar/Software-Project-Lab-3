@@ -1,6 +1,8 @@
+import 'package:earneasy/models/task.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 
 class DropdownTaskScreen extends StatefulWidget {
   @override
@@ -8,8 +10,10 @@ class DropdownTaskScreen extends StatefulWidget {
 }
 
 class _DropdownTaskScreenState extends State<DropdownTaskScreen> {
+  DropdownTask _dropdownTask;
   @override
   Widget build(BuildContext context) {
+    _dropdownTask = Provider.of<DropdownTask>(context);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
