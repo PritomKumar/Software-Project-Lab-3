@@ -1,4 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:earneasy/app_screens/task/checkbox_task.dart';
+import 'package:earneasy/app_screens/task/dropdown_task.dart';
+import 'package:earneasy/app_screens/task/free_text_task.dart';
+import 'package:earneasy/app_screens/task/multiple_option_task.dart';
 import 'package:earneasy/models/gig.dart';
 import 'package:earneasy/models/task.dart';
 import 'package:earneasy/services/firestore_task_databse.dart';
@@ -73,7 +77,8 @@ class _TaskListPageState extends State<TaskListPage> {
                   dense: false,
                   onTap: () async {
                     print("Inside Task list tapped  $index");
-                    //TODO do this for other type of tasks
+
+                    //<editor-fold desc="Different type of task to different page Navigation">
                     if (taskList[index].taskType == ImageTaskType) {
                       // TODO Have to send item based on type of task
                       // DocumentSnapshot  fullTask = await fireStoreGigsRef
@@ -104,41 +109,86 @@ class _TaskListPageState extends State<TaskListPage> {
                       //       }
                       //     });
                       //</editor-fold>
-                      var fullTask = DatabaseServiceTasks()
+                      var imageTask = DatabaseServiceTasks()
                           .selectedImageTaskData(widget.gig, taskList[index]);
 
-                      print(fullTask.toString());
+                      print(imageTask.toString());
 
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
                                   StreamProvider<ImageTask>.value(
-                                    value: fullTask,
+                                    value: imageTask,
                                     child: ImageTaskScreen(),
                                   )));
                     }
                     if (taskList[index].taskType == CheckBoxTaskType) {
+                      var checkBoxTask = DatabaseServiceTasks()
+                          .selectedCheckboxTaskData(
+                              widget.gig, taskList[index]);
 
-                      var fullTask = fireStoreGigsRef
-                          .doc(widget.gig.gigId)
-                          .collection("Tasks")
-                          .doc(taskList[index].taskId)
-                          .snapshots()
-                          .map((taskFromDocument) =>
-                              ImageTask.fromMap(taskFromDocument.data()));
-
-                      print(fullTask.toString());
+                      print(checkBoxTask.toString());
 
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  StreamProvider<ImageTask>.value(
-                                    value: fullTask,
-                                    child: ImageTaskScreen(),
+                                  StreamProvider<CheckboxTask>.value(
+                                    value: checkBoxTask,
+                                    child: CheckBoxTaskScreen(),
                                   )));
                     }
+                    if (taskList[index].taskType == MultipleChoiceTaskType) {
+                      var multipleChoiceTask = DatabaseServiceTasks()
+                          .selectedMultipleChoiceTaskData(
+                          widget.gig, taskList[index]);
+
+                      print(multipleChoiceTask.toString());
+
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                              StreamProvider<MultipleChoiceTask>.value(
+                                value: multipleChoiceTask,
+                                child: MultipleChoiceTaskScreen(),
+                              )));
+                    }
+                    if (taskList[index].taskType == DropdownTaskType) {
+                      var dropdownTask = DatabaseServiceTasks()
+                          .selectedDropdownTaskData(
+                          widget.gig, taskList[index]);
+
+                      print(dropdownTask.toString());
+
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                              StreamProvider<DropdownTask>.value(
+                                value: dropdownTask,
+                                child: DropdownTaskScreen(),
+                              )));
+                    }
+                    if (taskList[index].taskType == FreeTextTaskType) {
+                      var freeTextTask = DatabaseServiceTasks()
+                          .selectedFreeTextTaskData(
+                          widget.gig, taskList[index]);
+
+                      print(freeTextTask.toString());
+
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                              StreamProvider<FreeTextTask>.value(
+                                value: freeTextTask,
+                                child: FreeTextTaskScreen(),
+                              )));
+                    }
+                    //</editor-fold>
+
                   },
                   // contentPadding: EdgeInsets.symmetric(vertical: 5.0,horizontal: 10.0),
                 ),
