@@ -12,6 +12,7 @@ class CheckBoxTaskScreen extends StatefulWidget {
 
 class _CheckBoxTaskScreenState extends State<CheckBoxTaskScreen> {
   CheckboxTask _checkboxTask;
+  bool _isChecked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +45,53 @@ class _CheckBoxTaskScreenState extends State<CheckBoxTaskScreen> {
                       "${_checkboxTask.taskDescription}",
                       textScaleFactor: 1.5,
                       style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    ListView.builder(
+                      itemCount: _checkboxTask.optionList.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return CheckboxListTile(
+                          title: Text(
+                            _checkboxTask.optionList[index].option,
+                            textScaleFactor: 1.2,
+                          ),
+                          controlAffinity: ListTileControlAffinity.leading,
+                          activeColor: Colors.deepPurple,
+                          checkColor: Colors.white,
+                          selected: _checkboxTask.optionList[index].checked,
+                          value: _checkboxTask.optionList[index].checked,
+                          onChanged: (bool value) {
+                            setState(() {
+                              _checkboxTask.optionList[index].checked = value;
+                            });
+                          },
+                        );
+                      },
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: RaisedButton.icon(
+                        elevation: 5.0,
+                        color: Colors.white,
+                        label: Text(
+                          "Finish Task",
+                          style: TextStyle(
+                            color: Colors.black87,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        icon: Icon(
+                          Icons.cloud_upload,
+                          color: Colors.blueAccent,
+                        ),
+                        onPressed: () async {
+                          //compressImageFromImageFile();
+                          //await uploadToFirebase();
+                        },
+                      ),
                     ),
                   ],
                 ),

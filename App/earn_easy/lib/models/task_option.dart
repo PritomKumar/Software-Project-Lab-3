@@ -1,6 +1,6 @@
 class TaskOption {
   final String option;
-  final bool checked;
+  bool checked;
 
   TaskOption({
     this.option,
