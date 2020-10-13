@@ -119,35 +119,7 @@ class _TaskListPageState extends State<TaskListPage> {
                                   )));
                     }
                     if (taskList[index].taskType == CheckBoxTaskType) {
-                      // TODO Have to send item based on type of task
-                      // DocumentSnapshot  fullTask = await fireStoreGigsRef
-                      //     .doc(widget.gig.gigId)
-                      //     .collection("Tasks")
-                      //     .doc(taskList[index].taskId).get();
-                      //<editor-fold desc="Stream builder try">
-                      // Stream<DocumentSnapshot> fullTaskStream = fireStoreGigsRef
-                      //     .doc(widget.gig.gigId)
-                      //     .collection("Tasks")
-                      //     .doc(taskList[index].taskId)
-                      //     .snapshots();
-                      // print(fullTaskStream.toString());
-                      // StreamBuilder<DocumentSnapshot>(
-                      //     stream: fullTaskStream,
-                      //     builder: (context, AsyncSnapshot<dynamic> snapshot) {
-                      //       if (snapshot.connectionState ==
-                      //           ConnectionState.active) {
-                      //         final Map<String, dynamic> firebaseTask =
-                      //             snapshot.data.data;
-                      //         ImageTask selectedTask =
-                      //             ImageTask.fromMap(snapshot.data.data);
-                      //
-                      //         print(selectedTask.toMap());
-                      //         return Container();
-                      //       } else {
-                      //         return Container();
-                      //       }
-                      //     });
-                      //</editor-fold>
+
                       var fullTask = fireStoreGigsRef
                           .doc(widget.gig.gigId)
                           .collection("Tasks")

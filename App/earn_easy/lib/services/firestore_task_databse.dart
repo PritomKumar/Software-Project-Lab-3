@@ -112,4 +112,48 @@ class DatabaseServiceTasks {
         ImageTask.fromMap(taskFromDocument.data()))
         : null;
   }
+
+  Stream<CheckboxTask> selectedCheckboxTaskData(Gig gig,TaskSnippet taskSnippet) {
+    return isLoggedIn()
+        ? fireStoreGigsRef
+        .doc(gig.gigId)
+        .collection("Tasks")
+        .doc(taskSnippet.taskId)
+        .snapshots().map((taskFromDocument) =>
+        CheckboxTask.fromMap(taskFromDocument.data()))
+        : null;
+  }
+
+  Stream<MultipleChoiceTask> selectedMultipleChoiceTaskData(Gig gig,TaskSnippet taskSnippet) {
+    return isLoggedIn()
+        ? fireStoreGigsRef
+        .doc(gig.gigId)
+        .collection("Tasks")
+        .doc(taskSnippet.taskId)
+        .snapshots().map((taskFromDocument) =>
+        MultipleChoiceTask.fromMap(taskFromDocument.data()))
+        : null;
+  }
+
+  Stream<DropdownTask> selectedDropdownTaskData(Gig gig,TaskSnippet taskSnippet) {
+    return isLoggedIn()
+        ? fireStoreGigsRef
+        .doc(gig.gigId)
+        .collection("Tasks")
+        .doc(taskSnippet.taskId)
+        .snapshots().map((taskFromDocument) =>
+        DropdownTask.fromMap(taskFromDocument.data()))
+        : null;
+  }
+
+  Stream<FreeTextTask> selectedFreeTextTaskData(Gig gig,TaskSnippet taskSnippet) {
+    return isLoggedIn()
+        ? fireStoreGigsRef
+        .doc(gig.gigId)
+        .collection("Tasks")
+        .doc(taskSnippet.taskId)
+        .snapshots().map((taskFromDocument) =>
+        FreeTextTask.fromMap(taskFromDocument.data()))
+        : null;
+  }
 }
