@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/models/task.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
@@ -14,7 +13,6 @@ class CheckBoxTaskScreen extends StatefulWidget {
 
 class _CheckBoxTaskScreenState extends State<CheckBoxTaskScreen> {
   CheckboxTask _checkboxTask;
-  bool _isChecked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -90,11 +88,12 @@ class _CheckBoxTaskScreenState extends State<CheckBoxTaskScreen> {
                           color: Colors.blueAccent,
                         ),
                         onPressed: () async {
-                          await fireStoreGigsRef
-                              .doc(_checkboxTask.gigId)
-                              .collection("Tasks")
-                              .doc(_checkboxTask.taskId)
-                              .set(_checkboxTask.toMap());
+                          // await fireStoreGigsRef
+                          //     .doc(_checkboxTask.gigId)
+                          //     .collection("Tasks")
+                          //     .doc(_checkboxTask.taskId)
+                          //     .set(_checkboxTask.toMap());
+                          Navigator.pop(context,_checkboxTask);
                         },
                       ),
                     ),
