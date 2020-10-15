@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/app_screens/task/task_list.dart';
 import 'package:earneasy/models/gig.dart';
 import 'package:earneasy/models/user.dart';
+import 'package:earneasy/services/firestore_task_databse.dart';
 import 'package:earneasy/services/firestore_user_databse.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:flutter/material.dart';
@@ -273,6 +274,8 @@ class _GigPageState extends State<GigPage> {
                                 await DatabaseServiceUser()
                                     .updateAttemptedGigWaitListedGigAndAllGigsAtTheSameTime(
                                         gig);
+                                await DatabaseServiceTasks()
+                                    .createUserResponseForAttemptedUser(gig);
                                 _checkIfUserIsInAttemptedUsers();
                               },
                             ),

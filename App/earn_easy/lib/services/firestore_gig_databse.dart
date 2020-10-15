@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/models/gig.dart';
 import 'package:earneasy/models/task.dart';
-import 'package:earneasy/models/user.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:provider/provider.dart';
 
 class DatabaseServiceGigs {
   final CollectionReference fireStoreGigsRef =
@@ -27,6 +25,7 @@ class DatabaseServiceGigs {
     }
   }
 
+  //<editor-fold desc="Old version of createNewGig">
   // Future createNewGig(Gig gig, List<ImageTask> imageTaskList) async {
   //   if (isLoggedIn()) {
   //     return await fireStoreGigsRef.add(gig.toMap()).then((gigRef) {
@@ -75,6 +74,7 @@ class DatabaseServiceGigs {
   //     return null;
   //   }
   // }
+  //</editor-fold>
 
   Future createNewGig(Gig gig, List<dynamic> taskList) async {
     if (isLoggedIn()) {
@@ -98,6 +98,7 @@ class DatabaseServiceGigs {
                       taskId: taskRef.id,
                       taskDescription: newTask.taskDescription,
                       taskType: newTask.type,
+                      require: newTask.require,
                     ).toMap()
                   ]),
                 });
@@ -155,7 +156,7 @@ class DatabaseServiceGigs {
     return isLoggedIn() ? Gig.fromMap(snapshot.data()) : null;
   }
 
-  //TODO : Chenck for true return statement
+  //TODO : Check for true return statement
   Future<bool> checkIfDataExists() async {
     print("Before logged in");
     if (isLoggedIn()) {

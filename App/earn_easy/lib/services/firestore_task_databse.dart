@@ -88,8 +88,26 @@ class DatabaseServiceTasks {
         : null;
   }
 
+  Future createUserResponseForAttemptedUser(Gig gig) async {
+    try {
+      await fireStoreGigsRef
+          .doc(gig.gigId)
+          .collection("UserResponse")
+          .doc(userUid)
+          .set(UserResponse(
+            userId: userUid,
+            taskSnippetList: gig.taskSnippetList,
+            completedTaskCount: 0,
+          ).toMap())
+          .then((value) {
+        print("Create UserResponse for AttemptedUser $userUid is a success");
+      });
+    } catch (e) {
+      print("Create UserResponse for AttemptedUser failed $e");
+    }
+  }
 
-  //<editor-fold desc="Single task Getter">
+  //<editor-fold desc="Single task getter">
   ImageTask _singleImageTaskFromSnapshot(DocumentSnapshot snapshot) {
     return isLoggedIn() ? ImageTask.fromMap(snapshot.data()) : null;
   }
@@ -98,7 +116,8 @@ class DatabaseServiceTasks {
     return isLoggedIn() ? CheckboxTask.fromMap(snapshot.data()) : null;
   }
 
-  MultipleChoiceTask _singleMultipleChoiceTaskFromSnapshot(DocumentSnapshot snapshot) {
+  MultipleChoiceTask _singleMultipleChoiceTaskFromSnapshot(
+      DocumentSnapshot snapshot) {
     return isLoggedIn() ? MultipleChoiceTask.fromMap(snapshot.data()) : null;
   }
 
@@ -109,6 +128,7 @@ class DatabaseServiceTasks {
   FreeTextTask _singleFreeTextTaskFromSnapshot(DocumentSnapshot snapshot) {
     return isLoggedIn() ? FreeTextTask.fromMap(snapshot.data()) : null;
   }
+
   //</editor-fold>
 
   Stream<List<Gig>> get allGigData {
@@ -118,58 +138,67 @@ class DatabaseServiceTasks {
   }
 
   //<editor-fold desc="Stream<Task> getter">
-  Stream<ImageTask> selectedImageTaskData(Gig gig,TaskSnippet taskSnippet) {
+  Stream<ImageTask> selectedImageTaskData(Gig gig, TaskSnippet taskSnippet) {
     return isLoggedIn()
         ? fireStoreGigsRef
-        .doc(gig.gigId)
-        .collection("Tasks")
-        .doc(taskSnippet.taskId)
-        .snapshots().map((taskFromDocument) =>
-        ImageTask.fromMap(taskFromDocument.data()))
+            .doc(gig.gigId)
+            .collection("Tasks")
+            .doc(taskSnippet.taskId)
+            .snapshots()
+            .map((taskFromDocument) =>
+                ImageTask.fromMap(taskFromDocument.data()))
         : null;
   }
 
-  Stream<CheckboxTask> selectedCheckboxTaskData(Gig gig,TaskSnippet taskSnippet) {
+  Stream<CheckboxTask> selectedCheckboxTaskData(
+      Gig gig, TaskSnippet taskSnippet) {
     return isLoggedIn()
         ? fireStoreGigsRef
-        .doc(gig.gigId)
-        .collection("Tasks")
-        .doc(taskSnippet.taskId)
-        .snapshots().map((taskFromDocument) =>
-        CheckboxTask.fromMap(taskFromDocument.data()))
+            .doc(gig.gigId)
+            .collection("Tasks")
+            .doc(taskSnippet.taskId)
+            .snapshots()
+            .map((taskFromDocument) =>
+                CheckboxTask.fromMap(taskFromDocument.data()))
         : null;
   }
 
-  Stream<MultipleChoiceTask> selectedMultipleChoiceTaskData(Gig gig,TaskSnippet taskSnippet) {
+  Stream<MultipleChoiceTask> selectedMultipleChoiceTaskData(
+      Gig gig, TaskSnippet taskSnippet) {
     return isLoggedIn()
         ? fireStoreGigsRef
-        .doc(gig.gigId)
-        .collection("Tasks")
-        .doc(taskSnippet.taskId)
-        .snapshots().map((taskFromDocument) =>
-        MultipleChoiceTask.fromMap(taskFromDocument.data()))
+            .doc(gig.gigId)
+            .collection("Tasks")
+            .doc(taskSnippet.taskId)
+            .snapshots()
+            .map((taskFromDocument) =>
+                MultipleChoiceTask.fromMap(taskFromDocument.data()))
         : null;
   }
 
-  Stream<DropdownTask> selectedDropdownTaskData(Gig gig,TaskSnippet taskSnippet) {
+  Stream<DropdownTask> selectedDropdownTaskData(
+      Gig gig, TaskSnippet taskSnippet) {
     return isLoggedIn()
         ? fireStoreGigsRef
-        .doc(gig.gigId)
-        .collection("Tasks")
-        .doc(taskSnippet.taskId)
-        .snapshots().map((taskFromDocument) =>
-        DropdownTask.fromMap(taskFromDocument.data()))
+            .doc(gig.gigId)
+            .collection("Tasks")
+            .doc(taskSnippet.taskId)
+            .snapshots()
+            .map((taskFromDocument) =>
+                DropdownTask.fromMap(taskFromDocument.data()))
         : null;
   }
 
-  Stream<FreeTextTask> selectedFreeTextTaskData(Gig gig,TaskSnippet taskSnippet) {
+  Stream<FreeTextTask> selectedFreeTextTaskData(
+      Gig gig, TaskSnippet taskSnippet) {
     return isLoggedIn()
         ? fireStoreGigsRef
-        .doc(gig.gigId)
-        .collection("Tasks")
-        .doc(taskSnippet.taskId)
-        .snapshots().map((taskFromDocument) =>
-        FreeTextTask.fromMap(taskFromDocument.data()))
+            .doc(gig.gigId)
+            .collection("Tasks")
+            .doc(taskSnippet.taskId)
+            .snapshots()
+            .map((taskFromDocument) =>
+                FreeTextTask.fromMap(taskFromDocument.data()))
         : null;
   }
 //</editor-fold>

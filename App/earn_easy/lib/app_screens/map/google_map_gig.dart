@@ -280,7 +280,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
                 GoogleMap(
                   onMapCreated: _onMapCreated,
                   initialCameraPosition: CameraPosition(
-                    target: LatLng(40.7128, -74.0060),
+                    target: LatLng(23.8103, 90.4125),
                     zoom: 14.0,
                   ),
                   markers: userType == "worker" ? _gigMarkers : _myMarkers,
