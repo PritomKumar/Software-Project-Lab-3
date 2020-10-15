@@ -280,6 +280,8 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
   Future<void> _uploadUserResponse() async {
     await fireStoreGigsRef
         .doc(_imageTask.gigId)
+        .collection("UserResponse")
+        .doc(userUid)
         .collection("Tasks")
         .doc(_imageTask.taskId)
         .update({
@@ -289,6 +291,7 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
           submittedImageUrlList: _submittedImageUrlList,
         ).toMap()
       ]),
+     // 'imageUrlList': _submittedImageUrlList,
     }).then((value) {
       //TODO Set State on _imageFileList.clear() is causing this function to be called twice
       // setState(() {
@@ -315,6 +318,11 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
   Widget build(BuildContext context) {
     super.build(context);
     _imageTask = Provider.of<ImageTask>(context);
+    if(_imageTask==null){
+      print("_imageTask is null");
+    }
+
+    //print("Image task = ${_imageTask.toMap()}");
     final List<Widget> uploadFileTileList = <Widget>[];
     if (_imageFileList.length != 0) {
       for (int i = 0; i < _tasks.length; i++) {
