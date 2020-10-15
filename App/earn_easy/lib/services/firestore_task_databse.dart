@@ -169,6 +169,8 @@ class DatabaseServiceTasks {
     return isLoggedIn()
         ? fireStoreGigsRef
             .doc(gig.gigId)
+            .collection("UserResponse")
+            .doc(userUid)
             .collection("Tasks")
             .doc(taskSnippet.taskId)
             .snapshots()
@@ -182,6 +184,8 @@ class DatabaseServiceTasks {
     return isLoggedIn()
         ? fireStoreGigsRef
             .doc(gig.gigId)
+            .collection("UserResponse")
+            .doc(userUid)
             .collection("Tasks")
             .doc(taskSnippet.taskId)
             .snapshots()
@@ -195,6 +199,8 @@ class DatabaseServiceTasks {
     return isLoggedIn()
         ? fireStoreGigsRef
             .doc(gig.gigId)
+            .collection("UserResponse")
+            .doc(userUid)
             .collection("Tasks")
             .doc(taskSnippet.taskId)
             .snapshots()
@@ -208,6 +214,8 @@ class DatabaseServiceTasks {
     return isLoggedIn()
         ? fireStoreGigsRef
             .doc(gig.gigId)
+            .collection("UserResponse")
+            .doc(userUid)
             .collection("Tasks")
             .doc(taskSnippet.taskId)
             .snapshots()
@@ -221,6 +229,8 @@ class DatabaseServiceTasks {
     return isLoggedIn()
         ? fireStoreGigsRef
             .doc(gig.gigId)
+            .collection("UserResponse")
+            .doc(userUid)
             .collection("Tasks")
             .doc(taskSnippet.taskId)
             .snapshots()

@@ -88,12 +88,14 @@ class _CheckBoxTaskScreenState extends State<CheckBoxTaskScreen> {
                           color: Colors.blueAccent,
                         ),
                         onPressed: () async {
-                          // await fireStoreGigsRef
-                          //     .doc(_checkboxTask.gigId)
-                          //     .collection("Tasks")
-                          //     .doc(_checkboxTask.taskId)
-                          //     .set(_checkboxTask.toMap());
-                          Navigator.pop(context,_checkboxTask);
+                          await fireStoreGigsRef
+                              .doc(_checkboxTask.gigId)
+                              .collection("UserResponse")
+                              .doc(userUid)
+                              .collection("Tasks")
+                              .doc(_checkboxTask.taskId)
+                              .set(_checkboxTask.toMap());
+                          //Navigator.pop(context,_checkboxTask);
                         },
                       ),
                     ),
