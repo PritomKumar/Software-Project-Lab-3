@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:earneasy/models/task.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -148,6 +149,34 @@ class UserAccount {
       "completedGigs": this.completedGigs ?? [],
       "waitListGigs": this.waitListGigs ?? [],
       "createdGigs": this.createdGigs ?? [],
+    };
+  }
+}
+
+class UserResponse{
+  final String userId = userUid;
+  final List <TaskSnippet> taskList;
+  final int completedTaskCount;
+
+  const UserResponse({
+    @required this.userId,
+    @required this.taskList,
+    @required this.completedTaskCount,
+  });
+
+  factory UserResponse.fromMap(Map<String, dynamic> map) {
+    return new UserResponse(
+      userId: map['userId'] as String,
+      taskList: map['taskList'] as List<TaskSnippet>,
+      completedTaskCount: map['completedTaskCount'] as int,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'userId': this.userId,
+      'taskList': this.taskList,
+      'completedTaskCount': this.completedTaskCount,
     };
   }
 }
