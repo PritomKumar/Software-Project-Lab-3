@@ -1,4 +1,5 @@
 import 'package:earneasy/models/task.dart';
+import 'package:earneasy/services/firestore_task_databse.dart';
 import 'package:earneasy/shared/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -81,6 +82,7 @@ class _FreeTextTaskScreenState extends State<FreeTextTaskScreen> {
                         onPressed: () async {
                           //compressImageFromImageFile();
                           //await uploadToFirebase();
+                          await DatabaseServiceTasks().updateFreeTextTask(_freeTextTask);
                         },
                       ),
                     ),

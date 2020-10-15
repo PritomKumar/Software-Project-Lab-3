@@ -1,4 +1,5 @@
 import 'package:earneasy/models/task.dart';
+import 'package:earneasy/services/firestore_task_databse.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
 import 'package:flutter/material.dart';
@@ -88,13 +89,7 @@ class _CheckBoxTaskScreenState extends State<CheckBoxTaskScreen> {
                           color: Colors.blueAccent,
                         ),
                         onPressed: () async {
-                          await fireStoreGigsRef
-                              .doc(_checkboxTask.gigId)
-                              .collection("UserResponse")
-                              .doc(userUid)
-                              .collection("Tasks")
-                              .doc(_checkboxTask.taskId)
-                              .set(_checkboxTask.toMap());
+                          await DatabaseServiceTasks().updateCheckboxTask(_checkboxTask);
                           //Navigator.pop(context,_checkboxTask);
                         },
                       ),

@@ -1,5 +1,6 @@
 import 'package:earneasy/models/task.dart';
 import 'package:earneasy/models/task_option.dart';
+import 'package:earneasy/services/firestore_task_databse.dart';
 import 'package:earneasy/shared/loading.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -101,6 +102,7 @@ class _DropdownTaskScreenState extends State<DropdownTaskScreen> {
                         onPressed: () async {
                           //compressImageFromImageFile();
                           //await uploadToFirebase();
+                          await DatabaseServiceTasks().updateDropdownTask(_dropdownTask);
                         },
                       ),
                     ),
