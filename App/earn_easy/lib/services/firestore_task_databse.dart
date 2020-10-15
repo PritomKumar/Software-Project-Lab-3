@@ -235,6 +235,23 @@ class DatabaseServiceTasks {
 
 //</editor-fold>
 
+  //<editor-fold desc="Update all type of task">
+  Future updateImageTask(ImageTask _imageTask) async {
+    try {
+      await fireStoreGigsRef
+          .doc(_imageTask.gigId)
+          .collection("UserResponse")
+          .doc(userUid)
+          .collection("Tasks")
+          .doc(_imageTask.taskId)
+          .set(_imageTask.toMap())
+          .then((_) => print(
+          "ImageTask update of task id ${_imageTask.taskId} successful"));
+    } catch (e) {
+      print("ImageTask update of task id ${_imageTask.taskId} failed");
+    }
+  }
+  
   Future updateCheckboxTask(CheckboxTask _checkboxTask) async {
     try {
       await fireStoreGigsRef
@@ -285,6 +302,21 @@ class DatabaseServiceTasks {
     }
   }
 
-
+  Future updateFreeTextTask(FreeTextTask _freeTextTask) async {
+    try {
+      await fireStoreGigsRef
+          .doc(_freeTextTask.gigId)
+          .collection("UserResponse")
+          .doc(userUid)
+          .collection("Tasks")
+          .doc(_freeTextTask.taskId)
+          .set(_freeTextTask.toMap())
+          .then((_) => print(
+          "FreeTextTask update of task id ${_freeTextTask.taskId} successful"));
+    } catch (e) {
+      print("FreeTextTask update of task id ${_freeTextTask.taskId} failed");
+    }
+  }
+//</editor-fold>
 
 }
