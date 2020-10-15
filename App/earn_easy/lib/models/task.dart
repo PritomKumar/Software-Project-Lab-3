@@ -60,6 +60,7 @@ class CheckboxTask {
     return {
       'taskId': this.taskId ?? "",
       'gigId': this.gigId ?? "",
+      'type': this.type ?? "",
       'taskDescription': this.taskDescription ?? "",
       'optionList':
       List.from(this.optionList.map((index) => index.toMap())) ?? [],
@@ -98,6 +99,7 @@ class MultipleChoiceTask {
     return {
       'taskId': this.taskId ?? "",
       'gigId': this.gigId ?? "",
+      'type': this.type ?? "",
       'taskDescription': this.taskDescription ?? "",
       'optionList':
           List.from(this.optionList.map((index) => index.toMap())) ?? [],
@@ -135,6 +137,7 @@ class DropdownTask {
     return {
       'taskId': this.taskId ?? "",
       'gigId': this.gigId ?? "",
+      'type': this.type ?? "",
       'taskDescription': this.taskDescription ?? "",
       'optionList':
       List.from(this.optionList.map((index) => index.toMap())) ?? [],
@@ -170,6 +173,7 @@ class FreeTextTask {
     return {
       'taskId': this.taskId ?? "",
       'gigId': this.gigId ?? "",
+      'type': this.type ?? "",
       'taskDescription': this.taskDescription ?? "",
       'userResponse': this.userResponse ?? "",
       'require': this.require ?? false,
@@ -210,6 +214,7 @@ class ImageTask {
     return {
       'taskId': this.taskId ?? "",
       'gigId': this.gigId ?? "",
+      'type': this.type ?? "",
       'taskDescription': this.taskDescription ?? "",
       'numberOfImages': this.numberOfImages ?? 0,
       'workerResponses': this.workerResponses ?? [],
