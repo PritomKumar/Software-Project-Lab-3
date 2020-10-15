@@ -158,12 +158,6 @@ class DatabaseServiceTasks {
 
   //</editor-fold>
 
-  Stream<List<Gig>> get allGigData {
-    return isLoggedIn()
-        ? fireStoreGigsRef.snapshots().map(_allGigDataFromSnapshot)
-        : null;
-  }
-
   //<editor-fold desc="Stream<Task> getter">
   Stream<ImageTask> selectedImageTaskData(Gig gig, TaskSnippet taskSnippet) {
     return isLoggedIn()
@@ -238,6 +232,59 @@ class DatabaseServiceTasks {
                 FreeTextTask.fromMap(taskFromDocument.data()))
         : null;
   }
+
 //</editor-fold>
+
+  Future updateCheckboxTask(CheckboxTask _checkboxTask) async {
+    try {
+      await fireStoreGigsRef
+          .doc(_checkboxTask.gigId)
+          .collection("UserResponse")
+          .doc(userUid)
+          .collection("Tasks")
+          .doc(_checkboxTask.taskId)
+          .set(_checkboxTask.toMap())
+          .then((_) => print(
+              "CheckboxTask update of task id ${_checkboxTask.taskId} successful"));
+    } catch (e) {
+      print("CheckboxTask update of task id ${_checkboxTask.taskId} failed");
+    }
+  }
+
+  Future updateMultipleChoiceTask(
+      MultipleChoiceTask _multipleChoiceTask) async {
+    try {
+      await fireStoreGigsRef
+          .doc(_multipleChoiceTask.gigId)
+          .collection("UserResponse")
+          .doc(userUid)
+          .collection("Tasks")
+          .doc(_multipleChoiceTask.taskId)
+          .set(_multipleChoiceTask.toMap())
+          .then((_) => print(
+              "MultipleChoiceTask update of task id ${_multipleChoiceTask.taskId} successful"));
+    } catch (e) {
+      print(
+          "MultipleChoiceTask update of task id ${_multipleChoiceTask.taskId} failed");
+    }
+  }
+
+  Future updateDropdownTask(DropdownTask _dropdownTask) async {
+    try {
+      await fireStoreGigsRef
+          .doc(_dropdownTask.gigId)
+          .collection("UserResponse")
+          .doc(userUid)
+          .collection("Tasks")
+          .doc(_dropdownTask.taskId)
+          .set(_dropdownTask.toMap())
+          .then((_) => print(
+              "DropdownTask update of task id ${_dropdownTask.taskId} successful"));
+    } catch (e) {
+      print("DropdownTask update of task id ${_dropdownTask.taskId} failed");
+    }
+  }
+
+
 
 }
