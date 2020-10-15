@@ -153,30 +153,29 @@ class UserAccount {
   }
 }
 
-class UserResponse{
-  final String userId = userUid;
-  final List <TaskSnippet> taskList;
+class UserResponse {
+  final String userId;
+  final List<TaskSnippet> taskSnippetList;
   final int completedTaskCount;
 
-  const UserResponse({
+  UserResponse({
     @required this.userId,
-    @required this.taskList,
+    @required this.taskSnippetList,
     @required this.completedTaskCount,
   });
 
-  factory UserResponse.fromMap(Map<String, dynamic> map) {
-    return new UserResponse(
-      userId: map['userId'] as String,
-      taskList: map['taskList'] as List<TaskSnippet>,
-      completedTaskCount: map['completedTaskCount'] as int,
-    );
-  }
+  UserResponse.fromMap(Map<String, dynamic> data)
+      : this.userId = data["userId"],
+       this.taskSnippetList =  List.from(data["taskSnippetList"]
+           .map((index) => TaskSnippet.fromMap(index))) ??
+           [],
+      this.completedTaskCount = data["completedTaskCount"];
 
   Map<String, dynamic> toMap() {
     return {
-      'userId': this.userId,
-      'taskList': this.taskList,
-      'completedTaskCount': this.completedTaskCount,
+      'userId': this.userId ?? "",
+      'taskSnippetList': this.taskSnippetList ?? [],
+      'completedTaskCount': this.completedTaskCount ?? 0,
     };
   }
 }
