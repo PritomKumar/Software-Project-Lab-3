@@ -88,6 +88,31 @@ class DatabaseServiceTasks {
         : null;
   }
 
+  Future _createTaskListInUserResponse(Gig gig) async {
+    try {
+      QuerySnapshot querySnapshot =
+          await fireStoreGigsRef.doc(gig.gigId).collection("Tasks").get();
+      var docTaskList = querySnapshot.docs;
+
+      var userResponseTasksGigCollectionRef = fireStoreGigsRef
+          .doc(gig.gigId)
+          .collection("UserResponse")
+          .doc(userUid)
+          .collection("Tasks");
+
+      for (int i = 0; i < querySnapshot.docs.length; i++) {
+        userResponseTasksGigCollectionRef
+            .doc(querySnapshot.docs[i].id)
+            .set(querySnapshot.docs[i].data())
+            .then((_) {
+          print("Add data of task ${querySnapshot.docs[i].id} successful");
+        });
+      }
+    } catch (e) {
+      print("Create TaskList in user response failed $e");
+    }
+  }
+
   Future createUserResponseForAttemptedUser(Gig gig) async {
     try {
       await fireStoreGigsRef
@@ -99,9 +124,11 @@ class DatabaseServiceTasks {
             taskSnippetList: gig.taskSnippetList,
             completedTaskCount: 0,
           ).toMap())
-          .then((value) {
+          .then((_) {
         print("Create UserResponse for AttemptedUser $userUid is a success");
       });
+
+      await _createTaskListInUserResponse(gig);
     } catch (e) {
       print("Create UserResponse for AttemptedUser failed $e");
     }
