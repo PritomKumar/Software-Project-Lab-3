@@ -92,6 +92,7 @@ class _MultipleChoiceTaskScreenState extends State<MultipleChoiceTaskScreen> {
                         onPressed: () async {
                           //compressImageFromImageFile();
                           //await uploadToFirebase();
+                          Navigator.pop(context,_multipleChoiceTask);
                         },
                       ),
                     ),

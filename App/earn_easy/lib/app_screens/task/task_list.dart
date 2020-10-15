@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/app_screens/task/checkbox_task.dart';
 import 'package:earneasy/app_screens/task/dropdown_task.dart';
 import 'package:earneasy/app_screens/task/free_text_task.dart';
-import 'package:earneasy/app_screens/task/multiple_option_task.dart';
+import 'package:earneasy/app_screens/task/multiple_choice_task.dart';
 import 'package:earneasy/models/gig.dart';
 import 'package:earneasy/models/task.dart';
 import 'package:earneasy/services/firestore_task_databse.dart';
@@ -45,6 +45,7 @@ class _TaskListPageState extends State<TaskListPage> {
         break;
     }
   }
+  List<dynamic> allUserTasks = List<dynamic>();
 
   @override
   Widget build(BuildContext context) {
@@ -146,7 +147,7 @@ class _TaskListPageState extends State<TaskListPage> {
 
                       print(multipleChoiceTask.toString());
 
-                      Navigator.push(
+                      var mul =  await Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
@@ -154,6 +155,7 @@ class _TaskListPageState extends State<TaskListPage> {
                                 value: multipleChoiceTask,
                                 child: MultipleChoiceTaskScreen(),
                               )));
+                      print("Multiple choice = ${mul.toMap()}");
                     }
                     if (taskList[index].taskType == DropdownTaskType) {
                       var dropdownTask = DatabaseServiceTasks()
