@@ -37,6 +37,7 @@ class CheckboxTask {
   final String type = CheckBoxTaskType;
   final String taskDescription;
   final List<TaskOption> optionList;
+  final bool isCompleted;
   final bool require;
 
   CheckboxTask({
@@ -45,6 +46,7 @@ class CheckboxTask {
     @required this.taskDescription,
     @required this.optionList,
     @required this.require,
+    @required this.isCompleted,
   });
 
   CheckboxTask.fromMap(Map<String, dynamic> data)
@@ -54,6 +56,7 @@ class CheckboxTask {
         this.optionList = List.from(data["optionList"]
             .map((index) => TaskOption.fromMap(index))) ??
             [],
+        this.isCompleted = data["isCompleted"] ?? false,
         this.require = data["require"] ?? false;
 
   Map<String, dynamic> toMap() {
@@ -65,6 +68,7 @@ class CheckboxTask {
       'optionList':
       List.from(this.optionList.map((index) => index.toMap())) ?? [],
       'require': this.require ?? false,
+      'isCompleted': this.isCompleted ?? false,
     };
   }
 }
@@ -77,6 +81,7 @@ class MultipleChoiceTask {
   final String taskDescription;
   final List<TaskOption> optionList;
   final bool require;
+  final bool isCompleted;
 
   MultipleChoiceTask({
     @required this.taskId,
@@ -84,6 +89,7 @@ class MultipleChoiceTask {
     @required this.taskDescription,
     @required this.optionList,
     @required this.require,
+    @required this.isCompleted,
   });
 
   MultipleChoiceTask.fromMap(Map<String, dynamic> data)
@@ -93,6 +99,7 @@ class MultipleChoiceTask {
         this.optionList = List.from(data["optionList"]
             .map((index) => TaskOption.fromMap(index))) ??
             [],
+        this.isCompleted = data["isCompleted"] ?? false,
         this.require = data["require"] ?? false;
 
   Map<String, dynamic> toMap() {
@@ -104,6 +111,7 @@ class MultipleChoiceTask {
       'optionList':
           List.from(this.optionList.map((index) => index.toMap())) ?? [],
       'require': this.require ?? false,
+      'isCompleted': this.isCompleted ?? false,
     };
   }
 }
@@ -115,6 +123,7 @@ class DropdownTask {
   final String taskDescription;
   final List<TaskOption> optionList;
   final bool require;
+  final bool isCompleted;
 
   DropdownTask({
     @required this.taskId,
@@ -122,6 +131,7 @@ class DropdownTask {
     @required this.taskDescription,
     @required this.optionList,
     @required this.require,
+    @required this.isCompleted,
   });
 
   DropdownTask.fromMap(Map<String, dynamic> data)
@@ -131,7 +141,8 @@ class DropdownTask {
         this.optionList = List.from(data["optionList"]
             .map((index) => TaskOption.fromMap(index))) ??
             [],
-        this.require = data["require"] ?? false;
+        this.require = data["require"] ?? false,
+        this.isCompleted = data["isCompleted"] ?? false;
 
   Map<String, dynamic> toMap() {
     return {
@@ -142,6 +153,7 @@ class DropdownTask {
       'optionList':
       List.from(this.optionList.map((index) => index.toMap())) ?? [],
       'require': this.require ?? false,
+      'isCompleted': this.isCompleted ?? false,
     };
   }
 }
@@ -153,6 +165,7 @@ class FreeTextTask {
   final String taskDescription;
   final String userResponse;
   final bool require;
+  final bool isCompleted;
 
   FreeTextTask({
     @required this.taskId,
@@ -160,6 +173,7 @@ class FreeTextTask {
     @required this.taskDescription,
     @required this.userResponse,
     @required this.require,
+    @required this.isCompleted,
   });
 
   FreeTextTask.fromMap(Map<String, dynamic> data)
@@ -167,7 +181,8 @@ class FreeTextTask {
         this.gigId = data["gigId"],
         this.taskDescription = data["taskDescription"],
         this.userResponse = data["userResponse"],
-        this.require = data["require"] ?? false;
+        this.require = data["require"] ?? false,
+        this.isCompleted = data["isCompleted"] ?? false;
 
   Map<String, dynamic> toMap() {
     return {
@@ -177,6 +192,7 @@ class FreeTextTask {
       'taskDescription': this.taskDescription ?? "",
       'userResponse': this.userResponse ?? "",
       'require': this.require ?? false,
+      'isCompleted': this.isCompleted ?? false,
     };
   }
 }
@@ -188,6 +204,7 @@ class ImageTask {
   final String taskDescription;
   final int numberOfImages;
   final bool require;
+  final bool isCompleted;
   List<ImageTaskWorkerResponse> workerResponses =
       List<ImageTaskWorkerResponse>();
 
@@ -198,6 +215,7 @@ class ImageTask {
     @required this.numberOfImages,
     @required this.workerResponses,
     @required this.require,
+    @required this.isCompleted,
   });
 
   ImageTask.fromMap(Map<String, dynamic> data)
@@ -208,6 +226,7 @@ class ImageTask {
         this.workerResponses = List.from(data["workerResponses"]
                 .map((index) => ImageTaskWorkerResponse.fromMap(index))) ??
             [],
+        this.isCompleted = data["isCompleted"] ?? false,
         this.require = data["require"] ?? false;
 
   Map<String, dynamic> toMap() {
@@ -219,6 +238,7 @@ class ImageTask {
       'numberOfImages': this.numberOfImages ?? 0,
       'workerResponses': this.workerResponses ?? [],
       'require': this.require ?? false,
+      'isCompleted': this.isCompleted ?? false,
     };
   }
 }

@@ -87,8 +87,8 @@ class TaskCardState extends State<TaskCard> {
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
-      titlePadding: EdgeInsets.symmetric(vertical: 20.0),
-      contentPadding: EdgeInsets.symmetric(horizontal: 10.0,vertical: 10.0),
+        titlePadding: EdgeInsets.symmetric(vertical: 20.0),
+        contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
         elevation: 10.0,
         title: Center(child: Text("Add Task")),
         shape: RoundedRectangleBorder(
@@ -564,7 +564,9 @@ class TaskCardState extends State<TaskCard> {
           // ),
           //</editor-fold>
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 10.0,),
+            margin: EdgeInsets.symmetric(
+              horizontal: 10.0,
+            ),
             color: Colors.grey[100],
             padding: EdgeInsets.all(10.0),
             child: TextFormField(
@@ -574,9 +576,7 @@ class TaskCardState extends State<TaskCard> {
               scrollPhysics: BouncingScrollPhysics(),
               autovalidate: true,
               validator: (value) {
-                return value.isEmpty
-                    ? "Enter Instruction/Question"
-                    : null;
+                return value.isEmpty ? "Enter Instruction/Question" : null;
               },
               decoration: InputDecoration(
                   contentPadding: EdgeInsets.zero,
@@ -586,8 +586,7 @@ class TaskCardState extends State<TaskCard> {
           //<editor-fold desc="Choose task Dropdown">
           Container(
             padding: const EdgeInsets.symmetric(vertical: 20.0),
-            decoration:
-            BoxDecoration(borderRadius: BorderRadius.circular(10)),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
             child: DropdownButtonFormField(
               elevation: 5,
               isExpanded: false,
@@ -715,8 +714,8 @@ class TaskCardState extends State<TaskCard> {
                           Expanded(
                             child: TextFormField(
                               textAlign: TextAlign.start,
-                              controller:
-                              _multipleOptionControllerList[index],
+                              autofocus: true,
+                              controller: _multipleOptionControllerList[index],
                               decoration: InputDecoration(
                                 hintText: "Option ${index + 1}",
                               ),
@@ -726,8 +725,7 @@ class TaskCardState extends State<TaskCard> {
                             onPressed: () {
                               setState(() {
                                 _multipleOptionList.removeAt(index);
-                                _multipleOptionControllerList
-                                    .removeAt(index);
+                                _multipleOptionControllerList.removeAt(index);
                               });
                             },
                             icon: Icon(Icons.clear),
@@ -818,8 +816,8 @@ class TaskCardState extends State<TaskCard> {
                           Expanded(
                             child: TextFormField(
                               textAlign: TextAlign.start,
-                              controller:
-                              _multipleOptionControllerList[index],
+                              autofocus: true,
+                              controller: _multipleOptionControllerList[index],
                               scrollPhysics: BouncingScrollPhysics(),
                               decoration: InputDecoration(
                                 hintText: "Option ${index + 1}",
@@ -830,8 +828,7 @@ class TaskCardState extends State<TaskCard> {
                             onPressed: () {
                               setState(() {
                                 _multipleOptionList.removeAt(index);
-                                _multipleOptionControllerList
-                                    .removeAt(index);
+                                _multipleOptionControllerList.removeAt(index);
                               });
                             },
                             icon: Icon(Icons.clear),
@@ -922,8 +919,8 @@ class TaskCardState extends State<TaskCard> {
                           Expanded(
                             child: TextFormField(
                               textAlign: TextAlign.start,
-                              controller:
-                              _multipleOptionControllerList[index],
+                              autofocus: true,
+                              controller: _multipleOptionControllerList[index],
                               scrollPhysics: BouncingScrollPhysics(),
                               decoration: InputDecoration(
                                 hintText: "Option ${index + 1}",
@@ -934,8 +931,7 @@ class TaskCardState extends State<TaskCard> {
                             onPressed: () {
                               setState(() {
                                 _multipleOptionList.removeAt(index);
-                                _multipleOptionControllerList
-                                    .removeAt(index);
+                                _multipleOptionControllerList.removeAt(index);
                               });
                             },
                             icon: Icon(Icons.clear),
@@ -1029,7 +1025,7 @@ class TaskCardState extends State<TaskCard> {
                 "Required",
                 textScaleFactor: 1.1,
                 style: TextStyle(
-                  color: _isRequired ? Colors.redAccent:Colors.black87,
+                  color: _isRequired ? Colors.redAccent : Colors.black87,
                 ),
               ),
               Switch(
@@ -1056,7 +1052,7 @@ class TaskCardState extends State<TaskCard> {
                 autofocus: true,
                 color: Colors.black,
                 onPressed: () {
-                  Navigator.pop(context,null);
+                  Navigator.pop(context, null);
                 },
                 child: Text(
                   "Cancel",
