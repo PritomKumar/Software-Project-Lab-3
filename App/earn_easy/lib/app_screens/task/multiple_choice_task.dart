@@ -14,17 +14,29 @@ class MultipleChoiceTaskScreen extends StatefulWidget {
 
 class _MultipleChoiceTaskScreenState extends State<MultipleChoiceTaskScreen> {
   MultipleChoiceTask _multipleChoiceTask;
-  int _groupValue ;
-  _getGroupValueFromOptionList(){
-    if(_groupValue==null){
-      for(int i=0;i< _multipleChoiceTask.optionList.length;i++){
-        if(_multipleChoiceTask.optionList[i].checked==true){
+  int _groupValue;
+
+  _getGroupValueFromOptionList() {
+    if (_groupValue == null) {
+      for (int i = 0; i < _multipleChoiceTask.optionList.length; i++) {
+        if (_multipleChoiceTask.optionList[i].checked == true) {
           _groupValue = i;
           break;
         }
       }
     }
   }
+  _setOtherOptionsToFalse(int index){
+    for (int i = 0;
+    i < _multipleChoiceTask.optionList.length;
+    i++) {
+      if (i != index) {
+        _multipleChoiceTask.optionList[i].checked =
+        false;
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     _multipleChoiceTask = Provider.of<MultipleChoiceTask>(context);
@@ -80,7 +92,9 @@ class _MultipleChoiceTaskScreenState extends State<MultipleChoiceTaskScreen> {
                             setState(() {
                               _groupValue = value;
                               print("Value $_groupValue");
-                              _multipleChoiceTask.optionList[index].checked = _groupValue == index;
+                              _multipleChoiceTask.optionList[index].checked =
+                                  _groupValue == index;
+                              _setOtherOptionsToFalse(index);
                             });
                           },
                         );
@@ -103,9 +117,9 @@ class _MultipleChoiceTaskScreenState extends State<MultipleChoiceTaskScreen> {
                           color: Colors.blueAccent,
                         ),
                         onPressed: () async {
-
-                          await DatabaseServiceTasks().updateMultipleChoiceTask(_multipleChoiceTask);
-                          Navigator.pop(context,_multipleChoiceTask);
+                          await DatabaseServiceTasks()
+                              .updateMultipleChoiceTask(_multipleChoiceTask);
+                          Navigator.pop(context, _multipleChoiceTask);
                         },
                       ),
                     ),
