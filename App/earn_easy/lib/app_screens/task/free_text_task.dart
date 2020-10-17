@@ -18,6 +18,8 @@ class _FreeTextTaskScreenState extends State<FreeTextTaskScreen> {
   @override
   Widget build(BuildContext context) {
     _freeTextTask = Provider.of<FreeTextTask>(context);
+    if (_freeTextTask != null)
+      _freeTextEditingController.text = _freeTextTask.userResponse;
     return SafeArea(
       child: _freeTextTask != null
           ? Scaffold(
@@ -58,10 +60,10 @@ class _FreeTextTaskScreenState extends State<FreeTextTaskScreen> {
                               maxLines: null,
                               autofocus: true,
                               controller: _freeTextEditingController,
-                              decoration: InputDecoration.collapsed(hintText: "Enter your answer here"),
+                              decoration: InputDecoration.collapsed(
+                                  hintText: "Enter your answer here"),
                             ),
-                          )
-                      ),
+                          )),
                     ),
                     Align(
                       alignment: Alignment.bottomCenter,
@@ -80,9 +82,10 @@ class _FreeTextTaskScreenState extends State<FreeTextTaskScreen> {
                           color: Colors.blueAccent,
                         ),
                         onPressed: () async {
-                          //compressImageFromImageFile();
-                          //await uploadToFirebase();
-                          await DatabaseServiceTasks().updateFreeTextTask(_freeTextTask);
+                          _freeTextTask.userResponse =
+                              _freeTextEditingController.text;
+                          await DatabaseServiceTasks()
+                              .updateFreeTextTask(_freeTextTask);
                         },
                       ),
                     ),
