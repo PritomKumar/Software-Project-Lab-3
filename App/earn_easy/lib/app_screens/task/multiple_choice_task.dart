@@ -15,9 +15,20 @@ class MultipleChoiceTaskScreen extends StatefulWidget {
 class _MultipleChoiceTaskScreenState extends State<MultipleChoiceTaskScreen> {
   MultipleChoiceTask _multipleChoiceTask;
   int _groupValue ;
+  _getGroupValueFromOptionList(){
+    if(_groupValue==null){
+      for(int i=0;i< _multipleChoiceTask.optionList.length;i++){
+        if(_multipleChoiceTask.optionList[i].checked==true){
+          _groupValue = i;
+          break;
+        }
+      }
+    }
+  }
   @override
   Widget build(BuildContext context) {
     _multipleChoiceTask = Provider.of<MultipleChoiceTask>(context);
+
     return SafeArea(
       child: _multipleChoiceTask != null
           ? Scaffold(
@@ -54,6 +65,7 @@ class _MultipleChoiceTaskScreenState extends State<MultipleChoiceTaskScreen> {
                       itemCount: _multipleChoiceTask.optionList.length,
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
+                        _getGroupValueFromOptionList();
                         return RadioListTile(
                           title: Text(
                             _multipleChoiceTask.optionList[index].option,
@@ -62,7 +74,7 @@ class _MultipleChoiceTaskScreenState extends State<MultipleChoiceTaskScreen> {
                           controlAffinity: ListTileControlAffinity.leading,
                           activeColor: Colors.deepPurple,
                           selected: _groupValue == index,
-                          value:index,
+                          value: index,
                           groupValue: _groupValue,
                           onChanged: (value) {
                             setState(() {
@@ -91,8 +103,7 @@ class _MultipleChoiceTaskScreenState extends State<MultipleChoiceTaskScreen> {
                           color: Colors.blueAccent,
                         ),
                         onPressed: () async {
-                          //compressImageFromImageFile();
-                          //await uploadToFirebase();
+
                           await DatabaseServiceTasks().updateMultipleChoiceTask(_multipleChoiceTask);
                           Navigator.pop(context,_multipleChoiceTask);
                         },
