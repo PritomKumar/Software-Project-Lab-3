@@ -207,7 +207,7 @@ class ImageTask {
   final bool isCompleted;
   List<ImageTaskWorkerResponse> workerResponses =
       List<ImageTaskWorkerResponse>();
-  List<String> imageUrlList;
+  final List<String> imageDownloadUrlList;
 
   ImageTask({
     @required this.taskId,
@@ -215,9 +215,9 @@ class ImageTask {
     @required this.taskDescription,
     @required this.numberOfImages,
     @required this.workerResponses,
+    @required this.imageDownloadUrlList,
     @required this.require,
     @required this.isCompleted,
-    @required this.imageUrlList,
   });
 
   ImageTask.fromMap(Map<String, dynamic> data)
@@ -226,10 +226,10 @@ class ImageTask {
         this.taskDescription = data["taskDescription"],
         this.numberOfImages = data["numberOfImages"],
         this.workerResponses = List.from(data["workerResponses"]
-                .map((index) => ImageTaskWorkerResponse.fromMap(index))) ??
+            .map((index) => ImageTaskWorkerResponse.fromMap(index))) ??
             [],
-        this.imageUrlList = data["imageUrlList"] ?? [],
         this.isCompleted = data["isCompleted"] ?? false,
+        this.imageDownloadUrlList = List.from(data["imageDownloadUrlList"]) ?? [],
         this.require = data["require"] ?? false;
 
   Map<String, dynamic> toMap() {
@@ -240,11 +240,13 @@ class ImageTask {
       'taskDescription': this.taskDescription ?? "",
       'numberOfImages': this.numberOfImages ?? 0,
       'workerResponses': this.workerResponses ?? [],
-      'imageUrlList': this.imageUrlList ?? [],
       'require': this.require ?? false,
+      'imageDownloadUrlList': this.imageDownloadUrlList ?? [],
       'isCompleted': this.isCompleted ?? false,
     };
   }
+
+
 }
 
 class ImageTaskWorkerResponse {

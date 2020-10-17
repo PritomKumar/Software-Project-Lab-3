@@ -52,11 +52,13 @@ class UserAccount {
   final String type;
   final bool writeAccess;
 
+  //<editor-fold desc="List of GigMini">
   final List<GigMini> attemptedGigs;
   final List<GigMini> createdGigs;
   final List<GigMini> completedGigs;
   final List<GigMini> waitListGigs;
   final List<GigMini> allGigs;
+  //</editor-fold>
 
   UserAccount({
     @required this.uid,

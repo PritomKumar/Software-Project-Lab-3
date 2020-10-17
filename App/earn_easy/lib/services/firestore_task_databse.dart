@@ -160,8 +160,9 @@ class DatabaseServiceTasks {
 
   //<editor-fold desc="Stream<Task> getter">
   Stream<ImageTask> selectedImageTaskData(Gig gig, TaskSnippet taskSnippet) {
-    return isLoggedIn()
-        ? fireStoreGigsRef
+    if (isLoggedIn()) {
+      try {
+        return fireStoreGigsRef
             .doc(gig.gigId)
             .collection("UserResponse")
             .doc(userUid)
@@ -169,8 +170,14 @@ class DatabaseServiceTasks {
             .doc(taskSnippet.taskId)
             .snapshots()
             .map((taskFromDocument) =>
-                ImageTask.fromMap(taskFromDocument.data()))
-        : null;
+                ImageTask.fromMap(taskFromDocument.data()));
+      } catch (e) {
+        print("Image task finding exception = ${e.toString()}");
+        return null;
+      }
+    } else {
+      return null;
+    }
   }
 
   Stream<CheckboxTask> selectedCheckboxTaskData(
@@ -246,12 +253,12 @@ class DatabaseServiceTasks {
           .doc(_imageTask.taskId)
           .set(_imageTask.toMap())
           .then((_) => print(
-          "ImageTask update of task id ${_imageTask.taskId} successful"));
+              "ImageTask update of task id ${_imageTask.taskId} successful"));
     } catch (e) {
       print("ImageTask update of task id ${_imageTask.taskId} failed");
     }
   }
-  
+
   Future updateCheckboxTask(CheckboxTask _checkboxTask) async {
     try {
       await fireStoreGigsRef
@@ -312,7 +319,7 @@ class DatabaseServiceTasks {
           .doc(_freeTextTask.taskId)
           .set(_freeTextTask.toMap())
           .then((_) => print(
-          "FreeTextTask update of task id ${_freeTextTask.taskId} successful"));
+              "FreeTextTask update of task id ${_freeTextTask.taskId} successful"));
     } catch (e) {
       print("FreeTextTask update of task id ${_freeTextTask.taskId} failed");
     }

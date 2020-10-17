@@ -321,6 +321,9 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
     if(_imageTask==null){
       print("_imageTask is null");
     }
+    else{
+      print("_imageTask = ${_imageTask.toMap()}");
+    }
 
     //print("Image task = ${_imageTask.toMap()}");
     final List<Widget> uploadFileTileList = <Widget>[];
