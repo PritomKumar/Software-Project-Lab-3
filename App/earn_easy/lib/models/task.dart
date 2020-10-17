@@ -163,7 +163,7 @@ class FreeTextTask {
   final String gigId;
   final String type = FreeTextTaskType;
   final String taskDescription;
-  final String userResponse;
+  String userResponse;
   final bool require;
   final bool isCompleted;
 

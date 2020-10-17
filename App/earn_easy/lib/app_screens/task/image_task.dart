@@ -5,18 +5,15 @@ import 'package:earneasy/app_screens/task/upload_task.dart';
 import 'package:earneasy/models/task.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart';
-import 'dart:typed_data';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:provider/provider.dart';
 
@@ -289,9 +286,9 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
         ImageTaskWorkerResponse(
           submittedUserUid: userUid,
           submittedImageUrlList: _submittedImageUrlList,
-        ).toMap()
+        ).toMap(),
       ]),
-     // 'imageUrlList': _submittedImageUrlList,
+      'imageDownloadUrlList': _submittedImageUrlList,
     }).then((value) {
       //TODO Set State on _imageFileList.clear() is causing this function to be called twice
       // setState(() {
