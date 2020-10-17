@@ -19,11 +19,21 @@ class _DropdownTaskScreenState extends State<DropdownTaskScreen> {
 
   _setOptionsAccordingToSelectedValue(String value) {
     for (int i = 0; i < _dropdownTask.optionList.length; i++) {
-      if ( value != _dropdownTask.optionList[i].option) {
+      if (value != _dropdownTask.optionList[i].option) {
         _dropdownTask.optionList[i].checked = false;
-      }
-      else{
+      } else {
         _dropdownTask.optionList[i].checked = true;
+      }
+    }
+  }
+
+  _getSelectedValueFromOptionList() {
+    if (_selectedItem == null) {
+      for (int i = 0; i < _dropdownTask.optionList.length; i++) {
+        if (_dropdownTask.optionList[i].checked == true) {
+          _selectedItem = _dropdownTask.optionList[i].option;
+          break;
+        }
       }
     }
   }
@@ -31,7 +41,7 @@ class _DropdownTaskScreenState extends State<DropdownTaskScreen> {
   @override
   Widget build(BuildContext context) {
     _dropdownTask = Provider.of<DropdownTask>(context);
-
+    if (_dropdownTask != null) _getSelectedValueFromOptionList();
     return SafeArea(
       child: _dropdownTask != null
           ? Scaffold(
@@ -79,7 +89,7 @@ class _DropdownTaskScreenState extends State<DropdownTaskScreen> {
                         iconDisabledColor: Colors.grey[350],
                         isExpanded: true,
                         hint: Text(
-                          "Choose a option",
+                          _selectedItem ?? "Choose a option",
                           textScaleFactor: 1.1,
                         ),
                         value: _selectedItem,
