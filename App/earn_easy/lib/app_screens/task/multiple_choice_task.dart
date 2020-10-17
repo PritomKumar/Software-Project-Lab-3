@@ -26,13 +26,11 @@ class _MultipleChoiceTaskScreenState extends State<MultipleChoiceTaskScreen> {
       }
     }
   }
-  _setOtherOptionsToFalse(int index){
-    for (int i = 0;
-    i < _multipleChoiceTask.optionList.length;
-    i++) {
+
+  _setOtherOptionsToFalse(int index) {
+    for (int i = 0; i < _multipleChoiceTask.optionList.length; i++) {
       if (i != index) {
-        _multipleChoiceTask.optionList[i].checked =
-        false;
+        _multipleChoiceTask.optionList[i].checked = false;
       }
     }
   }

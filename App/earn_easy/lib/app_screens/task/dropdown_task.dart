@@ -15,11 +15,23 @@ class DropdownTaskScreen extends StatefulWidget {
 
 class _DropdownTaskScreenState extends State<DropdownTaskScreen> {
   DropdownTask _dropdownTask;
-  String _selectedItem = "a";
+  String _selectedItem;
+
+  _setOptionsAccordingToSelectedValue(String value) {
+    for (int i = 0; i < _dropdownTask.optionList.length; i++) {
+      if ( value != _dropdownTask.optionList[i].option) {
+        _dropdownTask.optionList[i].checked = false;
+      }
+      else{
+        _dropdownTask.optionList[i].checked = true;
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     _dropdownTask = Provider.of<DropdownTask>(context);
+
     return SafeArea(
       child: _dropdownTask != null
           ? Scaffold(
@@ -66,23 +78,30 @@ class _DropdownTaskScreenState extends State<DropdownTaskScreen> {
                         iconEnabledColor: Colors.blueGrey,
                         iconDisabledColor: Colors.grey[350],
                         isExpanded: true,
+                        hint: Text(
+                          "Choose a option",
+                          textScaleFactor: 1.1,
+                        ),
                         value: _selectedItem,
                         items: _dropdownTask.optionList
                             .map((TaskOption dropdownItem) {
+                          if (_selectedItem == null) {
+                            _selectedItem = _dropdownTask.optionList[0].option;
+                          }
                           return DropdownMenuItem<String>(
                             value: dropdownItem.option,
                             child: Text(dropdownItem.option),
-                            onTap: () {
-                              dropdownItem.checked = dropdownItem.option == _selectedItem;
-                            },
                           );
                         }).toList(),
                         onChanged: (value) {
                           setState(() {
                             _selectedItem = value;
+                            _setOptionsAccordingToSelectedValue(_selectedItem);
                           });
                         }),
-                    SizedBox(height: 20.0,),
+                    SizedBox(
+                      height: 20.0,
+                    ),
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: RaisedButton.icon(
@@ -100,9 +119,9 @@ class _DropdownTaskScreenState extends State<DropdownTaskScreen> {
                           color: Colors.blueAccent,
                         ),
                         onPressed: () async {
-                          //compressImageFromImageFile();
-                          //await uploadToFirebase();
-                          await DatabaseServiceTasks().updateDropdownTask(_dropdownTask);
+                          print(_dropdownTask.toMap());
+                          await DatabaseServiceTasks()
+                              .updateDropdownTask(_dropdownTask);
                         },
                       ),
                     ),
