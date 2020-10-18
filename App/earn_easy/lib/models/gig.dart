@@ -1,17 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/models/task.dart';
 import 'package:earneasy/shared/constants.dart';
+import 'package:flutter/material.dart';
 
 class GigMini {
   final String gigId;
   final int money;
   final String title;
+  final GeoPoint location;
+  double distance;
 
-  GigMini({this.gigId, this.money, this.title});
+  GigMini({
+    @required this.gigId,
+    this.money,
+    this.title,
+    @required this.location,
+    this.distance,
+  });
 
   GigMini.fromMap(Map<String, dynamic> data)
       : this.gigId = data["gigId"],
         this.money = data["money"],
+        this.location = data["location"],
+        this.distance = data["distance"],
         this.title = data["title"];
 
   Map<String, dynamic> toMap() {
@@ -19,6 +30,8 @@ class GigMini {
       'gigId': this.gigId,
       'money': this.money,
       'title': this.title,
+      'location': this.location,
+      'distance': this.distance,
     };
   }
 }
