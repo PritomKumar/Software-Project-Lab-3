@@ -58,6 +58,7 @@ class UserAccount {
   final List<GigMini> completedGigs;
   final List<GigMini> waitListGigs;
   final List<GigMini> allGigs;
+
   //</editor-fold>
 
   UserAccount({
@@ -146,11 +147,15 @@ class UserAccount {
       "level": this.level ?? 1,
       "type": this.type ?? "worker",
       "writeAccess": this.writeAccess ?? false,
-      "allGigs": this.allGigs ?? [],
-      "attemptedGigs": this.attemptedGigs ?? [],
-      "completedGigs": this.completedGigs ?? [],
-      "waitListGigs": this.waitListGigs ?? [],
-      "createdGigs": this.createdGigs ?? [],
+      "allGigs": List.from(this.allGigs.map((index) => index.toMap())) ?? [],
+      "attemptedGigs":
+          List.from(this.attemptedGigs.map((index) => index.toMap())) ?? [],
+      "completedGigs":
+          List.from(this.completedGigs.map((index) => index.toMap())) ?? [],
+      "waitListGigs":
+          List.from(this.waitListGigs.map((index) => index.toMap())) ?? [],
+      "createdGigs":
+          List.from(this.createdGigs.map((index) => index.toMap())) ?? [],
     };
   }
 }
@@ -180,7 +185,7 @@ class UserResponse {
     return {
       'userId': this.userId ?? "",
       'taskSnippetList':
-      List.from(this.taskSnippetList.map((index) => index.toMap())) ?? [],
+          List.from(this.taskSnippetList.map((index) => index.toMap())) ?? [],
       'distance': this.distance ?? 0.0,
       'completedTaskCount': this.completedTaskCount ?? 0,
     };
