@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/models/gig.dart';
 import 'package:earneasy/models/user.dart';
+import 'package:earneasy/services/location_service.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -19,7 +20,9 @@ class DatabaseServiceUser {
 
   Future updateUserData(UserAccount userAccount) {
     if (isLoggedIn()) {
-      return fireStoreUsersRef.doc(uid).set(userAccount.toMap(),SetOptions(merge: true));
+      return fireStoreUsersRef
+          .doc(uid)
+          .set(userAccount.toMap(), SetOptions(merge: true));
     } else {
       return null;
     }
@@ -40,13 +43,34 @@ class DatabaseServiceUser {
     try {
       await fireStoreUsersRef.doc(userUid).update({
         'attemptedGigs': FieldValue.arrayUnion([
-          GigMini(gigId: gig.gigId, title: gig.title, money: gig.money).toMap()
+          GigMini(
+            gigId: gig.gigId,
+            title: gig.title,
+            money: gig.money,
+            location: gig.location,
+            distance: LocationService()
+                .calculateDistanceGigAndUserCurrentLocation(gig.location),
+          ).toMap()
         ]),
         'waitListGigs': FieldValue.arrayUnion([
-          GigMini(gigId: gig.gigId, title: gig.title, money: gig.money).toMap()
+          GigMini(
+            gigId: gig.gigId,
+            title: gig.title,
+            money: gig.money,
+            location: gig.location,
+            distance: LocationService()
+                .calculateDistanceGigAndUserCurrentLocation(gig.location),
+          ).toMap()
         ]),
         'allGigs': FieldValue.arrayUnion([
-          GigMini(gigId: gig.gigId, title: gig.title, money: gig.money).toMap()
+          GigMini(
+            gigId: gig.gigId,
+            title: gig.title,
+            money: gig.money,
+            location: gig.location,
+            distance: LocationService()
+                .calculateDistanceGigAndUserCurrentLocation(gig.location),
+          ).toMap()
         ]),
       }).then((value) {
         print("attemptedGigs, waitListGigs and allGigs updated in user");

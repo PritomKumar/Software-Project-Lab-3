@@ -8,6 +8,7 @@ import 'package:earneasy/models/user.dart';
 import 'package:earneasy/models/user_location.dart';
 import 'package:earneasy/services/auth.dart';
 import 'package:earneasy/services/location_service.dart';
+import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
@@ -197,6 +198,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
   Future<LatLng> _getCurrentLocationFromUserLocation() async {
     UserLocation location = await LocationService().getLocation();
     print(location.latitude.toString() + location.longitude.toString());
+    currentUserLocation = LatLng(location.latitude, location.longitude);
     return LatLng(location.latitude, location.longitude);
   }
 
