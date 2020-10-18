@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:maps_toolkit/maps_toolkit.dart' as mapToolkit;
 import 'package:provider/provider.dart';
 
 import '../gigs/add_gig_page.dart';
@@ -91,9 +92,17 @@ class _GoogleMapsState extends State<GoogleMaps> {
   }
 
   _handleTap(LatLng tappedPoint) {
-    // print(tappedPoint);
+    print(tappedPoint.toJson());
     // showToast(tappedPoint.toString());
+
     setState(() {
+      var distanceBetweenPoints =
+          mapToolkit.SphericalUtil.computeDistanceBetween(
+                  mapToolkit.LatLng(23.8103, 90.4125),
+                  mapToolkit.LatLng(
+                      tappedPoint.latitude, tappedPoint.longitude)) /
+              1000.0;
+      print(distanceBetweenPoints);
       tappedPosition = tappedPoint;
       isTapped = true;
       _myMarkers.clear();
