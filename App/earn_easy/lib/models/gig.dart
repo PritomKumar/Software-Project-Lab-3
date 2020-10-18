@@ -57,7 +57,7 @@ class Gig {
     this.access = "",
     this.importantNote = "",
     this.notice = "",
-    this.distance = 0.0,
+    this.distance,
     this.taskSnippetList,
     this.fileAttachmentUrls,
     this.attemptedUsers,

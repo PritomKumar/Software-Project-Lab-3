@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/app_screens/gigs/gig_page.dart';
 import 'package:earneasy/app_screens/home/side_drawer.dart';
 import 'package:earneasy/models/gig.dart';
@@ -28,6 +29,9 @@ class _GoogleMapsState extends State<GoogleMaps> {
   Set<Marker> _markers = HashSet<Marker>();
   Set<Marker> _myMarkers = HashSet<Marker>();
   Set<Marker> _gigMarkers = HashSet<Marker>();
+
+  List<Gig> _gigList = List<Gig>();
+
   bool _isTapped = false;
   LatLng _tappedPosition;
   GoogleMapController _mapController;
@@ -37,24 +41,18 @@ class _GoogleMapsState extends State<GoogleMaps> {
   int _bottomNavigationBarIndex = 0;
   LatLng _currentLocation;
 
-  //region Google Map Methods
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _setMarkerIcon();
-    //currentLocation = await _getCurrentLocationFromUserLocation();
   }
 
-  void _setMarkerIcon() async {
-    _markerIcon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(), "assets/images/money_icon.jpg");
-  }
-
-  void _onMapCreated(GoogleMapController controller) {
+  void _onMapCreated(GoogleMapController controller) async {
     _mapController = controller;
+    await _animateCameraToCurrentLocation();
+    _calculateDistanceForAllGigs();
     setState(() {
-      _animateCameraToCurrentLocation();
       _markers.add(
         Marker(
           markerId: MarkerId("0"),
@@ -69,6 +67,37 @@ class _GoogleMapsState extends State<GoogleMaps> {
     });
   }
 
+  //<editor-fold desc="Distance calculation methods">
+  LatLng geoPointToLatLong(GeoPoint geoPoint) {
+    return LatLng(geoPoint.latitude, geoPoint.longitude);
+  }
+
+  _calculateDistanceForAllGigs() {
+    if (_gigList.length > 0 && _currentLocation != null) {
+      for (var gig in _gigList) {
+        gig.distance = _calculateDistanceBetweenTwoPoints(
+            _currentLocation, geoPointToLatLong(gig.location));
+      }
+    }
+    print("distance between gigs and current location...");
+    for (var gig in _gigList) {
+      print("For gig with money ${gig.money}, distance = ${gig.distance}");
+    }
+  }
+
+  double _calculateDistanceBetweenTwoPoints(
+      LatLng firstPoint, LatLng secondPoint) {
+    var distanceBetweenPoints = mapToolkit.SphericalUtil.computeDistanceBetween(
+            mapToolkit.LatLng(firstPoint.latitude, firstPoint.longitude),
+            mapToolkit.LatLng(secondPoint.latitude, secondPoint.longitude)) /
+        1000.0;
+    print("Distance =  $distanceBetweenPoints");
+    return distanceBetweenPoints;
+  }
+
+  //</editor-fold>
+
+  //<editor-fold desc="Camera drag">
   void _updatePosition(CameraPosition _position) {
     CameraPosition tappedCamera = CameraPosition(target: _tappedPosition);
     _position = tappedCamera != null ? tappedCamera : _position;
@@ -90,19 +119,15 @@ class _GoogleMapsState extends State<GoogleMaps> {
     setState(() {});
   }
 
+  //</editor-fold>
+
   _handleTap(LatLng tappedPoint) {
     print(tappedPoint.toJson());
     // showToast(tappedPoint.toString());
 
     setState(() {
       //Distance
-      var distanceBetweenPoints =
-          mapToolkit.SphericalUtil.computeDistanceBetween(
-                  mapToolkit.LatLng(23.8103, 90.4125),
-                  mapToolkit.LatLng(
-                      tappedPoint.latitude, tappedPoint.longitude)) /
-              1000.0;
-      print(distanceBetweenPoints);
+
       _tappedPosition = tappedPoint;
       _isTapped = true;
       _myMarkers.clear();
@@ -119,6 +144,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
     });
   }
 
+  //<editor-fold desc="Add Marker Methods">
   addMarkersWIthGig(List<Gig> gigList) {
     setState(() {
       _gigMarkers.clear();
@@ -140,15 +166,23 @@ class _GoogleMapsState extends State<GoogleMaps> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => GigPage(
-                    gig: gigList[i],
-                  ),
+                  builder: (context) =>
+                      GigPage(
+                        gig: gigList[i],
+                      ),
                 ));
           },
         ));
       }
     });
   }
+
+  void _setMarkerIcon() async {
+    _markerIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(), "assets/images/money_icon.jpg");
+  }
+
+  //</editor-fold>
 
   Widget _selectCustomMapBox(UserAccount user, int index) {
     print("Bottom $index");
@@ -171,6 +205,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
     }
   }
 
+  //<editor-fold desc="Location Methods for getting current location">
   Future<LatLng> _getCurrentLocationFromUserLocation() async {
     UserLocation location = await LocationService().getLocation();
     print(location.latitude.toString() + location.longitude.toString());
@@ -190,16 +225,15 @@ class _GoogleMapsState extends State<GoogleMaps> {
     }
   }
 
-//endregion Methods
+  //</editor-fold>
 
   @override
   Widget build(BuildContext context) {
-    //List<Gig> gigList = List<Gig>();
-    var gigList = Provider.of<List<Gig>>(context);
+    _gigList = Provider.of<List<Gig>>(context);
     var user = Provider.of<UserAccount>(context);
     setState(() {
-      if (gigList != null) addMarkersWIthGig(gigList);
-      if (gigList != null && user != null) {
+      if (_gigList != null) addMarkersWIthGig(_gigList);
+      if (_gigList != null && user != null) {
         _isLoading = true;
       }
     });
