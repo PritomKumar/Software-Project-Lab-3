@@ -1,6 +1,5 @@
 import 'package:earneasy/models/gig.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class MapCustomItemBoxViewer extends StatefulWidget {
   final List<GigMini> gigs;
@@ -8,8 +7,7 @@ class MapCustomItemBoxViewer extends StatefulWidget {
   const MapCustomItemBoxViewer({Key key, this.gigs}) : super(key: key);
 
   @override
-  _MapCustomItemBoxViewerState createState() =>
-      _MapCustomItemBoxViewerState();
+  _MapCustomItemBoxViewerState createState() => _MapCustomItemBoxViewerState();
 }
 
 class _MapCustomItemBoxViewerState extends State<MapCustomItemBoxViewer> {
@@ -20,7 +18,6 @@ class _MapCustomItemBoxViewerState extends State<MapCustomItemBoxViewer> {
 
   @override
   Widget build(BuildContext context) {
-
     List<GigMini> gigs = widget.gigs;
     return Align(
       alignment: Alignment.bottomCenter,
@@ -74,7 +71,7 @@ class _MapCustomItemBoxViewerState extends State<MapCustomItemBoxViewer> {
                   print(sortOption);
                   switch (sortOption) {
                     case "Distance":
-                      gigs.sort((a, b) => b.money.compareTo(a.money));
+                      gigs.sort((a, b) => a.distance.compareTo(b.distance));
                       break;
                     case "Money":
                       gigs.sort((a, b) => b.money.compareTo(a.money));
@@ -99,18 +96,33 @@ class _MapCustomItemBoxViewerState extends State<MapCustomItemBoxViewer> {
                   return ListTile(
                     title: Text(gigs[index].title),
                     dense: true,
+                    //TODO Subtitle with location name from google
                     subtitle: Text("TODO"),
-                    trailing: Text(
-                      gigs[index].money.toString(),
-                      textHeightBehavior: TextHeightBehavior(
-                        applyHeightToFirstAscent: true,
-                        applyHeightToLastDescent: true,
-                      ),
-                      textScaleFactor: 1.5,
-                      style: TextStyle(
-                        color: Colors.green,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    trailing: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Text(
+                          gigs[index].money.toString(),
+                          textScaleFactor: 1.0,
+                          style: TextStyle(
+                            color: Colors.green,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          gigs[index].distance > 1.0
+                              ? gigs[index].distance.round().toString() + " km"
+                              : (gigs[index].distance * 1000)
+                                  .round()
+                                  .toString()+ " m",
+                          textScaleFactor: 1.0,
+                          style: TextStyle(
+                            color: Colors.black87,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
                     ),
                     onTap: () {
                       print(gigs[index].toMap());

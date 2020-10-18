@@ -69,7 +69,7 @@ class LocationService {
       print("Distance =  $distanceBetweenPoints");
       return distanceBetweenPoints;
     } else {
-      return null;
+      return double.maxFinite;
     }
   }
 }
