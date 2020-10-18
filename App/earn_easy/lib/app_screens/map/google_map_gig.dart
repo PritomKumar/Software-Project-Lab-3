@@ -28,14 +28,14 @@ class _GoogleMapsState extends State<GoogleMaps> {
   Set<Marker> _markers = HashSet<Marker>();
   Set<Marker> _myMarkers = HashSet<Marker>();
   Set<Marker> _gigMarkers = HashSet<Marker>();
-  bool isTapped = false;
-  LatLng tappedPosition;
+  bool _isTapped = false;
+  LatLng _tappedPosition;
   GoogleMapController _mapController;
   BitmapDescriptor _markerIcon;
-  bool isloading = false;
+  bool _isLoading = false;
   String userType = "worker";
   int _bottomNavigationBarIndex = 0;
-  LatLng currentLocation;
+  LatLng _currentLocation;
 
   //region Google Map Methods
   @override
@@ -70,8 +70,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
   }
 
   void _updatePosition(CameraPosition _position) {
-    CameraPosition realCamera = _position;
-    CameraPosition tappedCamera = CameraPosition(target: tappedPosition);
+    CameraPosition tappedCamera = CameraPosition(target: _tappedPosition);
     _position = tappedCamera != null ? tappedCamera : _position;
     print(
         'inside updatePosition ${_position.target.latitude} ${_position.target.longitude}');
@@ -99,13 +98,13 @@ class _GoogleMapsState extends State<GoogleMaps> {
       //Distance
       var distanceBetweenPoints =
           mapToolkit.SphericalUtil.computeDistanceBetween(
-                  mapToolkit.LatLng(23.8103, 90.4125),
-                  mapToolkit.LatLng(
-                      tappedPoint.latitude, tappedPoint.longitude)) /
+              mapToolkit.LatLng(23.8103, 90.4125),
+              mapToolkit.LatLng(
+                  tappedPoint.latitude, tappedPoint.longitude)) /
               1000.0;
       print(distanceBetweenPoints);
-      tappedPosition = tappedPoint;
-      isTapped = true;
+      _tappedPosition = tappedPoint;
+      _isTapped = true;
       _myMarkers.clear();
       _myMarkers.add(Marker(
         markerId: MarkerId(tappedPoint.toString()),
@@ -180,6 +179,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
 
   Future _animateCameraToCurrentLocation() async {
     LatLng location = await _getCurrentLocationFromUserLocation();
+    _currentLocation = location;
     if (_mapController != null) {
       _mapController
           .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
@@ -200,11 +200,11 @@ class _GoogleMapsState extends State<GoogleMaps> {
     setState(() {
       if (gigList != null) addMarkersWIthGig(gigList);
       if (gigList != null && user != null) {
-        isloading = true;
+        _isLoading = true;
       }
     });
 
-    if (isloading) {
+    if (_isLoading) {
       userType = user.type;
 
       // for(int i=0 ; i<user.allGigs.length;i++){
@@ -294,7 +294,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
                     zoom: 14.0,
                   ),
                   markers: userType == "worker" ? _gigMarkers : _myMarkers,
-                  onCameraMove: isTapped
+                  onCameraMove: _isTapped
                       ? ((_position) => _updatePosition(_position))
                       : null,
                   onTap: _handleTap,
@@ -308,11 +308,11 @@ class _GoogleMapsState extends State<GoogleMaps> {
                         child: RaisedButton(
                           child: Text("Add GIG"),
                           onPressed: () {
-                            tappedPosition != null
+                            _tappedPosition != null
                                 ? Navigator.push(context, MaterialPageRoute(
                                     builder: (context) {
                                       return GigAddPage(
-                                        location: tappedPosition,
+                                        location: _tappedPosition,
                                       );
                                     },
                                   ))
