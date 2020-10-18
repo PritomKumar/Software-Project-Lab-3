@@ -19,7 +19,7 @@ class DatabaseServiceUser {
 
   Future updateUserData(UserAccount userAccount) {
     if (isLoggedIn()) {
-      return fireStoreUsersRef.doc(uid).set(userAccount.toMap());
+      return fireStoreUsersRef.doc(uid).set(userAccount.toMap(),SetOptions(merge: true));
     } else {
       return null;
     }

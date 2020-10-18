@@ -120,7 +120,7 @@ class DatabaseServiceGigs {
             ).toMap()
           ]),
         }).then((value) {
-          print("Add Gig to user created gig list ");
+          print("Add GigMini to user's created gig list ");
         });
       });
     } else {

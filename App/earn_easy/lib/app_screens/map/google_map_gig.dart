@@ -99,7 +99,6 @@ class _GoogleMapsState extends State<GoogleMaps> {
 
   //<editor-fold desc="Camera drag">
   void _updatePosition(CameraPosition _position) {
-
     CameraPosition tappedCamera = CameraPosition(target: _tappedPosition);
     _position = tappedCamera != null ? tappedCamera : _position;
     print(

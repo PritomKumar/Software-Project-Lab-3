@@ -901,24 +901,23 @@ class _ProfileState extends State<Profile> {
                             print(birthdate.toString());
                             await DatabaseServiceUser()
                                 .updateUserData(UserAccount(
-                              firstName:
-                                  firstNameController.text ?? user.firstName,
+                              firstName: this.firstNameController.text ??
+                                  user.firstName,
                               lastName:
-                                  lastNameController.text ?? user.lastName,
-                              email: emailController.text ?? user.email,
+                                  this.lastNameController.text ?? user.lastName,
+                              email: this.emailController.text ?? user.email,
                               photoUrl: user.photoUrl,
                               phoneNumber: user.phoneNumber,
                               birthDay: Timestamp.fromDate(birthdate) ??
                                   user.birthDay,
                               gender: this.gender ?? user.gender,
-                              streetAddress:
-                                  streetController.text ?? user.streetAddress,
-                              city: cityController.text ?? user.city,
-                              state: stateController.text ?? user.state,
-                              zipCode: zipCodeController.text ?? user.zipCode,
-                              bio: bioController.text ?? user.bio,
-                              occupation:
-                                  occupationController.text ?? user.occupation,
+                              streetAddress: this.streetController.text ??
+                                  user.streetAddress,
+                              city: this.cityController.text ?? user.city,
+                              state: this.stateController.text ?? user.state,
+                              bio: this.bioController.text ?? user.bio,
+                              occupation: this.occupationController.text ??
+                                  user.occupation,
                               maritalStatus:
                                   this.maritalStatus ?? user.maritalStatus,
                               educationLevel:
@@ -930,6 +929,11 @@ class _ProfileState extends State<Profile> {
                               level: user.level,
                               type: this.userType ?? user.type,
                               writeAccess: user.writeAccess,
+                              allGigs: user.allGigs,
+                              attemptedGigs: user.attemptedGigs,
+                              completedGigs: user.completedGigs,
+                              createdGigs: user.createdGigs,
+                              waitListGigs: user.waitListGigs,
                             ));
                           }
                         },
