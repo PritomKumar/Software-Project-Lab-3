@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:earneasy/models/user_location.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:maps_toolkit/maps_toolkit.dart' as mapToolkit;
 
 class LocationService {
   // Keep track of current Location
@@ -42,4 +44,15 @@ class LocationService {
 
     return _currentLocation;
   }
+
+  double calculateDistanceBetweenTwoPoints(
+      LatLng firstPoint, LatLng secondPoint) {
+    var distanceBetweenPoints = mapToolkit.SphericalUtil.computeDistanceBetween(
+        mapToolkit.LatLng(firstPoint.latitude, firstPoint.longitude),
+        mapToolkit.LatLng(secondPoint.latitude, secondPoint.longitude)) /
+        1000.0;
+    print("Distance =  $distanceBetweenPoints");
+    return distanceBetweenPoints;
+  }
+
 }

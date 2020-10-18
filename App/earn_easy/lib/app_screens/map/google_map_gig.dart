@@ -12,7 +12,6 @@ import 'package:earneasy/shared/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:maps_toolkit/maps_toolkit.dart' as mapToolkit;
 import 'package:provider/provider.dart';
 
 import '../gigs/add_gig_page.dart';
@@ -75,7 +74,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
   _calculateDistanceForAllGigs() {
     if (_gigList.length > 0 && _currentLocation != null) {
       for (var gig in _gigList) {
-        gig.distance = _calculateDistanceBetweenTwoPoints(
+        gig.distance = LocationService().calculateDistanceBetweenTwoPoints(
             _currentLocation, geoPointToLatLong(gig.location));
       }
     }
@@ -84,17 +83,6 @@ class _GoogleMapsState extends State<GoogleMaps> {
       print("For gig with money ${gig.money}, distance = ${gig.distance}");
     }
   }
-
-  double _calculateDistanceBetweenTwoPoints(
-      LatLng firstPoint, LatLng secondPoint) {
-    var distanceBetweenPoints = mapToolkit.SphericalUtil.computeDistanceBetween(
-            mapToolkit.LatLng(firstPoint.latitude, firstPoint.longitude),
-            mapToolkit.LatLng(secondPoint.latitude, secondPoint.longitude)) /
-        1000.0;
-    print("Distance =  $distanceBetweenPoints");
-    return distanceBetweenPoints;
-  }
-
   //</editor-fold>
 
   //<editor-fold desc="Camera drag">
