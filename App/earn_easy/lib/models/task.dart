@@ -53,8 +53,8 @@ class CheckboxTask {
       : this.taskId = data["taskId"],
         this.gigId = data["gigId"],
         this.taskDescription = data["taskDescription"],
-        this.optionList = List.from(data["optionList"]
-            .map((index) => TaskOption.fromMap(index))) ??
+        this.optionList = List.from(
+                data["optionList"].map((index) => TaskOption.fromMap(index))) ??
             [],
         this.isCompleted = data["isCompleted"] ?? false,
         this.require = data["require"] ?? false;
@@ -65,14 +65,14 @@ class CheckboxTask {
       'gigId': this.gigId ?? "",
       'type': this.type ?? "",
       'taskDescription': this.taskDescription ?? "",
-      'optionList':
-      List.from(this.optionList.map((index) => index.toMap())) ?? [],
+      'optionList': this.optionList == null
+          ? []
+          : List.from(this.optionList.map((index) => index.toMap())) ?? [],
       'require': this.require ?? false,
       'isCompleted': this.isCompleted ?? false,
     };
   }
 }
-
 
 class MultipleChoiceTask {
   final String taskId;
@@ -96,8 +96,8 @@ class MultipleChoiceTask {
       : this.taskId = data["taskId"],
         this.gigId = data["gigId"],
         this.taskDescription = data["taskDescription"],
-        this.optionList = List.from(data["optionList"]
-            .map((index) => TaskOption.fromMap(index))) ??
+        this.optionList = List.from(
+                data["optionList"].map((index) => TaskOption.fromMap(index))) ??
             [],
         this.isCompleted = data["isCompleted"] ?? false,
         this.require = data["require"] ?? false;
@@ -108,8 +108,9 @@ class MultipleChoiceTask {
       'gigId': this.gigId ?? "",
       'type': this.type ?? "",
       'taskDescription': this.taskDescription ?? "",
-      'optionList':
-          List.from(this.optionList.map((index) => index.toMap())) ?? [],
+      'optionList': this.optionList == null
+          ? []
+          : List.from(this.optionList.map((index) => index.toMap())) ?? [],
       'require': this.require ?? false,
       'isCompleted': this.isCompleted ?? false,
     };
@@ -138,8 +139,8 @@ class DropdownTask {
       : this.taskId = data["taskId"],
         this.gigId = data["gigId"],
         this.taskDescription = data["taskDescription"],
-        this.optionList = List.from(data["optionList"]
-            .map((index) => TaskOption.fromMap(index))) ??
+        this.optionList = List.from(
+                data["optionList"].map((index) => TaskOption.fromMap(index))) ??
             [],
         this.require = data["require"] ?? false,
         this.isCompleted = data["isCompleted"] ?? false;
@@ -150,8 +151,9 @@ class DropdownTask {
       'gigId': this.gigId ?? "",
       'type': this.type ?? "",
       'taskDescription': this.taskDescription ?? "",
-      'optionList':
-      List.from(this.optionList.map((index) => index.toMap())) ?? [],
+      'optionList': this.optionList == null
+          ? []
+          : List.from(this.optionList.map((index) => index.toMap())) ?? [],
       'require': this.require ?? false,
       'isCompleted': this.isCompleted ?? false,
     };
@@ -226,10 +228,11 @@ class ImageTask {
         this.taskDescription = data["taskDescription"],
         this.numberOfImages = data["numberOfImages"],
         this.workerResponses = List.from(data["workerResponses"]
-            .map((index) => ImageTaskWorkerResponse.fromMap(index))) ??
+                .map((index) => ImageTaskWorkerResponse.fromMap(index))) ??
             [],
         this.isCompleted = data["isCompleted"] ?? false,
-        this.imageDownloadUrlList = List.from(data["imageDownloadUrlList"]) ?? [],
+        this.imageDownloadUrlList =
+            List.from(data["imageDownloadUrlList"]) ?? [],
         this.require = data["require"] ?? false;
 
   Map<String, dynamic> toMap() {
@@ -245,8 +248,6 @@ class ImageTask {
       'isCompleted': this.isCompleted ?? false,
     };
   }
-
-
 }
 
 class ImageTaskWorkerResponse {

@@ -22,7 +22,7 @@ class DatabaseServiceUser {
     if (isLoggedIn()) {
       return fireStoreUsersRef
           .doc(uid)
-          .set(userAccount.toMap(), SetOptions(merge: true));
+          .set(userAccount.toMap());
     } else {
       return null;
     }

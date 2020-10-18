@@ -113,16 +113,21 @@ class UserAccount {
         type = data['type'],
         writeAccess = data['writeAccess'],
         allGigs =
-            List.from(data['allGigs'].map((index) => GigMini.fromMap(index))),
+            List.from(data['allGigs'].map((index) => GigMini.fromMap(index))) ??
+                [],
         attemptedGigs = List.from(
-            data['attemptedGigs'].map((index) => GigMini.fromMap(index))),
+                data['attemptedGigs'].map((index) => GigMini.fromMap(index))) ??
+            [],
         completedGigs = List.from(
-            data['completedGigs'].map((index) => GigMini.fromMap(index))),
+                data['completedGigs'].map((index) => GigMini.fromMap(index))) ??
+            [],
         waitListGigs = List.from(
-            data['waitListGigs'].map((index) => GigMini.fromMap(index))),
+                data['waitListGigs'].map((index) => GigMini.fromMap(index))) ??
+            [],
         //TODO HAve to think about its use
         createdGigs = List.from(
-            data['createdGigs'].map((index) => GigMini.fromMap(index)));
+                data['createdGigs'].map((index) => GigMini.fromMap(index))) ??
+            [];
 
   Map<String, dynamic> toMap() {
     return {
@@ -147,15 +152,21 @@ class UserAccount {
       "level": this.level ?? 1,
       "type": this.type ?? "worker",
       "writeAccess": this.writeAccess ?? false,
-      "allGigs": List.from(this.allGigs.map((index) => index.toMap())) ?? [],
-      "attemptedGigs":
-          List.from(this.attemptedGigs.map((index) => index.toMap())) ?? [],
-      "completedGigs":
-          List.from(this.completedGigs.map((index) => index.toMap())) ?? [],
-      "waitListGigs":
-          List.from(this.waitListGigs.map((index) => index.toMap())) ?? [],
-      "createdGigs":
-          List.from(this.createdGigs.map((index) => index.toMap())) ?? [],
+      "allGigs": this.allGigs == null
+          ? []
+          : List.from(this.allGigs.map((index) => index.toMap())),
+      "attemptedGigs": this.attemptedGigs == null
+          ? []
+          : List.from(this.attemptedGigs.map((index) => index.toMap())) ?? [],
+      "completedGigs": this.completedGigs == null
+          ? []
+          : List.from(this.completedGigs.map((index) => index.toMap())) ?? [],
+      "waitListGigs": this.waitListGigs == null
+          ? []
+          : List.from(this.waitListGigs.map((index) => index.toMap())) ?? [],
+      "createdGigs": this.createdGigs == null
+          ? []
+          : List.from(this.createdGigs.map((index) => index.toMap())) ?? [],
     };
   }
 }
@@ -184,8 +195,9 @@ class UserResponse {
   Map<String, dynamic> toMap() {
     return {
       'userId': this.userId ?? "",
-      'taskSnippetList':
-          List.from(this.taskSnippetList.map((index) => index.toMap())) ?? [],
+      'taskSnippetList': this.taskSnippetList == null
+          ? []
+          : List.from(this.taskSnippetList.map((index) => index.toMap())) ?? [],
       'distance': this.distance ?? 0.0,
       'completedTaskCount': this.completedTaskCount ?? 0,
     };
