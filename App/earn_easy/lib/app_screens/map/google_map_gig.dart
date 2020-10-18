@@ -31,6 +31,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
   Set<Marker> _gigMarkers = HashSet<Marker>();
 
   List<Gig> _gigList = List<Gig>();
+  UserAccount _user;
 
   bool _isTapped = false;
   LatLng _tappedPosition;
@@ -83,7 +84,32 @@ class _GoogleMapsState extends State<GoogleMaps> {
     for (var gig in _gigList) {
       print("For gig with money ${gig.money}, distance = ${gig.distance}");
     }
+    if (_user.allGigs.length > 0 && _currentLocation != null) {
+      for (var gigMini in _user.allGigs) {
+        gigMini.distance = LocationService().calculateDistanceBetweenTwoPoints(
+            _currentLocation, geoPointToLatLong(gigMini.location));
+      }
+    }
+    if (_user.waitListGigs.length > 0 && _currentLocation != null) {
+      for (var gigMini in _user.waitListGigs) {
+        gigMini.distance = LocationService().calculateDistanceBetweenTwoPoints(
+            _currentLocation, geoPointToLatLong(gigMini.location));
+      }
+    }
+    if (_user.attemptedGigs.length > 0 && _currentLocation != null) {
+      for (var gigMini in _user.attemptedGigs) {
+        gigMini.distance = LocationService().calculateDistanceBetweenTwoPoints(
+            _currentLocation, geoPointToLatLong(gigMini.location));
+      }
+    }
+    if (_user.completedGigs.length > 0 && _currentLocation != null) {
+      for (var gigMini in _user.completedGigs) {
+        gigMini.distance = LocationService().calculateDistanceBetweenTwoPoints(
+            _currentLocation, geoPointToLatLong(gigMini.location));
+      }
+    }
   }
+
   //</editor-fold>
 
   //<editor-fold desc="Camera drag">
@@ -155,10 +181,9 @@ class _GoogleMapsState extends State<GoogleMaps> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      GigPage(
-                        gig: gigList[i],
-                      ),
+                  builder: (context) => GigPage(
+                    gig: gigList[i],
+                  ),
                 ));
           },
         ));
@@ -220,16 +245,16 @@ class _GoogleMapsState extends State<GoogleMaps> {
   @override
   Widget build(BuildContext context) {
     _gigList = Provider.of<List<Gig>>(context);
-    var user = Provider.of<UserAccount>(context);
+    _user = Provider.of<UserAccount>(context);
     setState(() {
       if (_gigList != null) addMarkersWIthGig(_gigList);
-      if (_gigList != null && user != null) {
+      if (_gigList != null && _user != null) {
         _isLoading = true;
       }
     });
 
     if (_isLoading) {
-      userType = user.type;
+      userType = _user.type;
 
       // for(int i=0 ; i<user.allGigs.length;i++){
       //   print("Gig no $i and gig = ${user.allGigs[i]}");
@@ -344,7 +369,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
                           },
                         ),
                       )
-                    : _selectCustomMapBox(user, _bottomNavigationBarIndex),
+                    : _selectCustomMapBox(_user, _bottomNavigationBarIndex),
               ],
             ),
           ),

@@ -93,6 +93,7 @@ class _MapCustomItemBoxViewerState extends State<MapCustomItemBoxViewer> {
               child: ListView.builder(
                 itemCount: gigs.length,
                 itemBuilder: (context, index) {
+                  //TODO Have to use custom stateless widget instead of ListTile
                   return ListTile(
                     title: Text(gigs[index].title),
                     dense: true,

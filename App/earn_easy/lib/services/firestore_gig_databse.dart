@@ -117,6 +117,7 @@ class DatabaseServiceGigs {
               gigId: gigRef.id,
               title: gig.title,
               money: gig.money,
+              location: gig.location,
             ).toMap()
           ]),
         }).then((value) {
