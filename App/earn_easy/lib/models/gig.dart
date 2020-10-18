@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/models/task.dart';
 import 'package:earneasy/shared/constants.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class GigMini {
   final String gigId;
@@ -39,6 +37,7 @@ class Gig {
   final String access;
   final String importantNote;
   final String notice;
+  double distance;
   List<TaskSnippet> taskSnippetList = List<TaskSnippet>();
   List<String> fileAttachmentUrls = List<String>();
   List<String> attemptedUsers = List<String>();
@@ -58,6 +57,7 @@ class Gig {
     this.access = "",
     this.importantNote = "",
     this.notice = "",
+    this.distance = 0.0,
     this.taskSnippetList,
     this.fileAttachmentUrls,
     this.attemptedUsers,

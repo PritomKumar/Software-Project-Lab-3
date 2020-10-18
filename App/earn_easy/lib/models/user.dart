@@ -159,11 +159,13 @@ class UserResponse {
   final String userId;
   final List<TaskSnippet> taskSnippetList;
   final int completedTaskCount;
+  double distance;
 
   UserResponse({
     @required this.userId,
     @required this.taskSnippetList,
     @required this.completedTaskCount,
+    @required this.distance,
   });
 
   UserResponse.fromMap(Map<String, dynamic> data)
@@ -171,13 +173,15 @@ class UserResponse {
         this.taskSnippetList = List.from(data["taskSnippetList"]
                 .map((index) => TaskSnippet.fromMap(index))) ??
             [],
+        this.distance = data["distance"],
         this.completedTaskCount = data["completedTaskCount"];
 
   Map<String, dynamic> toMap() {
     return {
       'userId': this.userId ?? "",
       'taskSnippetList':
-          List.from(this.taskSnippetList.map((index) => index.toMap())) ?? [],
+      List.from(this.taskSnippetList.map((index) => index.toMap())) ?? [],
+      'distance': this.distance ?? 0.0,
       'completedTaskCount': this.completedTaskCount ?? 0,
     };
   }

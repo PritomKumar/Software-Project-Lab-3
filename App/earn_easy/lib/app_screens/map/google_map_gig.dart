@@ -98,9 +98,9 @@ class _GoogleMapsState extends State<GoogleMaps> {
       //Distance
       var distanceBetweenPoints =
           mapToolkit.SphericalUtil.computeDistanceBetween(
-              mapToolkit.LatLng(23.8103, 90.4125),
-              mapToolkit.LatLng(
-                  tappedPoint.latitude, tappedPoint.longitude)) /
+                  mapToolkit.LatLng(23.8103, 90.4125),
+                  mapToolkit.LatLng(
+                      tappedPoint.latitude, tappedPoint.longitude)) /
               1000.0;
       print(distanceBetweenPoints);
       _tappedPosition = tappedPoint;
