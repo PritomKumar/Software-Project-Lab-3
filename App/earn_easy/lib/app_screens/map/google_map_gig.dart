@@ -10,7 +10,6 @@ import 'package:earneasy/services/location_service.dart';
 import 'package:earneasy/shared/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:maps_toolkit/maps_toolkit.dart' as mapToolkit;
 import 'package:provider/provider.dart';
@@ -55,6 +54,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
   void _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
     setState(() {
+      _animateCameraToCurrentLocation();
       _markers.add(
         Marker(
           markerId: MarkerId("0"),
@@ -96,6 +96,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
     // showToast(tappedPoint.toString());
 
     setState(() {
+      //Distance
       var distanceBetweenPoints =
           mapToolkit.SphericalUtil.computeDistanceBetween(
                   mapToolkit.LatLng(23.8103, 90.4125),
@@ -218,12 +219,12 @@ class _GoogleMapsState extends State<GoogleMaps> {
       return SafeArea(
         child: Scaffold(
           drawer: SideDrawer(),
-          floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.location_searching),
-            onPressed: () async {
-              _animateCameraToCurrentLocation();
-            },
-          ),
+          // floatingActionButton: FloatingActionButton(
+          //   child: Icon(Icons.location_searching),
+          //   onPressed: () async {
+          //     _animateCameraToCurrentLocation();
+          //   },
+          // ),
           appBar: AppBar(
             title: Text('Home'),
             backgroundColor: Colors.blue[300],
@@ -289,7 +290,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
                 GoogleMap(
                   onMapCreated: _onMapCreated,
                   initialCameraPosition: CameraPosition(
-                    target: LatLng(23.8103, 90.4125),
+                    target: LatLng(40.7128, -74.0060),
                     zoom: 14.0,
                   ),
                   markers: userType == "worker" ? _gigMarkers : _myMarkers,
