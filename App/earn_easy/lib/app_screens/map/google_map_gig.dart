@@ -31,6 +31,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
   Set<Marker> _gigMarkers = HashSet<Marker>();
 
   List<Gig> _gigList = List<Gig>();
+  List<GigMini> _availableGigList = List<GigMini>();
   UserAccount _user;
 
   bool _isTapped = false;
@@ -53,6 +54,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
     _mapController = controller;
     await _animateCameraToCurrentLocation();
     _calculateDistanceForAllGigs();
+    _createAvailableGigMiniListFromGigList();
     _calculateDistanceForAllGigMiniInUserData();
     setState(() {
       _markers.add(
@@ -67,6 +69,20 @@ class _GoogleMapsState extends State<GoogleMaps> {
         ),
       );
     });
+  }
+
+  _createAvailableGigMiniListFromGigList() {
+    if (_gigList.length > 0) {
+      for (var gig in _gigList) {
+        _availableGigList.add(GigMini(
+          gigId: gig.gigId,
+          money: gig.money,
+          title: gig.title,
+          location: gig.location,
+          distance: gig.distance,
+        ));
+      }
+    }
   }
 
   //<editor-fold desc="Calculate distance for all user gig mini list">
@@ -225,7 +241,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
     print("Bottom $index");
     switch (index) {
       case 0:
-        return Container();
+        return MapCustomItemBoxViewer(gigs: _availableGigList);
         break;
       case 1:
         return MapCustomItemBoxViewer(gigs: user.allGigs);
