@@ -238,7 +238,6 @@ class _GoogleMapsState extends State<GoogleMaps> {
   //</editor-fold>
 
   Widget _selectCustomMapBox(UserAccount user, int index) {
-    print("Bottom $index");
     switch (index) {
       case 0:
         return MapCustomItemBoxViewer(gigs: _availableGigList);
@@ -294,16 +293,6 @@ class _GoogleMapsState extends State<GoogleMaps> {
 
     if (_isLoading) {
       userType = _user.type;
-
-      // for(int i=0 ; i<user.allGigs.length;i++){
-      //   print("Gig no $i and gig = ${user.allGigs[i]}");
-      // }
-
-      // for (int i = 0; i < user.attemptedGigs.length; i++) {
-      //   print("Gig no $i and gig = ${user.attemptedGigs[i].gigId} ,"
-      //       " ${user.attemptedGigs[i].money} ,"
-      //       " ${user.attemptedGigs[i].title}");
-      // }
       return SafeArea(
         child: Scaffold(
           drawer: SideDrawer(),
