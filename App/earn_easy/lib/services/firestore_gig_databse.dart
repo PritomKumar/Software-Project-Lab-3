@@ -157,6 +157,12 @@ class DatabaseServiceGigs {
     return isLoggedIn() ? Gig.fromMap(snapshot.data()) : null;
   }
 
+  Future<Gig> getGigFromGigID(String gigId) async {
+    return await fireStoreGigsRef.doc(gigId).get().then((value) {
+      return Gig.fromMap(value.data());
+    });
+  }
+
   //TODO : Check for true return statement
   Future<bool> checkIfDataExists() async {
     print("Before logged in");
