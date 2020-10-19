@@ -1,4 +1,6 @@
+import 'package:earneasy/app_screens/gigs/gig_page.dart';
 import 'package:earneasy/models/gig.dart';
+import 'package:earneasy/services/firestore_gig_databse.dart';
 import 'package:flutter/material.dart';
 
 class MapCustomItemBoxViewer extends StatefulWidget {
@@ -115,8 +117,9 @@ class _MapCustomItemBoxViewerState extends State<MapCustomItemBoxViewer> {
                           gigs[index].distance > 1.0
                               ? gigs[index].distance.round().toString() + " km"
                               : (gigs[index].distance * 1000)
-                                  .round()
-                                  .toString()+ " m",
+                                      .round()
+                                      .toString() +
+                                  " m",
                           textScaleFactor: 1.0,
                           style: TextStyle(
                             color: Colors.black87,
@@ -125,8 +128,18 @@ class _MapCustomItemBoxViewerState extends State<MapCustomItemBoxViewer> {
                         ),
                       ],
                     ),
-                    onTap: () {
-                      print(gigs[index].toMap());
+                    onTap: () async {
+                      var gig = await DatabaseServiceGigs()
+                          .getGigFromGigID(gigs[index].gigId);
+                      if (gig != null) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => GigPage(
+                                gig: gig,
+                              ),
+                            ));
+                      }
                     },
                   );
                 },
