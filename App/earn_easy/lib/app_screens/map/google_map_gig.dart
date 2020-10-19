@@ -70,45 +70,45 @@ class _GoogleMapsState extends State<GoogleMaps> {
   }
 
   //<editor-fold desc="Calculate distance for all user gig mini list">
-  _calculateDistanceForAllGigMiniInUserData(){
+  _calculateDistanceForAllGigMiniInUserData() {
     _addDistanceToUserAllGigs();
     _addDistanceToUserAttemptedGigs();
     _addDistanceToUserWaitListedGigs();
     _addDistanceToUserCompletedGigs();
   }
 
-  _addDistanceToUserAllGigs(){
+  _addDistanceToUserAllGigs() {
     if (_user.allGigs.length > 0 && _currentLocation != null) {
       for (var gigMini in _user.allGigs) {
-        gigMini.distance = LocationService().calculateDistanceBetweenTwoPoints(
-            _currentLocation, geoPointToLatLong(gigMini.location));
+        gigMini.distance = LocationService()
+            .calculateDistanceGigAndUserCurrentLocation(gigMini.location);
       }
     }
   }
 
-  _addDistanceToUserWaitListedGigs(){
+  _addDistanceToUserWaitListedGigs() {
     if (_user.waitListGigs.length > 0 && _currentLocation != null) {
       for (var gigMini in _user.waitListGigs) {
-        gigMini.distance = LocationService().calculateDistanceBetweenTwoPoints(
-            _currentLocation, geoPointToLatLong(gigMini.location));
+        gigMini.distance = LocationService()
+            .calculateDistanceGigAndUserCurrentLocation(gigMini.location);
       }
     }
   }
 
-  _addDistanceToUserAttemptedGigs(){
+  _addDistanceToUserAttemptedGigs() {
     if (_user.attemptedGigs.length > 0 && _currentLocation != null) {
       for (var gigMini in _user.attemptedGigs) {
-        gigMini.distance = LocationService().calculateDistanceBetweenTwoPoints(
-            _currentLocation, geoPointToLatLong(gigMini.location));
+        gigMini.distance = LocationService()
+            .calculateDistanceGigAndUserCurrentLocation(gigMini.location);
       }
     }
   }
 
-  _addDistanceToUserCompletedGigs(){
+  _addDistanceToUserCompletedGigs() {
     if (_user.completedGigs.length > 0 && _currentLocation != null) {
       for (var gigMini in _user.completedGigs) {
-        gigMini.distance = LocationService().calculateDistanceBetweenTwoPoints(
-            _currentLocation, geoPointToLatLong(gigMini.location));
+        gigMini.distance = LocationService()
+            .calculateDistanceGigAndUserCurrentLocation(gigMini.location);
       }
     }
   }
@@ -123,8 +123,8 @@ class _GoogleMapsState extends State<GoogleMaps> {
   _calculateDistanceForAllGigs() {
     if (_gigList.length > 0 && _currentLocation != null) {
       for (var gig in _gigList) {
-        gig.distance = LocationService().calculateDistanceBetweenTwoPoints(
-            _currentLocation, geoPointToLatLong(gig.location));
+        gig.distance = LocationService()
+            .calculateDistanceGigAndUserCurrentLocation(gig.location);
       }
     }
     print("distance between gigs and current location...");
