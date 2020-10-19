@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/models/gig.dart';
 import 'package:earneasy/models/task.dart';
 import 'package:earneasy/models/user.dart';
+import 'package:earneasy/services/location_service.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:provider/provider.dart';
 
 class DatabaseServiceTasks {
   final CollectionReference fireStoreGigsRef =
@@ -120,9 +120,11 @@ class DatabaseServiceTasks {
           .collection("UserResponse")
           .doc(userUid)
           .set(UserResponse(
-            userId: userUid,
+        userId: userUid,
             taskSnippetList: gig.taskSnippetList,
             completedTaskCount: 0,
+            distance: LocationService()
+                .calculateDistanceGigAndUserCurrentLocation(gig.location),
           ).toMap())
           .then((_) {
         print("Create UserResponse for AttemptedUser $userUid is a success");
