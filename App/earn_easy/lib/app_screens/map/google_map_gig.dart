@@ -69,7 +69,6 @@ class _GoogleMapsState extends State<GoogleMaps> {
     });
   }
 
-
   //<editor-fold desc="Calculate distance for all user gig mini list">
   _calculateDistanceForAllGigMiniInUserData(){
     _addDistanceToUserAllGigs();
@@ -132,7 +131,6 @@ class _GoogleMapsState extends State<GoogleMaps> {
     for (var gig in _gigList) {
       print("For gig with money ${gig.money}, distance = ${gig.distance}");
     }
-
   }
 
   //</editor-fold>
