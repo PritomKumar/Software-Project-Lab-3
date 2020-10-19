@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/app_screens/task/upload_task.dart';
 import 'package:earneasy/models/task.dart';
 import 'package:earneasy/shared/constants.dart';
@@ -282,12 +281,6 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
         .collection("Tasks")
         .doc(_imageTask.taskId)
         .update({
-      'workerResponses': FieldValue.arrayUnion([
-        ImageTaskWorkerResponse(
-          submittedUserUid: userUid,
-          submittedImageUrlList: _submittedImageUrlList,
-        ).toMap(),
-      ]),
       'imageDownloadUrlList': _submittedImageUrlList,
     }).then((value) {
       //TODO Set State on _imageFileList.clear() is causing this function to be called twice
@@ -315,10 +308,9 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
   Widget build(BuildContext context) {
     super.build(context);
     _imageTask = Provider.of<ImageTask>(context);
-    if(_imageTask==null){
+    if (_imageTask == null) {
       print("_imageTask is null");
-    }
-    else{
+    } else {
       print("_imageTask = ${_imageTask.toMap()}");
     }
 

@@ -207,8 +207,6 @@ class ImageTask {
   final int numberOfImages;
   final bool require;
   final bool isCompleted;
-  List<ImageTaskWorkerResponse> workerResponses =
-      List<ImageTaskWorkerResponse>();
   final List<String> imageDownloadUrlList;
 
   ImageTask({
@@ -216,7 +214,6 @@ class ImageTask {
     @required this.gigId,
     @required this.taskDescription,
     @required this.numberOfImages,
-    @required this.workerResponses,
     @required this.imageDownloadUrlList,
     @required this.require,
     @required this.isCompleted,
@@ -227,9 +224,6 @@ class ImageTask {
         this.gigId = data["gigId"],
         this.taskDescription = data["taskDescription"],
         this.numberOfImages = data["numberOfImages"],
-        this.workerResponses = List.from(data["workerResponses"]
-                .map((index) => ImageTaskWorkerResponse.fromMap(index))) ??
-            [],
         this.isCompleted = data["isCompleted"] ?? false,
         this.imageDownloadUrlList =
             List.from(data["imageDownloadUrlList"]) ?? [],
@@ -242,7 +236,6 @@ class ImageTask {
       'type': this.type ?? "",
       'taskDescription': this.taskDescription ?? "",
       'numberOfImages': this.numberOfImages ?? 0,
-      'workerResponses': this.workerResponses ?? [],
       'require': this.require ?? false,
       'imageDownloadUrlList': this.imageDownloadUrlList ?? [],
       'isCompleted': this.isCompleted ?? false,
