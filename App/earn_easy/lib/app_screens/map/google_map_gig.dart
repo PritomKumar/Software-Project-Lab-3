@@ -53,6 +53,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
     _mapController = controller;
     await _animateCameraToCurrentLocation();
     _calculateDistanceForAllGigs();
+    _calculateDistanceForAllGigMiniInUserData();
     setState(() {
       _markers.add(
         Marker(
@@ -67,6 +68,53 @@ class _GoogleMapsState extends State<GoogleMaps> {
       );
     });
   }
+
+
+  //<editor-fold desc="Calculate distance for all user gig mini list">
+  _calculateDistanceForAllGigMiniInUserData(){
+    _addDistanceToUserAllGigs();
+    _addDistanceToUserAttemptedGigs();
+    _addDistanceToUserWaitListedGigs();
+    _addDistanceToUserCompletedGigs();
+  }
+
+  _addDistanceToUserAllGigs(){
+    if (_user.allGigs.length > 0 && _currentLocation != null) {
+      for (var gigMini in _user.allGigs) {
+        gigMini.distance = LocationService().calculateDistanceBetweenTwoPoints(
+            _currentLocation, geoPointToLatLong(gigMini.location));
+      }
+    }
+  }
+
+  _addDistanceToUserWaitListedGigs(){
+    if (_user.waitListGigs.length > 0 && _currentLocation != null) {
+      for (var gigMini in _user.waitListGigs) {
+        gigMini.distance = LocationService().calculateDistanceBetweenTwoPoints(
+            _currentLocation, geoPointToLatLong(gigMini.location));
+      }
+    }
+  }
+
+  _addDistanceToUserAttemptedGigs(){
+    if (_user.attemptedGigs.length > 0 && _currentLocation != null) {
+      for (var gigMini in _user.attemptedGigs) {
+        gigMini.distance = LocationService().calculateDistanceBetweenTwoPoints(
+            _currentLocation, geoPointToLatLong(gigMini.location));
+      }
+    }
+  }
+
+  _addDistanceToUserCompletedGigs(){
+    if (_user.completedGigs.length > 0 && _currentLocation != null) {
+      for (var gigMini in _user.completedGigs) {
+        gigMini.distance = LocationService().calculateDistanceBetweenTwoPoints(
+            _currentLocation, geoPointToLatLong(gigMini.location));
+      }
+    }
+  }
+
+  //</editor-fold>
 
   //<editor-fold desc="Distance calculation methods">
   LatLng geoPointToLatLong(GeoPoint geoPoint) {
@@ -84,30 +132,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
     for (var gig in _gigList) {
       print("For gig with money ${gig.money}, distance = ${gig.distance}");
     }
-    if (_user.allGigs.length > 0 && _currentLocation != null) {
-      for (var gigMini in _user.allGigs) {
-        gigMini.distance = LocationService().calculateDistanceBetweenTwoPoints(
-            _currentLocation, geoPointToLatLong(gigMini.location));
-      }
-    }
-    if (_user.waitListGigs.length > 0 && _currentLocation != null) {
-      for (var gigMini in _user.waitListGigs) {
-        gigMini.distance = LocationService().calculateDistanceBetweenTwoPoints(
-            _currentLocation, geoPointToLatLong(gigMini.location));
-      }
-    }
-    if (_user.attemptedGigs.length > 0 && _currentLocation != null) {
-      for (var gigMini in _user.attemptedGigs) {
-        gigMini.distance = LocationService().calculateDistanceBetweenTwoPoints(
-            _currentLocation, geoPointToLatLong(gigMini.location));
-      }
-    }
-    if (_user.completedGigs.length > 0 && _currentLocation != null) {
-      for (var gigMini in _user.completedGigs) {
-        gigMini.distance = LocationService().calculateDistanceBetweenTwoPoints(
-            _currentLocation, geoPointToLatLong(gigMini.location));
-      }
-    }
+
   }
 
   //</editor-fold>
