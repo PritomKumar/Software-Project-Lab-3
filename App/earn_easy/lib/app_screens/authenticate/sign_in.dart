@@ -1,11 +1,8 @@
-import 'package:earneasy/app_screens/authenticate/register.dart';
-import 'package:earneasy/app_screens/home/home_dummy.dart';
 import 'package:earneasy/services/auth.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SignIn extends StatefulWidget {
   final Function toggleView;
@@ -26,6 +23,12 @@ class _SignInState extends State<SignIn> {
   var passwordController = TextEditingController();
   bool hidePassword = true;
 
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +81,6 @@ class _SignInState extends State<SignIn> {
                                     )
                                   : Icon(
                                       Icons.visibility,
-
                                     ),
                               onPressed: () {
                                 setState(() {
@@ -115,10 +117,9 @@ class _SignInState extends State<SignIn> {
                               setState(() {
                                 loading = false;
                                 error =
-                                    "could not sign in with those credentials";
+                                "could not sign in with those credentials";
                               });
-                            }
-                            else{
+                            } else {
                               setState(() {
                                 loading = false;
                                 Navigator.pop(context);
