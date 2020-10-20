@@ -318,19 +318,20 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final _formKey = GlobalKey<FormState>();
-  final emailController = TextEditingController();
-  final firstNameController = TextEditingController(text: "");
-  final lastNameController = TextEditingController();
-  final streetController = TextEditingController();
-  final cityController = TextEditingController();
-  final stateController = TextEditingController();
-  final zipCodeController = TextEditingController();
-  final phoneNumberController = TextEditingController();
-  final bioController = TextEditingController();
-  final occupationController = TextEditingController();
-  static final genderArray = ["Not set", "Male", "Female", "Other"];
-  String gender = "";
-  static final maritalStatusArray = [
+  final _emailController = TextEditingController();
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
+  final _streetController = TextEditingController();
+  final _cityController = TextEditingController();
+  final _stateController = TextEditingController();
+  final _zipCodeController = TextEditingController();
+  final _phoneNumberController = TextEditingController();
+  final _bioController = TextEditingController();
+  final _occupationController = TextEditingController();
+
+  static final _genderArray = ["Not set", "Male", "Female", "Other"];
+  String _gender = "";
+  static final _maritalStatusArray = [
     "Not set",
     "Single",
     "Married",
@@ -339,8 +340,8 @@ class _ProfileState extends State<Profile> {
     "Separated",
     "Other"
   ];
-  String maritalStatus = "";
-  static final educationLevelArray = [
+  String _maritalStatus = "";
+  static final _educationLevelArray = [
     "Not set",
     "Less than high school diploma",
     "High school degree or equivalent",
@@ -354,8 +355,8 @@ class _ProfileState extends State<Profile> {
     "Post-Doctorate",
     "Other"
   ];
-  String educationLevel = "";
-  static final employmentStatusArray = [
+  String _educationLevel = "";
+  static final _employmentStatusArray = [
     "Not set",
     "Employed full time",
     "Employed part time",
@@ -367,8 +368,8 @@ class _ProfileState extends State<Profile> {
     "Unemployed",
     "Other"
   ];
-  String employmentStatus = "";
-  static final householdIncomeArray = [
+  String _employmentStatus = "";
+  static final _householdIncomeArray = [
     "Not set",
     "Less than 20,000 bdt",
     "20,000 to 39,999 bdt",
@@ -377,19 +378,34 @@ class _ProfileState extends State<Profile> {
     "80,000 to 99,999 bdt",
     "Over 100,000 bdt"
   ];
-  String householdIncome = "";
-  static final userTypeArray = ["worker", "provider"];
-  String userType = "";
+  String _householdIncome = "";
+  static final _userTypeArray = ["worker", "provider"];
+  String _userType = "";
 
-  DateTime birthdate;
-  bool isloading = false;
+  DateTime _birthDate;
+  bool _isLoading = false;
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _streetController.dispose();
+    _cityController.dispose();
+    _stateController.dispose();
+    _zipCodeController.dispose();
+    _phoneNumberController.dispose();
+    _bioController.dispose();
+    _occupationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var user = Provider.of<UserAccount>(context);
 
-    _initializeControllars() {
+    _initializeControllers() {
       // if (firstNameController.text == "") {
       //   firstNameController.text = user.firstName;
       // } else if (firstNameController.text == user.firstName) {
@@ -398,48 +414,50 @@ class _ProfileState extends State<Profile> {
       //   firstNameController.text = firstNameController.text;
       // }
 
-      firstNameController.text = firstNameController.text == ""
+      _firstNameController.text = _firstNameController.text == ""
           ? user.firstName
-          : firstNameController.text;
-      lastNameController.text = lastNameController.text == ""
+          : _firstNameController.text;
+      _lastNameController.text = _lastNameController.text == ""
           ? user.lastName
-          : lastNameController.text;
-      emailController.text =
-          emailController.text == "" ? user.email : emailController.text;
-      birthdate = birthdate == null ? user.birthDay.toDate() : birthdate;
-      streetController.text = streetController.text == ""
+          : _lastNameController.text;
+      _emailController.text =
+          _emailController.text == "" ? user.email : _emailController.text;
+      _birthDate = _birthDate == null ? user.birthDay.toDate() : _birthDate;
+      _streetController.text = _streetController.text == ""
           ? user.streetAddress
-          : streetController.text;
-      cityController.text =
-          cityController.text == "" ? user.city : cityController.text;
-      stateController.text = stateController.text == ""
+          : _streetController.text;
+      _cityController.text =
+          _cityController.text == "" ? user.city : _cityController.text;
+      _stateController.text = _stateController.text == ""
           ? user.streetAddress
-          : stateController.text;
-      zipCodeController.text =
-          zipCodeController.text == "" ? user.zipCode : zipCodeController.text;
-      phoneNumberController.text = phoneNumberController.text == ""
+          : _stateController.text;
+      _zipCodeController.text = _zipCodeController.text == ""
+          ? user.zipCode
+          : _zipCodeController.text;
+      _phoneNumberController.text = _phoneNumberController.text == ""
           ? user.phoneNumber
-          : phoneNumberController.text;
-      bioController.text =
-          bioController.text == "" ? user.bio : bioController.text;
-      occupationController.text = occupationController.text == ""
+          : _phoneNumberController.text;
+      _bioController.text =
+          _bioController.text == "" ? user.bio : _bioController.text;
+      _occupationController.text = _occupationController.text == ""
           ? user.occupation
-          : occupationController.text;
+          : _occupationController.text;
 
-      gender = gender == "" ? user.gender : gender;
-      maritalStatus = maritalStatus == "" ? user.maritalStatus : maritalStatus;
-      educationLevel =
-          educationLevel == "" ? user.educationLevel : educationLevel;
-      employmentStatus =
-          employmentStatus == "" ? user.employmentStatus : employmentStatus;
-      householdIncome =
-          householdIncome == "" ? user.householdIncome : householdIncome;
-      userType = userType == "" ? user.type : userType;
+      _gender = _gender == "" ? user.gender : _gender;
+      _maritalStatus =
+          _maritalStatus == "" ? user.maritalStatus : _maritalStatus;
+      _educationLevel =
+          _educationLevel == "" ? user.educationLevel : _educationLevel;
+      _employmentStatus =
+          _employmentStatus == "" ? user.employmentStatus : _employmentStatus;
+      _householdIncome =
+          _householdIncome == "" ? user.householdIncome : _householdIncome;
+      _userType = _userType == "" ? user.type : _userType;
     }
 
     setState(() {
       if (user != null) {
-        isloading = true;
+        _isLoading = true;
       }
     });
 
@@ -470,22 +488,22 @@ class _ProfileState extends State<Profile> {
             selectedItem = value;
             switch (type) {
               case "gender":
-                this.gender = value;
+                this._gender = value;
                 break;
               case "marital":
-                this.maritalStatus = value;
+                this._maritalStatus = value;
                 break;
               case "education":
-                this.educationLevel = value;
+                this._educationLevel = value;
                 break;
               case "employment":
-                this.employmentStatus = value;
+                this._employmentStatus = value;
                 break;
               case "income":
-                this.householdIncome = value;
+                this._householdIncome = value;
                 break;
               case "type":
-                this.userType = value;
+                this._userType = value;
                 break;
             }
           });
@@ -493,8 +511,8 @@ class _ProfileState extends State<Profile> {
       );
     }
 
-    if (isloading) {
-      _initializeControllars();
+    if (_isLoading) {
+      _initializeControllers();
 
       return MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -526,8 +544,8 @@ class _ProfileState extends State<Profile> {
                             ),
                             Expanded(
                               child: profileDropDownItem(
-                                  selectedItem: userType,
-                                  itemList: userTypeArray,
+                                  selectedItem: _userType,
+                                  itemList: _userTypeArray,
                                   type: "type"),
                             ),
                           ],
@@ -544,9 +562,9 @@ class _ProfileState extends State<Profile> {
                           ),
                           Expanded(
                             child: TextFormField(
-                              controller: firstNameController,
+                              controller: _firstNameController,
                               decoration:
-                                  InputDecoration(hintText: "First Name"),
+                              InputDecoration(hintText: "First Name"),
                               validator: (value) {
                                 return value.isEmpty
                                     ? "Enter First Name"
@@ -567,9 +585,9 @@ class _ProfileState extends State<Profile> {
                           ),
                           Expanded(
                             child: TextFormField(
-                              controller: lastNameController,
+                              controller: _lastNameController,
                               decoration:
-                                  InputDecoration(hintText: "Last Name"),
+                              InputDecoration(hintText: "Last Name"),
                               validator: (value) {
                                 return value.isEmpty ? "Enter Last Name" : null;
                               },
@@ -588,7 +606,7 @@ class _ProfileState extends State<Profile> {
                           ),
                           Expanded(
                             child: TextFormField(
-                              controller: emailController,
+                              controller: _emailController,
                               decoration: InputDecoration(hintText: "Email"),
                               validator: (value) {
                                 return value.isEmpty ? "Enter Email" : null;
@@ -614,18 +632,18 @@ class _ProfileState extends State<Profile> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   Text(
-                                    birthdate ==
-                                            defaultInitializedTimestamp.toDate()
+                                    _birthDate ==
+                                        defaultInitializedTimestamp.toDate()
                                         ? "MM/DD/YYYY"
-                                        : birthdate.day
-                                                .toString()
-                                                .padLeft(2, '0') +
-                                            "/" +
-                                            birthdate.month
-                                                .toString()
-                                                .padLeft(2, '0') +
-                                            "/" +
-                                            birthdate.year.toString(),
+                                        : _birthDate.day
+                                        .toString()
+                                        .padLeft(2, '0') +
+                                        "/" +
+                                        _birthDate.month
+                                            .toString()
+                                            .padLeft(2, '0') +
+                                        "/" +
+                                        _birthDate.year.toString(),
                                     style: TextStyle(
                                         fontWeight: FontWeight.w300,
                                         color: Colors.black),
@@ -638,19 +656,19 @@ class _ProfileState extends State<Profile> {
                             onTap: () async {
                               var clickedDate = await showDatePicker(
                                 context: context,
-                                initialDate: birthdate ==
-                                        defaultInitializedTimestamp.toDate()
+                                initialDate: _birthDate ==
+                                    defaultInitializedTimestamp.toDate()
                                     ? DateTime.now()
-                                    : birthdate,
+                                    : _birthDate,
                                 firstDate: DateTime(1850, 1, 1),
                                 lastDate: DateTime.now(),
                                 helpText: "MM/DD/YYYY",
                               );
                               if (clickedDate != null &&
-                                  clickedDate != birthdate)
+                                  clickedDate != _birthDate)
                                 setState(() {
-                                  birthdate = clickedDate;
-                                  print(birthdate.toString());
+                                  _birthDate = clickedDate;
+                                  print(_birthDate.toString());
                                 });
                             },
                           ),
@@ -670,8 +688,8 @@ class _ProfileState extends State<Profile> {
                             ),
                             Expanded(
                               child: profileDropDownItem(
-                                  selectedItem: gender,
-                                  itemList: genderArray,
+                                  selectedItem: _gender,
+                                  itemList: _genderArray,
                                   type: "gender"),
                             ),
                           ],
@@ -689,9 +707,9 @@ class _ProfileState extends State<Profile> {
                           Expanded(
                             child: TextFormField(
                               keyboardType: TextInputType.multiline,
-                              controller: streetController,
+                              controller: _streetController,
                               decoration:
-                                  InputDecoration(hintText: "Street address"),
+                              InputDecoration(hintText: "Street address"),
                             ),
                           ),
                         ],
@@ -708,7 +726,7 @@ class _ProfileState extends State<Profile> {
                           Expanded(
                             child: TextFormField(
                               keyboardType: TextInputType.multiline,
-                              controller: cityController,
+                              controller: _cityController,
                               decoration: InputDecoration(hintText: "City"),
                             ),
                           ),
@@ -726,7 +744,7 @@ class _ProfileState extends State<Profile> {
                           Expanded(
                             child: TextFormField(
                               keyboardType: TextInputType.multiline,
-                              controller: stateController,
+                              controller: _stateController,
                               decoration: InputDecoration(hintText: "State"),
                             ),
                           ),
@@ -744,7 +762,7 @@ class _ProfileState extends State<Profile> {
                           Expanded(
                             child: TextFormField(
                               keyboardType: TextInputType.multiline,
-                              controller: zipCodeController,
+                              controller: _zipCodeController,
                               decoration: InputDecoration(hintText: "Zip code"),
                             ),
                           ),
@@ -762,9 +780,9 @@ class _ProfileState extends State<Profile> {
                           Expanded(
                             child: TextFormField(
                               keyboardType: TextInputType.phone,
-                              controller: phoneNumberController,
+                              controller: _phoneNumberController,
                               decoration:
-                                  InputDecoration(hintText: "Phone number"),
+                              InputDecoration(hintText: "Phone number"),
                             ),
                           ),
                         ],
@@ -781,7 +799,7 @@ class _ProfileState extends State<Profile> {
                           Expanded(
                             child: TextFormField(
                               keyboardType: TextInputType.multiline,
-                              controller: bioController,
+                              controller: _bioController,
                               decoration: InputDecoration(hintText: "Bio"),
                             ),
                           ),
@@ -799,9 +817,9 @@ class _ProfileState extends State<Profile> {
                           Expanded(
                             child: TextFormField(
                               keyboardType: TextInputType.multiline,
-                              controller: occupationController,
+                              controller: _occupationController,
                               decoration:
-                                  InputDecoration(hintText: "Occupation"),
+                              InputDecoration(hintText: "Occupation"),
                             ),
                           ),
                         ],
@@ -820,8 +838,8 @@ class _ProfileState extends State<Profile> {
                             ),
                             Expanded(
                               child: profileDropDownItem(
-                                  selectedItem: maritalStatus,
-                                  itemList: maritalStatusArray,
+                                  selectedItem: _maritalStatus,
+                                  itemList: _maritalStatusArray,
                                   type: "marital"),
                             ),
                           ],
@@ -841,8 +859,8 @@ class _ProfileState extends State<Profile> {
                             ),
                             Expanded(
                               child: profileDropDownItem(
-                                  selectedItem: educationLevel,
-                                  itemList: educationLevelArray,
+                                  selectedItem: _educationLevel,
+                                  itemList: _educationLevelArray,
                                   type: "education"),
                             ),
                           ],
@@ -862,8 +880,8 @@ class _ProfileState extends State<Profile> {
                             ),
                             Expanded(
                               child: profileDropDownItem(
-                                  selectedItem: employmentStatus,
-                                  itemList: employmentStatusArray,
+                                  selectedItem: _employmentStatus,
+                                  itemList: _employmentStatusArray,
                                   type: "employment"),
                             ),
                           ],
@@ -883,8 +901,8 @@ class _ProfileState extends State<Profile> {
                             ),
                             Expanded(
                               child: profileDropDownItem(
-                                  selectedItem: householdIncome,
-                                  itemList: householdIncomeArray,
+                                  selectedItem: _householdIncome,
+                                  itemList: _householdIncomeArray,
                                   type: "income"),
                             ),
                           ],
@@ -898,36 +916,37 @@ class _ProfileState extends State<Profile> {
                         ),
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
-                            print(birthdate.toString());
+                            print(_birthDate.toString());
                             await DatabaseServiceUser()
                                 .updateUserData(UserAccount(
-                              firstName: this.firstNameController.text ??
+                              uid: user.uid,
+                              firstName: this._firstNameController.text ??
                                   user.firstName,
-                              lastName:
-                                  this.lastNameController.text ?? user.lastName,
-                              email: this.emailController.text ?? user.email,
+                              lastName: this._lastNameController.text ??
+                                  user.lastName,
+                              email: this._emailController.text ?? user.email,
                               photoUrl: user.photoUrl,
                               phoneNumber: user.phoneNumber,
-                              birthDay: Timestamp.fromDate(birthdate) ??
+                              birthDay: Timestamp.fromDate(_birthDate) ??
                                   user.birthDay,
-                              gender: this.gender ?? user.gender,
-                              streetAddress: this.streetController.text ??
+                              gender: this._gender ?? user.gender,
+                              streetAddress: this._streetController.text ??
                                   user.streetAddress,
-                              city: this.cityController.text ?? user.city,
-                              state: this.stateController.text ?? user.state,
-                              bio: this.bioController.text ?? user.bio,
-                              occupation: this.occupationController.text ??
+                              city: this._cityController.text ?? user.city,
+                              state: this._stateController.text ?? user.state,
+                              bio: this._bioController.text ?? user.bio,
+                              occupation: this._occupationController.text ??
                                   user.occupation,
                               maritalStatus:
-                                  this.maritalStatus ?? user.maritalStatus,
+                              this._maritalStatus ?? user.maritalStatus,
                               educationLevel:
-                                  this.educationLevel ?? user.educationLevel,
-                              employmentStatus: this.employmentStatus ??
+                              this._educationLevel ?? user.educationLevel,
+                              employmentStatus: this._employmentStatus ??
                                   user.employmentStatus,
                               householdIncome:
-                                  this.householdIncome ?? user.householdIncome,
+                              this._householdIncome ?? user.householdIncome,
                               level: user.level,
-                              type: this.userType ?? user.type,
+                              type: this._userType ?? user.type,
                               writeAccess: user.writeAccess,
                               allGigs: user.allGigs,
                               attemptedGigs: user.attemptedGigs,
