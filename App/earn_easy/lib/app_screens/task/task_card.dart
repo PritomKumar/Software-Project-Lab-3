@@ -26,6 +26,16 @@ class TaskCardState extends State<TaskCard> {
   bool _isRequired = false;
   List<TaskOption> _taskOptionList = List<TaskOption>();
 
+  @override
+  void dispose() {
+    question.dispose();
+    _instructionController.dispose();
+    _multipleOptionControllerList.forEach((textEditingController) {
+      textEditingController.dispose();
+    });
+    super.dispose();
+  }
+
   //<editor-fold desc="All methods to return selected task And Type of task">
   _populateMultipleOptionListWithTextEditingController() {
     for (int i = 0; i < _multipleOptionControllerList.length; i++) {

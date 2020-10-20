@@ -1,9 +1,9 @@
 import 'package:earneasy/models/task.dart';
 import 'package:earneasy/services/firestore_task_databse.dart';
 import 'package:earneasy/shared/loading.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
 class FreeTextTaskScreen extends StatefulWidget {
@@ -14,6 +14,12 @@ class FreeTextTaskScreen extends StatefulWidget {
 class _FreeTextTaskScreenState extends State<FreeTextTaskScreen> {
   FreeTextTask _freeTextTask;
   TextEditingController _freeTextEditingController = TextEditingController();
+
+  @override
+  void dispose() {
+    _freeTextEditingController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
