@@ -1,19 +1,9 @@
-import 'dart:io';
-
-import 'package:earneasy/TestPage/upload_download_multiple_file.dart';
-import 'package:earneasy/app_screens/splash_screen.dart';
-import 'file:///F:/IIT%207th%20Semester/SPL3/Software-Project-Lab-3/App/earn_easy/lib/app_screens/deprecated/survey_task.dart';
+import 'package:earneasy/TestPage/firemap_test.dart';
 import 'package:earneasy/services/auth.dart';
-import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'TestPage/add_gig_test.dart';
-import 'TestPage/test_image_task.dart';
-import 'TestPage/test_page.dart';
-import 'app_screens/map/map_list_view.dart';
-import 'app_screens/task/task_list.dart';
-import 'app_screens/wrapper.dart';
 import 'models/user.dart';
 
 void main() async {
@@ -34,7 +24,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: SplashScreen(),
+          home: GeoFlutterExample(),
         ));
   }
 }

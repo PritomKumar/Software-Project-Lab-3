@@ -258,6 +258,12 @@ class _GeoFlutterExampleState extends State<GeoFlutterExample> {
                     height: mediaQuery.size.height * (1 / 3),
                     child: GoogleMap(
                       onMapCreated: _onMapCreated,
+                      onTap: (latlong) {
+                        print(latlong.toJson());
+                        final lat = latlong.latitude;
+                        final lng = latlong.longitude;
+                        _addPoint(lat, lng);
+                      },
                       initialCameraPosition: const CameraPosition(
                         target: LatLng(12.960632, 77.641603),
                         zoom: 15.0,
@@ -310,10 +316,10 @@ class _GeoFlutterExampleState extends State<GeoFlutterExample> {
                   ),
                   MaterialButton(
                     color: Colors.blue,
-                    onPressed: () {
+                    onPressed: () async {
                       final lat = double.parse(_latitudeController.text);
                       final lng = double.parse(_longitudeController.text);
-                      _addPoint(lat, lng);
+                      //_addPoint(lat, lng);
                     },
                     child: const Text(
                       'ADD',
