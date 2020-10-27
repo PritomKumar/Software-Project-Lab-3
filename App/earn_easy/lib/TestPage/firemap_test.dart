@@ -219,6 +219,55 @@ class _GeoFlutterExampleState extends State<GeoFlutterExample> {
     super.dispose();
   }
 
+  double radiusLevel(double zoom) {
+    double seed = 1.0;
+    if (zoom >= 18) {
+      return seed * 5.0;
+    } else if (zoom < 18 && zoom >= 15) {
+      return seed * 10.0;
+    } else if (zoom < 15 && zoom >= 10) {
+      return seed * 15.0;
+    } else if (zoom < 10 && zoom >= 7) {
+      return seed * 20.0;
+    } else if (zoom < 7 && zoom >= 5) {
+      return seed * 25.0;
+    } else if (zoom < 5 && zoom >= 2) {
+      return seed * 30.0;
+    } else {
+      return seed * 40.0;
+    }
+  }
+
+  // double radiusLevel(double zoom){
+  //   double seed = 1.0;
+  //   if(zoom>=18){
+  //     return seed*5.0;
+  //   }
+  //   else if(zoom<18 && zoom >= 15){
+  //     return seed*10.0;
+  //   }
+  //
+  //   else if(zoom<15 && zoom >= 10){
+  //     return seed*15.0;
+  //   }
+  //
+  //   else if(zoom<10 && zoom >= 7){
+  //     return seed*20.0;
+  //   }
+  //
+  //   else if(zoom<7 && zoom >= 5){
+  //     return seed*25.0;
+  //   }
+  //
+  //   else if(zoom<5 && zoom >= 2){
+  //     return seed*30.0;
+  //   }
+  //   else {
+  //     return seed*40.0;
+  //   }
+  //
+  // }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -237,109 +286,104 @@ class _GeoFlutterExampleState extends State<GeoFlutterExample> {
             )
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-            //   return StreamTestWidget();
-            // }));
-          },
-          child: Icon(Icons.navigate_next),
-        ),
         body: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+          child: Stack(
             children: <Widget>[
-              Center(
-                child: Card(
-                  elevation: 4,
-                  margin: EdgeInsets.symmetric(vertical: 8),
-                  child: SizedBox(
-                    width: mediaQuery.size.width - 30,
-                    height: mediaQuery.size.height * (1 / 3),
-                    child: GoogleMap(
-                      onMapCreated: _onMapCreated,
-                      onTap: (latlong) {
-                        print(latlong.toJson());
-                        final lat = latlong.latitude;
-                        final lng = latlong.longitude;
-                        _addPoint(lat, lng);
-                      },
-                      initialCameraPosition: const CameraPosition(
-                        target: LatLng(12.960632, 77.641603),
-                        zoom: 15.0,
-                      ),
-                      markers: Set<Marker>.of(markers.values),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Slider(
-                  min: 1,
-                  max: 200,
-                  divisions: 4,
-                  value: _value,
-                  label: _label,
-                  activeColor: Colors.blue,
-                  inactiveColor: Colors.blue.withOpacity(0.2),
-                  onChanged: (double value) => changed(value),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Container(
-                    width: 100,
-                    child: TextField(
-                      controller: _latitudeController,
-                      keyboardType: TextInputType.number,
-                      textInputAction: TextInputAction.next,
-                      decoration: InputDecoration(
-                          labelText: 'lat',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          )),
-                    ),
-                  ),
-                  Container(
-                    width: 100,
-                    child: TextField(
-                      controller: _longitudeController,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                          labelText: 'lng',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          )),
-                    ),
-                  ),
-                  MaterialButton(
-                    color: Colors.blue,
-                    onPressed: () async {
-                      final lat = double.parse(_latitudeController.text);
-                      final lng = double.parse(_longitudeController.text);
-                      //_addPoint(lat, lng);
-                    },
-                    child: const Text(
-                      'ADD',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )
-                ],
-              ),
-              MaterialButton(
-                color: Colors.amber,
-                child: const Text(
-                  'Add nested ',
-                  style: TextStyle(color: Colors.white),
-                ),
-                onPressed: () {
-                  final lat = double.parse(_latitudeController.text);
-                  final lng = double.parse(_longitudeController.text);
-                  _addNestedPoint(lat, lng);
+              GoogleMap(
+                onMapCreated: _onMapCreated,
+                onCameraMove: (CameraPosition cameraPosition) {
+                  // print("Zoom Level = ${cameraPosition.zoom}");
+
+                  setState(() {
+                    markers.clear();
+                  });
+
+                  double radiusLevelCurrent = radiusLevel(cameraPosition.zoom);
+                  // radius.add((21-cameraPosition.zoom)*5);
+                  print("Zoom = ${cameraPosition
+                      .zoom} radius = $radiusLevelCurrent");
+                  radius.add(radiusLevelCurrent);
                 },
-              )
+                onTap: (latlong) {
+                  print(latlong.toJson());
+                  final lat = latlong.latitude;
+                  final lng = latlong.longitude;
+                  _addPoint(lat, lng);
+                  //_addNestedPoint(lat,lng);
+                },
+                initialCameraPosition: const CameraPosition(
+                  target: LatLng(12.960632, 77.641603),
+                  zoom: 21.0,
+                ),
+                markers: Set<Marker>.of(markers.values),
+              ),
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 8.0),
+              //   child: Slider(
+              //     min: 1,
+              //     max: 200,
+              //     divisions: 4,
+              //     value: _value,
+              //     label: _label,
+              //     activeColor: Colors.blue,
+              //     inactiveColor: Colors.blue.withOpacity(0.2),
+              //     onChanged: (double value) => changed(value),
+              //   ),
+              // ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //   children: <Widget>[
+              //     Container(
+              //       width: 100,
+              //       child: TextField(
+              //         controller: _latitudeController,
+              //         keyboardType: TextInputType.number,
+              //         textInputAction: TextInputAction.next,
+              //         decoration: InputDecoration(
+              //             labelText: 'lat',
+              //             border: OutlineInputBorder(
+              //               borderRadius: BorderRadius.circular(8),
+              //             )),
+              //       ),
+              //     ),
+              //     Container(
+              //       width: 100,
+              //       child: TextField(
+              //         controller: _longitudeController,
+              //         keyboardType: TextInputType.number,
+              //         decoration: InputDecoration(
+              //             labelText: 'lng',
+              //             border: OutlineInputBorder(
+              //               borderRadius: BorderRadius.circular(8),
+              //             )),
+              //       ),
+              //     ),
+              //     MaterialButton(
+              //       color: Colors.blue,
+              //       onPressed: () async {
+              //         final lat = double.parse(_latitudeController.text);
+              //         final lng = double.parse(_longitudeController.text);
+              //         //_addPoint(lat, lng);
+              //       },
+              //       child: const Text(
+              //         'ADD',
+              //         style: TextStyle(color: Colors.white),
+              //       ),
+              //     )
+              //   ],
+              // ),
+              // MaterialButton(
+              //   color: Colors.amber,
+              //   child: const Text(
+              //     'Add nested ',
+              //     style: TextStyle(color: Colors.white),
+              //   ),
+              //   onPressed: () {
+              //     final lat = double.parse(_latitudeController.text);
+              //     final lng = double.parse(_longitudeController.text);
+              //     _addNestedPoint(lat, lng);
+              //   },
+              // )
             ],
           ),
         ),
@@ -407,6 +451,7 @@ class _GeoFlutterExampleState extends State<GeoFlutterExample> {
       final GeoPoint point = document.data()['position']['geopoint'];
       _addMarker(point.latitude, point.longitude);
     });
+    print("Marker Number = ${markers.length}");
   }
 
   double _value = 20.0;
@@ -416,6 +461,7 @@ class _GeoFlutterExampleState extends State<GeoFlutterExample> {
     setState(() {
       _value = value;
       _label = '${_value.toInt().toString()} kms';
+
       markers.clear();
     });
     radius.add(value);
