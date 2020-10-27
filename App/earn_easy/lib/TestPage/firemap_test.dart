@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as Math;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -221,21 +222,51 @@ class _GeoFlutterExampleState extends State<GeoFlutterExample> {
 
   double radiusLevel(double zoom) {
     double seed = 1.0;
-    if (zoom >= 18) {
-      return seed * 5.0;
-    } else if (zoom < 18 && zoom >= 15) {
-      return seed * 10.0;
-    } else if (zoom < 15 && zoom >= 10) {
-      return seed * 15.0;
-    } else if (zoom < 10 && zoom >= 7) {
-      return seed * 20.0;
-    } else if (zoom < 7 && zoom >= 5) {
-      return seed * 25.0;
-    } else if (zoom < 5 && zoom >= 2) {
-      return seed * 30.0;
+
+    if (zoom >= 21) {
+      seed *= 10.0;
+    } else if (zoom < 21 && zoom >= 20) {
+      seed *= 20.0;
+    } else if (zoom < 20 && zoom >= 19) {
+      seed *= 30.0;
+    } else if (zoom < 19 && zoom >= 18) {
+      seed *= 20.0;
+    } else if (zoom < 18 && zoom >= 17) {
+      seed *= 20.0;
+    } else if (zoom < 17 && zoom >= 16) {
+      seed *= 20.0;
+    } else if (zoom < 16 && zoom >= 15) {
+      seed *= 20.0;
+    } else if (zoom < 15 && zoom >= 14) {
+      seed *= 20.0;
+    } else if (zoom < 14 && zoom >= 13) {
+      seed *= 20.0;
+    } else if (zoom < 13 && zoom >= 12) {
+      seed *= 20.0;
+    } else if (zoom < 12 && zoom >= 11) {
+      seed *= 20.0;
+    } else if (zoom < 11 && zoom >= 10) {
+      seed *= 20.0;
+    } else if (zoom < 10 && zoom >= 9) {
+      seed *= 20.0;
+    } else if (zoom < 9 && zoom >= 8) {
+      seed *= 20.0;
+    } else if (zoom < 8 && zoom >= 7) {
+      seed *= 20.0;
+    } else if (zoom < 7 && zoom >= 6) {
+      seed *= 20.0;
+    } else if (zoom < 6 && zoom >= 5) {
+      seed *= 20.0;
+    } else if (zoom < 5 && zoom >= 4) {
+      seed *= 20.0;
+    } else if (zoom < 4 && zoom >= 3) {
+      seed *= 20.0;
+    } else if (zoom < 3 && zoom >= 2) {
+      seed *= 20.0;
     } else {
-      return seed * 40.0;
+      seed *= 200.0;
     }
+    return seed;
   }
 
   // double radiusLevel(double zoom){
@@ -297,11 +328,14 @@ class _GeoFlutterExampleState extends State<GeoFlutterExample> {
                   setState(() {
                     markers.clear();
                   });
-
+                  double metersPerPx = 156543.03392 *
+                      Math.cos(cameraPosition.target.latitude * Math.pi / 180) /
+                      Math.pow(2, cameraPosition.zoom);
+                  print("metersPerPx = $metersPerPx");
                   double radiusLevelCurrent = radiusLevel(cameraPosition.zoom);
                   // radius.add((21-cameraPosition.zoom)*5);
-                  print("Zoom = ${cameraPosition
-                      .zoom} radius = $radiusLevelCurrent");
+                  print(
+                      "Zoom = ${cameraPosition.zoom} radius = $radiusLevelCurrent");
                   radius.add(radiusLevelCurrent);
                 },
                 onTap: (latlong) {
@@ -399,6 +433,7 @@ class _GeoFlutterExampleState extends State<GeoFlutterExample> {
       stream.listen((List<DocumentSnapshot> documentList) {
         _updateMarkers(documentList);
       });
+      //radius.add(1.0);
     });
   }
 
