@@ -331,7 +331,7 @@ class _GeoFlutterExampleState extends State<GeoFlutterExample> {
                   });
                   double metersPerPx = 156543.03392 *
                       Math.cos(cameraPosition.target.latitude * Math.pi / 180) /
-                      Math.pow(2, cameraPosition.zoom);
+                      Math.pow(2, cameraPosition.zoom + 1);
                   print("metersPerPx = $metersPerPx");
                   print("target center = ${cameraPosition.target.toJson()}");
                   double radiusLevelCurrent = radiusLevel(cameraPosition.zoom);
