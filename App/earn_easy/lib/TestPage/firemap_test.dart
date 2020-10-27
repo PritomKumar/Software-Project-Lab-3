@@ -185,32 +185,14 @@ class _GeoFlutterExampleState extends State<GeoFlutterExample> {
   Stream<List<DocumentSnapshot>> stream;
   final radius = BehaviorSubject<double>.seeded(1.0);
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
+  LatLng _cameraPositionCenter = LatLng(12.960632, 77.641603);
 
   @override
   void initState() {
     super.initState();
     _latitudeController = TextEditingController();
     _longitudeController = TextEditingController();
-
-    geo = Geoflutterfire();
-    GeoFirePoint center = geo.point(latitude: 12.960632, longitude: 77.641603);
-    stream = radius.switchMap((rad) {
-      var collectionReference = _firestore.collection('locations');
-//          .where('name', isEqualTo: 'darshan');
-      print("rad = $rad");
-      return geo.collection(collectionRef: collectionReference).within(
-          center: center, radius: rad, field: 'position', strictMode: true);
-
-      /*
-      ****Example to specify nested object****
-
-      var collectionReference = _firestore.collection('nestedLocations');
-//          .where('name', isEqualTo: 'darshan');
-      return geo.collection(collectionRef: collectionReference).within(
-          center: center, radius: rad, field: 'address.location.position');
-
-      */
-    });
+    //geo = Geoflutterfire();
   }
 
   @override
@@ -221,54 +203,54 @@ class _GeoFlutterExampleState extends State<GeoFlutterExample> {
     super.dispose();
   }
 
-  double radiusLevel(double zoom) {
-    double seed = 1.0;
-
-    if (zoom >= 21) {
-      seed *= 10.0;
-    } else if (zoom < 21 && zoom >= 20) {
-      seed *= 20.0;
-    } else if (zoom < 20 && zoom >= 19) {
-      seed *= 30.0;
-    } else if (zoom < 19 && zoom >= 18) {
-      seed *= 20.0;
-    } else if (zoom < 18 && zoom >= 17) {
-      seed *= 20.0;
-    } else if (zoom < 17 && zoom >= 16) {
-      seed *= 20.0;
-    } else if (zoom < 16 && zoom >= 15) {
-      seed *= 20.0;
-    } else if (zoom < 15 && zoom >= 14) {
-      seed *= 20.0;
-    } else if (zoom < 14 && zoom >= 13) {
-      seed *= 20.0;
-    } else if (zoom < 13 && zoom >= 12) {
-      seed *= 20.0;
-    } else if (zoom < 12 && zoom >= 11) {
-      seed *= 20.0;
-    } else if (zoom < 11 && zoom >= 10) {
-      seed *= 20.0;
-    } else if (zoom < 10 && zoom >= 9) {
-      seed *= 20.0;
-    } else if (zoom < 9 && zoom >= 8) {
-      seed *= 20.0;
-    } else if (zoom < 8 && zoom >= 7) {
-      seed *= 20.0;
-    } else if (zoom < 7 && zoom >= 6) {
-      seed *= 20.0;
-    } else if (zoom < 6 && zoom >= 5) {
-      seed *= 20.0;
-    } else if (zoom < 5 && zoom >= 4) {
-      seed *= 20.0;
-    } else if (zoom < 4 && zoom >= 3) {
-      seed *= 20.0;
-    } else if (zoom < 3 && zoom >= 2) {
-      seed *= 20.0;
-    } else {
-      seed *= 200.0;
-    }
-    return seed;
-  }
+  // double radiusLevel(double zoom) {
+  //   double seed = 1.0;
+  //
+  //   if (zoom >= 21) {
+  //     seed *= 10.0;
+  //   } else if (zoom < 21 && zoom >= 20) {
+  //     seed *= 20.0;
+  //   } else if (zoom < 20 && zoom >= 19) {
+  //     seed *= 30.0;
+  //   } else if (zoom < 19 && zoom >= 18) {
+  //     seed *= 20.0;
+  //   } else if (zoom < 18 && zoom >= 17) {
+  //     seed *= 20.0;
+  //   } else if (zoom < 17 && zoom >= 16) {
+  //     seed *= 20.0;
+  //   } else if (zoom < 16 && zoom >= 15) {
+  //     seed *= 20.0;
+  //   } else if (zoom < 15 && zoom >= 14) {
+  //     seed *= 20.0;
+  //   } else if (zoom < 14 && zoom >= 13) {
+  //     seed *= 20.0;
+  //   } else if (zoom < 13 && zoom >= 12) {
+  //     seed *= 20.0;
+  //   } else if (zoom < 12 && zoom >= 11) {
+  //     seed *= 20.0;
+  //   } else if (zoom < 11 && zoom >= 10) {
+  //     seed *= 20.0;
+  //   } else if (zoom < 10 && zoom >= 9) {
+  //     seed *= 20.0;
+  //   } else if (zoom < 9 && zoom >= 8) {
+  //     seed *= 20.0;
+  //   } else if (zoom < 8 && zoom >= 7) {
+  //     seed *= 20.0;
+  //   } else if (zoom < 7 && zoom >= 6) {
+  //     seed *= 20.0;
+  //   } else if (zoom < 6 && zoom >= 5) {
+  //     seed *= 20.0;
+  //   } else if (zoom < 5 && zoom >= 4) {
+  //     seed *= 20.0;
+  //   } else if (zoom < 4 && zoom >= 3) {
+  //     seed *= 20.0;
+  //   } else if (zoom < 3 && zoom >= 2) {
+  //     seed *= 20.0;
+  //   } else {
+  //     seed *= 200.0;
+  //   }
+  //   return seed;
+  // }
 
   // double radiusLevel(double zoom){
   //   double seed = 1.0;
@@ -300,6 +282,12 @@ class _GeoFlutterExampleState extends State<GeoFlutterExample> {
   //
   // }
 
+  double radiusLevel(double zoom, double latitude) {
+    return 156543.03392 *
+        Math.cos(latitude * Math.pi / 180) /
+        Math.pow(2, zoom + 1);
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -326,21 +314,22 @@ class _GeoFlutterExampleState extends State<GeoFlutterExample> {
                 onCameraMove: (CameraPosition cameraPosition) {
                   // print("Zoom Level = ${cameraPosition.zoom}");
 
-                  setState(() {
-                    markers.clear();
-                  });
+                  markers.clear();
+                  _cameraPositionCenter = cameraPosition.target;
                   double metersPerPx = 156543.03392 *
                       Math.cos(cameraPosition.target.latitude * Math.pi / 180) /
                       Math.pow(2, cameraPosition.zoom + 1);
-                  print("metersPerPx = $metersPerPx");
-                  print("target center = ${cameraPosition.target.toJson()}");
-                  double radiusLevelCurrent = radiusLevel(cameraPosition.zoom);
+                  // print("metersPerPx = $metersPerPx");
+                  //print("target center = ${cameraPosition.target.toJson()}");
+                  double radiusLevelCurrent = radiusLevel(
+                      cameraPosition.zoom, cameraPosition.target.latitude);
                   // radius.add((21-cameraPosition.zoom)*5);
-                  print(
-                      "Zoom = ${cameraPosition.zoom} radius = $radiusLevelCurrent");
+                  // print("Zoom = ${cameraPosition.zoom} radius = $radiusLevelCurrent");
                   //radius.add(radiusLevelCurrent);
                   radius.add(metersPerPx);
+                  // _startQuery();
                 },
+                onCameraIdle: _startQuery,
                 onTap: (latlong) {
                   print(latlong.toJson());
                   final lat = latlong.latitude;
@@ -435,10 +424,42 @@ class _GeoFlutterExampleState extends State<GeoFlutterExample> {
   void _onMapCreated(GoogleMapController controller) {
     setState(() {
       _mapController = controller;
-      stream.listen((List<DocumentSnapshot> documentList) {
-        _updateMarkers(documentList);
-      });
-      radius.add(1.163902612242045);
+      geo = Geoflutterfire();
+      radius.add(2.327804656243825);
+      //_startQuery();
+    });
+  }
+
+  _startQuery() async {
+    print("_cameraPositionCenter = ${_cameraPositionCenter.toJson()}");
+    GeoFirePoint center = geo.point(
+        latitude: _cameraPositionCenter.latitude,
+        longitude: _cameraPositionCenter.longitude);
+
+    stream = radius.switchMap((rad) {
+      var collectionReference = _firestore.collection('locations');
+      //.where('name', isEqualTo: 'darshan');
+      //print("rad = $rad");
+      return geo.collection(collectionRef: collectionReference).within(
+        center: center,
+        radius: rad,
+        field: 'position',
+        strictMode: true,
+      );
+
+      /*
+      ****Example to specify nested object****
+
+      var collectionReference = _firestore.collection('nestedLocations');
+      //.where('name', isEqualTo: 'darshan');
+      return geo.collection(collectionRef: collectionReference).within(
+          center: center, radius: rad, field: 'address.location.position');
+
+      */
+    });
+
+    stream.listen((List<DocumentSnapshot> documentList) {
+      _updateMarkers(documentList);
     });
   }
 
@@ -487,11 +508,12 @@ class _GeoFlutterExampleState extends State<GeoFlutterExample> {
   }
 
   void _updateMarkers(List<DocumentSnapshot> documentList) {
+    markers.clear();
     documentList.forEach((DocumentSnapshot document) {
       final GeoPoint point = document.data()['position']['geopoint'];
       _addMarker(point.latitude, point.longitude);
     });
-    print("Marker Number = ${markers.length}");
+    print("Marker sdfhksjhf kjasdhfkjsd hk Number = ${markers.length}");
   }
 
   double _value = 20.0;
