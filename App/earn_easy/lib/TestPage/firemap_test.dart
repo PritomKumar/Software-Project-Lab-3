@@ -338,7 +338,8 @@ class _GeoFlutterExampleState extends State<GeoFlutterExample> {
                   // radius.add((21-cameraPosition.zoom)*5);
                   print(
                       "Zoom = ${cameraPosition.zoom} radius = $radiusLevelCurrent");
-                  radius.add(radiusLevelCurrent);
+                  //radius.add(radiusLevelCurrent);
+                  radius.add(metersPerPx);
                 },
                 onTap: (latlong) {
                   print(latlong.toJson());
