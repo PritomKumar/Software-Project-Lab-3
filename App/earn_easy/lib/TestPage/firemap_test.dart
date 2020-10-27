@@ -354,7 +354,7 @@ class _GeoFlutterExampleState extends State<GeoFlutterExample> {
                 minMaxZoomPreference: MinMaxZoomPreference.unbounded,
                 initialCameraPosition: const CameraPosition(
                   target: LatLng(12.960632, 77.641603),
-                  zoom: 21.0,
+                  zoom: 15.0,
                 ),
                 markers: Set<Marker>.of(markers.values),
               ),
@@ -435,12 +435,10 @@ class _GeoFlutterExampleState extends State<GeoFlutterExample> {
   void _onMapCreated(GoogleMapController controller) {
     setState(() {
       _mapController = controller;
-//      _showHome();
-      //start listening after map is created
       stream.listen((List<DocumentSnapshot> documentList) {
         _updateMarkers(documentList);
       });
-      //radius.add(1.0);
+      radius.add(1.163902612242045);
     });
   }
 
