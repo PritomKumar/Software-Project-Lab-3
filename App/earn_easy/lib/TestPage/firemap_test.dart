@@ -197,6 +197,7 @@ class _GeoFlutterExampleState extends State<GeoFlutterExample> {
     stream = radius.switchMap((rad) {
       var collectionReference = _firestore.collection('locations');
 //          .where('name', isEqualTo: 'darshan');
+      print("rad = $rad");
       return geo.collection(collectionRef: collectionReference).within(
           center: center, radius: rad, field: 'position', strictMode: true);
 
@@ -332,6 +333,7 @@ class _GeoFlutterExampleState extends State<GeoFlutterExample> {
                       Math.cos(cameraPosition.target.latitude * Math.pi / 180) /
                       Math.pow(2, cameraPosition.zoom);
                   print("metersPerPx = $metersPerPx");
+                  print("target center = ${cameraPosition.target.toJson()}");
                   double radiusLevelCurrent = radiusLevel(cameraPosition.zoom);
                   // radius.add((21-cameraPosition.zoom)*5);
                   print(
@@ -345,6 +347,10 @@ class _GeoFlutterExampleState extends State<GeoFlutterExample> {
                   _addPoint(lat, lng);
                   //_addNestedPoint(lat,lng);
                 },
+                myLocationEnabled: true,
+                myLocationButtonEnabled: true,
+                compassEnabled: true,
+                minMaxZoomPreference: MinMaxZoomPreference.unbounded,
                 initialCameraPosition: const CameraPosition(
                   target: LatLng(12.960632, 77.641603),
                   zoom: 21.0,
