@@ -12,6 +12,7 @@ import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -78,7 +79,8 @@ class _GoogleMapsState extends State<GoogleMaps> {
           gigId: gig.gigId,
           money: gig.money,
           title: gig.title,
-          location: gig.location,
+          //location: gig.location,
+          location: GeoFirePoint(gig.location.latitude, gig.location.longitude),
           distance: gig.distance,
         ));
       }
@@ -97,7 +99,8 @@ class _GoogleMapsState extends State<GoogleMaps> {
     if (_user.allGigs.length > 0 && _currentLocation != null) {
       for (var gigMini in _user.allGigs) {
         gigMini.distance = LocationService()
-            .calculateDistanceGigAndUserCurrentLocation(gigMini.location);
+            .calculateDistanceGigAndUserCurrentLocation(
+                gigMini.location.geoPoint);
       }
     }
   }
@@ -106,7 +109,8 @@ class _GoogleMapsState extends State<GoogleMaps> {
     if (_user.waitListGigs.length > 0 && _currentLocation != null) {
       for (var gigMini in _user.waitListGigs) {
         gigMini.distance = LocationService()
-            .calculateDistanceGigAndUserCurrentLocation(gigMini.location);
+            .calculateDistanceGigAndUserCurrentLocation(
+            gigMini.location.geoPoint);
       }
     }
   }
@@ -115,7 +119,8 @@ class _GoogleMapsState extends State<GoogleMaps> {
     if (_user.attemptedGigs.length > 0 && _currentLocation != null) {
       for (var gigMini in _user.attemptedGigs) {
         gigMini.distance = LocationService()
-            .calculateDistanceGigAndUserCurrentLocation(gigMini.location);
+            .calculateDistanceGigAndUserCurrentLocation(
+            gigMini.location.geoPoint);
       }
     }
   }
@@ -124,7 +129,8 @@ class _GoogleMapsState extends State<GoogleMaps> {
     if (_user.completedGigs.length > 0 && _currentLocation != null) {
       for (var gigMini in _user.completedGigs) {
         gigMini.distance = LocationService()
-            .calculateDistanceGigAndUserCurrentLocation(gigMini.location);
+            .calculateDistanceGigAndUserCurrentLocation(
+            gigMini.location.geoPoint);
       }
     }
   }

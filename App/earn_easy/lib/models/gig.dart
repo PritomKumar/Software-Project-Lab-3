@@ -2,12 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/models/task.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 
 class GigMini {
   final String gigId;
   final int money;
   final String title;
-  final GeoPoint location;
+  final GeoFirePoint location;
   double distance;
 
   GigMini({
@@ -21,7 +22,7 @@ class GigMini {
   GigMini.fromMap(Map<String, dynamic> data)
       : this.gigId = data["gigId"],
         this.money = data["money"],
-        this.location = data["location"],
+        this.location = data["location"] ?? null,
         this.distance = data["distance"],
         this.title = data["title"];
 
@@ -30,7 +31,7 @@ class GigMini {
       'gigId': this.gigId,
       'money': this.money,
       'title': this.title,
-      'location': this.location,
+      'location': this.location.data ?? null,
       'distance': this.distance,
     };
   }

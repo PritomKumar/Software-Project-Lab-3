@@ -3,6 +3,7 @@ import 'package:earneasy/models/gig.dart';
 import 'package:earneasy/models/task.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 
 class DatabaseServiceGigs {
   final CollectionReference fireStoreGigsRef =
@@ -117,7 +118,9 @@ class DatabaseServiceGigs {
               gigId: gigRef.id,
               title: gig.title,
               money: gig.money,
-              location: gig.location,
+              //location: gig.location,
+              location:
+                  GeoFirePoint(gig.location.latitude, gig.location.longitude),
             ).toMap()
           ]),
         }).then((value) {

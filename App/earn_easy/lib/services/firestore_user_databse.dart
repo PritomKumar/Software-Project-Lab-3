@@ -3,6 +3,7 @@ import 'package:earneasy/models/gig.dart';
 import 'package:earneasy/models/user.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 
 class DatabaseServiceUser {
   final CollectionReference fireStoreUsersRef =
@@ -19,9 +20,7 @@ class DatabaseServiceUser {
 
   Future updateUserData(UserAccount userAccount) {
     if (isLoggedIn()) {
-      return fireStoreUsersRef
-          .doc(uid)
-          .set(userAccount.toMap());
+      return fireStoreUsersRef.doc(uid).set(userAccount.toMap());
     } else {
       return null;
     }
@@ -46,7 +45,9 @@ class DatabaseServiceUser {
             gigId: gig.gigId,
             title: gig.title,
             money: gig.money,
-            location: gig.location,
+            //location: gig.location,
+            location:
+                GeoFirePoint(gig.location.latitude, gig.location.longitude),
           ).toMap()
         ]),
         'waitListGigs': FieldValue.arrayUnion([
@@ -54,7 +55,9 @@ class DatabaseServiceUser {
             gigId: gig.gigId,
             title: gig.title,
             money: gig.money,
-            location: gig.location,
+            //location: gig.location,
+            location:
+            GeoFirePoint(gig.location.latitude, gig.location.longitude),
           ).toMap()
         ]),
         'allGigs': FieldValue.arrayUnion([
@@ -62,7 +65,9 @@ class DatabaseServiceUser {
             gigId: gig.gigId,
             title: gig.title,
             money: gig.money,
-            location: gig.location,
+            //location: gig.location,
+            location:
+            GeoFirePoint(gig.location.latitude, gig.location.longitude),
           ).toMap()
         ]),
       }).then((value) {
