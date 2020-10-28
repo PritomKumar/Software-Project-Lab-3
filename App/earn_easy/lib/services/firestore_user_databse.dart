@@ -4,6 +4,8 @@ import 'package:earneasy/models/user.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'location_service.dart';
+
 class DatabaseServiceUser {
   final CollectionReference fireStoreUsersRef =
       FirebaseFirestore.instance.collection("Users");
@@ -45,6 +47,8 @@ class DatabaseServiceUser {
             title: gig.title,
             money: gig.money,
             location: gig.location,
+            distance: LocationService()
+                .calculateDistanceGigAndUserCurrentLocation(gig.location),
           ).toMap()
         ]),
         'waitListGigs': FieldValue.arrayUnion([
@@ -53,6 +57,8 @@ class DatabaseServiceUser {
             title: gig.title,
             money: gig.money,
             location: gig.location,
+            distance: LocationService()
+                .calculateDistanceGigAndUserCurrentLocation(gig.location),
           ).toMap()
         ]),
         'allGigs': FieldValue.arrayUnion([
@@ -61,6 +67,8 @@ class DatabaseServiceUser {
             title: gig.title,
             money: gig.money,
             location: gig.location,
+            distance: LocationService()
+                .calculateDistanceGigAndUserCurrentLocation(gig.location),
           ).toMap()
         ]),
       }).then((value) {

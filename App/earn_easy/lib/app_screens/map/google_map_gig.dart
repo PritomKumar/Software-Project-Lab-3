@@ -282,7 +282,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
 
   @override
   Widget build(BuildContext context) {
-    _gigList = Provider.of<List<Gig>>(context);
+    _gigList = Provider.of<List<Gig>>(context, listen: false);
     _user = Provider.of<UserAccount>(context);
     setState(() {
       if (_gigList != null) addMarkersWIthGig(_gigList);
