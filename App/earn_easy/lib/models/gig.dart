@@ -22,7 +22,7 @@ class GigMini {
   GigMini.fromMap(Map<String, dynamic> data)
       : this.gigId = data["gigId"],
         this.money = data["money"],
-        this.location = data["location"]['geopoint'],
+        this.location = data["location"]['geopoint'] ?? null,
         this.distance = data["distance"],
         this.title = data["title"];
 
@@ -85,7 +85,7 @@ class Gig {
       : this.gigId = data["gigId"],
         this.money = data["money"],
         this.title = data["title"],
-        this.location = data["location"],
+        this.location = data["location"]['geopoint'] ?? null,
         this.description = data["description"],
         this.details = data["details"],
         this.startTime = data["startTime"],
@@ -110,7 +110,9 @@ class Gig {
       'gigId': this.gigId ?? "",
       'money': this.money ?? 0,
       'title': this.title ?? "",
-      'location': this.location ?? null,
+      'location':
+          GeoFirePoint(this.location.latitude, this.location.longitude).data ??
+              null,
       'description': this.description ?? "",
       'details': this.details ?? "",
       'startTime': this.startTime ?? defaultInitializedTimestamp,
