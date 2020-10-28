@@ -170,12 +170,13 @@ import 'package:rxdart/rxdart.dart';
 //
 // }
 
-class GeoFlutterExample extends StatefulWidget {
+class GeoFlutterExampleVersion2 extends StatefulWidget {
   @override
-  _GeoFlutterExampleState createState() => _GeoFlutterExampleState();
+  _GeoFlutterExampleVersion2State createState() =>
+      _GeoFlutterExampleVersion2State();
 }
 
-class _GeoFlutterExampleState extends State<GeoFlutterExample> {
+class _GeoFlutterExampleVersion2State extends State<GeoFlutterExampleVersion2> {
   GoogleMapController _mapController;
   TextEditingController _latitudeController, _longitudeController;
 
@@ -433,7 +434,7 @@ class _GeoFlutterExampleState extends State<GeoFlutterExample> {
     documentList.forEach((DocumentSnapshot document) {
       final GeoPoint point = document.data()['position']['geopoint'];
       final GeoFirePoint firePoint =
-      GeoFirePoint(point.latitude, point.longitude);
+          GeoFirePoint(point.latitude, point.longitude);
       print(" GeoFirePoint =  " + firePoint.data.toString());
       _addMarker(point.latitude, point.longitude);
     });
