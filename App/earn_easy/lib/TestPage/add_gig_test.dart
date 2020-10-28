@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/TestPage/add_image_file_dialog.dart';
 import 'package:earneasy/models/gig.dart';
 import 'package:earneasy/models/task.dart';
-import 'package:earneasy/models/user.dart';
 import 'package:earneasy/services/firestore_gig_databse.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
@@ -12,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:provider/provider.dart';
 
 class GigAddTest extends StatefulWidget {
   final LatLng location = LatLng(40.7128, 74.0060);
@@ -538,9 +536,9 @@ class _GigAddState extends State<GigAddTest> {
                                     0,
                                 title: titleController.text ?? "",
                                 description: descriptionController.text ?? "",
-                                location: geoLocation,
-                                //providerId: user.uid,
-                                startTime: Timestamp.fromDate(
+                                //location: geoLocation,
+                                        //providerId: user.uid,
+                                        startTime: Timestamp.fromDate(
                                     Utils.combineDateTimeWithTimeOfDay(
                                         dateTime: startDate,
                                         timeOfDay: startTime)),
