@@ -441,11 +441,11 @@ class _GeoFlutterExampleState extends State<GeoFlutterExample> {
       //.where('name', isEqualTo: 'darshan');
       //print("rad = $rad");
       return geo.collection(collectionRef: collectionReference).within(
-        center: center,
-        radius: rad,
-        field: 'position',
-        strictMode: true,
-      );
+            center: center,
+            radius: rad,
+            field: 'position',
+            strictMode: true,
+          );
 
       /*
       ****Example to specify nested object****
@@ -511,6 +511,9 @@ class _GeoFlutterExampleState extends State<GeoFlutterExample> {
     markers.clear();
     documentList.forEach((DocumentSnapshot document) {
       final GeoPoint point = document.data()['position']['geopoint'];
+      final GeoFirePoint firePoint =
+      GeoFirePoint(point.latitude, point.longitude);
+      print(" GeoFirePoint =  " + firePoint.data.toString());
       _addMarker(point.latitude, point.longitude);
     });
     print("Marker sdfhksjhf kjasdhfkjsd hk Number = ${markers.length}");
