@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:rxdart/rxdart.dart';
 
 // class FireMap extends StatefulWidget {
 //   State createState() => FireMapState();
@@ -184,9 +183,11 @@ class _GeoFlutterExampleVersion2State extends State<GeoFlutterExampleVersion2> {
   final _firestore = FirebaseFirestore.instance;
   Geoflutterfire geo;
   Stream<List<DocumentSnapshot>> stream;
-  final radius = BehaviorSubject<double>.seeded(1.0);
+
+  //final radius = BehaviorSubject<double>.seeded(1.0);
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   LatLng _cameraPositionCenter = LatLng(12.960632, 77.641603);
+  double radiusLevelCurrent = 2.327804656243825;
 
   @override
   void initState() {
@@ -200,7 +201,7 @@ class _GeoFlutterExampleVersion2State extends State<GeoFlutterExampleVersion2> {
   void dispose() {
     _latitudeController.dispose();
     _longitudeController.dispose();
-    radius.close();
+    // radius.close();
     super.dispose();
   }
 
@@ -235,23 +236,14 @@ class _GeoFlutterExampleVersion2State extends State<GeoFlutterExampleVersion2> {
                 onMapCreated: _onMapCreated,
                 onCameraMove: (CameraPosition cameraPosition) {
                   // print("Zoom Level = ${cameraPosition.zoom}");
-
-                  markers.clear();
+                  //markers.clear();
                   _cameraPositionCenter = cameraPosition.target;
-                  double metersPerPx = 156543.03392 *
-                      Math.cos(cameraPosition.target.latitude * Math.pi / 180) /
-                      Math.pow(2, cameraPosition.zoom + 1);
-                  // print("metersPerPx = $metersPerPx");
-                  //print("target center = ${cameraPosition.target.toJson()}");
-                  double radiusLevelCurrent = radiusLevel(
+                  radiusLevelCurrent = radiusLevel(
                       cameraPosition.zoom, cameraPosition.target.latitude);
-                  // radius.add((21-cameraPosition.zoom)*5);
-                  // print("Zoom = ${cameraPosition.zoom} radius = $radiusLevelCurrent");
-                  //radius.add(radiusLevelCurrent);
-                  radius.add(metersPerPx);
-                  // _startQuery();
                 },
-                onCameraIdle: _startQuery,
+
+                //onCameraIdle: _startQuery,
+
                 onTap: (latlong) {
                   print(latlong.toJson());
                   final lat = latlong.latitude;
@@ -269,73 +261,14 @@ class _GeoFlutterExampleVersion2State extends State<GeoFlutterExampleVersion2> {
                 ),
                 markers: Set<Marker>.of(markers.values),
               ),
-              // Padding(
-              //   padding: const EdgeInsets.only(top: 8.0),
-              //   child: Slider(
-              //     min: 1,
-              //     max: 200,
-              //     divisions: 4,
-              //     value: _value,
-              //     label: _label,
-              //     activeColor: Colors.blue,
-              //     inactiveColor: Colors.blue.withOpacity(0.2),
-              //     onChanged: (double value) => changed(value),
-              //   ),
-              // ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //   children: <Widget>[
-              //     Container(
-              //       width: 100,
-              //       child: TextField(
-              //         controller: _latitudeController,
-              //         keyboardType: TextInputType.number,
-              //         textInputAction: TextInputAction.next,
-              //         decoration: InputDecoration(
-              //             labelText: 'lat',
-              //             border: OutlineInputBorder(
-              //               borderRadius: BorderRadius.circular(8),
-              //             )),
-              //       ),
-              //     ),
-              //     Container(
-              //       width: 100,
-              //       child: TextField(
-              //         controller: _longitudeController,
-              //         keyboardType: TextInputType.number,
-              //         decoration: InputDecoration(
-              //             labelText: 'lng',
-              //             border: OutlineInputBorder(
-              //               borderRadius: BorderRadius.circular(8),
-              //             )),
-              //       ),
-              //     ),
-              //     MaterialButton(
-              //       color: Colors.blue,
-              //       onPressed: () async {
-              //         final lat = double.parse(_latitudeController.text);
-              //         final lng = double.parse(_longitudeController.text);
-              //         //_addPoint(lat, lng);
-              //       },
-              //       child: const Text(
-              //         'ADD',
-              //         style: TextStyle(color: Colors.white),
-              //       ),
-              //     )
-              //   ],
-              // ),
-              // MaterialButton(
-              //   color: Colors.amber,
-              //   child: const Text(
-              //     'Add nested ',
-              //     style: TextStyle(color: Colors.white),
-              //   ),
-              //   onPressed: () {
-              //     final lat = double.parse(_latitudeController.text);
-              //     final lng = double.parse(_longitudeController.text);
-              //     _addNestedPoint(lat, lng);
-              //   },
-              // )
+              RaisedButton(
+                child: Text(
+                  "Search Area",
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: _startQuery,
+                color: Colors.blue[700],
+              ),
             ],
           ),
         ),
@@ -347,8 +280,8 @@ class _GeoFlutterExampleVersion2State extends State<GeoFlutterExampleVersion2> {
     setState(() {
       _mapController = controller;
       geo = Geoflutterfire();
-      radius.add(2.327804656243825);
-      //_startQuery();
+      //radius.add(2.327804656243825);
+      _startQuery();
     });
   }
 
@@ -358,27 +291,36 @@ class _GeoFlutterExampleVersion2State extends State<GeoFlutterExampleVersion2> {
         latitude: _cameraPositionCenter.latitude,
         longitude: _cameraPositionCenter.longitude);
 
-    stream = radius.switchMap((rad) {
-      var collectionReference = _firestore.collection('locations');
-      //.where('name', isEqualTo: 'darshan');
-      //print("rad = $rad");
-      return geo.collection(collectionRef: collectionReference).within(
-            center: center,
-            radius: rad,
-            field: 'position',
-            strictMode: true,
-          );
+    var collectionReference = _firestore.collection('locations');
 
-      /*
-      ****Example to specify nested object****
+    stream = geo.collection(collectionRef: collectionReference).within(
+          center: center,
+          radius: radiusLevelCurrent,
+          field: 'position',
+          strictMode: true,
+        );
 
-      var collectionReference = _firestore.collection('nestedLocations');
-      //.where('name', isEqualTo: 'darshan');
-      return geo.collection(collectionRef: collectionReference).within(
-          center: center, radius: rad, field: 'address.location.position');
-
-      */
-    });
+    // stream = radius.switchMap((rad) {
+    //   var collectionReference = _firestore.collection('locations');
+    //   //.where('name', isEqualTo: 'darshan');
+    //   //print("rad = $rad");
+    //   return geo.collection(collectionRef: collectionReference).within(
+    //         center: center,
+    //         radius: rad,
+    //         field: 'position',
+    //         strictMode: true,
+    //       );
+    //
+    //   /*
+    //   ****Example to specify nested object****
+    //
+    //   var collectionReference = _firestore.collection('nestedLocations');
+    //   //.where('name', isEqualTo: 'darshan');
+    //   return geo.collection(collectionRef: collectionReference).within(
+    //       center: center, radius: rad, field: 'address.location.position');
+    //
+    //   */
+    // });
 
     stream.listen((List<DocumentSnapshot> documentList) {
       _updateMarkers(documentList);
@@ -451,6 +393,6 @@ class _GeoFlutterExampleVersion2State extends State<GeoFlutterExampleVersion2> {
 
       markers.clear();
     });
-    radius.add(value);
+    //radius.add(value);
   }
 }
