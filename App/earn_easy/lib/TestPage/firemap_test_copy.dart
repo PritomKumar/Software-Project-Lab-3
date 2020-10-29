@@ -276,16 +276,15 @@ class _GeoFlutterExampleVersion2State extends State<GeoFlutterExampleVersion2> {
     );
   }
 
-  void _onMapCreated(GoogleMapController controller) {
-    setState(() {
-      _mapController = controller;
-      geo = Geoflutterfire();
-      //radius.add(2.327804656243825);
-      _startQuery();
-    });
+  void _onMapCreated(GoogleMapController controller) async {
+    _mapController = controller;
+    geo = Geoflutterfire();
+    //radius.add(2.327804656243825);
+    await _startQuery();
+    setState(() {});
   }
 
-  _startQuery() async {
+  Future _startQuery() async {
     print("_cameraPositionCenter = ${_cameraPositionCenter.toJson()}");
     GeoFirePoint center = geo.point(
         latitude: _cameraPositionCenter.latitude,
@@ -299,28 +298,6 @@ class _GeoFlutterExampleVersion2State extends State<GeoFlutterExampleVersion2> {
           field: 'position',
           strictMode: true,
         );
-
-    // stream = radius.switchMap((rad) {
-    //   var collectionReference = _firestore.collection('locations');
-    //   //.where('name', isEqualTo: 'darshan');
-    //   //print("rad = $rad");
-    //   return geo.collection(collectionRef: collectionReference).within(
-    //         center: center,
-    //         radius: rad,
-    //         field: 'position',
-    //         strictMode: true,
-    //       );
-    //
-    //   /*
-    //   ****Example to specify nested object****
-    //
-    //   var collectionReference = _firestore.collection('nestedLocations');
-    //   //.where('name', isEqualTo: 'darshan');
-    //   return geo.collection(collectionRef: collectionReference).within(
-    //       center: center, radius: rad, field: 'address.location.position');
-    //
-    //   */
-    // });
 
     stream.listen((List<DocumentSnapshot> documentList) {
       _updateMarkers(documentList);
