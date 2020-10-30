@@ -1,4 +1,4 @@
-import 'package:earneasy/TestPage/firemap_test_copy.dart';
+import 'package:earneasy/app_screens/splash_screen.dart';
 import 'package:earneasy/services/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: GeoFlutterExampleVersion2(),
+          home: SplashScreen(),
         ));
   }
 }

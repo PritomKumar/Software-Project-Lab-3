@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:math' as Math;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/app_screens/gigs/gig_page.dart';
@@ -12,6 +13,7 @@ import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -42,6 +44,10 @@ class _GoogleMapsState extends State<GoogleMaps> {
   String userType = "worker";
   int _bottomNavigationBarIndex = 0;
   LatLng _currentLocation;
+  LatLng _cameraPositionCenter = LatLng(12.960632, 77.641603);
+  double radiusLevelCurrent = 2.327804656243825;
+  Geoflutterfire geo;
+  Stream<List<DocumentSnapshot>> stream;
 
   @override
   void initState() {
@@ -52,7 +58,9 @@ class _GoogleMapsState extends State<GoogleMaps> {
 
   void _onMapCreated(GoogleMapController controller) async {
     _mapController = controller;
+    geo = Geoflutterfire();
     await _animateCameraToCurrentLocation();
+    await _startQuery();
     _calculateDistanceForAllGigs();
     _createAvailableGigMiniListFromGigList();
     _calculateDistanceForAllGigMiniInUserData();
@@ -69,6 +77,38 @@ class _GoogleMapsState extends State<GoogleMaps> {
         ),
       );
     });
+  }
+
+  Future _startQuery() async {
+    print("_cameraPositionCenter = ${currentUserLocation.toJson()}");
+    GeoFirePoint center = geo.point(
+        latitude: currentUserLocation.latitude,
+        longitude: currentUserLocation.longitude);
+
+    stream = geo.collection(collectionRef: fireStoreGigsRef).within(
+      center: center,
+      radius: radiusLevelCurrent,
+      field: 'location',
+      strictMode: true,
+    );
+
+    _gigList.clear();
+    stream.listen((List<DocumentSnapshot> documentList) {
+      documentList.forEach((DocumentSnapshot document) {
+        _gigList.add(Gig.fromMap(document.data()));
+      });
+    });
+    print("Marker sdfhksjhf kjasdhfkjsd hk Number = ${_gigList.length}");
+
+    if (_gigList != null) addMarkersWIthGig(_gigList);
+
+    setState(() {});
+  }
+
+  double radiusLevel(double zoom, double latitude) {
+    return 156543.03392 *
+        Math.cos(latitude * Math.pi / 180) /
+        Math.pow(2, zoom + 1);
   }
 
   _createAvailableGigMiniListFromGigList() {
@@ -282,11 +322,10 @@ class _GoogleMapsState extends State<GoogleMaps> {
 
   @override
   Widget build(BuildContext context) {
-    _gigList = Provider.of<List<Gig>>(context, listen: false);
     _user = Provider.of<UserAccount>(context);
     setState(() {
       if (_gigList != null) addMarkersWIthGig(_gigList);
-      if (_gigList != null && _user != null) {
+      if (_user != null) {
         _isLoading = true;
       }
     });
@@ -370,25 +409,46 @@ class _GoogleMapsState extends State<GoogleMaps> {
                     target: LatLng(40.7128, -74.0060),
                     zoom: 14.0,
                   ),
+                  onCameraMove: (CameraPosition cameraPosition) {
+                    // print("Zoom Level = ${cameraPosition.zoom}");
+                    //markers.clear();
+                    _cameraPositionCenter = cameraPosition.target;
+                    radiusLevelCurrent = radiusLevel(
+                        cameraPosition.zoom, cameraPosition.target.latitude);
+                  },
+
                   markers: userType == "worker" ? _gigMarkers : _myMarkers,
-                  onCameraMove: _isTapped
-                      ? ((_position) => _updatePosition(_position))
-                      : null,
+                  //TODO Drag option
+                  // onCameraMove: _isTapped
+                  //     ? ((_position) => _updatePosition(_position))
+                  //     : null,
                   onTap: _handleTap,
                   myLocationButtonEnabled: true,
                   myLocationEnabled: true,
                   compassEnabled: true,
                 ),
+                Positioned(
+                  top: 0,
+                  left: 10,
+                  child: RaisedButton(
+                    child: Text(
+                      "Search Area",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: _startQuery,
+                    color: Colors.blue[700],
+                  ),
+                ),
                 userType == "provider"
                     ? Container(
-                        alignment: Alignment.bottomCenter,
-                        child: RaisedButton(
-                          child: Text("Add GIG"),
-                          onPressed: () {
-                            _tappedPosition != null
-                                ? Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) {
-                                      return GigAddPage(
+                  alignment: Alignment.bottomCenter,
+                  child: RaisedButton(
+                    child: Text("Add GIG"),
+                    onPressed: () {
+                      _tappedPosition != null
+                          ? Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return GigAddPage(
                                         location: _tappedPosition,
                                       );
                                     },
