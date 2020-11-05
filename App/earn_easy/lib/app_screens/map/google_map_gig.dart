@@ -81,10 +81,10 @@ class _GoogleMapsState extends State<GoogleMaps> {
   }
 
   Future _startQuery() async {
-    print("_cameraPositionCenter = ${_currentLocation.toJson()}");
+    print("_cameraPositionCenter = ${_cameraPositionCenter.toJson()}");
     GeoFirePoint center = geo.point(
-        latitude: _currentLocation.latitude,
-        longitude: _currentLocation.longitude);
+        latitude: _cameraPositionCenter.latitude,
+        longitude: _cameraPositionCenter.longitude);
 
     stream = geo.collection(collectionRef: fireStoreGigsRef).within(
           center: center,
@@ -93,17 +93,48 @@ class _GoogleMapsState extends State<GoogleMaps> {
           strictMode: true,
         );
 
-    _gigList.clear();
     LatLng location = await _getCurrentLocationFromUserLocation();
-    stream.listen((List<DocumentSnapshot> documentList) {
+
+    // stream.map((List<DocumentSnapshot> documentList) {
+    //   documentList.forEach((DocumentSnapshot document) {
+    //     _gigList.add(Gig.fromMap(document.data()));
+    //     print("_gigList Size  = ${_gigList.length}");
+    //   });
+    // });
+
+    // var data = await stream.last;
+    // print("data = ${data.length}");
+    //
+    // data.forEach((DocumentSnapshot document) {
+    //   _gigList.add(Gig.fromMap(document.data()));
+    //   print("_gigList Size  = ${_gigList.length}");
+    // });
+
+    // stream.listen((List<DocumentSnapshot> documentList) {
+    //   print("documentList = ${documentList.length}");
+    //   documentList.forEach((DocumentSnapshot document) {
+    //     _gigList.add(Gig.fromMap(document.data()));
+    //     print("_gigList Size  = ${_gigList.length}");
+    //   });
+    // }).onDone(() {
+    //   print("Marker on Done Number = ${_gigList.length}");
+    //   addMarkersWIthGig(_gigList);
+    // });
+
+    stream.listen((_) {}).onData((List<DocumentSnapshot> documentList) {
+      _gigList.clear();
       print("documentList = ${documentList.length}");
       documentList.forEach((DocumentSnapshot document) {
         _gigList.add(Gig.fromMap(document.data()));
+        //  print("_gigList Size  = ${_gigList.length}");
       });
+      print("Marker on data hk Number = ${_gigList.length}");
+      _createAvailableGigMiniListFromGigList();
+      addMarkersWIthGig(_gigList);
     });
     print("Marker sdfhksjhf kjasdhfkjsd hk Number = ${_gigList.length}");
 
-    if (_gigList != null) addMarkersWIthGig(_gigList);
+    //if (_gigList != null) addMarkersWIthGig(_gigList);
 
     setState(() {});
   }
@@ -115,15 +146,26 @@ class _GoogleMapsState extends State<GoogleMaps> {
   }
 
   _createAvailableGigMiniListFromGigList() {
-    if (_gigList.length > 0) {
+    if (_gigList != null) {
+      _availableGigList.clear();
       for (var gig in _gigList) {
         _availableGigList.add(GigMini(
           gigId: gig.gigId,
           money: gig.money,
           title: gig.title,
           location: gig.location,
-          distance: gig.distance,
+          // distance: gig.distance,
         ));
+      }
+      _addDistanceToAvailableGigs();
+    }
+  }
+
+  _addDistanceToAvailableGigs() {
+    if (_availableGigList.length > 0 && _currentLocation != null) {
+      for (var gigMini in _availableGigList) {
+        gigMini.distance = LocationService()
+            .calculateDistanceGigAndUserCurrentLocation(gigMini.location);
       }
     }
   }

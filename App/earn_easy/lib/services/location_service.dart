@@ -66,7 +66,7 @@ class LocationService {
                   mapToolkit.LatLng(
                       gigLocation.latitude, gigLocation.longitude)) /
               1000.0;
-      print("Distance =  $distanceBetweenPoints");
+     // print("Distance =  $distanceBetweenPoints");
       return distanceBetweenPoints;
     } else {
       return double.maxFinite;
