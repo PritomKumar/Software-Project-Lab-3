@@ -58,6 +58,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
 
   void _onMapCreated(GoogleMapController controller) async {
     _mapController = controller;
+    _currentLocation = await _getCurrentLocationFromUserLocation();
     geo = Geoflutterfire();
     await _animateCameraToCurrentLocation();
     await _startQuery();
@@ -80,20 +81,22 @@ class _GoogleMapsState extends State<GoogleMaps> {
   }
 
   Future _startQuery() async {
-    print("_cameraPositionCenter = ${currentUserLocation.toJson()}");
+    print("_cameraPositionCenter = ${_currentLocation.toJson()}");
     GeoFirePoint center = geo.point(
-        latitude: currentUserLocation.latitude,
-        longitude: currentUserLocation.longitude);
+        latitude: _currentLocation.latitude,
+        longitude: _currentLocation.longitude);
 
     stream = geo.collection(collectionRef: fireStoreGigsRef).within(
-      center: center,
-      radius: radiusLevelCurrent,
-      field: 'location',
-      strictMode: true,
-    );
+          center: center,
+          radius: radiusLevelCurrent,
+          field: 'location',
+          strictMode: true,
+        );
 
     _gigList.clear();
+    LatLng location = await _getCurrentLocationFromUserLocation();
     stream.listen((List<DocumentSnapshot> documentList) {
+      print("documentList = ${documentList.length}");
       documentList.forEach((DocumentSnapshot document) {
         _gigList.add(Gig.fromMap(document.data()));
       });
@@ -306,12 +309,10 @@ class _GoogleMapsState extends State<GoogleMaps> {
   }
 
   Future _animateCameraToCurrentLocation() async {
-    LatLng location = await _getCurrentLocationFromUserLocation();
-    _currentLocation = location;
     if (_mapController != null) {
       _mapController
           .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-        target: location,
+        target: _currentLocation,
         zoom: 15.0,
         tilt: 0,
       )));
@@ -449,14 +450,14 @@ class _GoogleMapsState extends State<GoogleMaps> {
                           ? Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
                           return GigAddPage(
-                                        location: _tappedPosition,
-                                      );
-                                    },
-                                  ))
-                                : Loading();
-                          },
-                        ),
-                      )
+                            location: _tappedPosition,
+                          );
+                        },
+                      ))
+                          : Loading();
+                    },
+                  ),
+                )
                     : _selectCustomMapBox(_user, _bottomNavigationBarIndex),
               ],
             ),
