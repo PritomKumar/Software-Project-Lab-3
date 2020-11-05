@@ -59,6 +59,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
   void _onMapCreated(GoogleMapController controller) async {
     _mapController = controller;
     _currentLocation = await _getCurrentLocationFromUserLocation();
+    _cameraPositionCenter = _currentLocation;
     geo = Geoflutterfire();
     await _animateCameraToCurrentLocation();
     await _startQuery();
@@ -131,12 +132,11 @@ class _GoogleMapsState extends State<GoogleMaps> {
       print("Marker on data hk Number = ${_gigList.length}");
       _createAvailableGigMiniListFromGigList();
       addMarkersWIthGig(_gigList);
+      setState(() {});
     });
     print("Marker sdfhksjhf kjasdhfkjsd hk Number = ${_gigList.length}");
 
     //if (_gigList != null) addMarkersWIthGig(_gigList);
-
-    setState(() {});
   }
 
   double radiusLevel(double zoom, double latitude) {
