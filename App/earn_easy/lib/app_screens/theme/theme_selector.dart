@@ -8,7 +8,6 @@ class ThemeSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeChanger _themeChanger = Provider.of<ThemeChanger>(context);
-
     return MaterialApp(
       theme: _themeChanger.getTheme(),
       debugShowCheckedModeBanner: false,
@@ -41,6 +40,13 @@ class ThemeSelector extends StatelessWidget {
                     primarySwatch: Colors.blue,
                   )),
                 ),
+                Text(
+                  "Primay color = ${Theme.of(context).primaryColor}",
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontSize: 30.0,
+                  ),
+                )
               ],
             ),
           ),

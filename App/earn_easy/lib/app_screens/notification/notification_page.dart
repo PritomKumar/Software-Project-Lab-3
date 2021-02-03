@@ -6,6 +6,7 @@ class NotificationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: Theme.of(context),
       home: SafeArea(
         child: Scaffold(
           drawer: SideDrawer(),
