@@ -24,8 +24,19 @@ class ThemeSelector extends StatelessWidget {
                     FontAwesomeIcons.solidCircle,
                     color: Colors.green,
                   ),
+                  title: Text("Green Theme"),
                   onTap: () => _themeChanger.setTheme(ThemeData(
                     primarySwatch: Colors.green,
+                  )),
+                ),
+                ListTile(
+                  leading: Icon(
+                    FontAwesomeIcons.solidCircle,
+                    color: Colors.blue,
+                  ),
+                  title: Text("Blue Theme"),
+                  onTap: () => _themeChanger.setTheme(ThemeData(
+                    primarySwatch: Colors.blue,
                   )),
                 ),
               ],
