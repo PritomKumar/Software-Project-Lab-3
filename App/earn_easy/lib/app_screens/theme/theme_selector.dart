@@ -9,6 +9,7 @@ class ThemeSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeChanger _themeChanger = Provider.of<ThemeChanger>(context);
     return MaterialApp(
+      theme: _themeChanger.getTheme(),
       debugShowCheckedModeBanner: false,
       home: SafeArea(
         child: Scaffold(
@@ -26,7 +27,7 @@ class ThemeSelector extends StatelessWidget {
                   ),
                   title: Text("Green Theme"),
                   onTap: () => _themeChanger.setTheme(ThemeData(
-                    primarySwatch: Colors.green,
+                    primarySwatch: Colors.purple,
                   )),
                 ),
                 ListTile(
