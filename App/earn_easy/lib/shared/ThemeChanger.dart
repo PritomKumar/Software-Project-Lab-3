@@ -6,14 +6,9 @@ class ThemeChanger with ChangeNotifier {
   ThemeChanger(this._themeData);
 
   getTheme() => _themeData;
-
   setTheme(ThemeData theme) {
     _themeData = theme;
-  }
 
-  @override
-  void notifyListeners() {
-    // TODO: implement notifyListeners
-    super.notifyListeners();
+    notifyListeners();
   }
 }
