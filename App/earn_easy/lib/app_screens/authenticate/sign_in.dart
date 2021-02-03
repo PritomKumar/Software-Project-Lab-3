@@ -36,9 +36,9 @@ class _SignInState extends State<SignIn> {
       child: loading
           ? Loading()
           : Scaffold(
-              backgroundColor: Colors.blue[100],
+              backgroundColor: Colors.grey[200],
               appBar: AppBar(
-                backgroundColor: Colors.blue[400],
+                backgroundColor: Theme.of(context).primaryColor,
                 elevation: 0.0,
                 title: Text("Sign In Page"),
                 actions: <Widget>[

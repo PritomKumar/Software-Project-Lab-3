@@ -5,6 +5,7 @@ class Setting extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: Theme.of(context),
       debugShowCheckedModeBanner: false,
       home: SafeArea(
         child: Scaffold(

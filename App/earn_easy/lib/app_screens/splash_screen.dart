@@ -1,13 +1,8 @@
 import 'dart:async';
 
-import 'file:///F:/IIT%207th%20Semester/SPL3/Software-Project-Lab-3/App/earn_easy/lib/app_screens/home/login_screen.dart';
-import 'package:earneasy/app_screens/search_screen_loader.dart';
 import 'package:earneasy/app_screens/wrapper.dart';
-import 'package:earneasy/models/user.dart';
-import 'package:earneasy/services/auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   @override

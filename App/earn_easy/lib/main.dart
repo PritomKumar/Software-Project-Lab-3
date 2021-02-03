@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         value: AuthService().user,
         child: ChangeNotifierProvider<ThemeChanger>(
           create: (_) => ThemeChanger(ThemeData(
-            primarySwatch: Colors.blue,
+            primarySwatch: Colors.green,
           )),
           child: MaterialApp(
             debugShowCheckedModeBanner: false,

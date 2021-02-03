@@ -516,6 +516,7 @@ class _ProfileState extends State<Profile> {
 
       return MaterialApp(
         debugShowCheckedModeBanner: false,
+        theme: Theme.of(context),
         home: SafeArea(
           child: Scaffold(
             drawer: SideDrawer(),
