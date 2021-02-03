@@ -1,5 +1,6 @@
 import 'package:earneasy/app_screens/splash_screen.dart';
 import 'package:earneasy/services/auth.dart';
+import 'package:earneasy/shared/ThemeChanger.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,13 +19,15 @@ class MyApp extends StatelessWidget {
     // TODO: implement build
     return StreamProvider<UserMinimum>.value(
         value: AuthService().user,
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Spl3 App',
-          theme: ThemeData(
+        child: ChangeNotifierProvider<ThemeChanger>(
+          create: (_) => ThemeChanger(ThemeData(
             primarySwatch: Colors.blue,
+          )),
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Spl3 App',
+            home: SplashScreen(),
           ),
-          home: SplashScreen(),
         ));
   }
 }
