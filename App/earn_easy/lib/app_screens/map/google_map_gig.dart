@@ -479,7 +479,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: _startQuery,
-                    color: Colors.blue[700],
+                    color: Theme.of(context).buttonColor,
                   ),
                 ),
                 userType == "provider"

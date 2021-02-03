@@ -26,9 +26,11 @@ class _MapCustomItemBoxViewerState extends State<MapCustomItemBoxViewer> {
       child: Card(
         elevation: 15.0,
         shadowColor: Colors.green,
-        color: Colors.blue[300],
+        color: Theme.of(context).primaryColorLight,
         child: ExpansionTile(
           onExpansionChanged: (bool value) {
+            print(
+                "Expansion tile color = ${Theme.of(context).primaryColorLight}");
             setState(() {
               isExpanded = value;
             });
