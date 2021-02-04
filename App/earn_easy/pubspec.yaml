@@ -32,6 +32,7 @@ dependencies:
   provider: ^4.3.1
   url_launcher: ^5.5.0
   http: ^0.12.2
+  shared_preferences:
 
   # FireBase Dependencies
   firebase_auth: ^0.18.0
