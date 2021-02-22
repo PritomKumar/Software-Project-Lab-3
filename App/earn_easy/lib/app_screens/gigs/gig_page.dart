@@ -1,14 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/app_screens/task/task_list.dart';
 import 'package:earneasy/models/gig.dart';
 import 'package:earneasy/models/user.dart';
+import 'package:earneasy/services/firestore_gig_databse.dart';
 import 'package:earneasy/services/firestore_task_databse.dart';
 import 'package:earneasy/services/firestore_user_databse.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:earneasy/services/firestore_gig_databse.dart';
 
 class GigPage extends StatefulWidget {
   final Gig gig;
@@ -204,7 +203,7 @@ class _GigPageState extends State<GigPage> {
                         children: <Widget>[
                           Icon(
                             FontAwesomeIcons.envelopeOpenText,
-                            color: Colors.black,
+                            color: Colors.red,
                           ),
                           SizedBox(
                             width: 10.0,
@@ -220,12 +219,16 @@ class _GigPageState extends State<GigPage> {
                           SizedBox(
                             width: 10.0,
                           ),
-                          Text(
-                            gig.description.toString(),
-                            style: TextStyle(
-                              color: Colors.black87,
-                              fontSize: 24.0,
-                              fontWeight: FontWeight.w300,
+                          Expanded(
+                            child: Text(
+                              gig.description.toString(),
+                              style: TextStyle(
+                                color: Colors.black87,
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.w300,
+                              ),
+                              maxLines: 1000,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                         ],

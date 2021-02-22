@@ -29,6 +29,7 @@ class ThemeSelector extends StatelessWidget {
                   title: Text("Green Theme"),
                   onTap: () => _themeChanger.setTheme(ThemeData(
                     primarySwatch: Colors.green,
+                    buttonColor: Colors.deepPurpleAccent,
                   )),
                 ),
                 ListTile(
@@ -39,6 +40,7 @@ class ThemeSelector extends StatelessWidget {
                   title: Text("Blue Theme"),
                   onTap: () => _themeChanger.setTheme(ThemeData(
                     primarySwatch: Colors.blue,
+                    buttonColor: Colors.pink,
                   )),
                 ),
                 ListTile(
@@ -49,6 +51,7 @@ class ThemeSelector extends StatelessWidget {
                   title: Text("Red Theme"),
                   onTap: () => _themeChanger.setTheme(ThemeData(
                     primarySwatch: Colors.red,
+                    buttonColor: Colors.blueAccent,
                   )),
                 ),
                 Text(
