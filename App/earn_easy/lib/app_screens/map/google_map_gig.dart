@@ -493,7 +493,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
                             "Add GIG",
                             style: TextStyle(color: Colors.white),
                           ),
-                          //color: Colors.deepPurpleAccent,
+                          color: Colors.deepPurpleAccent,
                           onPressed: () {
                             _tappedPosition != null
                                 ? Navigator.push(context, MaterialPageRoute(
