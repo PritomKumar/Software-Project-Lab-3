@@ -54,13 +54,13 @@ class ThemeSelector extends StatelessWidget {
                     buttonColor: Colors.blueAccent,
                   )),
                 ),
-                Text(
-                  "Primay color = ${Theme.of(context).primaryColor}",
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontSize: 30.0,
-                  ),
-                )
+                // Text(
+                //   "Primay color = ${Theme.of(context).primaryColor}",
+                //   style: TextStyle(
+                //     color: Theme.of(context).primaryColor,
+                //     fontSize: 30.0,
+                //   ),
+                // )
               ],
             ),
           ),

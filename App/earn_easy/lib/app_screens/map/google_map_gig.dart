@@ -470,36 +470,43 @@ class _GoogleMapsState extends State<GoogleMaps> {
                   myLocationEnabled: true,
                   compassEnabled: true,
                 ),
-                Positioned(
-                  top: 0,
-                  left: 10,
-                  child: RaisedButton(
-                    child: Text(
-                      "Search Area",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    onPressed: _startQuery,
-                    color: Theme.of(context).buttonColor,
-                  ),
-                ),
+                userType == "worker"
+                    ? Positioned(
+                        top: 0,
+                        left: 10,
+                        child: RaisedButton(
+                          child: Text(
+                            "Search Area",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onPressed: _startQuery,
+                          // color: Theme.of(context).buttonColor,
+                          color: Colors.blueAccent,
+                        ),
+                      )
+                    : Container(),
                 userType == "provider"
                     ? Container(
-                  alignment: Alignment.bottomCenter,
-                  child: RaisedButton(
-                    child: Text("Add GIG"),
-                    onPressed: () {
-                      _tappedPosition != null
-                          ? Navigator.push(context, MaterialPageRoute(
-                        builder: (context) {
-                          return GigAddPage(
-                            location: _tappedPosition,
-                          );
-                        },
-                      ))
-                          : Loading();
-                    },
-                  ),
-                )
+                        alignment: Alignment.bottomCenter,
+                        child: RaisedButton(
+                          child: Text(
+                            "Add GIG",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          //color: Colors.deepPurpleAccent,
+                          onPressed: () {
+                            _tappedPosition != null
+                                ? Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) {
+                                      return GigAddPage(
+                                        location: _tappedPosition,
+                                      );
+                                    },
+                                  ))
+                                : Loading();
+                          },
+                        ),
+                      )
                     : _selectCustomMapBox(_user, _bottomNavigationBarIndex),
               ],
             ),

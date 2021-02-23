@@ -9,14 +9,14 @@ class ThemeChanger with ChangeNotifier {
 
   ThemeChanger(ThemeData _themeData) {
     this._themeData = _themeData;
-    _loadFromPrefs();
+    //_loadFromPrefs();
   }
 
   getTheme() => _themeData;
 
   setTheme(ThemeData theme) {
     _themeData = theme;
-    _saveToPrefs();
+    //_saveToPrefs();
     notifyListeners();
   }
 
