@@ -66,6 +66,17 @@ class ThemeSelector extends StatelessWidget {
                     buttonColor: Colors.orangeAccent,
                   )),
                 ),
+                ListTile(
+                  leading: Icon(
+                    FontAwesomeIcons.solidCircle,
+                    color: Colors.deepPurple,
+                  ),
+                  title: Text("Deep Purple Theme"),
+                  onTap: () => _themeChanger.setTheme(ThemeData(
+                    primarySwatch: Colors.deepPurple,
+                    buttonColor: Colors.deepPurpleAccent,
+                  )),
+                ),
                 // Text(
                 //   "Primay color = ${Theme.of(context).primaryColor}",
                 //   style: TextStyle(
