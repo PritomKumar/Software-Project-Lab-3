@@ -4,8 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'file:///F:/SPL3/App/earn_easy/lib/app_screens/theme/theme_changer.dart';
-
+import 'app_screens/theme/theme_changer.dart';
 import 'models/user.dart';
 
 void main() async {

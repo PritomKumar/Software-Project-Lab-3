@@ -1,3 +1,4 @@
+import 'package:earneasy/app_screens/map/google_map_gig.dart';
 import 'package:earneasy/app_screens/notification/notification_page.dart';
 import 'package:earneasy/app_screens/profile/profile_page.dart';
 import 'package:earneasy/app_screens/setting/setting_page.dart';
@@ -7,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-import 'file:///F:/IIT%207th%20Semester/SPL3/Software-Project-Lab-3/App/earn_easy/lib/app_screens/map/google_map_gig.dart';
+// import 'file:///F:/IIT%207th%20Semester/SPL3/Software-Project-Lab-3/App/earn_easy/lib/app_screens/map/google_map_gig.dart';
 
 class SideDrawer extends StatelessWidget {
   const SideDrawer({Key key}) : super(key: key);
@@ -33,17 +34,17 @@ class SideDrawer extends StatelessWidget {
                   backgroundImage: user.photoUrl == ""
                       ? null
                       : NetworkImage(
-                          user.photoUrl,
-                        ),
+                    user.photoUrl,
+                  ),
                   child: user.photoUrl == ""
                       ? Text(
-                          user.email[0].toUpperCase(),
-                          style: TextStyle(
-                            fontSize: 24.0,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
+                    user.email[0].toUpperCase(),
+                    style: TextStyle(
+                      fontSize: 24.0,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )
                       : null,
                   backgroundColor: Colors.blue[600],
                   radius: 50.0,

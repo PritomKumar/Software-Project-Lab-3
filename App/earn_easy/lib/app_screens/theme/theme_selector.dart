@@ -1,9 +1,10 @@
 import 'package:earneasy/app_screens/home/side_drawer.dart';
+import 'package:earneasy/app_screens/theme/theme_changer.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-import 'file:///F:/SPL3/App/earn_easy/lib/app_screens/theme/theme_changer.dart';
+// import 'file:///F:/SPL3/App/earn_easy/lib/app_screens/theme/theme_changer.dart';
 
 class ThemeSelector extends StatelessWidget {
   @override
