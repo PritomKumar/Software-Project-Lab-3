@@ -55,6 +55,17 @@ class ThemeSelector extends StatelessWidget {
                     buttonColor: Colors.blueAccent,
                   )),
                 ),
+                ListTile(
+                  leading: Icon(
+                    FontAwesomeIcons.solidCircle,
+                    color: Colors.yellow,
+                  ),
+                  title: Text("Yellow Theme"),
+                  onTap: () => _themeChanger.setTheme(ThemeData(
+                    primarySwatch: Colors.yellow,
+                    buttonColor: Colors.orangeAccent,
+                  )),
+                ),
                 // Text(
                 //   "Primay color = ${Theme.of(context).primaryColor}",
                 //   style: TextStyle(
