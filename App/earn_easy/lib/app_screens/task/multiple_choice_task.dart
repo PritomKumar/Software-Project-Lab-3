@@ -120,6 +120,7 @@ class _MultipleChoiceTaskScreenState extends State<MultipleChoiceTaskScreen> {
                           if (_groupValue == null) {
                             showWarningToast("Please select a option.");
                           } else {
+                            _multipleChoiceTask.isCompleted = true;
                             await DatabaseServiceTasks()
                                 .updateMultipleChoiceTask(_multipleChoiceTask);
                             showSuccessToast(

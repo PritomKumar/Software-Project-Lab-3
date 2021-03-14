@@ -145,6 +145,7 @@ class _DropdownTaskScreenState extends State<DropdownTaskScreen> {
                           if (_checkIfAnyOptionsHaveBeenSelected() == false) {
                             showWarningToast("Please select an option.");
                           } else {
+                            _dropdownTask.isCompleted = true;
                             await DatabaseServiceTasks()
                                 .updateDropdownTask(_dropdownTask);
                             // Navigator.pop(context, _dropdownTask);

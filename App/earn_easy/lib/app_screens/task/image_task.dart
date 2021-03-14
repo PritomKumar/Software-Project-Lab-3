@@ -577,6 +577,7 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
                             //     .length} Task needed = ${_imageTask.numberOfImages}");
                             if (_imageFileList.length >=
                                 _imageTask.numberOfImages) {
+                              _imageTask.isCompleted = true;
                               await uploadToFirebase();
                               showSuccessToast(
                                   "${_imageFileList.length} images has been successfully added");

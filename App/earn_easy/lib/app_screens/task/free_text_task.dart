@@ -95,6 +95,7 @@ class _FreeTextTaskScreenState extends State<FreeTextTaskScreen> {
                             showWarningToast(
                                 "Please write a response to the question.");
                           } else {
+                            _freeTextTask.isCompleted = true;
                             await DatabaseServiceTasks()
                                 .updateFreeTextTask(_freeTextTask);
                             showSuccessToast(
