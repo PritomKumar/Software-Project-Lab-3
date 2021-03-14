@@ -9,6 +9,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -573,7 +574,15 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
                           ),
                           onPressed: () async {
                             //compressImageFromImageFile();
-                            await uploadToFirebase();
+                            // print("Task Added = ${_imageFileList
+                            //     .length} Task needed = ${_imageTask.numberOfImages}");
+                            if (_imageFileList.length >=
+                                _imageTask.numberOfImages) {
+                              await uploadToFirebase();
+                            } else {
+                              showToast(
+                                  "Please select at least ${_imageTask.numberOfImages} images");
+                            }
                           },
                         ),
                       ),
