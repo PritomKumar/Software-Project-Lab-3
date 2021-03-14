@@ -1,5 +1,6 @@
 import 'package:earneasy/models/task.dart';
 import 'package:earneasy/services/firestore_task_databse.dart';
+import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -90,8 +91,15 @@ class _FreeTextTaskScreenState extends State<FreeTextTaskScreen> {
                         onPressed: () async {
                           _freeTextTask.userResponse =
                               _freeTextEditingController.text;
-                          await DatabaseServiceTasks()
-                              .updateFreeTextTask(_freeTextTask);
+                          if (_freeTextEditingController.text == "") {
+                            showWarningToast(
+                                "Please write a response to the question.");
+                          } else {
+                            await DatabaseServiceTasks()
+                                .updateFreeTextTask(_freeTextTask);
+                            showSuccessToast(
+                                "Your response is successfully stored.");
+                          }
                         },
                       ),
                     ),
