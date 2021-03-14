@@ -46,11 +46,37 @@ class _TaskListPageState extends State<TaskListPage> {
     }
   }
 
-  List<dynamic> allUserTasks = List<dynamic>();
+  List<bool> _allUserCompletedTask = List<bool>();
+
+  void _findTasksThatAreCompletedOrNot(
+      List<TaskSnippet> taskSnippetList) async {
+    for (int i = 0; i < taskSnippetList.length; i++) {
+      bool isComplete = await _checkIfTaskIsCompleted(taskSnippetList[i]);
+      print("Task ${taskSnippetList[i].taskDescription} is $isComplete");
+      _allUserCompletedTask.add(isComplete);
+    }
+  }
+
+  Future<bool> _checkIfTaskIsCompleted(TaskSnippet _taskSnippet) async {
+    try {
+      return await fireStoreGigsRef
+          .doc(widget.gig.gigId)
+          .collection("UserResponse")
+          .doc(userUid)
+          .collection("Tasks")
+          .doc(_taskSnippet.taskId)
+          .get()
+          .then((_value) => _value.data()["isCompleted"] ?? false);
+    } catch (e) {
+      print("Check if task of id ${_taskSnippet.taskId} has failed");
+      return false;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     var taskList = widget.gig.taskSnippetList;
+    _findTasksThatAreCompletedOrNot(taskList);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Tasks",
