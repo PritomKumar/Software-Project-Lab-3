@@ -66,30 +66,8 @@ class _TaskListPageState extends State<TaskListPage> {
                 ListTile(
                   leading: _getIconBasedOnTaskType(taskList[index].taskType),
                   trailing: null,
-                  // title: RichText(
-                  //   text: TextSpan(
-                  //       text: taskList[index].require ? "* " : "",
-                  //       style: TextStyle(
-                  //         color: Colors.red,
-                  //         fontSize: 20,
-                  //         fontWeight: FontWeight.bold,
-                  //       ),
-                  //       children: [
-                  //         TextSpan(
-                  //           text: taskList[index].taskDescription,
-                  //
-                  //           style: TextStyle(
-                  //             fontWeight: FontWeight.w400,
-                  //             color: Colors.black,
-                  //             fontSize: 16,
-                  //             decoration: TextDecoration.none,
-                  //           ),
-                  //           // overflow: TextOverflow.ellipsis,
-                  //           // maxLines: 3,
-                  //         ),
-                  //       ]),
-                  // ),
                   title: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Container(
                         child: Text(
@@ -100,11 +78,10 @@ class _TaskListPageState extends State<TaskListPage> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        alignment: Alignment.topCenter,
+                        alignment: Alignment.topLeft,
                       ),
                       Flexible(
                         child: Text(
-                          // ,
                           taskList[index].taskDescription,
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
