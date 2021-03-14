@@ -51,14 +51,43 @@ class _MultipleChoiceTaskScreenState extends State<MultipleChoiceTaskScreen> {
                 child: ListView(
                   children: <Widget>[
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Icon(
-                          FontAwesomeIcons.dotCircle,
-                          size: 20.0,
+                        Row(
+                          children: <Widget>[
+                            Icon(
+                              FontAwesomeIcons.dotCircle,
+                              size: 20.0,
+                            ),
+                            SizedBox(width: 10.0),
+                            Text("Multiple choice"),
+                          ],
                         ),
-                        SizedBox(width: 10.0),
-                        Text("Multiple choice"),
+                        Row(
+                          children: <Widget>[
+                            Text(
+                              "Required",
+                              textScaleFactor: 1.1,
+                              style: TextStyle(
+                                color: _multipleChoiceTask.require
+                                    ? Colors.deepPurpleAccent
+                                    : Colors.black87,
+                              ),
+                            ),
+                            Switch(
+                              value: _multipleChoiceTask.require,
+                              onChanged: (value) {
+                                // setState(() {
+                                //   _multipleChoiceTask.require = value;
+                                //   print(_multipleChoiceTask.require);
+                                // });
+                              },
+                              activeTrackColor: Colors.deepPurple[200],
+                              focusColor: Colors.red,
+                              activeColor: Colors.deepPurple,
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                     SizedBox(
