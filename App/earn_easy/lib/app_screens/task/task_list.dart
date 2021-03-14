@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/app_screens/task/checkbox_task.dart';
 import 'package:earneasy/app_screens/task/dropdown_task.dart';
 import 'package:earneasy/app_screens/task/free_text_task.dart';
@@ -65,16 +64,38 @@ class _TaskListPageState extends State<TaskListPage> {
                 ListTile(
                   leading: _getIconBasedOnTaskType(taskList[index].taskType),
                   trailing: null,
-                  title: Text(
-                    // ,
-                    taskList[index].taskDescription,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      decoration: TextDecoration.none,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 3,
+                  title: RichText(
+                    text: TextSpan(
+                        text: taskList[index].require ? "* " : "",
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: taskList[index].taskDescription,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black,
+                              fontSize: 16,
+                              decoration: TextDecoration.none,
+                            ),
+                            // overflow: TextOverflow.ellipsis,
+                            // maxLines: 3,
+                          ),
+                        ]),
                   ),
+                  // title: Text(
+                  //   // ,
+                  //   taskList[index].taskDescription,
+                  //   style: TextStyle(
+                  //     fontWeight: FontWeight.w400,
+                  //     decoration: TextDecoration.none,
+                  //   ),
+                  //   overflow: TextOverflow.ellipsis,
+                  //   maxLines: 1,
+                  // ),
                   dense: false,
                   onTap: () async {
                     print("Inside Task list tapped  $index");
