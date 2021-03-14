@@ -16,8 +16,7 @@ class DropdownTaskScreen extends StatefulWidget {
 class _DropdownTaskScreenState extends State<DropdownTaskScreen> {
   DropdownTask _dropdownTask;
   String _selectedItem;
-
-  bool _checkIfAnyOptionsHaveBeenSelected = false;
+  //bool _checkIfAnyOptionsHaveBeenSelected = false;
 
   _setOptionsAccordingToSelectedValue(String value) {
     for (int i = 0; i < _dropdownTask.optionList.length; i++) {
@@ -34,11 +33,20 @@ class _DropdownTaskScreenState extends State<DropdownTaskScreen> {
       for (int i = 0; i < _dropdownTask.optionList.length; i++) {
         if (_dropdownTask.optionList[i].checked == true) {
           _selectedItem = _dropdownTask.optionList[i].option;
-          _checkIfAnyOptionsHaveBeenSelected = true;
           break;
         }
       }
     }
+  }
+
+  bool _checkIfAnyOptionsHaveBeenSelected() {
+    for (int i = 0; i < _dropdownTask.optionList.length; i++) {
+      if (_dropdownTask.optionList[i].checked == true) {
+        // _checkIfAnyOptionsHaveBeenSelected = true;
+        return true;
+      }
+    }
+    return false;
   }
 
   @override
@@ -134,14 +142,14 @@ class _DropdownTaskScreenState extends State<DropdownTaskScreen> {
                         onPressed: () async {
                           // print(_dropdownTask.toMap());
                           print("Selected Item = ${_selectedItem}");
-                          if (_checkIfAnyOptionsHaveBeenSelected == false) {
-                            showWarningToast("Please select a option.");
+                          if (_checkIfAnyOptionsHaveBeenSelected() == false) {
+                            showWarningToast("Please select an option.");
                           } else {
                             await DatabaseServiceTasks()
                                 .updateDropdownTask(_dropdownTask);
                             // Navigator.pop(context, _dropdownTask);
                             showSuccessToast(
-                                "Your choice is successfully added");
+                                "Option ${_selectedItem} is successfully added");
                           }
                         },
                       ),
