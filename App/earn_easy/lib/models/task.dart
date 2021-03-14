@@ -37,7 +37,7 @@ class CheckboxTask {
   final String type = CheckBoxTaskType;
   final String taskDescription;
   final List<TaskOption> optionList;
-  final bool isCompleted;
+  bool isCompleted;
   final bool require;
 
   CheckboxTask({
@@ -81,7 +81,7 @@ class MultipleChoiceTask {
   final String taskDescription;
   final List<TaskOption> optionList;
   final bool require;
-  final bool isCompleted;
+  bool isCompleted;
 
   MultipleChoiceTask({
     @required this.taskId,
@@ -124,7 +124,7 @@ class DropdownTask {
   final String taskDescription;
   final List<TaskOption> optionList;
   final bool require;
-  final bool isCompleted;
+  bool isCompleted;
 
   DropdownTask({
     @required this.taskId,
@@ -167,7 +167,7 @@ class FreeTextTask {
   final String taskDescription;
   String userResponse;
   final bool require;
-  final bool isCompleted;
+  bool isCompleted;
 
   FreeTextTask({
     @required this.taskId,
@@ -206,7 +206,7 @@ class ImageTask {
   final String taskDescription;
   final int numberOfImages;
   final bool require;
-  final bool isCompleted;
+  bool isCompleted;
   final List<String> imageDownloadUrlList;
 
   ImageTask({

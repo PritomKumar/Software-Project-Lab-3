@@ -104,6 +104,7 @@ class _CheckBoxTaskScreenState extends State<CheckBoxTaskScreen> {
                           if (numberOfOptionsSelected <= 0) {
                             showWarningToast("Please select an option.");
                           } else {
+                            _checkboxTask.isCompleted = true;
                             await DatabaseServiceTasks()
                                 .updateCheckboxTask(_checkboxTask);
                             // Navigator.pop(context, _dropdownTask);
