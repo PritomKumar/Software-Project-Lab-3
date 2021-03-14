@@ -2,9 +2,9 @@ import 'package:earneasy/models/task.dart';
 import 'package:earneasy/services/firestore_task_databse.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
 class CheckBoxTaskScreen extends StatefulWidget {
@@ -14,6 +14,16 @@ class CheckBoxTaskScreen extends StatefulWidget {
 
 class _CheckBoxTaskScreenState extends State<CheckBoxTaskScreen> {
   CheckboxTask _checkboxTask;
+
+  int _checkIfAnyOptionsHaveBeenSelected() {
+    int counter = 0;
+    for (int i = 0; i < _checkboxTask.optionList.length; i++) {
+      if (_checkboxTask.optionList[i].checked == true) {
+        counter++;
+      }
+    }
+    return counter;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +99,18 @@ class _CheckBoxTaskScreenState extends State<CheckBoxTaskScreen> {
                           color: Colors.blueAccent,
                         ),
                         onPressed: () async {
-                          await DatabaseServiceTasks().updateCheckboxTask(_checkboxTask);
+                          int numberOfOptionsSelected =
+                              _checkIfAnyOptionsHaveBeenSelected();
+                          if (numberOfOptionsSelected <= 0) {
+                            showWarningToast("Please select an option.");
+                          } else {
+                            await DatabaseServiceTasks()
+                                .updateCheckboxTask(_checkboxTask);
+                            // Navigator.pop(context, _dropdownTask);
+                            showSuccessToast(numberOfOptionsSelected > 1
+                                ? "Your selected options are successfully added."
+                                : "Your selected option is successfully added.");
+                          }
                           //Navigator.pop(context,_checkboxTask);
                         },
                       ),
