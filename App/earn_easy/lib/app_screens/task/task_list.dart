@@ -76,7 +76,6 @@ class _TaskListPageState extends State<TaskListPage> {
   @override
   Widget build(BuildContext context) {
     var taskList = widget.gig.taskSnippetList;
-    _findTasksThatAreCompletedOrNot(taskList);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Tasks",
@@ -84,6 +83,11 @@ class _TaskListPageState extends State<TaskListPage> {
         child: Scaffold(
           appBar: AppBar(
             title: Text("Tasks"),
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              _findTasksThatAreCompletedOrNot(taskList);
+            },
           ),
           body: ListView.builder(
             itemCount: taskList.length ?? 10,
