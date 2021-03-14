@@ -1,11 +1,11 @@
 import 'package:earneasy/models/task.dart';
 import 'package:earneasy/models/task_option.dart';
 import 'package:earneasy/services/firestore_task_databse.dart';
+import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
 class DropdownTaskScreen extends StatefulWidget {
@@ -16,6 +16,8 @@ class DropdownTaskScreen extends StatefulWidget {
 class _DropdownTaskScreenState extends State<DropdownTaskScreen> {
   DropdownTask _dropdownTask;
   String _selectedItem;
+
+  bool _checkIfAnyOptionsHaveBeenSelected = false;
 
   _setOptionsAccordingToSelectedValue(String value) {
     for (int i = 0; i < _dropdownTask.optionList.length; i++) {
@@ -32,6 +34,7 @@ class _DropdownTaskScreenState extends State<DropdownTaskScreen> {
       for (int i = 0; i < _dropdownTask.optionList.length; i++) {
         if (_dropdownTask.optionList[i].checked == true) {
           _selectedItem = _dropdownTask.optionList[i].option;
+          _checkIfAnyOptionsHaveBeenSelected = true;
           break;
         }
       }
@@ -129,9 +132,17 @@ class _DropdownTaskScreenState extends State<DropdownTaskScreen> {
                           color: Colors.blueAccent,
                         ),
                         onPressed: () async {
-                          print(_dropdownTask.toMap());
-                          await DatabaseServiceTasks()
-                              .updateDropdownTask(_dropdownTask);
+                          // print(_dropdownTask.toMap());
+                          print("Selected Item = ${_selectedItem}");
+                          if (_checkIfAnyOptionsHaveBeenSelected == false) {
+                            showWarningToast("Please select a option.");
+                          } else {
+                            await DatabaseServiceTasks()
+                                .updateDropdownTask(_dropdownTask);
+                            // Navigator.pop(context, _dropdownTask);
+                            showSuccessToast(
+                                "Your choice is successfully added");
+                          }
                         },
                       ),
                     ),

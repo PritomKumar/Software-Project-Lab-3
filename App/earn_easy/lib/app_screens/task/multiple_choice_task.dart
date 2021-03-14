@@ -122,7 +122,9 @@ class _MultipleChoiceTaskScreenState extends State<MultipleChoiceTaskScreen> {
                           } else {
                             await DatabaseServiceTasks()
                                 .updateMultipleChoiceTask(_multipleChoiceTask);
-                            Navigator.pop(context, _multipleChoiceTask);
+                            showSuccessToast(
+                                "Your choice is successfully added");
+                            // Navigator.pop(context, _multipleChoiceTask);
                           }
                         },
                       ),
