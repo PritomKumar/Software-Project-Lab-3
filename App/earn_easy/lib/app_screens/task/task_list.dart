@@ -6,6 +6,7 @@ import 'package:earneasy/models/gig.dart';
 import 'package:earneasy/models/task.dart';
 import 'package:earneasy/services/firestore_task_databse.dart';
 import 'package:earneasy/shared/constants.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -44,6 +45,7 @@ class _TaskListPageState extends State<TaskListPage> {
         break;
     }
   }
+
   List<dynamic> allUserTasks = List<dynamic>();
 
   @override
@@ -64,38 +66,56 @@ class _TaskListPageState extends State<TaskListPage> {
                 ListTile(
                   leading: _getIconBasedOnTaskType(taskList[index].taskType),
                   trailing: null,
-                  title: RichText(
-                    text: TextSpan(
-                        text: taskList[index].require ? "* " : "",
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: taskList[index].taskDescription,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black,
-                              fontSize: 16,
-                              decoration: TextDecoration.none,
-                            ),
-                            // overflow: TextOverflow.ellipsis,
-                            // maxLines: 3,
-                          ),
-                        ]),
-                  ),
-                  // title: Text(
-                  //   // ,
-                  //   taskList[index].taskDescription,
-                  //   style: TextStyle(
-                  //     fontWeight: FontWeight.w400,
-                  //     decoration: TextDecoration.none,
-                  //   ),
-                  //   overflow: TextOverflow.ellipsis,
-                  //   maxLines: 1,
+                  // title: RichText(
+                  //   text: TextSpan(
+                  //       text: taskList[index].require ? "* " : "",
+                  //       style: TextStyle(
+                  //         color: Colors.red,
+                  //         fontSize: 20,
+                  //         fontWeight: FontWeight.bold,
+                  //       ),
+                  //       children: [
+                  //         TextSpan(
+                  //           text: taskList[index].taskDescription,
+                  //
+                  //           style: TextStyle(
+                  //             fontWeight: FontWeight.w400,
+                  //             color: Colors.black,
+                  //             fontSize: 16,
+                  //             decoration: TextDecoration.none,
+                  //           ),
+                  //           // overflow: TextOverflow.ellipsis,
+                  //           // maxLines: 3,
+                  //         ),
+                  //       ]),
                   // ),
+                  title: Row(
+                    children: <Widget>[
+                      Container(
+                        child: Text(
+                          taskList[index].require ? "* " : "",
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        alignment: Alignment.topCenter,
+                      ),
+                      Flexible(
+                        child: Text(
+                          // ,
+                          taskList[index].taskDescription,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            decoration: TextDecoration.none,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 3,
+                        ),
+                      ),
+                    ],
+                  ),
                   dense: false,
                   onTap: () async {
                     print("Inside Task list tapped  $index");
@@ -136,7 +156,6 @@ class _TaskListPageState extends State<TaskListPage> {
 
                       print(imageTask.toString());
 
-
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -165,24 +184,24 @@ class _TaskListPageState extends State<TaskListPage> {
                     if (taskList[index].taskType == MultipleChoiceTaskType) {
                       var multipleChoiceTask = DatabaseServiceTasks()
                           .selectedMultipleChoiceTaskData(
-                          widget.gig, taskList[index]);
+                              widget.gig, taskList[index]);
 
                       print(multipleChoiceTask.toString());
 
-                      var mul =  await Navigator.push(
+                      var mul = await Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                              StreamProvider<MultipleChoiceTask>.value(
-                                value: multipleChoiceTask,
-                                child: MultipleChoiceTaskScreen(),
-                              )));
+                                  StreamProvider<MultipleChoiceTask>.value(
+                                    value: multipleChoiceTask,
+                                    child: MultipleChoiceTaskScreen(),
+                                  )));
                       print("Multiple choice = ${mul.toMap()}");
                     }
                     if (taskList[index].taskType == DropdownTaskType) {
                       var dropdownTask = DatabaseServiceTasks()
                           .selectedDropdownTaskData(
-                          widget.gig, taskList[index]);
+                              widget.gig, taskList[index]);
 
                       print(dropdownTask.toString());
 
@@ -190,15 +209,15 @@ class _TaskListPageState extends State<TaskListPage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                              StreamProvider<DropdownTask>.value(
-                                value: dropdownTask,
-                                child: DropdownTaskScreen(),
-                              )));
+                                  StreamProvider<DropdownTask>.value(
+                                    value: dropdownTask,
+                                    child: DropdownTaskScreen(),
+                                  )));
                     }
                     if (taskList[index].taskType == FreeTextTaskType) {
                       var freeTextTask = DatabaseServiceTasks()
                           .selectedFreeTextTaskData(
-                          widget.gig, taskList[index]);
+                              widget.gig, taskList[index]);
 
                       print(freeTextTask.toString());
 
@@ -206,13 +225,12 @@ class _TaskListPageState extends State<TaskListPage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                              StreamProvider<FreeTextTask>.value(
-                                value: freeTextTask,
-                                child: FreeTextTaskScreen(),
-                              )));
+                                  StreamProvider<FreeTextTask>.value(
+                                    value: freeTextTask,
+                                    child: FreeTextTaskScreen(),
+                                  )));
                     }
                     //</editor-fold>
-
                   },
                   // contentPadding: EdgeInsets.symmetric(vertical: 5.0,horizontal: 10.0),
                 ),
