@@ -9,8 +9,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
-import 'package:flutter_styled_toast/flutter_styled_toast.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -581,16 +579,7 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
                                 _imageTask.numberOfImages) {
                               await uploadToFirebase();
                             } else {
-                              Fluttertoast.showToast(
-                                msg: "This is Center Short Toast",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.CENTER,
-                                timeInSecForIosWeb: 1,
-                                backgroundColor: Colors.red,
-                                textColor: Colors.white,
-                                fontSize: 16.0,
-                              );
-                              showToast(
+                              showWarningToast(
                                   "Please select at least ${_imageTask.numberOfImages} images");
                             }
                           },
