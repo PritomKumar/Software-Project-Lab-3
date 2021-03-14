@@ -1,9 +1,10 @@
 import 'package:earneasy/models/task.dart';
 import 'package:earneasy/services/firestore_task_databse.dart';
+import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
 class MultipleChoiceTaskScreen extends StatefulWidget {
@@ -115,9 +116,14 @@ class _MultipleChoiceTaskScreenState extends State<MultipleChoiceTaskScreen> {
                           color: Colors.blueAccent,
                         ),
                         onPressed: () async {
-                          await DatabaseServiceTasks()
-                              .updateMultipleChoiceTask(_multipleChoiceTask);
-                          Navigator.pop(context, _multipleChoiceTask);
+                          print("Group value =  $_groupValue");
+                          if (_groupValue == null) {
+                            showWarningToast("Please select a option.");
+                          } else {
+                            await DatabaseServiceTasks()
+                                .updateMultipleChoiceTask(_multipleChoiceTask);
+                            Navigator.pop(context, _multipleChoiceTask);
+                          }
                         },
                       ),
                     ),
