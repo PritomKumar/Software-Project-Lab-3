@@ -39,14 +39,38 @@ class _CheckBoxTaskScreenState extends State<CheckBoxTaskScreen> {
                 child: ListView(
                   children: <Widget>[
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Icon(
-                          FontAwesomeIcons.checkSquare,
-                          size: 20.0,
+                        Row(
+                          children: <Widget>[
+                            Icon(
+                              FontAwesomeIcons.checkSquare,
+                              size: 20.0,
+                            ),
+                            SizedBox(width: 10.0),
+                            Text("Checkbox"),
+                          ],
                         ),
-                        SizedBox(width: 10.0),
-                        Text("Checkbox"),
+                        Row(
+                          children: <Widget>[
+                            Text(
+                              "Required",
+                              textScaleFactor: 1.1,
+                              style: TextStyle(
+                                color: _checkboxTask.require
+                                    ? Colors.deepPurpleAccent
+                                    : Colors.black87,
+                              ),
+                            ),
+                            Switch(
+                              value: _checkboxTask.require,
+                              onChanged: (value) {},
+                              activeTrackColor: Colors.deepPurple[200],
+                              focusColor: Colors.red,
+                              activeColor: Colors.deepPurple,
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                     SizedBox(

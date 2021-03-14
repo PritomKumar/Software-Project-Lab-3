@@ -428,14 +428,38 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
                   child: ListView(
                     children: <Widget>[
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Icon(
-                            Icons.image,
-                            size: 20.0,
+                          Row(
+                            children: <Widget>[
+                              Icon(
+                                Icons.image,
+                                size: 20.0,
+                              ),
+                              SizedBox(width: 10.0),
+                              Text("Photo"),
+                            ],
                           ),
-                          SizedBox(width: 10.0),
-                          Text("Photo"),
+                          Row(
+                            children: <Widget>[
+                              Text(
+                                "Required",
+                                textScaleFactor: 1.1,
+                                style: TextStyle(
+                                  color: _imageTask.require
+                                      ? Colors.deepPurpleAccent
+                                      : Colors.black87,
+                                ),
+                              ),
+                              Switch(
+                                value: _imageTask.require,
+                                onChanged: (value) {},
+                                activeTrackColor: Colors.deepPurple[200],
+                                focusColor: Colors.red,
+                                activeColor: Colors.deepPurple,
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                       SizedBox(

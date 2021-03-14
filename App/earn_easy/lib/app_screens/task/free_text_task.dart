@@ -38,14 +38,38 @@ class _FreeTextTaskScreenState extends State<FreeTextTaskScreen> {
                 child: ListView(
                   children: <Widget>[
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Icon(
-                          FontAwesomeIcons.alignLeft,
-                          size: 20.0,
+                        Row(
+                          children: <Widget>[
+                            Icon(
+                              FontAwesomeIcons.alignLeft,
+                              size: 20.0,
+                            ),
+                            SizedBox(width: 10.0),
+                            Text("Free Text"),
+                          ],
                         ),
-                        SizedBox(width: 10.0),
-                        Text("Free Text"),
+                        Row(
+                          children: <Widget>[
+                            Text(
+                              "Required",
+                              textScaleFactor: 1.1,
+                              style: TextStyle(
+                                color: _freeTextTask.require
+                                    ? Colors.deepPurpleAccent
+                                    : Colors.black87,
+                              ),
+                            ),
+                            Switch(
+                              value: _freeTextTask.require,
+                              onChanged: (value) {},
+                              activeTrackColor: Colors.deepPurple[200],
+                              focusColor: Colors.red,
+                              activeColor: Colors.deepPurple,
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                     SizedBox(
