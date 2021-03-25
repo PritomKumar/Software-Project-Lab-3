@@ -77,6 +77,25 @@ class _TaskListPageState extends State<TaskListPage> {
   @override
   Widget build(BuildContext context) {
     var taskList = widget.userResponse.taskSnippetList;
+    //TODO : Instant update in flutter
+    // return StreamBuilder<QuerySnapshot>(
+    //   stream: fireStoreGigsRef
+    //       .doc(widget.userResponse.gigId)
+    //       .collection("UserResponse").snapshots(),
+    //   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+    //     if (!snapshot.hasData) return new Text('Loading...');
+    //     // var taskList = snapshot.ma
+    //     return new ListView(
+    //       children: snapshot.data.docs.map((DocumentSnapshot document) {
+    //
+    //         return new ListTile(
+    //           title: new Text(document.data()['gigId']),
+    //           subtitle: new Text(document.data()['distance']),
+    //         );
+    //       }).toList(),
+    //     );
+    //   },
+    // );
     return taskList != null
         ? MaterialApp(
             debugShowCheckedModeBanner: false,
@@ -100,12 +119,12 @@ class _TaskListPageState extends State<TaskListPage> {
                             _getIconBasedOnTaskType(taskList[index].taskType),
                         trailing: taskList[index].isCompleted
                             ? Icon(
-                                FontAwesomeIcons.checkCircle,
-                                color: Colors.greenAccent,
+                                FontAwesomeIcons.solidCheckCircle,
+                                color: Colors.green,
                               )
                             : Icon(
-                                FontAwesomeIcons.userClock,
-                                color: Colors.lightBlueAccent,
+                          FontAwesomeIcons.userClock,
+                                color: Colors.lightBlue,
                               ),
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -251,6 +270,7 @@ class _TaskListPageState extends State<TaskListPage> {
                                         )));
                           }
                           //</editor-fold>
+                          setState(() {});
                         },
                         // contentPadding: EdgeInsets.symmetric(vertical: 5.0,horizontal: 10.0),
                       ),
