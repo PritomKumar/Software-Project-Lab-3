@@ -60,7 +60,7 @@ class _TaskListPageState extends State<TaskListPage> {
 
   Future<bool> _checkIfTaskIsCompleted(TaskSnippet _taskSnippet) async {
     try {
-      return await fireStoreGigsRef
+      return fireStoreGigsRef
           .doc(widget.gig.gigId)
           .collection("UserResponse")
           .doc(userUid)
@@ -74,16 +74,23 @@ class _TaskListPageState extends State<TaskListPage> {
     }
   }
 
+  Widget trailerIcon(TaskSnippet _taskSnippet) {
+    var boolIsCompletedResult = _checkIfTaskIsCompleted(_taskSnippet);
+    if (boolIsCompletedResult == true) {
+      return
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var taskList = widget.gig.taskSnippetList;
     return taskList != null
         ? MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: "Tasks",
-            home: SafeArea(
-              child: Scaffold(
-                appBar: AppBar(
+      debugShowCheckedModeBanner: false,
+      title: "Tasks",
+      home: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
                   title: Text("Tasks"),
                 ),
                 floatingActionButton: FloatingActionButton(
@@ -97,7 +104,7 @@ class _TaskListPageState extends State<TaskListPage> {
                     children: <Widget>[
                       ListTile(
                         leading:
-                            _getIconBasedOnTaskType(taskList[index].taskType),
+                        _getIconBasedOnTaskType(taskList[index].taskType),
                         trailing: null,
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.start,

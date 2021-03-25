@@ -9,7 +9,13 @@ import 'models/user.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // String host = Platform.isAndroid ? '10.0.2.2:8888' : 'localhost:8888';
+  // FirebaseFirestore.instance.settings = Settings(
+  //   host: host,
+  //   sslEnabled: false,
+  // );
   await Firebase.initializeApp();
+
   runApp(MyApp());
 }
 
