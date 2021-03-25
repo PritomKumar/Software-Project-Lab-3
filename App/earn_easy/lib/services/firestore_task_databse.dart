@@ -123,6 +123,7 @@ class DatabaseServiceTasks {
             userId: userUid,
             taskSnippetList: gig.taskSnippetList,
             completedTaskCount: 0,
+            gigId: gig.gigId,
             distance: LocationService()
                 .calculateDistanceGigAndUserCurrentLocation(gig.location),
           ).toMap())
@@ -161,11 +162,12 @@ class DatabaseServiceTasks {
   //</editor-fold>
 
   //<editor-fold desc="Stream<Task> getter">
-  Stream<ImageTask> selectedImageTaskData(Gig gig, TaskSnippet taskSnippet) {
+  Stream<ImageTask> selectedImageTaskData(
+      String gigId, TaskSnippet taskSnippet) {
     if (isLoggedIn()) {
       try {
         return fireStoreGigsRef
-            .doc(gig.gigId)
+            .doc(gigId)
             .collection("UserResponse")
             .doc(userUid)
             .collection("Tasks")
@@ -184,10 +186,10 @@ class DatabaseServiceTasks {
   }
 
   Stream<CheckboxTask> selectedCheckboxTaskData(
-      Gig gig, TaskSnippet taskSnippet) {
+      String gigId, TaskSnippet taskSnippet) {
     return isLoggedIn()
         ? fireStoreGigsRef
-            .doc(gig.gigId)
+            .doc(gigId)
             .collection("UserResponse")
             .doc(userUid)
             .collection("Tasks")
@@ -199,10 +201,10 @@ class DatabaseServiceTasks {
   }
 
   Stream<MultipleChoiceTask> selectedMultipleChoiceTaskData(
-      Gig gig, TaskSnippet taskSnippet) {
+      String gigId, TaskSnippet taskSnippet) {
     return isLoggedIn()
         ? fireStoreGigsRef
-            .doc(gig.gigId)
+            .doc(gigId)
             .collection("UserResponse")
             .doc(userUid)
             .collection("Tasks")
@@ -214,10 +216,10 @@ class DatabaseServiceTasks {
   }
 
   Stream<DropdownTask> selectedDropdownTaskData(
-      Gig gig, TaskSnippet taskSnippet) {
+      String gigId, TaskSnippet taskSnippet) {
     return isLoggedIn()
         ? fireStoreGigsRef
-            .doc(gig.gigId)
+            .doc(gigId)
             .collection("UserResponse")
             .doc(userUid)
             .collection("Tasks")
@@ -229,10 +231,10 @@ class DatabaseServiceTasks {
   }
 
   Stream<FreeTextTask> selectedFreeTextTaskData(
-      Gig gig, TaskSnippet taskSnippet) {
+      String gigId, TaskSnippet taskSnippet) {
     return isLoggedIn()
         ? fireStoreGigsRef
-            .doc(gig.gigId)
+            .doc(gigId)
             .collection("UserResponse")
             .doc(userUid)
             .collection("Tasks")

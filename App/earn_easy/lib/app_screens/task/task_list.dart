@@ -163,7 +163,7 @@ class _TaskListPageState extends State<TaskListPage> {
                             //</editor-fold>
                             var imageTask = DatabaseServiceTasks()
                                 .selectedImageTaskData(
-                                    widget.userResponse, taskList[index]);
+                                    widget.userResponse.gigId, taskList[index]);
 
                             print(imageTask.toString());
 
@@ -179,7 +179,7 @@ class _TaskListPageState extends State<TaskListPage> {
                           if (taskList[index].taskType == CheckBoxTaskType) {
                             var checkBoxTask = DatabaseServiceTasks()
                                 .selectedCheckboxTaskData(
-                                    widget.userResponse, taskList[index]);
+                                    widget.userResponse.gigId, taskList[index]);
 
                             print(checkBoxTask.toString());
 
@@ -196,7 +196,7 @@ class _TaskListPageState extends State<TaskListPage> {
                               MultipleChoiceTaskType) {
                             var multipleChoiceTask = DatabaseServiceTasks()
                                 .selectedMultipleChoiceTaskData(
-                                    widget.userResponse, taskList[index]);
+                                    widget.userResponse.gigId, taskList[index]);
 
                             print(multipleChoiceTask.toString());
 
@@ -213,7 +213,7 @@ class _TaskListPageState extends State<TaskListPage> {
                           if (taskList[index].taskType == DropdownTaskType) {
                             var dropdownTask = DatabaseServiceTasks()
                                 .selectedDropdownTaskData(
-                                    widget.userResponse, taskList[index]);
+                                    widget.userResponse.gigId, taskList[index]);
 
                             print(dropdownTask.toString());
 
@@ -229,7 +229,7 @@ class _TaskListPageState extends State<TaskListPage> {
                           if (taskList[index].taskType == FreeTextTaskType) {
                             var freeTextTask = DatabaseServiceTasks()
                                 .selectedFreeTextTaskData(
-                                    widget.userResponse, taskList[index]);
+                                    widget.userResponse.gigId, taskList[index]);
 
                             print(freeTextTask.toString());
 
