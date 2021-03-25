@@ -74,13 +74,6 @@ class _TaskListPageState extends State<TaskListPage> {
     }
   }
 
-  Widget trailerIcon(TaskSnippet _taskSnippet) {
-    var boolIsCompletedResult = _checkIfTaskIsCompleted(_taskSnippet);
-    if (boolIsCompletedResult == true) {
-      return
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     var taskList = widget.gig.taskSnippetList;

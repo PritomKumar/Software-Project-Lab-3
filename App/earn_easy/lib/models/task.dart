@@ -7,19 +7,22 @@ class TaskSnippet {
   final String taskType;
   final String taskDescription;
   final bool require;
+  bool isCompleted;
 
   TaskSnippet({
     @required this.taskId,
     @required this.taskType,
     @required this.taskDescription,
     @required this.require,
+    @required this.isCompleted,
   });
 
   TaskSnippet.fromMap(Map<String, dynamic> data)
       : this.taskId = data["taskId"],
         this.taskType = data["taskType"],
         this.taskDescription = data["taskDescription"],
-        this.require = data["require"] ?? false;
+        this.require = data["require"] ?? false,
+        this.isCompleted = data["isCompleted"] ?? false;
 
   Map<String, dynamic> toMap() {
     return {
@@ -27,6 +30,7 @@ class TaskSnippet {
       'taskType': this.taskType ?? "",
       'taskDescription': this.taskDescription ?? "",
       'require': this.require ?? false,
+      'isCompleted': this.isCompleted ?? false,
     };
   }
 }
