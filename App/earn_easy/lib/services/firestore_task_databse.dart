@@ -267,8 +267,32 @@ class DatabaseServiceTasks {
   }
 
   //<editor-fold desc="Update all type of task">
+
+  Future _updateIsCompletedInInUserResponseTaskSnippet(
+      String gigId, String taskId, bool isCompleted) async {
+    try {
+      var userResponse = await getToUserTaskFromGigId(gigId);
+      for (int i = 0; i < userResponse.taskSnippetList.length; i++) {
+        if (userResponse.taskSnippetList[i].taskId == taskId) {
+          userResponse.taskSnippetList[i].isCompleted = isCompleted;
+        }
+      }
+      await fireStoreGigsRef
+          .doc(gigId)
+          .collection("UserResponse")
+          .doc(userUid)
+          .set(userResponse.toMap())
+          .then((_) =>
+              print("Update isCompleted of task id ${taskId} is successful"));
+    } catch (e) {
+      print("Update isCompleted of task id ${taskId} has failed.");
+    }
+  }
+
   Future updateImageTask(ImageTask _imageTask) async {
     try {
+      await _updateIsCompletedInInUserResponseTaskSnippet(
+          _imageTask.gigId, _imageTask.taskId, _imageTask.isCompleted);
       await fireStoreGigsRef
           .doc(_imageTask.gigId)
           .collection("UserResponse")
@@ -285,6 +309,8 @@ class DatabaseServiceTasks {
 
   Future updateCheckboxTask(CheckboxTask _checkboxTask) async {
     try {
+      await _updateIsCompletedInInUserResponseTaskSnippet(
+          _checkboxTask.gigId, _checkboxTask.taskId, _checkboxTask.isCompleted);
       await fireStoreGigsRef
           .doc(_checkboxTask.gigId)
           .collection("UserResponse")
@@ -302,6 +328,10 @@ class DatabaseServiceTasks {
   Future updateMultipleChoiceTask(
       MultipleChoiceTask _multipleChoiceTask) async {
     try {
+      await _updateIsCompletedInInUserResponseTaskSnippet(
+          _multipleChoiceTask.gigId,
+          _multipleChoiceTask.taskId,
+          _multipleChoiceTask.isCompleted);
       await fireStoreGigsRef
           .doc(_multipleChoiceTask.gigId)
           .collection("UserResponse")
@@ -319,6 +349,8 @@ class DatabaseServiceTasks {
 
   Future updateDropdownTask(DropdownTask _dropdownTask) async {
     try {
+      await _updateIsCompletedInInUserResponseTaskSnippet(
+          _dropdownTask.gigId, _dropdownTask.taskId, _dropdownTask.isCompleted);
       await fireStoreGigsRef
           .doc(_dropdownTask.gigId)
           .collection("UserResponse")
@@ -335,6 +367,8 @@ class DatabaseServiceTasks {
 
   Future updateFreeTextTask(FreeTextTask _freeTextTask) async {
     try {
+      await _updateIsCompletedInInUserResponseTaskSnippet(
+          _freeTextTask.gigId, _freeTextTask.taskId, _freeTextTask.isCompleted);
       await fireStoreGigsRef
           .doc(_freeTextTask.gigId)
           .collection("UserResponse")
