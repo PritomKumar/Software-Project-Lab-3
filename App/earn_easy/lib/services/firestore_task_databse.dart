@@ -120,7 +120,7 @@ class DatabaseServiceTasks {
           .collection("UserResponse")
           .doc(userUid)
           .set(UserResponse(
-        userId: userUid,
+            userId: userUid,
             taskSnippetList: gig.taskSnippetList,
             completedTaskCount: 0,
             distance: LocationService()
@@ -178,6 +178,7 @@ class DatabaseServiceTasks {
         return null;
       }
     } else {
+      print("User is not logged in!");
       return null;
     }
   }
@@ -243,6 +244,25 @@ class DatabaseServiceTasks {
   }
 
 //</editor-fold>
+
+  Future<UserResponse> getToUserTaskFromGigId(String gigId) {
+    if (isLoggedIn()) {
+      try {
+        return fireStoreGigsRef
+            .doc(gigId)
+            .collection("UserResponse")
+            .doc(userUid)
+            .get()
+            .then((value) => UserResponse.fromMap(value.data()));
+      } catch (e) {
+        print("Failed to get user response = ${e.toString()}");
+        return null;
+      }
+    } else {
+      print("User is not logged in!");
+      return null;
+    }
+  }
 
   //<editor-fold desc="Update all type of task">
   Future updateImageTask(ImageTask _imageTask) async {

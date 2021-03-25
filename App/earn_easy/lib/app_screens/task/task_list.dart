@@ -2,8 +2,8 @@ import 'package:earneasy/app_screens/task/checkbox_task.dart';
 import 'package:earneasy/app_screens/task/dropdown_task.dart';
 import 'package:earneasy/app_screens/task/free_text_task.dart';
 import 'package:earneasy/app_screens/task/multiple_choice_task.dart';
-import 'package:earneasy/models/gig.dart';
 import 'package:earneasy/models/task.dart';
+import 'package:earneasy/models/user.dart';
 import 'package:earneasy/services/firestore_task_databse.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
@@ -15,9 +15,9 @@ import 'package:provider/provider.dart';
 import 'image_task.dart';
 
 class TaskListPage extends StatefulWidget {
-  final Gig gig;
+  final UserResponse userResponse;
 
-  const TaskListPage({Key key, this.gig}) : super(key: key);
+  const TaskListPage({Key key, this.userResponse}) : super(key: key);
 
   @override
   _TaskListPageState createState() => _TaskListPageState();
@@ -61,7 +61,7 @@ class _TaskListPageState extends State<TaskListPage> {
   Future<bool> _checkIfTaskIsCompleted(TaskSnippet _taskSnippet) async {
     try {
       return fireStoreGigsRef
-          .doc(widget.gig.gigId)
+          .doc(widget.userResponse.gigId)
           .collection("UserResponse")
           .doc(userUid)
           .collection("Tasks")
@@ -76,14 +76,14 @@ class _TaskListPageState extends State<TaskListPage> {
 
   @override
   Widget build(BuildContext context) {
-    var taskList = widget.gig.taskSnippetList;
+    var taskList = widget.userResponse.taskSnippetList;
     return taskList != null
         ? MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "Tasks",
-      home: SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
+            debugShowCheckedModeBanner: false,
+            title: "Tasks",
+            home: SafeArea(
+              child: Scaffold(
+                appBar: AppBar(
                   title: Text("Tasks"),
                 ),
                 floatingActionButton: FloatingActionButton(
@@ -163,7 +163,7 @@ class _TaskListPageState extends State<TaskListPage> {
                             //</editor-fold>
                             var imageTask = DatabaseServiceTasks()
                                 .selectedImageTaskData(
-                                    widget.gig, taskList[index]);
+                                    widget.userResponse, taskList[index]);
 
                             print(imageTask.toString());
 
@@ -179,7 +179,7 @@ class _TaskListPageState extends State<TaskListPage> {
                           if (taskList[index].taskType == CheckBoxTaskType) {
                             var checkBoxTask = DatabaseServiceTasks()
                                 .selectedCheckboxTaskData(
-                                    widget.gig, taskList[index]);
+                                    widget.userResponse, taskList[index]);
 
                             print(checkBoxTask.toString());
 
@@ -196,7 +196,7 @@ class _TaskListPageState extends State<TaskListPage> {
                               MultipleChoiceTaskType) {
                             var multipleChoiceTask = DatabaseServiceTasks()
                                 .selectedMultipleChoiceTaskData(
-                                    widget.gig, taskList[index]);
+                                    widget.userResponse, taskList[index]);
 
                             print(multipleChoiceTask.toString());
 
@@ -213,7 +213,7 @@ class _TaskListPageState extends State<TaskListPage> {
                           if (taskList[index].taskType == DropdownTaskType) {
                             var dropdownTask = DatabaseServiceTasks()
                                 .selectedDropdownTaskData(
-                                    widget.gig, taskList[index]);
+                                    widget.userResponse, taskList[index]);
 
                             print(dropdownTask.toString());
 
@@ -229,7 +229,7 @@ class _TaskListPageState extends State<TaskListPage> {
                           if (taskList[index].taskType == FreeTextTaskType) {
                             var freeTextTask = DatabaseServiceTasks()
                                 .selectedFreeTextTaskData(
-                                    widget.gig, taskList[index]);
+                                    widget.userResponse, taskList[index]);
 
                             print(freeTextTask.toString());
 

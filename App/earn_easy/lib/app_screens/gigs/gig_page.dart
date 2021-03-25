@@ -244,13 +244,17 @@ class _GigPageState extends State<GigPage> {
                             child: RaisedButton(
                               color: Colors.lightGreenAccent,
                               child: Text("Start Tasks"),
-                              onPressed: () {
-                                //print("Start pressed");
+                              onPressed: () async {
+                                // print("Start pressed");
+                                var userResponse = await DatabaseServiceTasks()
+                                    .getToUserTaskFromGigId(gig.gigId);
+                                // print(userResponse.taskSnippetList.toString());
+
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => TaskListPage(
-                                        gig: gig,
+                                        userResponse: userResponse,
                                       ),
                                     ));
                               },
