@@ -97,8 +97,16 @@ class _TaskListPageState extends State<TaskListPage> {
                     children: <Widget>[
                       ListTile(
                         leading:
-                        _getIconBasedOnTaskType(taskList[index].taskType),
-                        trailing: null,
+                            _getIconBasedOnTaskType(taskList[index].taskType),
+                        trailing: taskList[index].isCompleted
+                            ? Icon(
+                                FontAwesomeIcons.checkCircle,
+                                color: Colors.greenAccent,
+                              )
+                            : Icon(
+                                FontAwesomeIcons.userClock,
+                                color: Colors.lightBlueAccent,
+                              ),
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[

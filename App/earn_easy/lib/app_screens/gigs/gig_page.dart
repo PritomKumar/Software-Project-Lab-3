@@ -284,6 +284,7 @@ class _GigPageState extends State<GigPage> {
                                 await DatabaseServiceTasks()
                                     .createUserResponseForAttemptedUser(gig);
                                 _checkIfUserIsInAttemptedUsers();
+                                setState(() {});
                               },
                             ),
                           ),
