@@ -12,7 +12,6 @@ import 'package:earneasy/services/location_service.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -348,32 +347,18 @@ class _GoogleMapsState extends State<GoogleMaps> {
             },
           ),
           //#endregion bottomNavigationBar
-          body: StyledToast(
-            textStyle: TextStyle(fontSize: 16.0, color: Colors.white),
-            backgroundColor: Color(0x99000000),
-            borderRadius: BorderRadius.circular(5.0),
-            textPadding: EdgeInsets.symmetric(horizontal: 17.0, vertical: 10.0),
-            toastPositions: StyledToastPosition.bottom,
-            toastAnimation: StyledToastAnimation.fade,
-            reverseAnimation: StyledToastAnimation.fade,
-            curve: Curves.fastOutSlowIn,
-            reverseCurve: Curves.fastLinearToSlowEaseIn,
-            duration: Duration(seconds: 4),
-            animDuration: Duration(seconds: 1),
-            dismissOtherOnShow: true,
-            movingOnWindowChange: true,
-            child: Stack(
-              children: <Widget>[
-                GoogleMap(
-                  onMapCreated: _onMapCreated,
-                  initialCameraPosition: CameraPosition(
-                    target: LatLng(40.7128, -74.0060),
-                    zoom: 14.0,
-                  ),
-                  markers: userType == "worker" ? _gigMarkers : _myMarkers,
-                  onCameraMove: _isTapped
-                      ? ((_position) => _updatePosition(_position))
-                      : null,
+          body: Stack(
+            children: <Widget>[
+              GoogleMap(
+                onMapCreated: _onMapCreated,
+                initialCameraPosition: CameraPosition(
+                  target: LatLng(40.7128, -74.0060),
+                  zoom: 14.0,
+                ),
+                markers: userType == "worker" ? _gigMarkers : _myMarkers,
+                onCameraMove: _isTapped
+                    ? ((_position) => _updatePosition(_position))
+                    : null,
                   onTap: _handleTap,
                   myLocationButtonEnabled: true,
                   myLocationEnabled: true,
@@ -391,15 +376,14 @@ class _GoogleMapsState extends State<GoogleMaps> {
                                       return GigAddPage(
                                         location: _tappedPosition,
                                       );
-                                    },
-                                  ))
-                                : Loading();
-                          },
-                        ),
-                      )
-                    : _selectCustomMapBox(_user, _bottomNavigationBarIndex),
-              ],
-            ),
+                                  },
+                                ))
+                              : Loading();
+                        },
+                      ),
+                    )
+                  : _selectCustomMapBox(_user, _bottomNavigationBarIndex),
+            ],
           ),
         ),
       );

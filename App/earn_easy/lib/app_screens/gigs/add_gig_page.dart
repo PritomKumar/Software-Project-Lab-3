@@ -10,7 +10,7 @@ import 'package:earneasy/shared/loading.dart';
 import 'package:earneasy/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
@@ -110,34 +110,18 @@ class _GigAddPageState extends State<GigAddPage> {
                 appBar: AppBar(
                   title: Text('Add Gig'),
                 ),
-                body: StyledToast(
-                  textStyle: TextStyle(fontSize: 16.0, color: Colors.white),
-                  backgroundColor: Color(0x99000000),
-                  borderRadius: BorderRadius.circular(5.0),
-                  textPadding:
-                      EdgeInsets.symmetric(horizontal: 17.0, vertical: 10.0),
-                  toastPositions: StyledToastPosition.bottom,
-                  toastAnimation: StyledToastAnimation.fade,
-                  reverseAnimation: StyledToastAnimation.fade,
-                  curve: Curves.fastOutSlowIn,
-                  reverseCurve: Curves.fastLinearToSlowEaseIn,
-                  duration: Duration(seconds: 4),
-                  animDuration: Duration(seconds: 1),
-                  dismissOtherOnShow: true,
-                  movingOnWindowChange: true,
-                  locale: Localizations.localeOf(context),
-                  child: Form(
-                    key: _formKey,
-                    child: Center(
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 20.0),
-                        child: ListView(
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Text(
-                                  "Money :",
+                body: Form(
+                  key: _formKey,
+                  child: Center(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 20.0),
+                      child: ListView(
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Text(
+                                "Money :",
                                   style: TextStyle(fontSize: size.width / 25),
                                 ),
                                 SizedBox(
@@ -605,14 +589,16 @@ class _GigAddPageState extends State<GigAddPage> {
                                       });
                                     });
                                     if (!checkAdded) {
-                                      showToast("Request Failed");
-                                    } else {
-                                      showToast(
-                                          "Your Gig is added successfully");
+                                      Fluttertoast.showToast(
+                                        msg: "Request Failed");
+                                  } else {
+                                      Fluttertoast.showToast(
+                                        msg: "Your Gig is added successfully");
                                     }
                                   } else {
-                                    showToast("Your Gig is already added");
-                                  }
+                                    Fluttertoast.showToast(
+                                      msg: "Your Gig is already added");
+                                }
                                 }
                               },
                             ),
@@ -621,7 +607,6 @@ class _GigAddPageState extends State<GigAddPage> {
                       ),
                     ),
                   ),
-                ),
               ),
             )
           : Loading(),

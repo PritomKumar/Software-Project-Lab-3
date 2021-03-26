@@ -25,9 +25,9 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
     with AutomaticKeepAliveClientMixin {
   bool isItemAvailable = false;
   File _imageFile;
-  List<File> _imageFileList = List<File>();
+  List<File> _imageFileList = <File>[];
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-  List<StorageUploadTask> _tasks = <StorageUploadTask>[];
+  List<UploadTask> _tasks = <UploadTask>[];
   ImageTask _imageTask;
   var _submittedImageUrlList = List<String>();
 
@@ -119,11 +119,10 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
   Future<void> upload(fileName, filePath) async {
     String path =
         "${_imageTask.gigId}/${_imageTask.taskId}/images/$fileName ${DateTime.now().microsecondsSinceEpoch.toString()}.png";
-    final StorageReference storageRef =
-        FirebaseStorage(storageBucket: "gs://earneasy-5e92c.appspot.com")
-            .ref()
-            .child(path);
-    final StorageUploadTask uploadTask = storageRef.putFile(
+    final Reference storageRef = FirebaseStorage.instance
+        .ref("gs://earneasy-5e92c.appspot.com")
+        .child(path);
+    final UploadTask uploadTask = storageRef.putFile(
       File(filePath),
     );
     setState(() {
@@ -321,7 +320,7 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
         final Widget tile = UploadTaskListTile(
           task: _tasks[i],
           onSuccessful: () async {
-            var url = await (await _tasks[i].onComplete).ref.getDownloadURL();
+            var url = await (await _tasks[i]).ref.getDownloadURL();
             if (url != null) {
               if (_submittedImageUrlList.length <= _imageFileList.length &&
                   _imageFileList.length != 0) {
