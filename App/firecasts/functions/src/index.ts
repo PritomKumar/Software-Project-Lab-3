@@ -14,16 +14,19 @@ export const helloWorld = functions.https.onRequest((request, response) => {
   response.send("Hello from Pain!");
 });
 
-export const getSingleGigInfo = functions.https.onRequest((request, response) => {
-  admin.firestore().doc('Gigs/A1vk0mCKxrIVPPmuyfEs').get()
-  .then(snapshot=>{
-    const data = snapshot.data()
+export const getGigInfo = functions.https.onRequest(async (request, response) => {
+  try {
+    const snapshotss = await admin.firestore().doc('Gigs/UpTzbCY8JsWBuTHqWl8K/Tasks/FHia6YicE6m9RCag0wr6/').get();
+    const data = snapshotss.data();
     console.log("Data loading !!");
     console.log(data);
-    response.send(data)
-  })
-  .catch(error=>{
+    response.send(data);
+  } catch (error) {
     console.log("Error")
     response.status(500).send(error)
-  })
+  }
+  
+
 });
+
+
