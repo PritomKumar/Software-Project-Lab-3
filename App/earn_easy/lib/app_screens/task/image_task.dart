@@ -308,7 +308,7 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
     super.build(context);
     _imageTask = Provider.of<ImageTask>(context);
     if (_imageTask == null) {
-      print("_imageTask is null");
+      print("_imageTask is nullll");
     } else {
       print("_imageTask = ${_imageTask.toMap()}");
     }
