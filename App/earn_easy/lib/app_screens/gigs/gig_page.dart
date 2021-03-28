@@ -30,7 +30,6 @@ class _GigPageState extends State<GigPage> {
 
   //#region Methods
   _checkIfUserIsInAttemptedUsers() async {
-    // List<String> attemptedUserListFromGig = widget.gig.attemptedUsers;
     var attempt = await fireStoreGigsRef.doc(widget.gig.gigId).get();
     var tempGig = Gig.fromMap(attempt.data());
     var attemptedUserListFromGig = tempGig.attemptedUsers;
@@ -240,7 +239,7 @@ class _GigPageState extends State<GigPage> {
                     //#endregion
                     checker
                         ? Container(
-                      margin: EdgeInsets.symmetric(
+                            margin: EdgeInsets.symmetric(
                                 horizontal: 10.0, vertical: 5.0),
                             width: double.infinity,
                             alignment: Alignment.bottomCenter,
@@ -250,7 +249,10 @@ class _GigPageState extends State<GigPage> {
                                 onPrimary: Colors.white,
                                 side: BorderSide(color: Colors.green, width: 1),
                               ),
-                              child: Text("Start Tasks"),
+                              child: Text(
+                                "Start Tasks",
+                                style: TextStyle(color: Colors.black87),
+                              ),
                               onPressed: () async {
                                 // print("Start pressed");
                                 var userResponse = await DatabaseServiceTasks()
@@ -288,6 +290,7 @@ class _GigPageState extends State<GigPage> {
                                 await DatabaseServiceUser()
                                     .updateAttemptedGigWaitListedGigAndAllGigsAtTheSameTime(
                                         gig);
+                                //TODo : Logic if the user is accepted then createUserResponseForAttemptedUser
                                 await DatabaseServiceTasks()
                                     .createUserResponseForAttemptedUser(gig);
                                 await _checkIfUserIsInAttemptedUsers();
