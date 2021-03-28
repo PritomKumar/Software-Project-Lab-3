@@ -35,7 +35,7 @@ class _GigPageState extends State<GigPage> {
     var tempGig = Gig.fromMap(attempt.data());
     var attemptedUserListFromGig = tempGig.attemptedUsers;
     for (var attemptedUser in attemptedUserListFromGig) {
-      if (attemptedUser == userUid) {
+      if (attemptedUser.uid == userUid) {
         print("User ${userUid} has accepted the gig ${widget.gig.gigId}");
         setState(() {
           checker = true;
@@ -260,13 +260,17 @@ class _GigPageState extends State<GigPage> {
                                     .getToUserTaskFromGigId(gig.gigId);
                                 // print(userResponse.taskSnippetList.toString());
 
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => TaskListPage(
-                                        userResponse: userResponse,
-                                      ),
-                                    ));
+                                if (userResponse.taskSnippetList.length > 0) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => TaskListPage(
+                                          userResponse: userResponse,
+                                        ),
+                                      ));
+                                } else {
+                                  showWarningToast("No task in this Gig");
+                                }
                               },
                             ),
                           )
