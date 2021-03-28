@@ -53,15 +53,18 @@ export const getAllAttemptedUsers = functions.https.onRequest(
 
                 const reply = await Promise.all(promises);
 
-                const results: any[] = [];
-                if (reply) {
-                    reply.forEach((snap) => {
-                        const data = snap.data();
-                        results.push(data);
-                    });
-                }
-                console.log(results);
-                response.send(results);
+                console.log("reply = " + reply);
+                response.send("reply = " + reply);
+
+                // const results: any[] = [];
+                // if (reply) {
+                //     reply.forEach((snap) => {
+                //         const data = snap.data();
+                //         results.push(data);
+                //     });
+                // }
+                // console.log(results);
+                // response.send(results);
             } else {
                 console.log("Error");
                 response.status(500).send("No Data");
@@ -72,3 +75,5 @@ export const getAllAttemptedUsers = functions.https.onRequest(
         }
     }
 );
+
+void async function calculateHeuristic(user: any) {};

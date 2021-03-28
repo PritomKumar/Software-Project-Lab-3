@@ -78,6 +78,7 @@ class UserAccount {
   final String educationLevel;
   final String employmentStatus;
   final String householdIncome;
+  final String token;
 
   final int level;
   final String type;
@@ -111,6 +112,7 @@ class UserAccount {
     this.educationLevel = "Not set",
     this.employmentStatus = "Not set",
     this.householdIncome = "Not set",
+    this.token = "",
     this.level = 1,
     this.type = "worker",
     this.writeAccess = false,
@@ -140,6 +142,7 @@ class UserAccount {
         educationLevel = data['educationLevel'],
         employmentStatus = data['employmentStatus'],
         householdIncome = data['householdIncome'],
+        token = data['token'],
         level = data['level'],
         type = data['type'],
         writeAccess = data['writeAccess'],
@@ -176,6 +179,7 @@ class UserAccount {
       "zipCode": this.zipCode ?? "",
       "bio": this.bio ?? "",
       "occupation": this.occupation ?? "",
+      "token": this.token ?? "",
       "maritalStatus": this.maritalStatus ?? "Not set",
       "educationLevel": this.educationLevel ?? "Not set",
       "employmentStatus": this.employmentStatus ?? "Not set",

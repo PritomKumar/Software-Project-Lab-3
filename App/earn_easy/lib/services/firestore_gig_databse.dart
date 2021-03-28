@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/models/gig.dart';
 import 'package:earneasy/models/task.dart';
+import 'package:earneasy/models/user.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -129,10 +130,10 @@ class DatabaseServiceGigs {
     }
   }
 
-  Future updateAttemptedUserInGig(Gig gig) async {
+  Future updateAttemptedUserInGig(Gig gig, UserMinimum attemptedUser) async {
     try {
       await fireStoreGigsRef.doc(gig.gigId).update({
-        'attemptedUsers': FieldValue.arrayUnion([userUid])
+        'attemptedUsers': FieldValue.arrayUnion([attemptedUser.toMap()])
       }).then((value) {
         print("Attempted user updated with $userUid");
       });

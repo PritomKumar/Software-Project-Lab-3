@@ -4,6 +4,7 @@ import 'package:earneasy/models/user.dart';
 import 'package:earneasy/services/firestore_gig_databse.dart';
 import 'package:earneasy/services/firestore_task_databse.dart';
 import 'package:earneasy/services/firestore_user_databse.dart';
+import 'package:earneasy/services/location_service.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -285,8 +286,23 @@ class _GigPageState extends State<GigPage> {
                                 ),
                               ),
                               onPressed: () async {
+                                var attemptedUser = UserMinimum(
+                                  uid: user.uid,
+                                  firstName: user.firstName,
+                                  lastName: user.lastName,
+                                  email: user.email,
+                                  photoUrl: user.photoUrl,
+                                  token: user.token,
+                                  level: user.level,
+                                  distance: LocationService()
+                                      .calculateDistanceGigAndUserCurrentLocation(
+                                          gig.location),
+                                  type: user.type,
+                                  writeAccess: user.writeAccess,
+                                );
                                 await DatabaseServiceGigs()
-                                    .updateAttemptedUserInGig(gig);
+                                    .updateAttemptedUserInGig(
+                                        gig, attemptedUser);
                                 await DatabaseServiceUser()
                                     .updateAttemptedGigWaitListedGigAndAllGigsAtTheSameTime(
                                         gig);
