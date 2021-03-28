@@ -29,8 +29,11 @@ class _GigPageState extends State<GigPage> {
   }
 
   //#region Methods
-  _checkIfUserIsInAttemptedUsers() {
-    List<String> attemptedUserListFromGig = widget.gig.attemptedUsers;
+  _checkIfUserIsInAttemptedUsers() async {
+    // List<String> attemptedUserListFromGig = widget.gig.attemptedUsers;
+    var attempt = await fireStoreGigsRef.doc(widget.gig.gigId).get();
+    var tempGig = Gig.fromMap(attempt.data());
+    var attemptedUserListFromGig = tempGig.attemptedUsers;
     for (var attemptedUser in attemptedUserListFromGig) {
       if (attemptedUser == userUid) {
         print("User ${userUid} has accepted the gig ${widget.gig.gigId}");
@@ -237,12 +240,16 @@ class _GigPageState extends State<GigPage> {
                     //#endregion
                     checker
                         ? Container(
-                            margin: EdgeInsets.symmetric(
+                      margin: EdgeInsets.symmetric(
                                 horizontal: 10.0, vertical: 5.0),
                             width: double.infinity,
                             alignment: Alignment.bottomCenter,
-                            child: RaisedButton(
-                              color: Colors.lightGreenAccent,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.lightGreenAccent,
+                                onPrimary: Colors.white,
+                                side: BorderSide(color: Colors.green, width: 1),
+                              ),
                               child: Text("Start Tasks"),
                               onPressed: () async {
                                 // print("Start pressed");
@@ -283,7 +290,7 @@ class _GigPageState extends State<GigPage> {
                                         gig);
                                 await DatabaseServiceTasks()
                                     .createUserResponseForAttemptedUser(gig);
-                                _checkIfUserIsInAttemptedUsers();
+                                await _checkIfUserIsInAttemptedUsers();
                                 setState(() {});
                               },
                             ),
