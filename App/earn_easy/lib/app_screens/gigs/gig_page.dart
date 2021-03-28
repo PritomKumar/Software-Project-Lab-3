@@ -269,7 +269,7 @@ class _GigPageState extends State<GigPage> {
                                         ),
                                       ));
                                 } else {
-                                  showWarningToast("No task in this Gig");
+                                  showWarningToast("No  task in this Gig");
                                 }
                               },
                             ),
