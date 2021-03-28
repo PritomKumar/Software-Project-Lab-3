@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/models/task.dart';
+import 'package:earneasy/models/user.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
@@ -57,8 +58,8 @@ class Gig {
   double distance;
   List<TaskSnippet> taskSnippetList = List<TaskSnippet>();
   List<String> fileAttachmentUrls = List<String>();
-  List<String> attemptedUsers = List<String>();
-  List<String> finishTaskUsers = List<String>();
+  List<UserMinimum> attemptedUsers = List<UserMinimum>();
+  List<UserMinimum> finishTaskUsers = List<UserMinimum>();
 
   Gig({
     this.money = 0,
@@ -100,10 +101,12 @@ class Gig {
             [],
         this.fileAttachmentUrls =
             List.from(data["fileAttachmentUrls"]) ?? List<String>(),
-        this.attemptedUsers =
-            List.from(data["attemptedUsers"]) ?? List<String>(),
-        this.finishTaskUsers =
-            List.from(data["finishTaskUsers"]) ?? List<String>();
+        this.attemptedUsers = List.from(data['attemptedUsers']
+                .map((index) => UserMinimum.fromMap(index))) ??
+            [],
+        this.finishTaskUsers = List.from(data['finishTaskUsers']
+                .map((index) => UserMinimum.fromMap(index))) ??
+            [];
 
   Map<String, dynamic> toMap() {
     return {
@@ -124,8 +127,12 @@ class Gig {
       'notice': this.notice ?? "",
       'taskSnippetList': this.taskSnippetList ?? [],
       'fileAttachmentUrls': this.fileAttachmentUrls ?? List<String>(),
-      'attemptedUsers': this.attemptedUsers ?? List<String>(),
-      'finishTaskUsers': this.finishTaskUsers ?? List<String>(),
+      'attemptedUsers': this.attemptedUsers == null
+          ? []
+          : List.from(this.attemptedUsers.map((index) => index.toMap())) ?? [],
+      'finishTaskUsers': this.finishTaskUsers == null
+          ? []
+          : List.from(this.finishTaskUsers.map((index) => index.toMap())) ?? [],
     };
   }
 }
