@@ -14,6 +14,8 @@ class UserMinimum {
   final String email;
   final int level;
   final String type;
+  final String token;
+  double distance;
   final bool writeAccess;
 
   UserMinimum({
@@ -22,10 +24,39 @@ class UserMinimum {
     this.lastName = "",
     this.email = "",
     this.photoUrl = "",
+    this.token = "",
     this.level = 1,
+    this.distance = double.infinity,
     this.type = "worker",
     this.writeAccess = false,
   });
+
+  UserMinimum.fromMap(Map<String, dynamic> data)
+      : this.uid = data["uid"] ?? "",
+        this.firstName = data["firstName"] ?? "",
+        this.lastName = data["lastName"] ?? "",
+        this.email = data["email"] ?? "",
+        this.photoUrl = data["photoUrl"] ?? "",
+        this.token = data["token"] ?? "",
+        this.level = data["level"] ?? 1,
+        this.distance = data["distance"] ?? double.infinity,
+        this.type = data["type"] ?? "worker",
+        this.writeAccess = data["writeAccess"];
+
+  Map<String, dynamic> toMap() {
+    return {
+      'uid': this.uid ?? "",
+      'firstName': this.firstName ?? "",
+      'lastName': this.lastName ?? "",
+      'email': this.email ?? "",
+      'photoUrl': this.photoUrl ?? "",
+      'token': this.token ?? "",
+      'level': this.level ?? 1,
+      'distance': this.distance ?? double.infinity,
+      'type': this.type ?? "",
+      'writeAccess': this.writeAccess ?? "",
+    };
+  }
 }
 
 class UserAccount {
@@ -124,7 +155,7 @@ class UserAccount {
         waitListGigs = List.from(
                 data['waitListGigs'].map((index) => GigMini.fromMap(index))) ??
             [],
-        //TODO HAve to think about its use
+  //TODO HAve to think about its use
         createdGigs = List.from(
                 data['createdGigs'].map((index) => GigMini.fromMap(index))) ??
             [];
@@ -191,7 +222,7 @@ class UserResponse {
         this.taskSnippetList = List.from(data["taskSnippetList"]
                 .map((index) => TaskSnippet.fromMap(index))) ??
             [],
-        this.distance = data["distance"],
+        this.distance = data["distance"] ?? double.infinity,
         this.gigId = data["gigId"],
         this.completedTaskCount = data["completedTaskCount"];
 
@@ -201,7 +232,7 @@ class UserResponse {
       'taskSnippetList': this.taskSnippetList == null
           ? []
           : List.from(this.taskSnippetList.map((index) => index.toMap())) ?? [],
-      'distance': this.distance ?? 0.0,
+      'distance': this.distance ?? double.infinity,
       'gigId': this.gigId ?? "",
       'completedTaskCount': this.completedTaskCount ?? 0,
     };
