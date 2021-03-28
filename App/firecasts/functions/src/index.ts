@@ -35,7 +35,7 @@ export const getAllAttemptedUsers = functions.https.onRequest(
         try {
             const snapshotss = await admin
                 .firestore()
-                .doc("Gigs/UpTzbCY8JsWBuTHqWl8K/")
+                .doc("Gigs/krJmz1qVWH9ExokJGBVD/")
                 .get();
 
             const attempData = snapshotss.data();
@@ -43,28 +43,28 @@ export const getAllAttemptedUsers = functions.https.onRequest(
                 const attempUsers = attempData.attemptedUsers;
 
                 const promises: any[] = [];
-                attempUsers.forEach((user: any) => {
+                attempUsers.forEach((singleUser: any) => {
                     const userInUsersDocument = admin
                         .firestore()
-                        .doc(`Users/${user}`)
+                        .doc(`Users/${singleUser.uid}`)
                         .get();
                     promises.push(userInUsersDocument);
                 });
 
                 const reply = await Promise.all(promises);
 
-                console.log("reply = " + reply);
-                response.send("reply = " + reply);
+                // console.log("reply = " + reply);
+                // response.send("reply = " + reply);
 
-                // const results: any[] = [];
-                // if (reply) {
-                //     reply.forEach((snap) => {
-                //         const data = snap.data();
-                //         results.push(data);
-                //     });
-                // }
-                // console.log(results);
-                // response.send(results);
+                const results: any[] = [];
+                if (reply) {
+                    reply.forEach((snap) => {
+                        const data = snap.data();
+                        results.push(data);
+                    });
+                }
+                console.log(results);
+                response.send(results);
             } else {
                 console.log("Error");
                 response.status(500).send("No Data");
