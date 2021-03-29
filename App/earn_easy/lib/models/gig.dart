@@ -60,6 +60,7 @@ class Gig {
   List<String> fileAttachmentUrls = List<String>();
   List<UserMinimum> attemptedUsers = List<UserMinimum>();
   List<UserMinimum> finishTaskUsers = List<UserMinimum>();
+  final UserMinimum assignedUser;
 
   Gig({
     this.money = 0,
@@ -74,6 +75,7 @@ class Gig {
     this.type = "Not set",
     this.access = "",
     this.importantNote = "",
+    this.assignedUser,
     this.notice = "",
     this.distance,
     this.taskSnippetList,
@@ -96,6 +98,9 @@ class Gig {
         this.access = data["access"],
         this.importantNote = data["importantNote"],
         this.notice = data["notice"],
+        this.assignedUser = data["assignedUser"] == null
+            ? null
+            : UserMinimum.fromMap(data["assignedUser"]),
         this.taskSnippetList = List.from(data["taskSnippetList"]
                 .map((index) => TaskSnippet.fromMap(index))) ??
             [],
@@ -126,7 +131,9 @@ class Gig {
       'importantNote': this.importantNote ?? "",
       'notice': this.notice ?? "",
       'taskSnippetList': this.taskSnippetList ?? [],
-      'fileAttachmentUrls': this.fileAttachmentUrls ?? List<String>(),
+      'fileAttachmentUrls': this.fileAttachmentUrls ?? [],
+      'assignedUser':
+          this.assignedUser == null ? null : this.assignedUser.toMap(),
       'attemptedUsers': this.attemptedUsers == null
           ? []
           : List.from(this.attemptedUsers.map((index) => index.toMap())) ?? [],

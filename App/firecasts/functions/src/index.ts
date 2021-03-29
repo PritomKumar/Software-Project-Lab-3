@@ -60,6 +60,7 @@ export const getAllAttemptedUsers = functions.https.onRequest(
                 const promises: any[] = [];
                 let i = 0;
                 filteredUsers.forEach((singleUser: any) => {
+                    console.log("User Email  = " + singleUser.email);
                     scores[i] = calcuateScoresBasedOnDistance(singleUser);
                     console.log("Distance score = " + calcuateScoresBasedOnDistance(singleUser));
                     scores[i] += calcuateScoresBasedOnUserLevel(singleUser);
