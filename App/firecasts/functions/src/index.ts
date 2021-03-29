@@ -61,7 +61,9 @@ export const getAllAttemptedUsers = functions.https.onRequest(
                 var i = 0;
                 filteredUsers.forEach((singleUser: any) => {
                     scores[i] = calcuateScoresBasedOnDistance(singleUser);
+                    console.log("Distance score = " + calcuateScoresBasedOnDistance(singleUser));
                     scores[i] = calcuateScoresBasedOnUserLevel(singleUser);
+                    console.log("User Level score = " + calcuateScoresBasedOnUserLevel(singleUser));
 
                     const userInUsersDocument = admin
                         .firestore()
@@ -85,15 +87,21 @@ export const getAllAttemptedUsers = functions.https.onRequest(
                         scores[i] = calcuateScoresBasedOnUserMaritalStatus(
                             singleUserFullData
                         );
+                        console.log("User Marital Status score = " + calcuateScoresBasedOnUserMaritalStatus(singleUserFullData));
+
                         scores[i] = calcuateScoresBasedOnUserEmploymentStatus(
                             singleUserFullData
                         );
+                        console.log("User employment status score = " + calcuateScoresBasedOnUserEmploymentStatus(singleUserFullData));
                         scores[i] = calcuateScoresBasedOnUserHouseholdIncome(
                             singleUserFullData
                         );
+                        console.log("User Household income score = " + calcuateScoresBasedOnUserHouseholdIncome(singleUserFullData));
+
                         scores[i] = calcuateScoresBasedOnUserEducationLevel(
                             singleUserFullData
                         );
+                        console.log("User educational level score = " + calcuateScoresBasedOnUserEducationLevel(singleUserFullData));
 
                         results.push(singleUserFullData);
                         i++;
@@ -141,9 +149,9 @@ function calcuateScoresBasedOnDistance(singleUser: any): number {
 function calcuateScoresBasedOnUserLevel(singleUser: any): number {
     return 200 * (singleUser.level / 10);
 }
-function calcuateScoresBasedOnUserRating(singleUserFullData: any): number {
-    return 100 * (singleUserFullData.rating / 10);
-}
+// function calcuateScoresBasedOnUserRating(singleUserFullData: any): number {
+//     return 100 * (singleUserFullData.rating / 10);
+// }
 
 function calcuateScoresBasedOnUserMaritalStatus(
     singleUserFullData: any
