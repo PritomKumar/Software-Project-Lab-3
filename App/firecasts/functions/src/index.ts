@@ -203,7 +203,7 @@ function calcuateScoresBasedOnUserHouseholdIncome(
     } else if (singleUserFullData.householdIncome === "40,000 to 59,999 bdt") {
         return 50 * (4 / 7);
     } else if (singleUserFullData.householdIncome === "60,000 to 79,999 bdt") {
-        return 50 * (3/ 7);
+        return 50 * (3 / 7);
     } else if (singleUserFullData.householdIncome === "80,000 to 99,999 bdt") {
         return 50 * (2 / 7);
     } else {
@@ -214,5 +214,37 @@ function calcuateScoresBasedOnUserHouseholdIncome(
 function calcuateScoresBasedOnUserEducationLevel(
     singleUserFullData: any
 ): number {
-    throw new Error("Function not implemented.");
+    if (singleUserFullData.educationLevel === "Not set") {
+        return 50 * (0 / 10);
+    } else if (
+        singleUserFullData.educationLevel === "Less than high school diploma"
+    ) {
+        return 50 * (3 / 10);
+    } else if (
+        singleUserFullData.educationLevel === "High school degree or equivalent"
+    ) {
+        return 50 * (4 / 10);
+    } else if (
+        singleUserFullData.educationLevel === "Some college, no degree"
+    ) {
+        return 50 * (5 / 10);
+    } else if (
+        singleUserFullData.educationLevel === "Current college student"
+    ) {
+        return 50 * (6 / 10);
+    } else if (singleUserFullData.educationLevel === "Associate degree") {
+        return 50 * (7 / 10);
+    } else if (singleUserFullData.educationLevel === "Bachelor's degree") {
+        return 50 * (8 / 10);
+    } else if (singleUserFullData.educationLevel === "Master's degree") {
+        return 50 * (9 / 10);
+    } else if (singleUserFullData.educationLevel === "Professional degree") {
+        return 50 * (9 / 10);
+    } else if (singleUserFullData.educationLevel === "Doctorate") {
+        return 50 * (10 / 10);
+    } else if (singleUserFullData.educationLevel === "Post-Doctorate") {
+        return 50 * (10 / 10);
+    } else {
+        return 50 * (2 / 4);
+    }
 }
