@@ -148,52 +148,46 @@ function calcuateScoresBasedOnUserRating(singleUserFullData: any): number {
 function calcuateScoresBasedOnUserMaritalStatus(
     singleUserFullData: any
 ): number {
-    if(singleUserFullData.maritalStatus === "Not set" ){
-        return 50*(0/4);
-    }
-    else if(singleUserFullData.maritalStatus === "Single" ){
-        return 50*(3/4);
-    }
-    else if(singleUserFullData.maritalStatus === "Married" ){
-        return 50*(4/4);
-    }
-    else if(singleUserFullData.maritalStatus === "Widowed" ){
-        return 50*(2/4);
-    }
-    else if(singleUserFullData.maritalStatus === "Divorced" ){
-        return 50*(2/4);
-    }
-    else if(singleUserFullData.maritalStatus === "Separated" ){
-        return 50*(2/4);
-    }
-    else{
-        return 50*(1/4);
+    if (singleUserFullData.maritalStatus === "Not set") {
+        return 50 * (0 / 4);
+    } else if (singleUserFullData.maritalStatus === "Single") {
+        return 50 * (3 / 4);
+    } else if (singleUserFullData.maritalStatus === "Married") {
+        return 50 * (4 / 4);
+    } else if (singleUserFullData.maritalStatus === "Widowed") {
+        return 50 * (2 / 4);
+    } else if (singleUserFullData.maritalStatus === "Divorced") {
+        return 50 * (2 / 4);
+    } else if (singleUserFullData.maritalStatus === "Separated") {
+        return 50 * (2 / 4);
+    } else {
+        return 50 * (1 / 4);
     }
 }
 
 function calcuateScoresBasedOnUserEmploymentStatus(
     singleUserFullData: any
 ): number {
-    if(singleUserFullData.maritalStatus === "Not set" ){
-        return 50*(0/4);
-    }
-    else if(singleUserFullData.maritalStatus === "Employed full time" ){
-        return 50*(3/4);
-    }
-    else if(singleUserFullData.maritalStatus === "Married" ){
-        return 50*(4/4);
-    }
-    else if(singleUserFullData.maritalStatus === "Widowed" ){
-        return 50*(2/4);
-    }
-    else if(singleUserFullData.maritalStatus === "Divorced" ){
-        return 50*(2/4);
-    }
-    else if(singleUserFullData.maritalStatus === "Separated" ){
-        return 50*(2/4);
-    }
-    else{
-        return 50*(1/4);
+    if (singleUserFullData.employmentStatus === "Not set") {
+        return 50 * (0 / 5);
+    } else if (singleUserFullData.employmentStatus === "Employed full time") {
+        return 50 * (2 / 5);
+    } else if (singleUserFullData.employmentStatus === "Employed part time") {
+        return 50 * (3 / 5);
+    } else if (singleUserFullData.employmentStatus === "Self-employed") {
+        return 50 * (3 / 5);
+    } else if (singleUserFullData.employmentStatus === "Military") {
+        return 50 * (2 / 5);
+    } else if (singleUserFullData.employmentStatus === "Student") {
+        return 50 * (4 / 5);
+    } else if (singleUserFullData.employmentStatus === "Retired") {
+        return 50 * (4 / 5);
+    } else if (singleUserFullData.employmentStatus === "Homemaker") {
+        return 50 * (4 / 5);
+    } else if (singleUserFullData.employmentStatus === "Unemployed") {
+        return 50 * (5 / 5);
+    } else {
+        return 50 * (1 / 5);
     }
 }
 
