@@ -56,13 +56,13 @@ export const getAllAttemptedUsers = functions.https.onRequest(
                         filteredUsers.push(singleUser);
                     }
                 });
-                var scores: number[] = [];
+                let scores: number[] = [];
                 const promises: any[] = [];
-                var i = 0;
+                let i = 0;
                 filteredUsers.forEach((singleUser: any) => {
                     scores[i] = calcuateScoresBasedOnDistance(singleUser);
                     console.log("Distance score = " + calcuateScoresBasedOnDistance(singleUser));
-                    scores[i] = calcuateScoresBasedOnUserLevel(singleUser);
+                    scores[i] += calcuateScoresBasedOnUserLevel(singleUser);
                     console.log("User Level score = " + calcuateScoresBasedOnUserLevel(singleUser));
 
                     const userInUsersDocument = admin
@@ -83,22 +83,22 @@ export const getAllAttemptedUsers = functions.https.onRequest(
                 if (reply) {
                     reply.forEach((snap) => {
                         const singleUserFullData = snap.data();
-                        // scores[i] = calcuateScoresBasedOnUserRating(singleUserFullData);
-                        scores[i] = calcuateScoresBasedOnUserMaritalStatus(
+                        // scores[i] += calcuateScoresBasedOnUserRating(singleUserFullData);
+                        scores[i] += calcuateScoresBasedOnUserMaritalStatus(
                             singleUserFullData
                         );
                         console.log("User Marital Status score = " + calcuateScoresBasedOnUserMaritalStatus(singleUserFullData));
 
-                        scores[i] = calcuateScoresBasedOnUserEmploymentStatus(
+                        scores[i] += calcuateScoresBasedOnUserEmploymentStatus(
                             singleUserFullData
                         );
                         console.log("User employment status score = " + calcuateScoresBasedOnUserEmploymentStatus(singleUserFullData));
-                        scores[i] = calcuateScoresBasedOnUserHouseholdIncome(
+                        scores[i] += calcuateScoresBasedOnUserHouseholdIncome(
                             singleUserFullData
                         );
                         console.log("User Household income score = " + calcuateScoresBasedOnUserHouseholdIncome(singleUserFullData));
 
-                        scores[i] = calcuateScoresBasedOnUserEducationLevel(
+                        scores[i] += calcuateScoresBasedOnUserEducationLevel(
                             singleUserFullData
                         );
                         console.log("User educational level score = " + calcuateScoresBasedOnUserEducationLevel(singleUserFullData));
