@@ -194,7 +194,21 @@ function calcuateScoresBasedOnUserEmploymentStatus(
 function calcuateScoresBasedOnUserHouseholdIncome(
     singleUserFullData: any
 ): number {
-    throw new Error("Function not implemented.");
+    if (singleUserFullData.householdIncome === "Not set") {
+        return 50 * (0 / 7);
+    } else if (singleUserFullData.householdIncome === "Less than 20,000 bdt") {
+        return 50 * (7 / 7);
+    } else if (singleUserFullData.householdIncome === "20,000 to 39,999 bdt") {
+        return 50 * (5 / 7);
+    } else if (singleUserFullData.householdIncome === "40,000 to 59,999 bdt") {
+        return 50 * (4 / 7);
+    } else if (singleUserFullData.householdIncome === "60,000 to 79,999 bdt") {
+        return 50 * (3/ 7);
+    } else if (singleUserFullData.householdIncome === "80,000 to 99,999 bdt") {
+        return 50 * (2 / 7);
+    } else {
+        return 50 * (1 / 7);
+    }
 }
 
 function calcuateScoresBasedOnUserEducationLevel(
