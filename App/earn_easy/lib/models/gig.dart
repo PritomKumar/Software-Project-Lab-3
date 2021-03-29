@@ -56,10 +56,10 @@ class Gig {
   final String importantNote;
   final String notice;
   double distance;
-  List<TaskSnippet> taskSnippetList = List<TaskSnippet>();
-  List<String> fileAttachmentUrls = List<String>();
-  List<UserMinimum> attemptedUsers = List<UserMinimum>();
-  List<UserMinimum> finishTaskUsers = List<UserMinimum>();
+  List<TaskSnippet> taskSnippetList = <TaskSnippet>[];
+  List<String> fileAttachmentUrls = <String>[];
+  List<UserMinimum> attemptedUsers = <UserMinimum>[];
+  List<UserMinimum> finishTaskUsers = <UserMinimum>[];
   final UserMinimum assignedUser;
 
   Gig({
