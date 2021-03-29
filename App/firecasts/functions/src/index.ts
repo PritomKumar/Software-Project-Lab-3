@@ -31,7 +31,7 @@ admin.initializeApp();
 // );
 
 //distance = 500
-//level = 200
+//level = 200 (1-10) for inactivit level goes down
 //rating = 100
 //misconduct = 0 to negative
 //marital status = 50
@@ -61,6 +61,8 @@ export const getAllAttemptedUsers = functions.https.onRequest(
                 var i = 0;
                 filteredUsers.forEach((singleUser: any) => {
                     scores[i] = calcuateScoresBasedOnDistance(singleUser);
+                    scores[i] = calcuateScoresBasedOnUserLevel(singleUser);
+
                     const userInUsersDocument = admin
                         .firestore()
                         .doc(`Users/${singleUser.uid}`)
@@ -121,3 +123,7 @@ function calcuateScoresBasedOnDistance(singleUser: any): number {
         return 0.0;
     }
 }
+function calcuateScoresBasedOnUserLevel(singleUser: any): number {
+   return 200*(singleUser.level/10);
+}
+
