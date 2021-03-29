@@ -76,16 +76,31 @@ export const getAllAttemptedUsers = functions.https.onRequest(
 
                 // console.log("reply = " + reply);
                 // response.send("reply = " + reply);
-
+                i = 0;
                 const results: any[] = [];
                 if (reply) {
                     reply.forEach((snap) => {
-                        const data = snap.data();
-                        results.push(data);
+                        const singleUserFullData = snap.data();
+                        // scores[i] = calcuateScoresBasedOnUserRating(singleUserFullData);
+                        scores[i] = calcuateScoresBasedOnUserMaritalStatus(
+                            singleUserFullData
+                        );
+                        scores[i] = calcuateScoresBasedOnUserEmploymentStatus(
+                            singleUserFullData
+                        );
+                        scores[i] = calcuateScoresBasedOnUserHouseholdIncome(
+                            singleUserFullData
+                        );
+                        scores[i] = calcuateScoresBasedOnUserEducationLevel(
+                            singleUserFullData
+                        );
+
+                        results.push(singleUserFullData);
+                        i++;
                     });
                 }
                 console.log(results);
-                response.send(results);
+                response.send(`results = ${results} and scores = ${scores}`);
             } else {
                 console.log("Error");
                 response.status(500).send("No Data");
@@ -124,6 +139,72 @@ function calcuateScoresBasedOnDistance(singleUser: any): number {
     }
 }
 function calcuateScoresBasedOnUserLevel(singleUser: any): number {
-   return 200*(singleUser.level/10);
+    return 200 * (singleUser.level / 10);
+}
+function calcuateScoresBasedOnUserRating(singleUserFullData: any): number {
+    return 100 * (singleUserFullData.rating / 10);
 }
 
+function calcuateScoresBasedOnUserMaritalStatus(
+    singleUserFullData: any
+): number {
+    if(singleUserFullData.maritalStatus === "Not set" ){
+        return 50*(0/4);
+    }
+    else if(singleUserFullData.maritalStatus === "Single" ){
+        return 50*(3/4);
+    }
+    else if(singleUserFullData.maritalStatus === "Married" ){
+        return 50*(4/4);
+    }
+    else if(singleUserFullData.maritalStatus === "Widowed" ){
+        return 50*(2/4);
+    }
+    else if(singleUserFullData.maritalStatus === "Divorced" ){
+        return 50*(2/4);
+    }
+    else if(singleUserFullData.maritalStatus === "Separated" ){
+        return 50*(2/4);
+    }
+    else{
+        return 50*(1/4);
+    }
+}
+
+function calcuateScoresBasedOnUserEmploymentStatus(
+    singleUserFullData: any
+): number {
+    if(singleUserFullData.maritalStatus === "Not set" ){
+        return 50*(0/4);
+    }
+    else if(singleUserFullData.maritalStatus === "Employed full time" ){
+        return 50*(3/4);
+    }
+    else if(singleUserFullData.maritalStatus === "Married" ){
+        return 50*(4/4);
+    }
+    else if(singleUserFullData.maritalStatus === "Widowed" ){
+        return 50*(2/4);
+    }
+    else if(singleUserFullData.maritalStatus === "Divorced" ){
+        return 50*(2/4);
+    }
+    else if(singleUserFullData.maritalStatus === "Separated" ){
+        return 50*(2/4);
+    }
+    else{
+        return 50*(1/4);
+    }
+}
+
+function calcuateScoresBasedOnUserHouseholdIncome(
+    singleUserFullData: any
+): number {
+    throw new Error("Function not implemented.");
+}
+
+function calcuateScoresBasedOnUserEducationLevel(
+    singleUserFullData: any
+): number {
+    throw new Error("Function not implemented.");
+}

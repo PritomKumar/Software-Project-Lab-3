@@ -80,7 +80,10 @@ class UserAccount {
   final String householdIncome;
   final String token;
 
-  final int level;
+  final int
+      level; // 1 to 10 // changes positive tasks completion and completion rate
+  // negative misconduct, inactivity, not finishing task
+  final double rating; // 1.0 to 5.0
   final String type;
   final bool writeAccess;
 
@@ -114,6 +117,7 @@ class UserAccount {
     this.householdIncome = "Not set",
     this.token = "",
     this.level = 1,
+    this.rating = 1.0,
     this.type = "worker",
     this.writeAccess = false,
     this.allGigs,
@@ -144,6 +148,7 @@ class UserAccount {
         householdIncome = data['householdIncome'],
         token = data['token'],
         level = data['level'],
+        rating = data['rating'] ?? 1.0,
         type = data['type'],
         writeAccess = data['writeAccess'],
         allGigs =
@@ -185,6 +190,7 @@ class UserAccount {
       "employmentStatus": this.employmentStatus ?? "Not set",
       "householdIncome": this.householdIncome ?? "Not set",
       "level": this.level ?? 1,
+      "rating": this.rating ?? 1.0,
       "type": this.type ?? "worker",
       "writeAccess": this.writeAccess ?? false,
       "allGigs": this.allGigs == null
