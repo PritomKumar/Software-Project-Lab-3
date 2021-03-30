@@ -13,36 +13,143 @@ admin.initializeApp();
 // education = 50
 // total = 1000
 
-exports.onGigUpdate = functions.firestore
+
+exports.onAttemptedUsersUpdate = functions.firestore
     .document("Gigs/{gigId}")
     .onUpdate(async (change, context) => {
     // Get an object representing the current document
       try {
-        const newValue = change.after.data();
-        if (newValue) {
-          console.log(newValue.description);
+        const gigDataBefore = change.before.data();
+        const gigDataAfter = change.after.data();
+        const gigId = context.params.gigId;
+
+        if (gigDataAfter) {
+          console.log(gigDataAfter.description);
           // ...or the previous value before this update
-          // const previousValue = change.before.data();
 
           // if (
-          //     newValue.attemptedUsers.length ==
-          //     previousValue.attemptedUsers.length
+          //     gigDataAfter.attemptedUsers.length ==
+          //     gigDataBefore.attemptedUsers.length
           // ) {
           //     console.log("Data is same");
           // }
-          const updatedText = "The descption has changed!!!";
+          console.log(`Now in gig = ${gigId}`);
 
-          if (newValue.description === updatedText) {
-            console.log("Data is same!!");
+          if (
+            gigDataAfter.attemptedUsers.length ==
+              gigDataBefore.attemptedUsers.length
+          ) {
+            console.log("The attempted users are the same");
             return null;
-          } else {
-            return change.after.ref.update({
-              description: updatedText,
+          }
+
+          const attempData = gigDataAfter;
+          if (attempData) {
+            const attempUsers = attempData.attemptedUsers;
+            const filteredUsers: any[] = [];
+            attempUsers.forEach((singleUser: any) => {
+              if (firstFilteringBasedOnBasicInfo(singleUser)) {
+                filteredUsers.push(singleUser);
+              }
             });
-          // return await admin
-          //     .firestore()
-          //     .doc("Gigs/LNEYY0maGLXeMCFFe1tK")
-          //     .update({ description: updatedText });
+            const scores: number[] = [];
+            const promises: any[] = [];
+            let i = 0;
+            filteredUsers.forEach((singleUser: any) => {
+              console.log("User Email  = " + singleUser.email);
+              scores[i] = calcuateScoresBasedOnDistance(singleUser);
+              console.log(
+                  "Distance score = " +
+              calcuateScoresBasedOnDistance(singleUser)
+              );
+              scores[i] += calcuateScoresBasedOnUserLevel(singleUser);
+              console.log(
+                  "User Level score = " +
+              calcuateScoresBasedOnUserLevel(singleUser)
+              );
+
+              const userInUsersDocument = admin
+                  .firestore()
+                  .doc(`Users/${singleUser.uid}`)
+                  .get();
+
+              promises.push(userInUsersDocument);
+              i++;
+            });
+
+            const reply = await Promise.all(promises);
+
+            // console.log("reply = " + reply);
+            // response.send("reply = " + reply);
+            i = 0;
+            const results: any[] = [];
+            if (reply) {
+              reply.forEach((snap) => {
+                const singleUserFullData = snap.data();
+                // scores[i] += calcuateScoresBasedOnUserRating(
+                //     singleUserFullData
+                // );
+                scores[i] += calcuateScoresBasedOnUserMaritalStatus(
+                    singleUserFullData
+                );
+                console.log(
+                    "User Marital Status score = " +
+                calcuateScoresBasedOnUserMaritalStatus(
+                    singleUserFullData
+                )
+                );
+
+                scores[i] += calcuateScoresBasedOnUserEmploymentStatus(
+                    singleUserFullData
+                );
+                console.log(
+                    "User employment status score = " +
+                calcuateScoresBasedOnUserEmploymentStatus(
+                    singleUserFullData
+                )
+                );
+                scores[i] += calcuateScoresBasedOnUserHouseholdIncome(
+                    singleUserFullData
+                );
+                console.log(
+                    "User Household income score = " +
+                calcuateScoresBasedOnUserHouseholdIncome(
+                    singleUserFullData
+                )
+                );
+
+                scores[i] += calcuateScoresBasedOnUserEducationLevel(
+                    singleUserFullData
+                );
+                console.log(
+                    "User educational level score = " +
+                calcuateScoresBasedOnUserEducationLevel(
+                    singleUserFullData
+                )
+                );
+
+                results.push(singleUserFullData);
+                i++;
+              });
+            }
+            console.log(`results = ${results} and scores = ${scores}`);
+            const highestScoreIndex = calculateTheBestScoreIndex(scores);
+            console.log(scores);
+            console.log(`results = ${results[highestScoreIndex]}; 
+            and scores = ${scores[highestScoreIndex]}`);
+            // response.send(`results = ${results[highestScoreIndex]}
+            // and scores = ${scores[highestScoreIndex]}`);
+
+            return await change.after.ref.update({
+              assignedUser: filteredUsers[highestScoreIndex],
+            });
+            // return await admin
+            //     .firestore()
+            //     .doc("Gigs/LNEYY0maGLXeMCFFe1tK")
+            //     .update({ description: updatedText });
+          } else {
+            console.log("No Data in function");
+            return null;
           }
         } else {
           console.log("NO DATA");
@@ -54,122 +161,131 @@ exports.onGigUpdate = functions.firestore
       }
     });
 
+// export const getAllAttemptedUsers = functions.https.onRequest(
+//     async (request, response) => {
+//       try {
+//         const snapshotss = await admin
+//             .firestore()
+//             .doc("Gigs/LNEYY0maGLXeMCFFe1tK/")
+//             .get();
 
-export const getAllAttemptedUsers = functions.https.onRequest(
-    async (request, response) => {
-      try {
-        const snapshotss = await admin
-            .firestore()
-            .doc("Gigs/LNEYY0maGLXeMCFFe1tK/")
-            .get();
+//         const attempData = snapshotss.data();
+//         if (attempData) {
+//           const attempUsers = attempData.attemptedUsers;
+//           const filteredUsers: any[] = [];
+//           attempUsers.forEach((singleUser: any) => {
+//             if (firstFilteringBasedOnBasicInfo(singleUser)) {
+//               filteredUsers.push(singleUser);
+//             }
+//           });
+//           const scores: number[] = [];
+//           const promises: any[] = [];
+//           let i = 0;
+//           filteredUsers.forEach((singleUser: any) => {
+//             console.log("User Email  = " + singleUser.email);
+//             scores[i] = calcuateScoresBasedOnDistance(singleUser);
+//             console.log(
+//                 "Distance score = " +
+//             calcuateScoresBasedOnDistance(singleUser)
+//             );
+//             scores[i] += calcuateScoresBasedOnUserLevel(singleUser);
+//             console.log(
+//                 "User Level score = " +
+//             calcuateScoresBasedOnUserLevel(singleUser)
+//             );
 
-        const attempData = snapshotss.data();
-        if (attempData) {
-          const attempUsers = attempData.attemptedUsers;
-          const filteredUsers: any[] = [];
-          attempUsers.forEach((singleUser: any) => {
-            if (firstFilteringBasedOnBasicInfo(singleUser)) {
-              filteredUsers.push(singleUser);
-            }
-          });
-          const scores: number[] = [];
-          const promises: any[] = [];
-          let i = 0;
-          filteredUsers.forEach((singleUser: any) => {
-            console.log("User Email  = " + singleUser.email);
-            scores[i] = calcuateScoresBasedOnDistance(singleUser);
-            console.log(
-                "Distance score = " +
-            calcuateScoresBasedOnDistance(singleUser)
-            );
-            scores[i] += calcuateScoresBasedOnUserLevel(singleUser);
-            console.log(
-                "User Level score = " +
-            calcuateScoresBasedOnUserLevel(singleUser)
-            );
+//             const userInUsersDocument = admin
+//                 .firestore()
+//                 .doc(`Users/${singleUser.uid}`)
+//                 .get();
 
-            const userInUsersDocument = admin
-                .firestore()
-                .doc(`Users/${singleUser.uid}`)
-                .get();
+//             promises.push(userInUsersDocument);
+//             i++;
+//           });
 
-            promises.push(userInUsersDocument);
-            i++;
-          });
+//           const reply = await Promise.all(promises);
 
-          const reply = await Promise.all(promises);
+//           // console.log("reply = " + reply);
+//           // response.send("reply = " + reply);
+//           i = 0;
+//           const results: any[] = [];
+//           if (reply) {
+//             reply.forEach((snap) => {
+//               const singleUserFullData = snap.data();
+//               // scores[i] += calcuateScoresBasedOnUserRating(
+//               //     singleUserFullData
+//               // );
+//               scores[i] += calcuateScoresBasedOnUserMaritalStatus(
+//                   singleUserFullData
+//               );
+//               console.log(
+//                   "User Marital Status score = " +
+//               calcuateScoresBasedOnUserMaritalStatus(
+//                   singleUserFullData
+//               )
+//               );
 
-          // console.log("reply = " + reply);
-          // response.send("reply = " + reply);
-          i = 0;
-          const results: any[] = [];
-          if (reply) {
-            reply.forEach((snap) => {
-              const singleUserFullData = snap.data();
-              // scores[i] += calcuateScoresBasedOnUserRating(
-              //     singleUserFullData
-              // );
-              scores[i] += calcuateScoresBasedOnUserMaritalStatus(
-                  singleUserFullData
-              );
-              console.log(
-                  "User Marital Status score = " +
-              calcuateScoresBasedOnUserMaritalStatus(
-                  singleUserFullData
-              )
-              );
+//               scores[i] += calcuateScoresBasedOnUserEmploymentStatus(
+//                   singleUserFullData
+//               );
+//               console.log(
+//                   "User employment status score = " +
+//               calcuateScoresBasedOnUserEmploymentStatus(
+//                   singleUserFullData
+//               )
+//               );
+//               scores[i] += calcuateScoresBasedOnUserHouseholdIncome(
+//                   singleUserFullData
+//               );
+//               console.log(
+//                   "User Household income score = " +
+//               calcuateScoresBasedOnUserHouseholdIncome(
+//                   singleUserFullData
+//               )
+//               );
 
-              scores[i] += calcuateScoresBasedOnUserEmploymentStatus(
-                  singleUserFullData
-              );
-              console.log(
-                  "User employment status score = " +
-              calcuateScoresBasedOnUserEmploymentStatus(
-                  singleUserFullData
-              )
-              );
-              scores[i] += calcuateScoresBasedOnUserHouseholdIncome(
-                  singleUserFullData
-              );
-              console.log(
-                  "User Household income score = " +
-              calcuateScoresBasedOnUserHouseholdIncome(
-                  singleUserFullData
-              )
-              );
+//               scores[i] += calcuateScoresBasedOnUserEducationLevel(
+//                   singleUserFullData
+//               );
+//               console.log(
+//                   "User educational level score = " +
+//               calcuateScoresBasedOnUserEducationLevel(
+//                   singleUserFullData
+//               )
+//               );
 
-              scores[i] += calcuateScoresBasedOnUserEducationLevel(
-                  singleUserFullData
-              );
-              console.log(
-                  "User educational level score = " +
-              calcuateScoresBasedOnUserEducationLevel(
-                  singleUserFullData
-              )
-              );
+//               results.push(singleUserFullData);
+//               i++;
+//             });
+//           }
+//           const highestScoreIndex = calculateTheBestScoreIndex(scores);
+//           console.log(scores);
+//           console.log(`results = ${results[highestScoreIndex]};
+//           and scores = ${scores[highestScoreIndex]}`);
+//           // response.send(`results = ${results[highestScoreIndex]}
+//           // and scores = ${scores[highestScoreIndex]}`);
 
-              results.push(singleUserFullData);
-              i++;
-            });
-          }
-          console.log(results);
-          response.send(`results = ${results} and scores = ${scores}`);
-        } else {
-          console.log("Error");
-          response.status(500).send("No Data");
-        }
-      } catch (error) {
-        console.log("Error");
-        response.status(500).send(error);
-      }
-    }
-);
+//           await admin
+//               .firestore()
+//               .doc("Gigs/LNEYY0maGLXeMCFFe1tK")
+//               .update({assignedUser: filteredUsers[highestScoreIndex]});
+//           response.send(filteredUsers[highestScoreIndex]);
+//         } else {
+//           console.log("Error");
+//           response.status(500).send("No Data");
+//         }
+//       } catch (error) {
+//         console.log("Error");
+//         response.status(500).send(error);
+//       }
+//     }
+// );
 
 /**
- * filter based on distance form the user
- * @param {any} user Any user of userminimum typr.
- * @return {bool} true if distance is greater than 15 km else false
- */
+   * filter based on distance form the user
+   * @param {any} user Any user of userminimum typr.
+   * @return {bool} true if distance is greater than 15 km else false
+   */
 function firstFilteringBasedOnBasicInfo(user: any): boolean {
   if (user.distance < 15.0) {
     return true;
@@ -179,10 +295,10 @@ function firstFilteringBasedOnBasicInfo(user: any): boolean {
 }
 
 /**
- * calcuate Scores Based On User Distance
- * @param {any} singleUser Any user of UserMinimum type.
- * @return {number} the score based on User Distance
- */
+   * calcuate Scores Based On User Distance
+   * @param {any} singleUser Any user of UserMinimum type.
+   * @return {number} the score based on User Distance
+   */
 function calcuateScoresBasedOnDistance(singleUser: any): number {
   if (singleUser.distance >= 0.0 && singleUser.distance <= 1.0) {
     return 500;
@@ -204,10 +320,10 @@ function calcuateScoresBasedOnDistance(singleUser: any): number {
 }
 
 /**
- * calcuate Scores Based On User Level
- * @param {any} singleUser Any user of userAccount type.
- * @return {number} the score based on User Level
- */
+   * calcuate Scores Based On User Level
+   * @param {any} singleUser Any user of userAccount type.
+   * @return {number} the score based on User Level
+   */
 function calcuateScoresBasedOnUserLevel(singleUser: any): number {
   return 200 * (singleUser.level / 10);
 }
@@ -216,10 +332,10 @@ function calcuateScoresBasedOnUserLevel(singleUser: any): number {
 // }
 
 /**
- * calcuate Scores Based On User MaritalStatus
- * @param {any} singleUserFullData Any user of userAccount type.
- * @return {number} the score based on User MaritalStatus
- */
+   * calcuate Scores Based On User MaritalStatus
+   * @param {any} singleUserFullData Any user of userAccount type.
+   * @return {number} the score based on User MaritalStatus
+   */
 function calcuateScoresBasedOnUserMaritalStatus(
     singleUserFullData: any
 ): number {
@@ -241,10 +357,10 @@ function calcuateScoresBasedOnUserMaritalStatus(
 }
 
 /**
- * calcuate Scores Based On User EmploymentStatus
- * @param {any} singleUserFullData Any user of userAccount type.
- * @return {number} the score based on User EmploymentStatus
- */
+   * calcuate Scores Based On User EmploymentStatus
+   * @param {any} singleUserFullData Any user of userAccount type.
+   * @return {number} the score based on User EmploymentStatus
+   */
 function calcuateScoresBasedOnUserEmploymentStatus(
     singleUserFullData: any
 ): number {
@@ -272,10 +388,10 @@ function calcuateScoresBasedOnUserEmploymentStatus(
 }
 
 /**
- * calcuate Scores Based On User HouseholdIncome
- * @param {any} singleUserFullData Any user of userAccount type.
- * @return {number} the score based on User HouseholdIncome
- */
+   * calcuate Scores Based On User HouseholdIncome
+   * @param {any} singleUserFullData Any user of userAccount type.
+   * @return {number} the score based on User HouseholdIncome
+   */
 function calcuateScoresBasedOnUserHouseholdIncome(
     singleUserFullData: any
 ): number {
@@ -297,10 +413,10 @@ function calcuateScoresBasedOnUserHouseholdIncome(
 }
 
 /**
- * calcuate Scores Based On User Education Level
- * @param {any} singleUserFullData Any user of userAccount type.
- * @return {number} the score based on User Education Level
- */
+   * calcuate Scores Based On User Education Level
+   * @param {any} singleUserFullData Any user of userAccount type.
+   * @return {number} the score based on User Education Level
+   */
 function calcuateScoresBasedOnUserEducationLevel(
     singleUserFullData: any
 ): number {
@@ -338,3 +454,25 @@ function calcuateScoresBasedOnUserEducationLevel(
     return 50 * (2 / 4);
   }
 }
+
+
+/**
+   * calcuate the index of the highest score
+   * @param {number[]} scores scores array
+   * @return {number} index of the highest score
+   */
+function calculateTheBestScoreIndex(
+    scores: number[]
+): number {
+  let index = 0;
+  let maxi = -1;
+  for (let i = 0; i<scores.length; i++) {
+    if (scores[i]>maxi) {
+      maxi = scores[i];
+      index = i;
+    }
+  }
+  return index;
+}
+
+
