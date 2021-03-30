@@ -711,8 +711,6 @@ class TaskCardState extends State<TaskCard> {
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
-                      print("Inside task_card Itembuilder");
-                      FocusNode taskOptionFocus = FocusNode();
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
@@ -726,12 +724,6 @@ class TaskCardState extends State<TaskCard> {
                           Expanded(
                             child: TextFormField(
                               textAlign: TextAlign.start,
-                              focusNode: taskOptionFocus,
-                              textInputAction: TextInputAction.done,
-                              onFieldSubmitted: (term) {
-                                taskOptionFocus.unfocus();
-                                // FocusScope.of(context).requestFocus(taskOptionFocus);
-                              },
                               autofocus: true,
                               controller: _multipleOptionControllerList[index],
                               decoration: InputDecoration(
