@@ -1013,6 +1013,7 @@ class TaskCardState extends State<TaskCard> {
               textAlign: TextAlign.start,
               readOnly: true,
               autofocus: false,
+              enabled: false,
               decoration: InputDecoration(
                 hintText: "Answer the question.",
               ),

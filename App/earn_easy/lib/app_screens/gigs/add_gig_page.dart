@@ -102,26 +102,26 @@ class _GigAddPageState extends State<GigAddPage> {
           "${task.taskDescription},  ${task.type} and size = ${taskList.length}");
     }
 
-    return SafeArea(
-      child: isLoading
-          ? MaterialApp(
-              debugShowCheckedModeBanner: false,
-              home: Scaffold(
-                appBar: AppBar(
-                  title: Text('Add Gig'),
-                ),
-                body: Form(
-                  key: _formKey,
-                  child: Center(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 20.0),
-                      child: ListView(
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Text(
-                                "Money :",
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: SafeArea(
+          child: isLoading
+              ? Scaffold(
+                  appBar: AppBar(
+                    title: Text('Add Gig'),
+                  ),
+                  body: Form(
+                    key: _formKey,
+                    child: Center(
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 20.0),
+                        child: ListView(
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Text(
+                                  "Money :",
                                   style: TextStyle(fontSize: size.width / 25),
                                 ),
                                 SizedBox(
@@ -204,20 +204,20 @@ class _GigAddPageState extends State<GigAddPage> {
                                         vertical: 10.0, horizontal: 5.0),
                                     child: Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                       children: <Widget>[
                                         Text(
                                           startDate ==
-                                              defaultInitializedTimestamp
-                                                  .toDate()
+                                                  defaultInitializedTimestamp
+                                                      .toDate()
                                               ? "MM/DD/YYYY"
                                               : startDate.day
-                                              .toString()
-                                              .padLeft(2, '0') +
-                                              "/" +
-                                              startDate.month
-                                                  .toString()
-                                                  .padLeft(2, '0') +
+                                                      .toString()
+                                                      .padLeft(2, '0') +
+                                                  "/" +
+                                                  startDate.month
+                                                      .toString()
+                                                      .padLeft(2, '0') +
                                                   "/" +
                                                   startDate.year.toString(),
                                           style: TextStyle(
@@ -233,8 +233,8 @@ class _GigAddPageState extends State<GigAddPage> {
                                     var clickedDate = await showDatePicker(
                                       context: context,
                                       initialDate: startDate ==
-                                          defaultInitializedTimestamp
-                                              .toDate()
+                                              defaultInitializedTimestamp
+                                                  .toDate()
                                           ? DateTime.now()
                                           : startDate,
                                       firstDate: DateTime.now(),
@@ -258,18 +258,18 @@ class _GigAddPageState extends State<GigAddPage> {
                                         vertical: 10.0, horizontal: 5.0),
                                     child: Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                       children: <Widget>[
                                         Text(
                                           startTime == null
                                               ? "HH : MM"
                                               : startTime.hour
-                                              .toString()
-                                              .padLeft(2, '0') +
-                                              " : " +
-                                              startTime.minute
-                                                  .toString()
-                                                  .padLeft(2, '0'),
+                                                      .toString()
+                                                      .padLeft(2, '0') +
+                                                  " : " +
+                                                  startTime.minute
+                                                      .toString()
+                                                      .padLeft(2, '0'),
                                           style: TextStyle(
                                               fontWeight: FontWeight.w300,
                                               color: Colors.black),
@@ -308,20 +308,20 @@ class _GigAddPageState extends State<GigAddPage> {
                                         vertical: 10.0, horizontal: 5.0),
                                     child: Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                       children: <Widget>[
                                         Text(
                                           endDate ==
-                                              defaultInitializedTimestamp
-                                                  .toDate()
+                                                  defaultInitializedTimestamp
+                                                      .toDate()
                                               ? "MM/DD/YYYY"
                                               : endDate.day
-                                              .toString()
-                                              .padLeft(2, '0') +
-                                              "/" +
-                                              endDate.month
-                                                  .toString()
-                                                  .padLeft(2, '0') +
+                                                      .toString()
+                                                      .padLeft(2, '0') +
+                                                  "/" +
+                                                  endDate.month
+                                                      .toString()
+                                                      .padLeft(2, '0') +
                                                   "/" +
                                                   endDate.year.toString(),
                                           style: TextStyle(
@@ -337,8 +337,8 @@ class _GigAddPageState extends State<GigAddPage> {
                                     var clickedDate = await showDatePicker(
                                       context: context,
                                       initialDate: endDate ==
-                                          defaultInitializedTimestamp
-                                              .toDate()
+                                              defaultInitializedTimestamp
+                                                  .toDate()
                                           ? DateTime.now()
                                           : endDate,
                                       firstDate: DateTime.now(),
@@ -362,18 +362,18 @@ class _GigAddPageState extends State<GigAddPage> {
                                         vertical: 10.0, horizontal: 5.0),
                                     child: Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                       children: <Widget>[
                                         Text(
                                           endTime == null
                                               ? "HH : MM"
                                               : endTime.hour
-                                              .toString()
-                                              .padLeft(2, '0') +
-                                              " : " +
-                                              endTime.minute
-                                                  .toString()
-                                                  .padLeft(2, '0'),
+                                                      .toString()
+                                                      .padLeft(2, '0') +
+                                                  " : " +
+                                                  endTime.minute
+                                                      .toString()
+                                                      .padLeft(2, '0'),
                                           style: TextStyle(
                                               fontWeight: FontWeight.w300,
                                               color: Colors.black),
@@ -471,27 +471,26 @@ class _GigAddPageState extends State<GigAddPage> {
                                         shrinkWrap: true,
                                         itemBuilder: (context, index) =>
                                             ListTile(
-                                              enabled: true,
-                                              dense: true,
-                                              leading: Icon(
-                                                Icons.photo_library,
-                                                color: Colors.blue,
-                                              ),
-                                              title: Text(
-                                                "${taskList[index]
-                                                    .taskDescription}",
-                                                //VeryLongTextForTestingPurpose,
-                                                textScaleFactor: 1.5,
-                                                maxLines: 4,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                              ),
-                                              subtitle: Text(
-                                                "Task #${index + 1}",
-                                                textScaleFactor: 1.1,
-                                              ),
+                                          enabled: true,
+                                          dense: true,
+                                          leading: Icon(
+                                            Icons.photo_library,
+                                            color: Colors.blue,
+                                          ),
+                                          title: Text(
+                                            "${taskList[index].taskDescription}",
+                                            //VeryLongTextForTestingPurpose,
+                                            textScaleFactor: 1.5,
+                                            maxLines: 4,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                          subtitle: Text(
+                                            "Task #${index + 1}",
+                                            textScaleFactor: 1.1,
+                                          ),
                                           trailing: IconButton(
                                             icon: Icon(
                                               Icons.cancel,
@@ -538,7 +537,7 @@ class _GigAddPageState extends State<GigAddPage> {
                                     label: Text("Add Task"),
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
-                                        BorderRadius.circular(15.0)),
+                                            BorderRadius.circular(15.0)),
                                     onPressed: _showAddTaskDialog,
                                   ),
                                 ),
@@ -590,15 +589,16 @@ class _GigAddPageState extends State<GigAddPage> {
                                     });
                                     if (!checkAdded) {
                                       Fluttertoast.showToast(
-                                        msg: "Request Failed");
-                                  } else {
+                                          msg: "Request Failed");
+                                    } else {
                                       Fluttertoast.showToast(
-                                        msg: "Your Gig is added successfully");
+                                          msg:
+                                              "Your Gig is added successfully");
                                     }
                                   } else {
                                     Fluttertoast.showToast(
-                                      msg: "Your Gig is already added");
-                                }
+                                        msg: "Your Gig is already added");
+                                  }
                                 }
                               },
                             ),
@@ -607,9 +607,8 @@ class _GigAddPageState extends State<GigAddPage> {
                       ),
                     ),
                   ),
-              ),
-            )
-          : Loading(),
-    );
+                )
+              : Loading(),
+        ));
   }
 }
