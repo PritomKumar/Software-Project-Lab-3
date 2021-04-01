@@ -105,7 +105,13 @@ class _TaskListPageState extends State<TaskListPage> {
                 appBar: AppBar(
                   title: Text("Tasks"),
                 ),
-                floatingActionButton: FloatingActionButton(
+                floatingActionButton: FloatingActionButton.extended(
+                  splashColor: Colors.white,
+                  highlightElevation: 5.0,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                  label: Text("Submit & Review"),
+                  icon: Icon(Icons.check),
                   onPressed: () {
                     _findTasksThatAreCompletedOrNot(taskList);
                   },
