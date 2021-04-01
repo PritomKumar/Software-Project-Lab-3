@@ -362,6 +362,27 @@ class _GoogleMapsState extends State<GoogleMaps> {
 
   //</editor-fold>
 
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('Are you sure?'),
+            content: new Text('Do you really want to exit EarnEasy?'),
+            actions: <Widget>[
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: new Text('No'),
+              ),
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: new Text('Yes'),
+              ),
+            ],
+          ),
+        )) ??
+        false;
+  }
+
   @override
   Widget build(BuildContext context) {
     _user = Provider.of<UserAccount>(context);
@@ -374,130 +395,133 @@ class _GoogleMapsState extends State<GoogleMaps> {
 
     if (_isLoading) {
       userType = _user.type;
-      return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: Theme.of(context),
-        home: SafeArea(
-          child: Scaffold(
-            drawer: SideDrawer(),
-            // floatingActionButton: FloatingActionButton(
-            //   child: Icon(Icons.location_searching),
-            //   onPressed: () async {
-            //     _animateCameraToCurrentLocation();
-            //   },
-            // ),
-            appBar: AppBar(
-              title: Text('Home'),
-              //backgroundColor: Colors.blue[300],
-              elevation: 0.0,
-              actions: <Widget>[
-                FlatButton.icon(
-                  icon: Icon(Icons.person),
-                  label: Text("Logout"),
-                  onPressed: () async {
-                    await _authService.signOut();
-                  },
-                )
-              ],
-            ),
-            //#region bottomNavigationBar
-            bottomNavigationBar: BottomNavigationBar(
-              currentIndex: _bottomNavigationBarIndex,
-              //backgroundColor: Theme.of(context).primaryColor,
-              items: [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.directions_run),
-                  title: Text("Available"),
-                  backgroundColor: Theme.of(context).accentColor,
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.assignment_turned_in),
-                  title: Text("My gigs"),
-                  backgroundColor: Theme.of(context).accentColor,
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.hourglass_empty),
-                  title: Text("Waitlisted"),
-                  backgroundColor: Theme.of(context).accentColor,
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.assignment),
-                  title: Text("Completed"),
-                  backgroundColor: Theme.of(context).accentColor,
-                ),
-              ],
-              onTap: (value) {
-                setState(() {
-                  _bottomNavigationBarIndex = value;
-                });
-              },
-            ),
-            //#endregion bottomNavigationBar
-            body: Stack(
-              children: <Widget>[
-                GoogleMap(
-                  onMapCreated: _onMapCreated,
-                  initialCameraPosition: CameraPosition(
-                    target: LatLng(40.7128, -74.0060),
-                    zoom: 14.0,
+      return WillPopScope(
+        onWillPop: _onWillPop,
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: Theme.of(context),
+          home: SafeArea(
+            child: Scaffold(
+              drawer: SideDrawer(),
+              // floatingActionButton: FloatingActionButton(
+              //   child: Icon(Icons.location_searching),
+              //   onPressed: () async {
+              //     _animateCameraToCurrentLocation();
+              //   },
+              // ),
+              appBar: AppBar(
+                title: Text('Home'),
+                //backgroundColor: Colors.blue[300],
+                elevation: 0.0,
+                actions: <Widget>[
+                  FlatButton.icon(
+                    icon: Icon(Icons.person),
+                    label: Text("Logout"),
+                    onPressed: () async {
+                      await _authService.signOut();
+                    },
+                  )
+                ],
+              ),
+              //#region bottomNavigationBar
+              bottomNavigationBar: BottomNavigationBar(
+                currentIndex: _bottomNavigationBarIndex,
+                //backgroundColor: Theme.of(context).primaryColor,
+                items: [
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.directions_run),
+                    title: Text("Available"),
+                    backgroundColor: Theme.of(context).accentColor,
                   ),
-                  onCameraMove: (CameraPosition cameraPosition) {
-                    // print("Zoom Level = ${cameraPosition.zoom}");
-                    //markers.clear();
-                    _cameraPositionCenter = cameraPosition.target;
-                    radiusLevelCurrent = radiusLevel(
-                        cameraPosition.zoom, cameraPosition.target.latitude);
-                  },
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.assignment_turned_in),
+                    title: Text("My gigs"),
+                    backgroundColor: Theme.of(context).accentColor,
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.hourglass_empty),
+                    title: Text("Waitlisted"),
+                    backgroundColor: Theme.of(context).accentColor,
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.assignment),
+                    title: Text("Completed"),
+                    backgroundColor: Theme.of(context).accentColor,
+                  ),
+                ],
+                onTap: (value) {
+                  setState(() {
+                    _bottomNavigationBarIndex = value;
+                  });
+                },
+              ),
+              //#endregion bottomNavigationBar
+              body: Stack(
+                children: <Widget>[
+                  GoogleMap(
+                    onMapCreated: _onMapCreated,
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(40.7128, -74.0060),
+                      zoom: 14.0,
+                    ),
+                    onCameraMove: (CameraPosition cameraPosition) {
+                      // print("Zoom Level = ${cameraPosition.zoom}");
+                      //markers.clear();
+                      _cameraPositionCenter = cameraPosition.target;
+                      radiusLevelCurrent = radiusLevel(
+                          cameraPosition.zoom, cameraPosition.target.latitude);
+                    },
 
-                  markers: userType == "worker" ? _gigMarkers : _myMarkers,
-                  //TODO Drag option
-                  // onCameraMove: _isTapped
-                  //     ? ((_position) => _updatePosition(_position))
-                  //     : null,
-                  onTap: _handleTap,
-                  myLocationButtonEnabled: true,
-                  myLocationEnabled: true,
-                  compassEnabled: true,
-                ),
-                userType == "worker"
-                    ? Positioned(
-                        top: 0,
-                        left: 10,
-                        child: RaisedButton(
-                          child: Text(
-                            "Search Area",
-                            style: TextStyle(color: Colors.white),
+                    markers: userType == "worker" ? _gigMarkers : _myMarkers,
+                    //TODO Drag option
+                    // onCameraMove: _isTapped
+                    //     ? ((_position) => _updatePosition(_position))
+                    //     : null,
+                    onTap: _handleTap,
+                    myLocationButtonEnabled: true,
+                    myLocationEnabled: true,
+                    compassEnabled: true,
+                  ),
+                  userType == "worker"
+                      ? Positioned(
+                          top: 0,
+                          left: 10,
+                          child: RaisedButton(
+                            child: Text(
+                              "Search Area",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            onPressed: _startQuery,
+                            color: Colors.blueAccent,
+                            //color: Theme.of(context).buttonColor,
                           ),
-                          onPressed: _startQuery,
-                          color: Colors.blueAccent,
-                          //color: Theme.of(context).buttonColor,
-                        ),
-                      )
-                    : Container(),
-                userType == "provider"
-                    ? Container(
-                        alignment: Alignment.bottomCenter,
-                        child: RaisedButton(
-                          child: Text(
-                            "Add GIG",
-                            style: TextStyle(color: Colors.white),
+                        )
+                      : Container(),
+                  userType == "provider"
+                      ? Container(
+                          alignment: Alignment.bottomCenter,
+                          child: RaisedButton(
+                            child: Text(
+                              "Add GIG",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            color: Colors.deepPurpleAccent,
+                            onPressed: () {
+                              _tappedPosition != null
+                                  ? Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) {
+                                        return GigAddPage(
+                                          location: _tappedPosition,
+                                        );
+                                      },
+                                    ))
+                                  : Loading();
+                            },
                           ),
-                          color: Colors.deepPurpleAccent,
-                          onPressed: () {
-                            _tappedPosition != null
-                                ? Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) {
-                                      return GigAddPage(
-                                        location: _tappedPosition,
-                                      );
-                                    },
-                                  ))
-                                : Loading();
-                          },
-                        ),
-                      )
-                    : _selectCustomMapBox(_user, _bottomNavigationBarIndex),
-              ],
+                        )
+                      : _selectCustomMapBox(_user, _bottomNavigationBarIndex),
+                ],
+              ),
             ),
           ),
         ),
