@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:earneasy/app_screens/task/task_list.dart';
 import 'package:earneasy/app_screens/task/upload_task.dart';
 import 'package:earneasy/models/task.dart';
+import 'package:earneasy/services/firestore_task_databse.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
 import 'package:file_picker/file_picker.dart';
@@ -411,11 +413,21 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
       );
     }
 
+    Future<bool> _onWillPop() async {
+      var userResponse =
+          await DatabaseServiceTasks().getToUserTaskFromGigId(_imageTask.gigId);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TaskListPage(
+              userResponse: userResponse,
+            ),
+          ));
+      return true;
+    }
+
     return WillPopScope(
-      onWillPop: () async {
-        Navigator.pop(context, false);
-        return true;
-      },
+      onWillPop: _onWillPop,
       child: SafeArea(
         child: _imageTask != null
             ? Scaffold(
