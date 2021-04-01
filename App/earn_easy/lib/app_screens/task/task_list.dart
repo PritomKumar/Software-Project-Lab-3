@@ -47,6 +47,8 @@ class _TaskListPageState extends State<TaskListPage> {
     }
   }
 
+  bool _floatingActionButtonPressed = false;
+
   List<bool> _allUserCompletedTask = List<bool>();
 
   void _findTasksThatAreCompletedOrNot(
@@ -110,10 +112,14 @@ class _TaskListPageState extends State<TaskListPage> {
                   highlightElevation: 5.0,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15.0))),
-                  label: Text("Submit & Review"),
+                  label: Text(_floatingActionButtonPressed
+                      ? "Submit"
+                      : "Submit & Review"),
                   icon: Icon(Icons.check),
                   onPressed: () {
+                    _floatingActionButtonPressed = true;
                     _findTasksThatAreCompletedOrNot(taskList);
+                    setState(() {});
                   },
                 ),
                 body: ListView.builder(
