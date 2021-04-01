@@ -182,6 +182,9 @@ class _GigPageState extends State<GigPage> {
                         ],
                       ),
                     ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
                     Container(
                       padding:
                           EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
@@ -259,9 +262,9 @@ class _GigPageState extends State<GigPage> {
                                 ? distance.toStringAsFixed(2)
                                 : (distance * 1000).round().toString(),
                             style: TextStyle(
-                              color: Colors.black,
+                              color: Colors.deepPurple,
                               fontSize: 20.0,
-                              fontWeight: FontWeight.normal,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                           SizedBox(
