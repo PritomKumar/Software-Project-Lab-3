@@ -11,7 +11,7 @@ admin.initializeApp();
 // employmentStatus = 50 ? push notification send
 // household income = 50
 // education = 50
-// total = 1000
+// current number of task = 300
 
 
 exports.onAttemptedUsersUpdate = functions.firestore
@@ -25,14 +25,6 @@ exports.onAttemptedUsersUpdate = functions.firestore
 
         if (gigDataAfter) {
           console.log(gigDataAfter.description);
-          // ...or the previous value before this update
-
-          // if (
-          //     gigDataAfter.attemptedUsers.length ==
-          //     gigDataBefore.attemptedUsers.length
-          // ) {
-          //     console.log("Data is same");
-          // }
           console.log(`Now in gig = ${gigId}`);
 
           if (
@@ -98,7 +90,7 @@ exports.onAttemptedUsersUpdate = functions.firestore
             console.log(`results = ${results} and scores = ${scores}`);
             const highestScoreIndex = calculateTheBestScoreIndex(scores);
             console.log(scores);
-            console.log(`results = ${results[highestScoreIndex]}; 
+            console.log(`results = ${results[highestScoreIndex]};
             and scores = ${scores[highestScoreIndex]}`);
             // response.send(`results = ${results[highestScoreIndex]}
             // and scores = ${scores[highestScoreIndex]}`);
@@ -129,7 +121,7 @@ exports.onAttemptedUsersUpdate = functions.firestore
 //       try {
 //         const snapshotss = await admin
 //             .firestore()
-//             .doc("Gigs/LNEYY0maGLXeMCFFe1tK/")
+//             .doc("Gigs/PFPLTSAtQzW3o8hbocom/")
 //             .get();
 
 //         const attempData = snapshotss.data();
@@ -175,47 +167,10 @@ exports.onAttemptedUsersUpdate = functions.firestore
 //           if (reply) {
 //             reply.forEach((snap) => {
 //               const singleUserFullData = snap.data();
-//               // scores[i] += calcuateScoresBasedOnUserRating(
-//               //     singleUserFullData
-//               // );
-//               scores[i] += calcuateScoresBasedOnUserMaritalStatus(
-//                   singleUserFullData
-//               );
-//               console.log(
-//                   "User Marital Status score = " +
-//               calcuateScoresBasedOnUserMaritalStatus(
-//                   singleUserFullData
-//               )
-//               );
 
-//               scores[i] += calcuateScoresBasedOnUserEmploymentStatus(
-//                   singleUserFullData
-//               );
-//               console.log(
-//                   "User employment status score = " +
-//               calcuateScoresBasedOnUserEmploymentStatus(
-//                   singleUserFullData
-//               )
-//               );
-//               scores[i] += calcuateScoresBasedOnUserHouseholdIncome(
-//                   singleUserFullData
-//               );
-//               console.log(
-//                   "User Household income score = " +
-//               calcuateScoresBasedOnUserHouseholdIncome(
-//                   singleUserFullData
-//               )
-//               );
-
-//               scores[i] += calcuateScoresBasedOnUserEducationLevel(
-//                   singleUserFullData
-//               );
-//               console.log(
-//                   "User educational level score = " +
-//               calcuateScoresBasedOnUserEducationLevel(
-//                   singleUserFullData
-//               )
-//               );
+//               scores[i] += calcuateHeuristicScore(singleUserFullData);
+//               console.log(`Heuristic score =
+//                  ${calcuateHeuristicScore(singleUserFullData)}`);
 
 //               results.push(singleUserFullData);
 //               i++;
@@ -230,7 +185,7 @@ exports.onAttemptedUsersUpdate = functions.firestore
 
 //           await admin
 //               .firestore()
-//               .doc("Gigs/LNEYY0maGLXeMCFFe1tK")
+//               .doc("Gigs/PFPLTSAtQzW3o8hbocom")
 //               .update({assignedUser: filteredUsers[highestScoreIndex]});
 //           response.send(filteredUsers[highestScoreIndex]);
 //         } else {
@@ -250,12 +205,13 @@ exports.onAttemptedUsersUpdate = functions.firestore
    * @return {bool} true if distance is greater than 15 km else false
    */
 function firstFilteringBasedOnBasicInfo(user: any): boolean {
-  if (user.distance < 15.0) {
+  if (user.distance < 15.0 && user.numberOfCurrentGigs<=3) {
     return true;
   } else {
     return false;
   }
 }
+
 
 /**
    * calcuate Scores Based On User Distance
@@ -290,11 +246,20 @@ function calcuateScoresBasedOnDistance(singleUser: any): number {
    */
 function calcuateHeuristicScore(singleUserFullData: any): number {
   let score = 0;
+  score += calcuateScoresBasedOnCurrentGigs(
+      singleUserFullData
+  );
+  console.log(
+      "User Current gigs score = " +
+      calcuateScoresBasedOnCurrentGigs(
+          singleUserFullData
+      )
+  );
   score += calcuateScoresBasedOnUserRating(
       singleUserFullData
   );
   console.log(
-      "User Marital Status score = " +
+      "User Rating score = " +
     calcuateScoresBasedOnUserRating(
         singleUserFullData
     )
@@ -341,12 +306,24 @@ function calcuateHeuristicScore(singleUserFullData: any): number {
 }
 
 /**
+   * calcuate Scores Based On
+   * The number of gigs the user is currently doing
+   * @param {any} singleUserFullData Any user of userAccount type.
+   * @return {number} the score based on
+   * The number of gigs the user is currently doing
+   */
+function calcuateScoresBasedOnCurrentGigs(singleUserFullData: any): number {
+  return 100* (3-singleUserFullData.currentGigs.length);
+}
+
+
+/**
    * calcuate Scores Based On User Level
-   * @param {any} singleUser Any user of userAccount type.
+   * @param {any} singleUserFullData Any user of userAccount type.
    * @return {number} the score based on User Level
    */
-function calcuateScoresBasedOnUserLevel(singleUser: any): number {
-  return 200 * (singleUser.level / 10);
+function calcuateScoresBasedOnUserLevel(singleUserFullData: any): number {
+  return 200 * (singleUserFullData.level / 10);
 }
 
 /**
