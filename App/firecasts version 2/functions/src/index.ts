@@ -37,7 +37,7 @@ exports.onAttemptedUsersUpdate = functions.firestore
 
           if (
             gigDataAfter.attemptedUsers.length ==
-              gigDataBefore.attemptedUsers.length
+          gigDataBefore.attemptedUsers.length
           ) {
             console.log("The attempted users are the same");
             return null;
@@ -86,47 +86,10 @@ exports.onAttemptedUsersUpdate = functions.firestore
             if (reply) {
               reply.forEach((snap) => {
                 const singleUserFullData = snap.data();
-                // scores[i] += calcuateScoresBasedOnUserRating(
-                //     singleUserFullData
-                // );
-                scores[i] += calcuateScoresBasedOnUserMaritalStatus(
-                    singleUserFullData
-                );
-                console.log(
-                    "User Marital Status score = " +
-                calcuateScoresBasedOnUserMaritalStatus(
-                    singleUserFullData
-                )
-                );
 
-                scores[i] += calcuateScoresBasedOnUserEmploymentStatus(
-                    singleUserFullData
-                );
-                console.log(
-                    "User employment status score = " +
-                calcuateScoresBasedOnUserEmploymentStatus(
-                    singleUserFullData
-                )
-                );
-                scores[i] += calcuateScoresBasedOnUserHouseholdIncome(
-                    singleUserFullData
-                );
-                console.log(
-                    "User Household income score = " +
-                calcuateScoresBasedOnUserHouseholdIncome(
-                    singleUserFullData
-                )
-                );
-
-                scores[i] += calcuateScoresBasedOnUserEducationLevel(
-                    singleUserFullData
-                );
-                console.log(
-                    "User educational level score = " +
-                calcuateScoresBasedOnUserEducationLevel(
-                    singleUserFullData
-                )
-                );
+                scores[i] += calcuateHeuristicScore(singleUserFullData);
+                console.log(`Heuristic score =
+                 ${calcuateHeuristicScore(singleUserFullData)}`);
 
                 results.push(singleUserFullData);
                 i++;
@@ -143,10 +106,10 @@ exports.onAttemptedUsersUpdate = functions.firestore
             return await change.after.ref.update({
               assignedUser: filteredUsers[highestScoreIndex],
             });
-            // return await admin
-            //     .firestore()
-            //     .doc("Gigs/LNEYY0maGLXeMCFFe1tK")
-            //     .update({ description: updatedText });
+          // return await admin
+          //     .firestore()
+          //     .doc("Gigs/LNEYY0maGLXeMCFFe1tK")
+          //     .update({ description: updatedText });
           } else {
             console.log("No Data in function");
             return null;
@@ -319,6 +282,64 @@ function calcuateScoresBasedOnDistance(singleUser: any): number {
   }
 }
 
+
+/**
+   * calcuate heuristic score based on user data
+   * @param {any} singleUserFullData Any user of userAccount type.
+   * @return {number} the heuristic score based on user data
+   */
+function calcuateHeuristicScore(singleUserFullData: any): number {
+  let score = 0;
+  score += calcuateScoresBasedOnUserRating(
+      singleUserFullData
+  );
+  console.log(
+      "User Marital Status score = " +
+    calcuateScoresBasedOnUserRating(
+        singleUserFullData
+    )
+  );
+  score += calcuateScoresBasedOnUserMaritalStatus(
+      singleUserFullData
+  );
+  console.log(
+      "User Marital Status score = " +
+    calcuateScoresBasedOnUserMaritalStatus(
+        singleUserFullData
+    )
+  );
+
+  score += calcuateScoresBasedOnUserEmploymentStatus(
+      singleUserFullData
+  );
+  console.log(
+      "User employment status score = " +
+    calcuateScoresBasedOnUserEmploymentStatus(
+        singleUserFullData
+    )
+  );
+  score += calcuateScoresBasedOnUserHouseholdIncome(
+      singleUserFullData
+  );
+  console.log(
+      "User Household income score = " +
+    calcuateScoresBasedOnUserHouseholdIncome(
+        singleUserFullData
+    )
+  );
+
+  score += calcuateScoresBasedOnUserEducationLevel(
+      singleUserFullData
+  );
+  console.log(
+      "User educational level score = " +
+    calcuateScoresBasedOnUserEducationLevel(
+        singleUserFullData
+    )
+  );
+  return score;
+}
+
 /**
    * calcuate Scores Based On User Level
    * @param {any} singleUser Any user of userAccount type.
@@ -327,9 +348,15 @@ function calcuateScoresBasedOnDistance(singleUser: any): number {
 function calcuateScoresBasedOnUserLevel(singleUser: any): number {
   return 200 * (singleUser.level / 10);
 }
-// function calcuateScoresBasedOnUserRating(singleUserFullData: any): number {
-//     return 100 * (singleUserFullData.rating / 10);
-// }
+
+/**
+   * calcuate Scores Based On User Rating
+   * @param {any} singleUserFullData Any user of userAccount type.
+   * @return {number} the score based on User Rating
+   */
+function calcuateScoresBasedOnUserRating(singleUserFullData: any): number {
+  return 100 * (singleUserFullData.rating / 10);
+}
 
 /**
    * calcuate Scores Based On User MaritalStatus
@@ -466,8 +493,8 @@ function calculateTheBestScoreIndex(
 ): number {
   let index = 0;
   let maxi = -1;
-  for (let i = 0; i<scores.length; i++) {
-    if (scores[i]>maxi) {
+  for (let i = 0; i < scores.length; i++) {
+    if (scores[i] > maxi) {
       maxi = scores[i];
       index = i;
     }
