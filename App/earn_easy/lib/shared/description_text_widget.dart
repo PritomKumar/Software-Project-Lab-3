@@ -17,7 +17,7 @@ class _DescriptionTextWidgetState extends State<DescriptionTextWidget> {
 
   bool flag = true;
 
-  final int textLenghtCutter = 150;
+  final int textLenghtCutter = 100;
 
   @override
   void initState() {
