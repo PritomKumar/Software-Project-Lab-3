@@ -232,7 +232,8 @@ class _TaskListPageState extends State<TaskListPage> {
                                       builder: (context) =>
                                           StreamProvider<ImageTask>.value(
                                             value: imageTask,
-                                            child: ImageTaskScreen(),
+                                            child:
+                                                ImageTaskScreen(index: index),
                                           )));
                             }
                             if (taskList[index].taskType == CheckBoxTaskType) {
@@ -262,13 +263,14 @@ class _TaskListPageState extends State<TaskListPage> {
 
                               print(multipleChoiceTask.toString());
 
-                              Navigator.push(
+                              await Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => StreamProvider<
                                               MultipleChoiceTask>.value(
                                             value: multipleChoiceTask,
-                                            child: MultipleChoiceTaskScreen(),
+                                            child: MultipleChoiceTaskScreen(
+                                                index: index),
                                           )));
                               // print("Multiple choice = ${mul.toMap()}");
                             }
@@ -286,7 +288,8 @@ class _TaskListPageState extends State<TaskListPage> {
                                       builder: (context) =>
                                           StreamProvider<DropdownTask>.value(
                                             value: dropdownTask,
-                                            child: DropdownTaskScreen(),
+                                            child: DropdownTaskScreen(
+                                                index: index),
                                           )));
                             }
                             if (taskList[index].taskType == FreeTextTaskType) {
@@ -303,7 +306,8 @@ class _TaskListPageState extends State<TaskListPage> {
                                       builder: (context) =>
                                           StreamProvider<FreeTextTask>.value(
                                             value: freeTextTask,
-                                            child: FreeTextTaskScreen(),
+                                            child: FreeTextTaskScreen(
+                                                index: index),
                                           )));
                             }
                             //</editor-fold>

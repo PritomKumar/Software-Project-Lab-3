@@ -68,7 +68,7 @@ class _CheckBoxTaskScreenState extends State<CheckBoxTaskScreen> {
                       icon: index == 0
                           ? SizedBox.shrink()
                           : Icon(Icons.arrow_back_ios),
-                      label: index == 0 ? SizedBox.shrink() : "Previous",
+                      label: index == 0 ? "" : "Previous",
                     ),
                     BottomNavigationBarItem(
                       icon: Icon(Icons.arrow_forward_ios_rounded),
@@ -85,17 +85,24 @@ class _CheckBoxTaskScreenState extends State<CheckBoxTaskScreen> {
                       if (_bottomNavigationBarTapped) {
                         if (_bottomNavigationBarIndex == 0) {
                           // showSuccessToast("previous");
-                          index--;
+                          index = index - 1;
                           print("Inside Task list tapped  $index");
-                          Utils.previousAndNextNavigation(
-                              userResponse, index, context);
-
+                          if (index < 0) {
+                          } else {
+                            Utils.previousAndNextNavigation(
+                                userResponse, index, context);
+                          }
                         } else if (_bottomNavigationBarIndex == 1) {
                           // showSuccessToast("Next");
                           index++;
                           print("Inside Task list tapped  $index");
-                          Utils.previousAndNextNavigation(
-                              userResponse, index, context);
+                          if (taskList.length <= index) {
+                            showSuccessToast("End of Task List");
+                            _onWillPop();
+                          } else {
+                            Utils.previousAndNextNavigation(
+                                userResponse, index, context);
+                          }
                         } else {
                           print("default navigation -1");
                         }

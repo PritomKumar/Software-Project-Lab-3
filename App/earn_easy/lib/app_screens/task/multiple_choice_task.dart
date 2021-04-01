@@ -3,12 +3,17 @@ import 'package:earneasy/models/task.dart';
 import 'package:earneasy/services/firestore_task_databse.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
+import 'package:earneasy/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class MultipleChoiceTaskScreen extends StatefulWidget {
+  final int index;
+
+  const MultipleChoiceTaskScreen({Key key, this.index}) : super(key: key);
+
   @override
   _MultipleChoiceTaskScreenState createState() =>
       _MultipleChoiceTaskScreenState();
@@ -17,6 +22,8 @@ class MultipleChoiceTaskScreen extends StatefulWidget {
 class _MultipleChoiceTaskScreenState extends State<MultipleChoiceTaskScreen> {
   MultipleChoiceTask _multipleChoiceTask;
   int _groupValue;
+  int _bottomNavigationBarIndex = 0;
+  bool _bottomNavigationBarTapped = false;
 
   _getGroupValueFromOptionList() {
     if (_groupValue == null) {
@@ -53,6 +60,7 @@ class _MultipleChoiceTaskScreenState extends State<MultipleChoiceTaskScreen> {
   @override
   Widget build(BuildContext context) {
     _multipleChoiceTask = Provider.of<MultipleChoiceTask>(context);
+    int index = widget.index;
 
     return WillPopScope(
       onWillPop: _onWillPop,
@@ -61,6 +69,58 @@ class _MultipleChoiceTaskScreenState extends State<MultipleChoiceTaskScreen> {
             ? Scaffold(
                 appBar: AppBar(
                   title: Text("Multiple choice Task"),
+                ),
+                bottomNavigationBar: BottomNavigationBar(
+                  currentIndex: _bottomNavigationBarIndex,
+                  backgroundColor: Colors.grey[200],
+                  selectedItemColor: Theme.of(context).primaryColorDark,
+                  unselectedItemColor: Theme.of(context).primaryColorDark,
+                  items: [
+                    BottomNavigationBarItem(
+                      icon: index == 0
+                          ? SizedBox.shrink()
+                          : Icon(Icons.arrow_back_ios),
+                      label: index == 0 ? "" : "Previous",
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.arrow_forward_ios_rounded),
+                      label: "Next",
+                    ),
+                  ],
+                  onTap: (value) async {
+                    var userResponse = await DatabaseServiceTasks()
+                        .getToUserTaskFromGigId(_multipleChoiceTask.gigId);
+                    var taskList = userResponse.taskSnippetList;
+                    setState(() {
+                      _bottomNavigationBarIndex = value;
+                      _bottomNavigationBarTapped = true;
+                      if (_bottomNavigationBarTapped) {
+                        if (_bottomNavigationBarIndex == 0) {
+                          // showSuccessToast("previous");
+                          index = index - 1;
+                          print("Inside Task list tapped  $index");
+                          if (index < 0) {
+                          } else {
+                            Utils.previousAndNextNavigation(
+                                userResponse, index, context);
+                          }
+                        } else if (_bottomNavigationBarIndex == 1) {
+                          // showSuccessToast("Next");
+                          index++;
+                          print("Inside Task list tapped  $index");
+                          if (taskList.length <= index) {
+                            showSuccessToast("End of Task List");
+                            _onWillPop();
+                          } else {
+                            Utils.previousAndNextNavigation(
+                                userResponse, index, context);
+                          }
+                        } else {
+                          print("default navigation -1");
+                        }
+                      }
+                    });
+                  },
                 ),
                 body: Padding(
                   padding: const EdgeInsets.all(10.0),

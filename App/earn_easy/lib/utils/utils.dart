@@ -39,7 +39,7 @@ class Utils {
           MaterialPageRoute(
               builder: (context) => StreamProvider<ImageTask>.value(
                     value: imageTask,
-                    child: ImageTaskScreen(),
+                    child: ImageTaskScreen(index: index),
                   )));
     }
     if (taskList[index].taskType == CheckBoxTaskType) {
@@ -66,8 +66,8 @@ class Utils {
           context,
           MaterialPageRoute(
               builder: (context) => StreamProvider<MultipleChoiceTask>.value(
-                    value: multipleChoiceTask,
-                    child: MultipleChoiceTaskScreen(),
+                value: multipleChoiceTask,
+                    child: MultipleChoiceTaskScreen(index: index),
                   )));
       // print("Multiple choice = ${mul.toMap()}");
     }
@@ -81,8 +81,8 @@ class Utils {
           context,
           MaterialPageRoute(
               builder: (context) => StreamProvider<DropdownTask>.value(
-                    value: dropdownTask,
-                    child: DropdownTaskScreen(),
+                value: dropdownTask,
+                    child: DropdownTaskScreen(index: index),
                   )));
     }
     if (taskList[index].taskType == FreeTextTaskType) {
@@ -95,8 +95,8 @@ class Utils {
           context,
           MaterialPageRoute(
               builder: (context) => StreamProvider<FreeTextTask>.value(
-                    value: freeTextTask,
-                    child: FreeTextTaskScreen(),
+                value: freeTextTask,
+                    child: FreeTextTaskScreen(index: index),
                   )));
     }
     //</editor-fold>

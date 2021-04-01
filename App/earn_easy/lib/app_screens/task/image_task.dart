@@ -6,6 +6,7 @@ import 'package:earneasy/models/task.dart';
 import 'package:earneasy/services/firestore_task_databse.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
+import 'package:earneasy/utils/utils.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,6 +20,10 @@ import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:provider/provider.dart';
 
 class ImageTaskScreen extends StatefulWidget {
+  final int index;
+
+  const ImageTaskScreen({Key key, this.index}) : super(key: key);
+
   @override
   _ImageTaskScreenState createState() => _ImageTaskScreenState();
 }
@@ -31,6 +36,8 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   List<UploadTask> _tasks = <UploadTask>[];
   ImageTask _imageTask;
+  int _bottomNavigationBarIndex = 0;
+  bool _bottomNavigationBarTapped = false;
   var _submittedImageUrlList = List<String>();
 
   //<editor-fold desc="Image Picking options">
@@ -309,6 +316,8 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
   Widget build(BuildContext context) {
     super.build(context);
     _imageTask = Provider.of<ImageTask>(context);
+    int index = widget.index;
+
     if (_imageTask == null) {
       print("_imageTask is nullll");
     } else {
@@ -431,8 +440,60 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
       child: SafeArea(
         child: _imageTask != null
             ? Scaffold(
-                appBar: AppBar(
+          appBar: AppBar(
                   title: Text("Image Task"),
+                ),
+                bottomNavigationBar: BottomNavigationBar(
+                  currentIndex: _bottomNavigationBarIndex,
+                  backgroundColor: Colors.grey[200],
+                  selectedItemColor: Theme.of(context).primaryColorDark,
+                  unselectedItemColor: Theme.of(context).primaryColorDark,
+                  items: [
+                    BottomNavigationBarItem(
+                      icon: index == 0
+                          ? SizedBox.shrink()
+                          : Icon(Icons.arrow_back_ios),
+                      label: index == 0 ? "" : "Previous",
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.arrow_forward_ios_rounded),
+                      label: "Next",
+                    ),
+                  ],
+                  onTap: (value) async {
+                    var userResponse = await DatabaseServiceTasks()
+                        .getToUserTaskFromGigId(_imageTask.gigId);
+                    var taskList = userResponse.taskSnippetList;
+                    setState(() {
+                      _bottomNavigationBarIndex = value;
+                      _bottomNavigationBarTapped = true;
+                      if (_bottomNavigationBarTapped) {
+                        if (_bottomNavigationBarIndex == 0) {
+                          // showSuccessToast("previous");
+                          index = index - 1;
+                          print("Inside Task list tapped  $index");
+                          if (index < 0) {
+                          } else {
+                            Utils.previousAndNextNavigation(
+                                userResponse, index, context);
+                          }
+                        } else if (_bottomNavigationBarIndex == 1) {
+                          // showSuccessToast("Next");
+                          index++;
+                          print("Inside Task list tapped  $index");
+                          if (taskList.length <= index) {
+                            showSuccessToast("End of Task List");
+                            _onWillPop();
+                          } else {
+                            Utils.previousAndNextNavigation(
+                                userResponse, index, context);
+                          }
+                        } else {
+                          print("default navigation -1");
+                        }
+                      }
+                    });
+                  },
                 ),
                 body: Padding(
                   padding: const EdgeInsets.all(10.0),
