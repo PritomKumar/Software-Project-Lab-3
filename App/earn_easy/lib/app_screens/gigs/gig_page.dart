@@ -308,10 +308,8 @@ class _GigPageState extends State<GigPage> {
                     Container(
                       padding:
                           EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-                      child: Expanded(
-                        child: DescriptionTextWidget(
-                            text: widget.gig.description, isBold: false),
-                      ),
+                      child: DescriptionTextWidget(
+                          text: widget.gig.description, isBold: false),
                     ),
                     //#endregion
                     checker
