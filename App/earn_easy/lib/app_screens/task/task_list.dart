@@ -107,6 +107,11 @@ class _TaskListPageState extends State<TaskListPage> {
               child: Scaffold(
                 appBar: AppBar(
                   title: Text("Tasks"),
+                  automaticallyImplyLeading: true,
+                  leading: IconButton(
+                    icon: Icon(Icons.arrow_back_ios),
+                    onPressed: () => Navigator.pop(context, false),
+                  ),
                 ),
                 floatingActionButton: FloatingActionButton.extended(
                   splashColor: Colors.white,
@@ -151,7 +156,9 @@ class _TaskListPageState extends State<TaskListPage> {
                                     : Text(
                                         "Not Completed",
                                         style: TextStyle(
-                                            color: Colors.red,
+                                            color: taskList[index].require
+                                                ? Colors.red
+                                                : Colors.black54,
                                             fontWeight: FontWeight.normal),
                                       )
                                 : SizedBox.shrink()

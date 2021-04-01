@@ -14,6 +14,8 @@ class CheckBoxTaskScreen extends StatefulWidget {
 
 class _CheckBoxTaskScreenState extends State<CheckBoxTaskScreen> {
   CheckboxTask _checkboxTask;
+  int _bottomNavigationBarIndex = 0;
+  bool _bottomNavigationBarTapped = false;
 
   int _checkIfAnyOptionsHaveBeenSelected() {
     int counter = 0;
@@ -31,8 +33,39 @@ class _CheckBoxTaskScreenState extends State<CheckBoxTaskScreen> {
     return SafeArea(
       child: _checkboxTask != null
           ? Scaffold(
-              appBar: AppBar(
+        appBar: AppBar(
                 title: Text("Checkbox Task"),
+              ),
+              bottomNavigationBar: BottomNavigationBar(
+                currentIndex: _bottomNavigationBarIndex,
+                backgroundColor: Colors.grey[200],
+                selectedItemColor: Theme.of(context).primaryColorDark,
+                unselectedItemColor: Theme.of(context).primaryColorDark,
+                items: [
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.arrow_back_ios),
+                    label: "Previous",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.arrow_forward_ios_rounded),
+                    label: "Next",
+                  ),
+                ],
+                onTap: (value) async {
+                  setState(() {
+                    _bottomNavigationBarIndex = value;
+                    _bottomNavigationBarTapped = true;
+                    if (_bottomNavigationBarTapped) {
+                      if (_bottomNavigationBarIndex == 0) {
+                        showSuccessToast("previous");
+                      } else if (_bottomNavigationBarIndex == 1) {
+                        showSuccessToast("Next");
+                      } else {
+                        showSuccessToast("default");
+                      }
+                    }
+                  });
+                },
               ),
               body: Padding(
                 padding: const EdgeInsets.all(10.0),
