@@ -7,6 +7,7 @@ import 'package:earneasy/models/task.dart';
 import 'package:earneasy/services/firestore_task_databse.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
+import 'package:earneasy/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -46,6 +47,7 @@ class _CheckBoxTaskScreenState extends State<CheckBoxTaskScreen> {
             userResponse: userResponse,
           ),
         ));
+    return true;
   }
 
   @override
@@ -89,92 +91,94 @@ class _CheckBoxTaskScreenState extends State<CheckBoxTaskScreen> {
                           // showSuccessToast("previous");
                           index--;
                           print("Inside Task list tapped  $index");
+                          Utils.previousAndNextNavigation(
+                              userResponse, index, context);
+                          // //<editor-fold desc="Different type of task to different page Navigation">
+                          // if (taskList[index].taskType == ImageTaskType) {
+                          //   var imageTask = DatabaseServiceTasks()
+                          //       .selectedImageTaskData(
+                          //           userResponse.gigId, taskList[index]);
+                          //
+                          //   print(imageTask.toString());
+                          //
+                          //   Navigator.push(
+                          //       context,
+                          //       MaterialPageRoute(
+                          //           builder: (context) =>
+                          //               StreamProvider<ImageTask>.value(
+                          //                 value: imageTask,
+                          //                 child: ImageTaskScreen(),
+                          //               )));
+                          // }
+                          // if (taskList[index].taskType == CheckBoxTaskType) {
+                          //   var checkBoxTask = DatabaseServiceTasks()
+                          //       .selectedCheckboxTaskData(
+                          //           userResponse.gigId, taskList[index]);
+                          //
+                          //   print(checkBoxTask.toString());
+                          //
+                          //   Navigator.push(
+                          //       context,
+                          //       MaterialPageRoute(
+                          //           builder: (context) =>
+                          //               StreamProvider<CheckboxTask>.value(
+                          //                 value: checkBoxTask,
+                          //                 child:
+                          //                     CheckBoxTaskScreen(index: index),
+                          //               )));
+                          // }
+                          // if (taskList[index].taskType ==
+                          //     MultipleChoiceTaskType) {
+                          //   var multipleChoiceTask = DatabaseServiceTasks()
+                          //       .selectedMultipleChoiceTaskData(
+                          //           userResponse.gigId, taskList[index]);
+                          //
+                          //   print(multipleChoiceTask.toString());
+                          //
+                          //   Navigator.push(
+                          //       context,
+                          //       MaterialPageRoute(
+                          //           builder: (context) => StreamProvider<
+                          //                   MultipleChoiceTask>.value(
+                          //                 value: multipleChoiceTask,
+                          //                 child: MultipleChoiceTaskScreen(),
+                          //               )));
+                          //   // print("Multiple choice = ${mul.toMap()}");
+                          // }
+                          // if (taskList[index].taskType == DropdownTaskType) {
+                          //   var dropdownTask = DatabaseServiceTasks()
+                          //       .selectedDropdownTaskData(
+                          //           userResponse.gigId, taskList[index]);
+                          //
+                          //   print(dropdownTask.toString());
+                          //
+                          //   Navigator.push(
+                          //       context,
+                          //       MaterialPageRoute(
+                          //           builder: (context) =>
+                          //               StreamProvider<DropdownTask>.value(
+                          //                 value: dropdownTask,
+                          //                 child: DropdownTaskScreen(),
+                          //               )));
+                          // }
+                          // if (taskList[index].taskType == FreeTextTaskType) {
+                          //   var freeTextTask = DatabaseServiceTasks()
+                          //       .selectedFreeTextTaskData(
+                          //           userResponse.gigId, taskList[index]);
+                          //
+                          //   print(freeTextTask.toString());
+                          //
+                          //   Navigator.push(
+                          //       context,
+                          //       MaterialPageRoute(
+                          //           builder: (context) =>
+                          //               StreamProvider<FreeTextTask>.value(
+                          //                 value: freeTextTask,
+                          //                 child: FreeTextTaskScreen(),
+                          //               )));
+                          // }
+                          // //</editor-fold>
 
-                          //<editor-fold desc="Different type of task to different page Navigation">
-                          if (taskList[index].taskType == ImageTaskType) {
-                            var imageTask = DatabaseServiceTasks()
-                                .selectedImageTaskData(
-                                    userResponse.gigId, taskList[index]);
-
-                            print(imageTask.toString());
-
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        StreamProvider<ImageTask>.value(
-                                          value: imageTask,
-                                          child: ImageTaskScreen(),
-                                        )));
-                          }
-                          if (taskList[index].taskType == CheckBoxTaskType) {
-                            var checkBoxTask = DatabaseServiceTasks()
-                                .selectedCheckboxTaskData(
-                                    userResponse.gigId, taskList[index]);
-
-                            print(checkBoxTask.toString());
-
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        StreamProvider<CheckboxTask>.value(
-                                          value: checkBoxTask,
-                                          child:
-                                              CheckBoxTaskScreen(index: index),
-                                        )));
-                          }
-                          if (taskList[index].taskType ==
-                              MultipleChoiceTaskType) {
-                            var multipleChoiceTask = DatabaseServiceTasks()
-                                .selectedMultipleChoiceTaskData(
-                                    userResponse.gigId, taskList[index]);
-
-                            print(multipleChoiceTask.toString());
-
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => StreamProvider<
-                                            MultipleChoiceTask>.value(
-                                          value: multipleChoiceTask,
-                                          child: MultipleChoiceTaskScreen(),
-                                        )));
-                            // print("Multiple choice = ${mul.toMap()}");
-                          }
-                          if (taskList[index].taskType == DropdownTaskType) {
-                            var dropdownTask = DatabaseServiceTasks()
-                                .selectedDropdownTaskData(
-                                    userResponse.gigId, taskList[index]);
-
-                            print(dropdownTask.toString());
-
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        StreamProvider<DropdownTask>.value(
-                                          value: dropdownTask,
-                                          child: DropdownTaskScreen(),
-                                        )));
-                          }
-                          if (taskList[index].taskType == FreeTextTaskType) {
-                            var freeTextTask = DatabaseServiceTasks()
-                                .selectedFreeTextTaskData(
-                                    userResponse.gigId, taskList[index]);
-
-                            print(freeTextTask.toString());
-
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        StreamProvider<FreeTextTask>.value(
-                                          value: freeTextTask,
-                                          child: FreeTextTaskScreen(),
-                                        )));
-                          }
-                          //</editor-fold>
                         } else if (_bottomNavigationBarIndex == 1) {
                           // showSuccessToast("Next");
                           index++;
