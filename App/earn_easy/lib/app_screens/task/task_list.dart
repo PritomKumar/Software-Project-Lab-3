@@ -49,9 +49,9 @@ class _TaskListPageState extends State<TaskListPage> {
 
   bool _floatingActionButtonPressed = false;
 
-  List<bool> _allUserCompletedTask = List<bool>();
+  List<bool> _allUserCompletedTask = <bool>[];
 
-  void _findTasksThatAreCompletedOrNot(
+  Future _findTasksThatAreCompletedOrNot(
       List<TaskSnippet> taskSnippetList) async {
     for (int i = 0; i < taskSnippetList.length; i++) {
       bool isComplete = await _checkIfTaskIsCompleted(taskSnippetList[i]);
@@ -116,9 +116,9 @@ class _TaskListPageState extends State<TaskListPage> {
                       ? "Submit"
                       : "Submit & Review"),
                   icon: Icon(Icons.check),
-                  onPressed: () {
+                  onPressed: () async {
+                    await _findTasksThatAreCompletedOrNot(taskList);
                     _floatingActionButtonPressed = true;
-                    _findTasksThatAreCompletedOrNot(taskList);
                     setState(() {});
                   },
                 ),
@@ -135,9 +135,26 @@ class _TaskListPageState extends State<TaskListPage> {
                                 color: Colors.green,
                               )
                             : Icon(
-                          FontAwesomeIcons.userClock,
+                                FontAwesomeIcons.userClock,
                                 color: Colors.lightBlue,
                               ),
+                        subtitle: _floatingActionButtonPressed
+                            ? _allUserCompletedTask.length > 0
+                                ? _allUserCompletedTask[index]
+                                    ? Text(
+                                        "Completed",
+                                        style: TextStyle(
+                                            color: Colors.green,
+                                            fontWeight: FontWeight.normal),
+                                      )
+                                    : Text(
+                                        "Not Completed",
+                                        style: TextStyle(
+                                            color: Colors.red,
+                                            fontWeight: FontWeight.normal),
+                                      )
+                                : SizedBox.shrink()
+                            : SizedBox.shrink(),
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
