@@ -253,7 +253,8 @@ class _TaskListPageState extends State<TaskListPage> {
                                     builder: (context) =>
                                         StreamProvider<CheckboxTask>.value(
                                           value: checkBoxTask,
-                                          child: CheckBoxTaskScreen(),
+                                          child:
+                                              CheckBoxTaskScreen(index: index),
                                         )));
                           }
                           if (taskList[index].taskType ==
@@ -264,7 +265,7 @@ class _TaskListPageState extends State<TaskListPage> {
 
                             print(multipleChoiceTask.toString());
 
-                            await Navigator.push(
+                            Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => StreamProvider<
