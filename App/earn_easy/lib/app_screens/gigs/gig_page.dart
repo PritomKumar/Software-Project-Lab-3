@@ -52,7 +52,8 @@ class _GigPageState extends State<GigPage> {
     var user = Provider.of<UserAccount>(context);
     print("User id = ${user.uid} ");
     Gig gig = widget.gig;
-
+    double distance = LocationService()
+        .calculateDistanceGigAndUserCurrentLocation(widget.gig.location);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: gig.title,
@@ -200,7 +201,7 @@ class _GigPageState extends State<GigPage> {
                               decorationColor: Colors.red,
                               color: Colors.black87,
                               fontSize: 20.0,
-                              fontWeight: FontWeight.w300,
+                              fontWeight: FontWeight.normal,
                             ),
                           ),
                           SizedBox(
@@ -236,6 +237,54 @@ class _GigPageState extends State<GigPage> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           Icon(
+                            FontAwesomeIcons.running,
+                            color: Colors.deepPurple,
+                          ),
+                          SizedBox(
+                            width: 10.0,
+                          ),
+                          Text(
+                            "Distance: ",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10.0,
+                          ),
+                          Text(
+                            distance >= 1.0
+                                ? distance.toStringAsFixed(2)
+                                : (distance * 1000).round().toString(),
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5.0,
+                          ),
+                          Text(
+                            distance >= 1.0 ? "kilo meters" : "meters",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Icon(
                             FontAwesomeIcons.envelopeOpenText,
                             color: Colors.blueGrey,
                           ),
@@ -246,7 +295,7 @@ class _GigPageState extends State<GigPage> {
                             "Description: ",
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 22.0,
+                              fontSize: 20.0,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
