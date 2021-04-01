@@ -74,7 +74,19 @@ class _GigPageState extends State<GigPage> {
                 child: ListView(
                   children: <Widget>[
                     //#region UI elements
-
+                    Container(
+                      alignment: Alignment.center,
+                      padding:
+                          EdgeInsets.symmetric(vertical: 16.0, horizontal: 5.0),
+                      child: Text(
+                        widget.gig.title,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 28,
+                          color: Colors.black87,
+                        ),
+                      ),
+                    ),
                     Container(
                       color: Colors.grey[300],
                       padding:
