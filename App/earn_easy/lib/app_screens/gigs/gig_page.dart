@@ -6,6 +6,7 @@ import 'package:earneasy/services/firestore_task_databse.dart';
 import 'package:earneasy/services/firestore_user_databse.dart';
 import 'package:earneasy/services/location_service.dart';
 import 'package:earneasy/shared/constants.dart';
+import 'package:earneasy/shared/description_text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -174,7 +175,7 @@ class _GigPageState extends State<GigPage> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           Icon(
-                            FontAwesomeIcons.moneyBillWave,
+                            FontAwesomeIcons.dollarSign,
                             color: Colors.green,
                           ),
                           SizedBox(
@@ -184,7 +185,7 @@ class _GigPageState extends State<GigPage> {
                             "Money: ",
                             style: TextStyle(
                               decorationColor: Colors.red,
-                              color: Colors.green,
+                              color: Colors.black87,
                               fontSize: 20.0,
                               fontWeight: FontWeight.w300,
                             ),
@@ -199,6 +200,17 @@ class _GigPageState extends State<GigPage> {
                               color: Colors.green,
                               fontSize: 24.0,
                               fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5.0,
+                          ),
+                          Text(
+                            " bdt",
+                            style: TextStyle(
+                              color: Colors.black87,
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.normal,
                             ),
                           ),
                         ],
@@ -228,19 +240,15 @@ class _GigPageState extends State<GigPage> {
                           SizedBox(
                             width: 10.0,
                           ),
-                          Expanded(
-                            child: Text(
-                              gig.description.toString(),
-                              style: TextStyle(
-                                color: Colors.black87,
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.w300,
-                              ),
-                              maxLines: 1000,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
                         ],
+                      ),
+                    ),
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                      child: Expanded(
+                        child: DescriptionTextWidget(
+                            text: VeryLongTextForTestingPurpose),
                       ),
                     ),
                     //#endregion
