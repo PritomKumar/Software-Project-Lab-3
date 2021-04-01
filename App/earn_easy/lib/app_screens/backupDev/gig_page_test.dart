@@ -58,13 +58,7 @@ class _GigPageState extends State<GigPage> {
       home: SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            // title: Text(gig.title),
-            title: Text("Available Gigs"),
-            automaticallyImplyLeading: true,
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back_ios),
-              onPressed: () => Navigator.pop(context, false),
-            ),
+            title: Text(gig.title),
           ),
           body: Center(
             child: Container(
