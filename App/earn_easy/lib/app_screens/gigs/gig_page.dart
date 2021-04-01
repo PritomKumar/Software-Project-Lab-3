@@ -354,7 +354,9 @@ class _GigPageState extends State<GigPage> {
                           )
                         : Container(
                             margin: EdgeInsets.symmetric(
-                                horizontal: 10.0, vertical: 5.0),
+                              horizontal: 10.0,
+                              vertical: 5.0,
+                            ),
                             width: double.infinity,
                             alignment: Alignment.bottomCenter,
                             child: RaisedButton(

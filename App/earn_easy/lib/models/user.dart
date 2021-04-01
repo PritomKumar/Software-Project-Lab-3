@@ -89,6 +89,7 @@ class UserAccount {
 
   //<editor-fold desc="List of GigMini">
   final List<GigMini> attemptedGigs;
+  final List<GigMini> currentGigs;
   final List<GigMini> createdGigs;
   final List<GigMini> completedGigs;
   final List<GigMini> waitListGigs;
@@ -123,6 +124,7 @@ class UserAccount {
     this.allGigs,
     this.attemptedGigs,
     this.completedGigs,
+    this.currentGigs,
     this.waitListGigs,
     this.createdGigs,
   });
@@ -157,13 +159,16 @@ class UserAccount {
         attemptedGigs = List.from(
                 data['attemptedGigs'].map((index) => GigMini.fromMap(index))) ??
             [],
+        currentGigs = List.from(
+                data['currentGigs'].map((index) => GigMini.fromMap(index))) ??
+            [],
         completedGigs = List.from(
                 data['completedGigs'].map((index) => GigMini.fromMap(index))) ??
             [],
         waitListGigs = List.from(
                 data['waitListGigs'].map((index) => GigMini.fromMap(index))) ??
             [],
-  //TODO HAve to think about its use
+        //TODO HAve to think about its use
         createdGigs = List.from(
                 data['createdGigs'].map((index) => GigMini.fromMap(index))) ??
             [];
@@ -199,6 +204,9 @@ class UserAccount {
       "attemptedGigs": this.attemptedGigs == null
           ? []
           : List.from(this.attemptedGigs.map((index) => index.toMap())) ?? [],
+      "currentGigs": this.currentGigs == null
+          ? []
+          : List.from(this.currentGigs.map((index) => index.toMap())) ?? [],
       "completedGigs": this.completedGigs == null
           ? []
           : List.from(this.completedGigs.map((index) => index.toMap())) ?? [],
