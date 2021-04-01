@@ -101,6 +101,7 @@ class _TaskListPageState extends State<TaskListPage> {
     return taskList != null
         ? MaterialApp(
             debugShowCheckedModeBanner: false,
+            theme: Theme.of(context),
             title: "Tasks",
             home: SafeArea(
               child: Scaffold(

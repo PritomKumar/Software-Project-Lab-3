@@ -56,6 +56,7 @@ class _GigPageState extends State<GigPage> {
         .calculateDistanceGigAndUserCurrentLocation(widget.gig.location);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: Theme.of(context),
       title: gig.title,
       home: SafeArea(
         child: Scaffold(
