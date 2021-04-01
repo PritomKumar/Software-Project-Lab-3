@@ -378,6 +378,7 @@ class _GigPageState extends State<GigPage> {
                                   photoUrl: user.photoUrl,
                                   token: user.token,
                                   level: user.level,
+                                  numberOfCurrentGigs: user.currentGigs.length,
                                   distance: LocationService()
                                       .calculateDistanceGigAndUserCurrentLocation(
                                           gig.location),

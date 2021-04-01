@@ -15,7 +15,7 @@ class UserMinimum {
   final int level;
   final String type;
   final String token;
-  int currentTaskCount;
+  int numberOfCurrentGigs;
   double distance;
   final bool writeAccess;
 
@@ -27,7 +27,7 @@ class UserMinimum {
     this.photoUrl = "",
     this.token = "",
     this.level = 1,
-    this.currentTaskCount = 0,
+    this.numberOfCurrentGigs = 0,
     this.distance = double.infinity,
     this.type = "worker",
     this.writeAccess = false,
@@ -41,7 +41,7 @@ class UserMinimum {
         this.photoUrl = data["photoUrl"] ?? "",
         this.token = data["token"] ?? "",
         this.level = data["level"] ?? 1,
-        this.currentTaskCount = data["currentTaskCount"] ?? 0,
+        this.numberOfCurrentGigs = data["numberOfCurrentGigs"] ?? 0,
         this.distance = data["distance"] ?? double.infinity,
         this.type = data["type"] ?? "worker",
         this.writeAccess = data["writeAccess"];
@@ -55,7 +55,7 @@ class UserMinimum {
       'photoUrl': this.photoUrl ?? "",
       'token': this.token ?? "",
       'level': this.level ?? 1,
-      'currentTaskCount': this.currentTaskCount ?? 0,
+      'numberOfCurrentGigs': this.numberOfCurrentGigs ?? 0,
       'distance': this.distance ?? double.infinity,
       'type': this.type ?? "",
       'writeAccess': this.writeAccess ?? "",
