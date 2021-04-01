@@ -74,6 +74,7 @@ class _GigPageState extends State<GigPage> {
                 child: ListView(
                   children: <Widget>[
                     //#region UI elements
+
                     Container(
                       color: Colors.grey[300],
                       padding:
@@ -224,7 +225,7 @@ class _GigPageState extends State<GigPage> {
                         children: <Widget>[
                           Icon(
                             FontAwesomeIcons.envelopeOpenText,
-                            color: Colors.red,
+                            color: Colors.blueGrey,
                           ),
                           SizedBox(
                             width: 10.0,
@@ -233,7 +234,7 @@ class _GigPageState extends State<GigPage> {
                             "Description: ",
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 24.0,
+                              fontSize: 22.0,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -248,7 +249,7 @@ class _GigPageState extends State<GigPage> {
                           EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
                       child: Expanded(
                         child: DescriptionTextWidget(
-                            text: VeryLongTextForTestingPurpose),
+                            text: widget.gig.description, isBold: false),
                       ),
                     ),
                     //#endregion
