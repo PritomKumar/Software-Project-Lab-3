@@ -1,4 +1,6 @@
 import 'package:earneasy/app_screens/home/side_drawer.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class NotificationPage extends StatelessWidget {
@@ -24,6 +26,104 @@ class NotificationPage extends StatelessWidget {
   }
 }
 
+class FirebaseMessagingDemo extends StatefulWidget {
+  @override
+  _FirebaseMessagingDemoState createState() => _FirebaseMessagingDemoState();
+}
+
+class _FirebaseMessagingDemoState extends State<FirebaseMessagingDemo> {
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  List<Message> _messagesList = <Message>[];
+
+  _getToken() {
+    _firebaseMessaging.getToken().then((token) {
+      print("Device token = $token");
+    });
+  }
+
+  _configureFirebaseListeners() {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification notification = message.notification;
+      AndroidNotification android = message.notification?.android;
+      _setMessage(message.data);
+      print(
+          "On Message notification = ${notification.title}  and android = ${android.channelId}");
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      _setMessage(message.data);
+      print('A new onMessageOpenedApp event was published! ${message.data}');
+    });
+  }
+
+  _setMessage(Map<String, dynamic> message) {
+    final notification = message['notification'];
+    final data = message['data'];
+    final String title = notification['title'];
+    final String body = notification['body'];
+    final String mMessage = data['message'];
+    Message m = Message(title: title, body: body, message: mMessage);
+    _messagesList.add(m);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getToken();
+    _configureFirebaseListeners();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Demo"),
+      ),
+      body: ListView.builder(
+        itemCount: _messagesList == null ? 0 : _messagesList.length,
+        itemBuilder: (context, index) {
+          return Card(
+            child: Padding(
+              padding: EdgeInsets.all(5.0),
+              child: Text(
+                _messagesList[index].message,
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class Message {
+  final String title;
+  final String body;
+  final String message;
+
+  Message({
+    @required this.title,
+    @required this.body,
+    @required this.message,
+  });
+
+  Message.fromMap(Map<String, dynamic> data)
+      : this.title = data["notification"]['title'],
+        this.body = data["notification"]["body"],
+        this.message = data["data"]["message"];
+
+  Map<String, dynamic> toMap() {
+    return {
+      'title': this.title,
+      'body': this.body,
+      'message': this.message,
+    };
+  }
+}
 //
 // import 'dart:async';
 //

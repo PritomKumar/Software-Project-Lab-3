@@ -1,4 +1,4 @@
-import 'package:earneasy/app_screens/splash_screen.dart';
+import 'package:earneasy/app_screens/notification/notification_page.dart';
 import 'package:earneasy/services/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Spl3 App',
-            home: SplashScreen(),
+            home: FirebaseMessagingDemo(),
           ),
         ));
   }
