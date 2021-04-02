@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/models/gig.dart';
 import 'package:earneasy/models/user.dart';
 import 'package:earneasy/shared/constants.dart';
+import 'package:earneasy/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'location_service.dart';
@@ -19,7 +20,21 @@ class DatabaseServiceUser {
     }
   }
 
-  Future updateUserData(UserAccount userAccount) {
+  Future updateUserData(UserAccount userAccount) async {
+    String token = await Utils.generateDeviceToken();
+    bool isTokenNotExist = true;
+    if (userAccount.token == null) {
+      userAccount.token = <String>[];
+    }
+    for (int i = 0; i < userAccount.token.length; i++) {
+      if (userAccount.token[i] == token) {
+        isTokenNotExist = false;
+        break;
+      }
+    }
+    if (isTokenNotExist) {
+      userAccount.token.add(token);
+    }
     if (isLoggedIn()) {
       return fireStoreUsersRef.doc(uid).set(userAccount.toMap());
     } else {

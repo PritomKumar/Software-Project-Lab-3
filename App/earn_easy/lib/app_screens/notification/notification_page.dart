@@ -11,6 +11,7 @@ class NotificationPage extends StatefulWidget {
 
 class _NotificationPageState extends State<NotificationPage> {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+
   List<Message> _messagesList = <Message>[];
   final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey(debugLabel: "Main Navigator");

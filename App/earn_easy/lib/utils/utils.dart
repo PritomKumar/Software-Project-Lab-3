@@ -7,6 +7,7 @@ import 'package:earneasy/models/task.dart';
 import 'package:earneasy/models/user.dart';
 import 'package:earneasy/services/firestore_task_databse.dart';
 import 'package:earneasy/shared/constants.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,6 +22,25 @@ class Utils {
               TimeOfDay.now().hour, TimeOfDay.now().minute);
     } else {
       return defaultInitializedTimestamp.toDate();
+    }
+  }
+
+  static Future<String> generateDeviceToken() async {
+    final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+    String token = "";
+    try {
+      token = await _firebaseMessaging.getToken();
+      print("generateDeviceToken = $token");
+      // _firebaseMessaging.getToken().then((token) {
+      //   print("Device token = $token");
+      //   token = token;
+      // }).catchError((error) {
+      //   print("Error Occurred!! $error");
+      // });
+      return token;
+    } catch (e) {
+      print("Token not generated!!");
+      return token;
     }
   }
 

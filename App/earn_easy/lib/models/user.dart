@@ -82,7 +82,7 @@ class UserAccount {
   final String educationLevel;
   final String employmentStatus;
   final String householdIncome;
-  final List<String> token;
+  List<String> token;
 
   final int
       level; // 1 to 10 // changes positive tasks completion and completion rate
