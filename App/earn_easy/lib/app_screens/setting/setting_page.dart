@@ -16,21 +16,18 @@ class _SettingState extends State<Setting> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: _onWillPop,
-      child: MaterialApp(
-        theme: Theme.of(context),
-        debugShowCheckedModeBanner: false,
-        home: SafeArea(
-          child: Scaffold(
-            drawer: SideDrawer(),
-            appBar: AppBar(
-              title: Text('Setting'),
-            ),
-            body: Center(
-              child: Container(
-                child: Text('Setting'),
-              ),
+    return MaterialApp(
+      theme: Theme.of(context),
+      debugShowCheckedModeBanner: false,
+      home: SafeArea(
+        child: Scaffold(
+          drawer: SideDrawer(),
+          appBar: AppBar(
+            title: Text('Setting'),
+          ),
+          body: Center(
+            child: Container(
+              child: Text('Setting'),
             ),
           ),
         ),

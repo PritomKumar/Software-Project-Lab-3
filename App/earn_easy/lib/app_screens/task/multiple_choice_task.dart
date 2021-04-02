@@ -62,186 +62,182 @@ class _MultipleChoiceTaskScreenState extends State<MultipleChoiceTaskScreen> {
     _multipleChoiceTask = Provider.of<MultipleChoiceTask>(context);
     int index = widget.index;
 
-    return WillPopScope(
-      onWillPop: _onWillPop,
-      child: SafeArea(
-        child: _multipleChoiceTask != null
-            ? Scaffold(
-                appBar: AppBar(
-                  title: Text("Multiple choice Task"),
-                ),
-                bottomNavigationBar: BottomNavigationBar(
-                  currentIndex: _bottomNavigationBarIndex,
-                  backgroundColor: Colors.grey[200],
-                  selectedItemColor: Theme.of(context).primaryColorDark,
-                  unselectedItemColor: Theme.of(context).primaryColorDark,
-                  items: [
-                    BottomNavigationBarItem(
-                      icon: index == 0
-                          ? SizedBox.shrink()
-                          : Icon(Icons.arrow_back_ios),
-                      label: index == 0 ? "" : "Previous",
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.arrow_forward_ios_rounded),
-                      label: "Next",
-                    ),
-                  ],
-                  onTap: (value) async {
-                    var userResponse = await DatabaseServiceTasks()
-                        .getToUserTaskFromGigId(_multipleChoiceTask.gigId);
-                    var taskList = userResponse.taskSnippetList;
-                    setState(() {
-                      _bottomNavigationBarIndex = value;
-                      _bottomNavigationBarTapped = true;
-                      if (_bottomNavigationBarTapped) {
-                        if (_bottomNavigationBarIndex == 0) {
-                          // showSuccessToast("previous");
-                          index = index - 1;
-                          print("Inside Task list tapped  $index");
-                          if (index < 0) {
-                          } else {
-                            Utils.previousAndNextNavigation(
-                                userResponse, index, context);
-                          }
-                        } else if (_bottomNavigationBarIndex == 1) {
-                          // showSuccessToast("Next");
-                          index++;
-                          print("Inside Task list tapped  $index");
-                          if (taskList.length <= index) {
-                            showSuccessToast("End of Task List");
-                            _onWillPop();
-                          } else {
-                            Utils.previousAndNextNavigation(
-                                userResponse, index, context);
-                          }
+    return SafeArea(
+      child: _multipleChoiceTask != null
+          ? Scaffold(
+              appBar: AppBar(
+                title: Text("Multiple choice Task"),
+              ),
+              bottomNavigationBar: BottomNavigationBar(
+                currentIndex: _bottomNavigationBarIndex,
+                backgroundColor: Colors.grey[200],
+                selectedItemColor: Theme.of(context).primaryColorDark,
+                unselectedItemColor: Theme.of(context).primaryColorDark,
+                items: [
+                  BottomNavigationBarItem(
+                    icon: index == 0
+                        ? SizedBox.shrink()
+                        : Icon(Icons.arrow_back_ios),
+                    label: index == 0 ? "" : "Previous",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.arrow_forward_ios_rounded),
+                    label: "Next",
+                  ),
+                ],
+                onTap: (value) async {
+                  var userResponse = await DatabaseServiceTasks()
+                      .getToUserTaskFromGigId(_multipleChoiceTask.gigId);
+                  var taskList = userResponse.taskSnippetList;
+                  setState(() {
+                    _bottomNavigationBarIndex = value;
+                    _bottomNavigationBarTapped = true;
+                    if (_bottomNavigationBarTapped) {
+                      if (_bottomNavigationBarIndex == 0) {
+                        // showSuccessToast("previous");
+                        index = index - 1;
+                        print("Inside Task list tapped  $index");
+                        if (index < 0) {
                         } else {
-                          print("default navigation -1");
+                          Utils.previousAndNextNavigation(
+                              userResponse, index, context);
                         }
+                      } else if (_bottomNavigationBarIndex == 1) {
+                        // showSuccessToast("Next");
+                        index++;
+                        print("Inside Task list tapped  $index");
+                        if (taskList.length <= index) {
+                          showSuccessToast("End of Task List");
+                          _onWillPop();
+                        } else {
+                          Utils.previousAndNextNavigation(
+                              userResponse, index, context);
+                        }
+                      } else {
+                        print("default navigation -1");
                       }
-                    });
-                  },
-                ),
-                body: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: ListView(
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Icon(
-                                FontAwesomeIcons.dotCircle,
-                                size: 20.0,
-                              ),
-                              SizedBox(width: 10.0),
-                              Text("Multiple choice"),
-                            ],
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Text(
-                                "Required",
-                                textScaleFactor: 1.1,
-                                style: TextStyle(
-                                  color: _multipleChoiceTask.require
-                                      ? Colors.deepPurpleAccent
-                                      : Colors.black87,
-                                ),
-                              ),
-                              Switch(
-                                value: _multipleChoiceTask.require,
-                                onChanged: (value) {
-                                  // setState(() {
-                                  //   _multipleChoiceTask.require = value;
-                                  //   print(_multipleChoiceTask.require);
-                                  // });
-                                },
-                                activeTrackColor: Colors.deepPurple[200],
-                                focusColor: Colors.red,
-                                activeColor: Colors.deepPurple,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      Text(
-                        "${_multipleChoiceTask.taskDescription}",
-                        textScaleFactor: 1.5,
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      ListView.builder(
-                        itemCount: _multipleChoiceTask.optionList.length,
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          _getGroupValueFromOptionList();
-                          return RadioListTile(
-                            title: Text(
-                              _multipleChoiceTask.optionList[index].option,
-                              textScaleFactor: 1.2,
+                    }
+                  });
+                },
+              ),
+              body: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: ListView(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Icon(
+                              FontAwesomeIcons.dotCircle,
+                              size: 20.0,
                             ),
-                            controlAffinity: ListTileControlAffinity.leading,
-                            activeColor: Colors.deepPurple,
-                            selected: _groupValue == index,
-                            value: index,
-                            groupValue: _groupValue,
-                            onChanged: (value) {
-                              setState(() {
-                                _groupValue = value;
-                                print("Value $_groupValue");
-                                _multipleChoiceTask.optionList[index].checked =
-                                    _groupValue == index;
-                                _setOtherOptionsToFalse(index);
-                              });
-                            },
-                          );
+                            SizedBox(width: 10.0),
+                            Text("Multiple choice"),
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Text(
+                              "Required",
+                              textScaleFactor: 1.1,
+                              style: TextStyle(
+                                color: _multipleChoiceTask.require
+                                    ? Colors.deepPurpleAccent
+                                    : Colors.black87,
+                              ),
+                            ),
+                            Switch(
+                              value: _multipleChoiceTask.require,
+                              onChanged: (value) {
+                                // setState(() {
+                                //   _multipleChoiceTask.require = value;
+                                //   print(_multipleChoiceTask.require);
+                                // });
+                              },
+                              activeTrackColor: Colors.deepPurple[200],
+                              focusColor: Colors.red,
+                              activeColor: Colors.deepPurple,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Text(
+                      "${_multipleChoiceTask.taskDescription}",
+                      textScaleFactor: 1.5,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    ListView.builder(
+                      itemCount: _multipleChoiceTask.optionList.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        _getGroupValueFromOptionList();
+                        return RadioListTile(
+                          title: Text(
+                            _multipleChoiceTask.optionList[index].option,
+                            textScaleFactor: 1.2,
+                          ),
+                          controlAffinity: ListTileControlAffinity.leading,
+                          activeColor: Colors.deepPurple,
+                          selected: _groupValue == index,
+                          value: index,
+                          groupValue: _groupValue,
+                          onChanged: (value) {
+                            setState(() {
+                              _groupValue = value;
+                              print("Value $_groupValue");
+                              _multipleChoiceTask.optionList[index].checked =
+                                  _groupValue == index;
+                              _setOtherOptionsToFalse(index);
+                            });
+                          },
+                        );
+                      },
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: RaisedButton.icon(
+                        elevation: 5.0,
+                        color: Colors.white,
+                        label: Text(
+                          "Finish Task",
+                          style: TextStyle(
+                            color: Colors.black87,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        icon: Icon(
+                          Icons.cloud_upload,
+                          color: Colors.blueAccent,
+                        ),
+                        onPressed: () async {
+                          print("Group value =  $_groupValue");
+                          if (_groupValue == null) {
+                            showWarningToast("Please select a option.");
+                          } else {
+                            _multipleChoiceTask.isCompleted = true;
+                            await DatabaseServiceTasks()
+                                .updateMultipleChoiceTask(_multipleChoiceTask);
+                            showSuccessToast(
+                                "Your choice is successfully added");
+                            // Navigator.pop(context, _multipleChoiceTask);
+                          }
                         },
                       ),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: RaisedButton.icon(
-                          elevation: 5.0,
-                          color: Colors.white,
-                          label: Text(
-                            "Finish Task",
-                            style: TextStyle(
-                              color: Colors.black87,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          icon: Icon(
-                            Icons.cloud_upload,
-                            color: Colors.blueAccent,
-                          ),
-                          onPressed: () async {
-                            print("Group value =  $_groupValue");
-                            if (_groupValue == null) {
-                              showWarningToast("Please select a option.");
-                            } else {
-                              _multipleChoiceTask.isCompleted = true;
-                              await DatabaseServiceTasks()
-                                  .updateMultipleChoiceTask(
-                                      _multipleChoiceTask);
-                              showSuccessToast(
-                                  "Your choice is successfully added");
-                              // Navigator.pop(context, _multipleChoiceTask);
-                            }
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              )
-            : Loading(),
-      ),
+              ),
+            )
+          : Loading(),
     );
   }
 }

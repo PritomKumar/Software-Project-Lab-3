@@ -89,240 +89,231 @@ class _TaskListPageState extends State<TaskListPage> {
     var taskList = widget.userResponse.taskSnippetList;
     _userAccount = Provider.of<UserAccount>(context);
     return taskList != null
-        ? WillPopScope(
-            onWillPop: _onWillPop,
-            child: MaterialApp(
-              debugShowCheckedModeBanner: false,
-              theme: Theme.of(context),
-              title: "Tasks",
-              home: SafeArea(
-                child: Scaffold(
-                  appBar: AppBar(
-                    title: Text("Tasks"),
-                    automaticallyImplyLeading: true,
-                    leading: IconButton(
-                        icon: Icon(Icons.arrow_back_ios),
-                        // onPressed: () => Navigator.pop(context, false),
-                        onPressed: () {
-                          _onWillPop();
-                        }),
-                  ),
-                  floatingActionButton: FloatingActionButton.extended(
-                    splashColor: Colors.white,
-                    highlightElevation: 5.0,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(15.0))),
-                    label: Text(_floatingActionButtonPressed
-                        ? "Submit"
-                        : "Submit & Review"),
-                    icon: Icon(Icons.check),
-                    onPressed: () async {
-                      await _findTasksThatAreCompletedOrNot(taskList);
-                      _floatingActionButtonPressed = true;
-                      setState(() {});
-                    },
-                  ),
-                  body: ListView.builder(
-                    itemCount: taskList.length ?? 10,
-                    itemBuilder: (context, index) => Column(
-                      children: <Widget>[
-                        ListTile(
-                          leading:
-                              _getIconBasedOnTaskType(taskList[index].taskType),
-                          trailing: taskList[index].isCompleted
-                              ? Icon(
-                                  FontAwesomeIcons.solidCheckCircle,
-                                  color: Colors.green,
-                                )
-                              : Icon(
-                                  FontAwesomeIcons.userClock,
-                                  color: Colors.lightBlue,
-                                ),
-                          subtitle: _floatingActionButtonPressed
-                              ? _allUserCompletedTask.length > 0
-                                  ? _allUserCompletedTask[index]
-                                      ? Text(
-                                          "Completed",
-                                          style: TextStyle(
-                                              color: Colors.green,
-                                              fontWeight: FontWeight.normal),
-                                        )
-                                      : Text(
-                                          "Not Completed",
-                                          style: TextStyle(
-                                              color: taskList[index].require
-                                                  ? Colors.red
-                                                  : Colors.black54,
-                                              fontWeight: FontWeight.normal),
-                                        )
-                                  : SizedBox.shrink()
-                              : SizedBox.shrink(),
-                          title: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Container(
-                                child: Text(
-                                  taskList[index].require ? "* " : "",
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                alignment: Alignment.topLeft,
+        ? MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: Theme.of(context),
+            title: "Tasks",
+            home: SafeArea(
+              child: Scaffold(
+                appBar: AppBar(
+                  title: Text("Tasks"),
+                  automaticallyImplyLeading: true,
+                  leading: IconButton(
+                      icon: Icon(Icons.arrow_back_ios),
+                      // onPressed: () => Navigator.pop(context, false),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      }),
+                ),
+                floatingActionButton: FloatingActionButton.extended(
+                  splashColor: Colors.white,
+                  highlightElevation: 5.0,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                  label: Text(_floatingActionButtonPressed
+                      ? "Submit"
+                      : "Submit & Review"),
+                  icon: Icon(Icons.check),
+                  onPressed: () async {
+                    await _findTasksThatAreCompletedOrNot(taskList);
+                    _floatingActionButtonPressed = true;
+                    setState(() {});
+                  },
+                ),
+                body: ListView.builder(
+                  itemCount: taskList.length ?? 10,
+                  itemBuilder: (context, index) => Column(
+                    children: <Widget>[
+                      ListTile(
+                        leading:
+                            _getIconBasedOnTaskType(taskList[index].taskType),
+                        trailing: taskList[index].isCompleted
+                            ? Icon(
+                                FontAwesomeIcons.solidCheckCircle,
+                                color: Colors.green,
+                              )
+                            : Icon(
+                                FontAwesomeIcons.userClock,
+                                color: Colors.lightBlue,
                               ),
-                              Flexible(
-                                child: Text(
-                                  taskList[index].taskDescription,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    decoration: TextDecoration.none,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 3,
+                        subtitle: _floatingActionButtonPressed
+                            ? _allUserCompletedTask.length > 0
+                                ? _allUserCompletedTask[index]
+                                    ? Text(
+                                        "Completed",
+                                        style: TextStyle(
+                                            color: Colors.green,
+                                            fontWeight: FontWeight.normal),
+                                      )
+                                    : Text(
+                                        "Not Completed",
+                                        style: TextStyle(
+                                            color: taskList[index].require
+                                                ? Colors.red
+                                                : Colors.black54,
+                                            fontWeight: FontWeight.normal),
+                                      )
+                                : SizedBox.shrink()
+                            : SizedBox.shrink(),
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              child: Text(
+                                taskList[index].require ? "* " : "",
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            ],
-                          ),
-                          dense: false,
-                          onTap: () async {
-                            print("Inside Task list tapped  $index");
+                              alignment: Alignment.topLeft,
+                            ),
+                            Flexible(
+                              child: Text(
+                                taskList[index].taskDescription,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  decoration: TextDecoration.none,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 3,
+                              ),
+                            ),
+                          ],
+                        ),
+                        dense: false,
+                        onTap: () async {
+                          print("Inside Task list tapped  $index");
 
-                            //<editor-fold desc="Different type of task to different page Navigation">
-                            if (taskList[index].taskType == ImageTaskType) {
-                              // TODO Have to send item based on type of task
-                              // DocumentSnapshot  fullTask = await fireStoreGigsRef
-                              //     .doc(widget.gig.gigId)
-                              //     .collection("Tasks")
-                              //     .doc(taskList[index].taskId).get();
-                              //<editor-fold desc="Stream builder try">
-                              // Stream<DocumentSnapshot> fullTaskStream = fireStoreGigsRef
-                              //     .doc(widget.gig.gigId)
-                              //     .collection("Tasks")
-                              //     .doc(taskList[index].taskId)
-                              //     .snapshots();
-                              // print(fullTaskStream.toString());
-                              // StreamBuilder<DocumentSnapshot>(
-                              //     stream: fullTaskStream,
-                              //     builder: (context, AsyncSnapshot<dynamic> snapshot) {
-                              //       if (snapshot.connectionState ==
-                              //           ConnectionState.active) {
-                              //         final Map<String, dynamic> firebaseTask =
-                              //             snapshot.data.data;
-                              //         ImageTask selectedTask =
-                              //             ImageTask.fromMap(snapshot.data.data);
-                              //
-                              //         print(selectedTask.toMap());
-                              //         return Container();
-                              //       } else {
-                              //         return Container();
-                              //       }
-                              //     });
-                              //</editor-fold>
-                              var imageTask = DatabaseServiceTasks()
-                                  .selectedImageTaskData(
-                                      widget.userResponse.gigId,
-                                      taskList[index]);
-
-                              print(imageTask.toString());
-
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          StreamProvider<ImageTask>.value(
-                                            value: imageTask,
-                                            child:
-                                                ImageTaskScreen(index: index),
-                                          )));
-                            }
-                            if (taskList[index].taskType == CheckBoxTaskType) {
-                              var checkBoxTask = DatabaseServiceTasks()
-                                  .selectedCheckboxTaskData(
-                                      widget.userResponse.gigId,
-                                      taskList[index]);
-
-                              print(checkBoxTask.toString());
-
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          StreamProvider<CheckboxTask>.value(
-                                            value: checkBoxTask,
-                                            child: CheckBoxTaskScreen(
-                                                index: index),
-                                          )));
-                            }
-                            if (taskList[index].taskType ==
-                                MultipleChoiceTaskType) {
-                              var multipleChoiceTask = DatabaseServiceTasks()
-                                  .selectedMultipleChoiceTaskData(
-                                      widget.userResponse.gigId,
-                                      taskList[index]);
-
-                              print(multipleChoiceTask.toString());
-
-                              await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => StreamProvider<
-                                              MultipleChoiceTask>.value(
-                                            value: multipleChoiceTask,
-                                            child: MultipleChoiceTaskScreen(
-                                                index: index),
-                                          )));
-                              // print("Multiple choice = ${mul.toMap()}");
-                            }
-                            if (taskList[index].taskType == DropdownTaskType) {
-                              var dropdownTask = DatabaseServiceTasks()
-                                  .selectedDropdownTaskData(
-                                      widget.userResponse.gigId,
-                                      taskList[index]);
-
-                              print(dropdownTask.toString());
-
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          StreamProvider<DropdownTask>.value(
-                                            value: dropdownTask,
-                                            child: DropdownTaskScreen(
-                                                index: index),
-                                          )));
-                            }
-                            if (taskList[index].taskType == FreeTextTaskType) {
-                              var freeTextTask = DatabaseServiceTasks()
-                                  .selectedFreeTextTaskData(
-                                      widget.userResponse.gigId,
-                                      taskList[index]);
-
-                              print(freeTextTask.toString());
-
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          StreamProvider<FreeTextTask>.value(
-                                            value: freeTextTask,
-                                            child: FreeTextTaskScreen(
-                                                index: index),
-                                          )));
-                            }
+                          //<editor-fold desc="Different type of task to different page Navigation">
+                          if (taskList[index].taskType == ImageTaskType) {
+                            // TODO Have to send item based on type of task
+                            // DocumentSnapshot  fullTask = await fireStoreGigsRef
+                            //     .doc(widget.gig.gigId)
+                            //     .collection("Tasks")
+                            //     .doc(taskList[index].taskId).get();
+                            //<editor-fold desc="Stream builder try">
+                            // Stream<DocumentSnapshot> fullTaskStream = fireStoreGigsRef
+                            //     .doc(widget.gig.gigId)
+                            //     .collection("Tasks")
+                            //     .doc(taskList[index].taskId)
+                            //     .snapshots();
+                            // print(fullTaskStream.toString());
+                            // StreamBuilder<DocumentSnapshot>(
+                            //     stream: fullTaskStream,
+                            //     builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                            //       if (snapshot.connectionState ==
+                            //           ConnectionState.active) {
+                            //         final Map<String, dynamic> firebaseTask =
+                            //             snapshot.data.data;
+                            //         ImageTask selectedTask =
+                            //             ImageTask.fromMap(snapshot.data.data);
+                            //
+                            //         print(selectedTask.toMap());
+                            //         return Container();
+                            //       } else {
+                            //         return Container();
+                            //       }
+                            //     });
                             //</editor-fold>
-                            setState(() {});
-                          },
-                          // contentPadding: EdgeInsets.symmetric(vertical: 5.0,horizontal: 10.0),
-                        ),
-                        Divider(
-                          indent: 20.0,
-                          endIndent: 20.0,
-                          color: Colors.lightBlueAccent,
-                          thickness: 1.0,
-                        ),
-                      ],
-                    ),
+                            var imageTask = DatabaseServiceTasks()
+                                .selectedImageTaskData(
+                                    widget.userResponse.gigId, taskList[index]);
+
+                            print(imageTask.toString());
+
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        StreamProvider<ImageTask>.value(
+                                          value: imageTask,
+                                          child: ImageTaskScreen(index: index),
+                                        )));
+                          }
+                          if (taskList[index].taskType == CheckBoxTaskType) {
+                            var checkBoxTask = DatabaseServiceTasks()
+                                .selectedCheckboxTaskData(
+                                    widget.userResponse.gigId, taskList[index]);
+
+                            print(checkBoxTask.toString());
+
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        StreamProvider<CheckboxTask>.value(
+                                          value: checkBoxTask,
+                                          child:
+                                              CheckBoxTaskScreen(index: index),
+                                        )));
+                          }
+                          if (taskList[index].taskType ==
+                              MultipleChoiceTaskType) {
+                            var multipleChoiceTask = DatabaseServiceTasks()
+                                .selectedMultipleChoiceTaskData(
+                                    widget.userResponse.gigId, taskList[index]);
+
+                            print(multipleChoiceTask.toString());
+
+                            await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => StreamProvider<
+                                            MultipleChoiceTask>.value(
+                                          value: multipleChoiceTask,
+                                          child: MultipleChoiceTaskScreen(
+                                              index: index),
+                                        )));
+                            // print("Multiple choice = ${mul.toMap()}");
+                          }
+                          if (taskList[index].taskType == DropdownTaskType) {
+                            var dropdownTask = DatabaseServiceTasks()
+                                .selectedDropdownTaskData(
+                                    widget.userResponse.gigId, taskList[index]);
+
+                            print(dropdownTask.toString());
+
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        StreamProvider<DropdownTask>.value(
+                                          value: dropdownTask,
+                                          child:
+                                              DropdownTaskScreen(index: index),
+                                        )));
+                          }
+                          if (taskList[index].taskType == FreeTextTaskType) {
+                            var freeTextTask = DatabaseServiceTasks()
+                                .selectedFreeTextTaskData(
+                                    widget.userResponse.gigId, taskList[index]);
+
+                            print(freeTextTask.toString());
+
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        StreamProvider<FreeTextTask>.value(
+                                          value: freeTextTask,
+                                          child:
+                                              FreeTextTaskScreen(index: index),
+                                        )));
+                          }
+                          //</editor-fold>
+                          setState(() {});
+                        },
+                        // contentPadding: EdgeInsets.symmetric(vertical: 5.0,horizontal: 10.0),
+                      ),
+                      Divider(
+                        indent: 20.0,
+                        endIndent: 20.0,
+                        color: Colors.lightBlueAccent,
+                        thickness: 1.0,
+                      ),
+                    ],
                   ),
                 ),
               ),

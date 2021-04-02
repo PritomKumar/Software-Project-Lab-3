@@ -435,262 +435,257 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
       return true;
     }
 
-    return WillPopScope(
-      onWillPop: _onWillPop,
-      child: SafeArea(
-        child: _imageTask != null
-            ? Scaffold(
-          appBar: AppBar(
-                  title: Text("Image Task"),
-                ),
-                bottomNavigationBar: BottomNavigationBar(
-                  currentIndex: _bottomNavigationBarIndex,
-                  backgroundColor: Colors.grey[200],
-                  selectedItemColor: Theme.of(context).primaryColorDark,
-                  unselectedItemColor: Theme.of(context).primaryColorDark,
-                  items: [
-                    BottomNavigationBarItem(
-                      icon: index == 0
-                          ? SizedBox.shrink()
-                          : Icon(Icons.arrow_back_ios),
-                      label: index == 0 ? "" : "Previous",
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.arrow_forward_ios_rounded),
-                      label: "Next",
-                    ),
-                  ],
-                  onTap: (value) async {
-                    var userResponse = await DatabaseServiceTasks()
-                        .getToUserTaskFromGigId(_imageTask.gigId);
-                    var taskList = userResponse.taskSnippetList;
-                    setState(() {
-                      _bottomNavigationBarIndex = value;
-                      _bottomNavigationBarTapped = true;
-                      if (_bottomNavigationBarTapped) {
-                        if (_bottomNavigationBarIndex == 0) {
-                          // showSuccessToast("previous");
-                          index = index - 1;
-                          print("Inside Task list tapped  $index");
-                          if (index < 0) {
-                          } else {
-                            Utils.previousAndNextNavigation(
-                                userResponse, index, context);
-                          }
-                        } else if (_bottomNavigationBarIndex == 1) {
-                          // showSuccessToast("Next");
-                          index++;
-                          print("Inside Task list tapped  $index");
-                          if (taskList.length <= index) {
-                            showSuccessToast("End of Task List");
-                            _onWillPop();
-                          } else {
-                            Utils.previousAndNextNavigation(
-                                userResponse, index, context);
-                          }
+    return SafeArea(
+      child: _imageTask != null
+          ? Scaffold(
+              appBar: AppBar(
+                title: Text("Image Task"),
+              ),
+              bottomNavigationBar: BottomNavigationBar(
+                currentIndex: _bottomNavigationBarIndex,
+                backgroundColor: Colors.grey[200],
+                selectedItemColor: Theme.of(context).primaryColorDark,
+                unselectedItemColor: Theme.of(context).primaryColorDark,
+                items: [
+                  BottomNavigationBarItem(
+                    icon: index == 0
+                        ? SizedBox.shrink()
+                        : Icon(Icons.arrow_back_ios),
+                    label: index == 0 ? "" : "Previous",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.arrow_forward_ios_rounded),
+                    label: "Next",
+                  ),
+                ],
+                onTap: (value) async {
+                  var userResponse = await DatabaseServiceTasks()
+                      .getToUserTaskFromGigId(_imageTask.gigId);
+                  var taskList = userResponse.taskSnippetList;
+                  setState(() {
+                    _bottomNavigationBarIndex = value;
+                    _bottomNavigationBarTapped = true;
+                    if (_bottomNavigationBarTapped) {
+                      if (_bottomNavigationBarIndex == 0) {
+                        // showSuccessToast("previous");
+                        index = index - 1;
+                        print("Inside Task list tapped  $index");
+                        if (index < 0) {
                         } else {
-                          print("default navigation -1");
+                          Utils.previousAndNextNavigation(
+                              userResponse, index, context);
                         }
+                      } else if (_bottomNavigationBarIndex == 1) {
+                        // showSuccessToast("Next");
+                        index++;
+                        print("Inside Task list tapped  $index");
+                        if (taskList.length <= index) {
+                          showSuccessToast("End of Task List");
+                          _onWillPop();
+                        } else {
+                          Utils.previousAndNextNavigation(
+                              userResponse, index, context);
+                        }
+                      } else {
+                        print("default navigation -1");
                       }
-                    });
-                  },
-                ),
-                body: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: ListView(
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Icon(
-                                Icons.image,
-                                size: 20.0,
+                    }
+                  });
+                },
+              ),
+              body: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: ListView(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Icon(
+                              Icons.image,
+                              size: 20.0,
+                            ),
+                            SizedBox(width: 10.0),
+                            Text("Photo"),
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Text(
+                              "Required",
+                              textScaleFactor: 1.1,
+                              style: TextStyle(
+                                color: _imageTask.require
+                                    ? Colors.deepPurpleAccent
+                                    : Colors.black87,
                               ),
-                              SizedBox(width: 10.0),
-                              Text("Photo"),
-                            ],
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Text(
-                                "Required",
-                                textScaleFactor: 1.1,
-                                style: TextStyle(
-                                  color: _imageTask.require
-                                      ? Colors.deepPurpleAccent
-                                      : Colors.black87,
-                                ),
-                              ),
-                              Switch(
-                                value: _imageTask.require,
-                                onChanged: (value) {},
-                                activeTrackColor: Colors.deepPurple[200],
-                                focusColor: Colors.red,
-                                activeColor: Colors.deepPurple,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      Text(
-                        "${_imageTask.taskDescription}",
-                        textScaleFactor: 1.5,
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 5.0),
-                        child: GridView.builder(
-                          physics: ScrollPhysics(),
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          // +1 for the special case
-                          itemCount: _imageFileList.length + 1,
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount:
-                                      (MediaQuery.of(context).orientation ==
-                                              Orientation.portrait)
-                                          ? 3
-                                          : 4),
-                          itemBuilder: (BuildContext context, int index) {
-                            return index == _imageFileList.length
-                                ? Container(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 10.0, horizontal: 5.0),
-                                    child: Card(
-                                      elevation: 5.0,
-                                      shadowColor: Colors.black87,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(5.0),
-                                      ),
-                                      borderOnForeground: true,
-                                      child: IconButton(
-                                        icon: Icon(
-                                          Icons.add_circle_outline,
-                                          color: Colors.grey[600],
-                                        ),
-                                        iconSize: 50.0,
-                                        splashColor: Colors.green,
-                                        onPressed: () {
-                                          _selectImageSource();
-                                        },
-                                      ),
+                            ),
+                            Switch(
+                              value: _imageTask.require,
+                              onChanged: (value) {},
+                              activeTrackColor: Colors.deepPurple[200],
+                              focusColor: Colors.red,
+                              activeColor: Colors.deepPurple,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Text(
+                      "${_imageTask.taskDescription}",
+                      textScaleFactor: 1.5,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
+                      child: GridView.builder(
+                        physics: ScrollPhysics(),
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        // +1 for the special case
+                        itemCount: _imageFileList.length + 1,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount:
+                                (MediaQuery.of(context).orientation ==
+                                        Orientation.portrait)
+                                    ? 3
+                                    : 4),
+                        itemBuilder: (BuildContext context, int index) {
+                          return index == _imageFileList.length
+                              ? Container(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 10.0, horizontal: 5.0),
+                                  child: Card(
+                                    elevation: 5.0,
+                                    shadowColor: Colors.black87,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5.0),
                                     ),
-                                  )
-                                : Container(
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: 10.0, vertical: 10.0),
-                                    child: Stack(
-                                      fit: StackFit.expand,
-                                      overflow: Overflow.visible,
-                                      children: <Widget>[
-                                        Positioned(
-                                          child: Card(
-                                            elevation: 5.0,
-                                            shadowColor: Colors.green,
-                                            shape: RoundedRectangleBorder(
+                                    borderOnForeground: true,
+                                    child: IconButton(
+                                      icon: Icon(
+                                        Icons.add_circle_outline,
+                                        color: Colors.grey[600],
+                                      ),
+                                      iconSize: 50.0,
+                                      splashColor: Colors.green,
+                                      onPressed: () {
+                                        _selectImageSource();
+                                      },
+                                    ),
+                                  ),
+                                )
+                              : Container(
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal: 10.0, vertical: 10.0),
+                                  child: Stack(
+                                    fit: StackFit.expand,
+                                    overflow: Overflow.visible,
+                                    children: <Widget>[
+                                      Positioned(
+                                        child: Card(
+                                          elevation: 5.0,
+                                          shadowColor: Colors.green,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          child: GridTile(
+                                            child: ClipRRect(
                                               borderRadius:
                                                   BorderRadius.circular(10.0),
-                                            ),
-                                            child: GridTile(
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(10.0),
-                                                child: Image.file(
-                                                  _imageFileList[index],
-                                                  fit: BoxFit.cover,
-                                                ),
+                                              child: Image.file(
+                                                _imageFileList[index],
+                                                fit: BoxFit.cover,
                                               ),
                                             ),
                                           ),
                                         ),
-                                        Positioned(
-                                          top: -20.0,
-                                          right: -20.0,
-                                          child: IconButton(
-                                            icon: Icon(
-                                              Icons.cancel,
-                                              color: Colors.redAccent,
-                                            ),
-                                            onPressed: () {
-                                              setState(() {
-                                                _imageFileList.removeAt(index);
-                                              });
-                                            },
+                                      ),
+                                      Positioned(
+                                        top: -20.0,
+                                        right: -20.0,
+                                        child: IconButton(
+                                          icon: Icon(
+                                            Icons.cancel,
+                                            color: Colors.redAccent,
                                           ),
+                                          onPressed: () {
+                                            setState(() {
+                                              _imageFileList.removeAt(index);
+                                            });
+                                          },
                                         ),
-                                        Positioned(
-                                          bottom: -20.0,
-                                          left: -20.0,
-                                          child: IconButton(
-                                            icon: Icon(
-                                              FontAwesomeIcons.solidEdit,
-                                              color: Colors.blueAccent,
-                                            ),
-                                            onPressed: () async {
-                                              File croppedImage =
-                                                  await _cropImage(
-                                                      _imageFileList[index]);
-                                              setState(() {
-                                                _imageFileList[index] =
-                                                    croppedImage;
-                                              });
-                                            },
+                                      ),
+                                      Positioned(
+                                        bottom: -20.0,
+                                        left: -20.0,
+                                        child: IconButton(
+                                          icon: Icon(
+                                            FontAwesomeIcons.solidEdit,
+                                            color: Colors.blueAccent,
                                           ),
+                                          onPressed: () async {
+                                            File croppedImage =
+                                                await _cropImage(
+                                                    _imageFileList[index]);
+                                            setState(() {
+                                              _imageFileList[index] =
+                                                  croppedImage;
+                                            });
+                                          },
                                         ),
-                                      ],
-                                    ),
-                                  );
-                          },
-                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                        },
                       ),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: RaisedButton.icon(
-                          elevation: 5.0,
-                          color: Colors.white,
-                          label: Text(
-                            "Finish Task",
-                            style: TextStyle(
-                              color: Colors.black87,
-                              fontWeight: FontWeight.bold,
-                            ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: RaisedButton.icon(
+                        elevation: 5.0,
+                        color: Colors.white,
+                        label: Text(
+                          "Finish Task",
+                          style: TextStyle(
+                            color: Colors.black87,
+                            fontWeight: FontWeight.bold,
                           ),
-                          icon: Icon(
-                            Icons.cloud_upload,
-                            color: Colors.blueAccent,
-                          ),
-                          onPressed: () async {
-                            //compressImageFromImageFile();
-                            // print("Task Added = ${_imageFileList
-                            //     .length} Task needed = ${_imageTask.numberOfImages}");
-                            if (_imageFileList.length >=
-                                _imageTask.numberOfImages) {
-                              _imageTask.isCompleted = true;
-                              await uploadToFirebase();
-                              showSuccessToast(
-                                  "${_imageFileList.length} images has been successfully added");
-                            } else {
-                              showWarningToast(
-                                  "Please select at least ${_imageTask.numberOfImages} images");
-                            }
-                          },
                         ),
+                        icon: Icon(
+                          Icons.cloud_upload,
+                          color: Colors.blueAccent,
+                        ),
+                        onPressed: () async {
+                          //compressImageFromImageFile();
+                          // print("Task Added = ${_imageFileList
+                          //     .length} Task needed = ${_imageTask.numberOfImages}");
+                          if (_imageFileList.length >=
+                              _imageTask.numberOfImages) {
+                            _imageTask.isCompleted = true;
+                            await uploadToFirebase();
+                            showSuccessToast(
+                                "${_imageFileList.length} images has been successfully added");
+                          } else {
+                            showWarningToast(
+                                "Please select at least ${_imageTask.numberOfImages} images");
+                          }
+                        },
                       ),
-                      ...uploadFileTileList,
-                    ],
-                  ),
+                    ),
+                    ...uploadFileTileList,
+                  ],
                 ),
-              )
-            : Loading(),
-      ),
+              ),
+            )
+          : Loading(),
     );
   }
 }

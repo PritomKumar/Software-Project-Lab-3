@@ -12,6 +12,8 @@ class NotificationPage extends StatefulWidget {
 class _NotificationPageState extends State<NotificationPage> {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   List<Message> _messagesList = <Message>[];
+  final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey(debugLabel: "Main Navigator");
 
   _getToken() {
     _firebaseMessaging.getToken().then((token) {
@@ -54,9 +56,8 @@ class _NotificationPageState extends State<NotificationPage> {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       _setMessage(message);
 
-      // Navigator.push(
-      //     context, MaterialPageRoute(builder: (context) => NotificationPage()));
-
+      navigatorKey.currentState
+          .push(MaterialPageRoute(builder: (_) => NotificationPage()));
       print('A new onMessageOpenedApp event was published! ${message.data}');
     });
     // FirebaseMessaging.onBackgroundMessage((RemoteMessage message) {
@@ -96,34 +97,32 @@ class _NotificationPageState extends State<NotificationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: _onWillPop,
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: Theme.of(context),
-        home: SafeArea(
-          child: Scaffold(
-            drawer: SideDrawer(),
-            appBar: AppBar(
-              title: Text("Notification"),
-            ),
-            body: ListView.builder(
-              itemCount: _messagesList == null ? 0 : _messagesList.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  child: Padding(
-                    padding: EdgeInsets.all(5.0),
-                    child: Text(
-                      _messagesList[index].body,
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.black,
-                      ),
+    return MaterialApp(
+      navigatorKey: navigatorKey,
+      debugShowCheckedModeBanner: false,
+      theme: Theme.of(context),
+      home: SafeArea(
+        child: Scaffold(
+          drawer: SideDrawer(),
+          appBar: AppBar(
+            title: Text("Notification"),
+          ),
+          body: ListView.builder(
+            itemCount: _messagesList == null ? 0 : _messagesList.length,
+            itemBuilder: (context, index) {
+              return Card(
+                child: Padding(
+                  padding: EdgeInsets.all(5.0),
+                  child: Text(
+                    _messagesList[index].body,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.black,
                     ),
                   ),
-                );
-              },
-            ),
+                ),
+              );
+            },
           ),
         ),
       ),

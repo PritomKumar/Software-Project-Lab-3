@@ -76,194 +76,189 @@ class _DropdownTaskScreenState extends State<DropdownTaskScreen> {
     _dropdownTask = Provider.of<DropdownTask>(context);
     int index = widget.index;
     if (_dropdownTask != null) _getSelectedValueFromOptionList();
-    return WillPopScope(
-      onWillPop: _onWillPop,
-      child: SafeArea(
-        child: _dropdownTask != null
-            ? Scaffold(
-                appBar: AppBar(
-                  title: Text("Dropdown Task"),
-                ),
-                bottomNavigationBar: BottomNavigationBar(
-                  currentIndex: _bottomNavigationBarIndex,
-                  backgroundColor: Colors.grey[200],
-                  selectedItemColor: Theme.of(context).primaryColorDark,
-                  unselectedItemColor: Theme.of(context).primaryColorDark,
-                  items: [
-                    BottomNavigationBarItem(
-                      icon: index == 0
-                          ? SizedBox.shrink()
-                          : Icon(Icons.arrow_back_ios),
-                      label: index == 0 ? "" : "Previous",
+    return SafeArea(
+      child: _dropdownTask != null
+          ? Scaffold(
+              appBar: AppBar(
+                title: Text("Dropdown Task"),
+              ),
+              bottomNavigationBar: BottomNavigationBar(
+                currentIndex: _bottomNavigationBarIndex,
+                backgroundColor: Colors.grey[200],
+                selectedItemColor: Theme.of(context).primaryColorDark,
+                unselectedItemColor: Theme.of(context).primaryColorDark,
+                items: [
+                  BottomNavigationBarItem(
+                    icon: index == 0
+                        ? SizedBox.shrink()
+                        : Icon(Icons.arrow_back_ios),
+                    label: index == 0 ? "" : "Previous",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.arrow_forward_ios_rounded),
+                    label: "Next",
+                  ),
+                ],
+                onTap: (value) async {
+                  var userResponse = await DatabaseServiceTasks()
+                      .getToUserTaskFromGigId(_dropdownTask.gigId);
+                  var taskList = userResponse.taskSnippetList;
+                  setState(() {
+                    _bottomNavigationBarIndex = value;
+                    _bottomNavigationBarTapped = true;
+                    if (_bottomNavigationBarTapped) {
+                      if (_bottomNavigationBarIndex == 0) {
+                        // showSuccessToast("previous");
+                        index = index - 1;
+                        print("Inside Task list tapped  $index");
+                        if (index < 0) {
+                        } else {
+                          Utils.previousAndNextNavigation(
+                              userResponse, index, context);
+                        }
+                      } else if (_bottomNavigationBarIndex == 1) {
+                        // showSuccessToast("Next");
+                        index++;
+                        print("Inside Task list tapped  $index");
+                        if (taskList.length <= index) {
+                          showSuccessToast("End of Task List");
+                          _onWillPop();
+                        } else {
+                          Utils.previousAndNextNavigation(
+                              userResponse, index, context);
+                        }
+                      } else {
+                        print("default navigation -1");
+                      }
+                    }
+                  });
+                },
+              ),
+              body: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: ListView(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Icon(
+                              FontAwesomeIcons.chevronCircleDown,
+                              size: 20.0,
+                            ),
+                            SizedBox(width: 10.0),
+                            Text("Dropdown"),
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Text(
+                              "Required",
+                              textScaleFactor: 1.1,
+                              style: TextStyle(
+                                color: _dropdownTask.require
+                                    ? Colors.deepPurpleAccent
+                                    : Colors.black87,
+                              ),
+                            ),
+                            Switch(
+                              value: _dropdownTask.require,
+                              onChanged: (value) {},
+                              activeTrackColor: Colors.deepPurple[200],
+                              focusColor: Colors.red,
+                              activeColor: Colors.deepPurple,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.arrow_forward_ios_rounded),
-                      label: "Next",
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Text(
+                      "${_dropdownTask.taskDescription}",
+                      textScaleFactor: 1.5,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    DropdownButtonFormField(
+                        elevation: 5,
+                        decoration: InputDecoration(
+                          hoverColor: Colors.red,
+                          filled: true,
+                          focusColor: Colors.green,
+                          fillColor: Colors.grey[150],
+                          contentPadding:
+                              EdgeInsets.only(left: 5.0, right: 5.0),
+                        ),
+                        icon: Icon(FontAwesomeIcons.angleDown),
+                        iconEnabledColor: Colors.blueGrey,
+                        iconDisabledColor: Colors.grey[350],
+                        isExpanded: true,
+                        hint: Text(
+                          _selectedItem ?? "Choose a option",
+                          textScaleFactor: 1.1,
+                        ),
+                        value: _selectedItem,
+                        items: _dropdownTask.optionList
+                            .map((TaskOption dropdownItem) {
+                          if (_selectedItem == null) {
+                            _selectedItem = _dropdownTask.optionList[0].option;
+                          }
+                          return DropdownMenuItem<String>(
+                            value: dropdownItem.option,
+                            child: Text(dropdownItem.option),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedItem = value;
+                            _setOptionsAccordingToSelectedValue(_selectedItem);
+                          });
+                        }),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: RaisedButton.icon(
+                        elevation: 5.0,
+                        color: Colors.white,
+                        label: Text(
+                          "Finish Task",
+                          style: TextStyle(
+                            color: Colors.black87,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        icon: Icon(
+                          Icons.cloud_upload,
+                          color: Colors.blueAccent,
+                        ),
+                        onPressed: () async {
+                          // print(_dropdownTask.toMap());
+                          print("Selected Item = ${_selectedItem}");
+                          if (_checkIfAnyOptionsHaveBeenSelected() == false) {
+                            showWarningToast("Please select an option.");
+                          } else {
+                            _dropdownTask.isCompleted = true;
+                            await DatabaseServiceTasks()
+                                .updateDropdownTask(_dropdownTask);
+                            // Navigator.pop(context, _dropdownTask);
+                            showSuccessToast(
+                                "Option ${_selectedItem} is successfully added");
+                          }
+                        },
+                      ),
                     ),
                   ],
-                  onTap: (value) async {
-                    var userResponse = await DatabaseServiceTasks()
-                        .getToUserTaskFromGigId(_dropdownTask.gigId);
-                    var taskList = userResponse.taskSnippetList;
-                    setState(() {
-                      _bottomNavigationBarIndex = value;
-                      _bottomNavigationBarTapped = true;
-                      if (_bottomNavigationBarTapped) {
-                        if (_bottomNavigationBarIndex == 0) {
-                          // showSuccessToast("previous");
-                          index = index - 1;
-                          print("Inside Task list tapped  $index");
-                          if (index < 0) {
-                          } else {
-                            Utils.previousAndNextNavigation(
-                                userResponse, index, context);
-                          }
-                        } else if (_bottomNavigationBarIndex == 1) {
-                          // showSuccessToast("Next");
-                          index++;
-                          print("Inside Task list tapped  $index");
-                          if (taskList.length <= index) {
-                            showSuccessToast("End of Task List");
-                            _onWillPop();
-                          } else {
-                            Utils.previousAndNextNavigation(
-                                userResponse, index, context);
-                          }
-                        } else {
-                          print("default navigation -1");
-                        }
-                      }
-                    });
-                  },
                 ),
-                body: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: ListView(
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Icon(
-                                FontAwesomeIcons.chevronCircleDown,
-                                size: 20.0,
-                              ),
-                              SizedBox(width: 10.0),
-                              Text("Dropdown"),
-                            ],
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Text(
-                                "Required",
-                                textScaleFactor: 1.1,
-                                style: TextStyle(
-                                  color: _dropdownTask.require
-                                      ? Colors.deepPurpleAccent
-                                      : Colors.black87,
-                                ),
-                              ),
-                              Switch(
-                                value: _dropdownTask.require,
-                                onChanged: (value) {},
-                                activeTrackColor: Colors.deepPurple[200],
-                                focusColor: Colors.red,
-                                activeColor: Colors.deepPurple,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      Text(
-                        "${_dropdownTask.taskDescription}",
-                        textScaleFactor: 1.5,
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      DropdownButtonFormField(
-                          elevation: 5,
-                          decoration: InputDecoration(
-                            hoverColor: Colors.red,
-                            filled: true,
-                            focusColor: Colors.green,
-                            fillColor: Colors.grey[150],
-                            contentPadding:
-                                EdgeInsets.only(left: 5.0, right: 5.0),
-                          ),
-                          icon: Icon(FontAwesomeIcons.angleDown),
-                          iconEnabledColor: Colors.blueGrey,
-                          iconDisabledColor: Colors.grey[350],
-                          isExpanded: true,
-                          hint: Text(
-                            _selectedItem ?? "Choose a option",
-                            textScaleFactor: 1.1,
-                          ),
-                          value: _selectedItem,
-                          items: _dropdownTask.optionList
-                              .map((TaskOption dropdownItem) {
-                            if (_selectedItem == null) {
-                              _selectedItem =
-                                  _dropdownTask.optionList[0].option;
-                            }
-                            return DropdownMenuItem<String>(
-                              value: dropdownItem.option,
-                              child: Text(dropdownItem.option),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              _selectedItem = value;
-                              _setOptionsAccordingToSelectedValue(
-                                  _selectedItem);
-                            });
-                          }),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: RaisedButton.icon(
-                          elevation: 5.0,
-                          color: Colors.white,
-                          label: Text(
-                            "Finish Task",
-                            style: TextStyle(
-                              color: Colors.black87,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          icon: Icon(
-                            Icons.cloud_upload,
-                            color: Colors.blueAccent,
-                          ),
-                          onPressed: () async {
-                            // print(_dropdownTask.toMap());
-                            print("Selected Item = ${_selectedItem}");
-                            if (_checkIfAnyOptionsHaveBeenSelected() == false) {
-                              showWarningToast("Please select an option.");
-                            } else {
-                              _dropdownTask.isCompleted = true;
-                              await DatabaseServiceTasks()
-                                  .updateDropdownTask(_dropdownTask);
-                              // Navigator.pop(context, _dropdownTask);
-                              showSuccessToast(
-                                  "Option ${_selectedItem} is successfully added");
-                            }
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              )
-            : Loading(),
-      ),
+              ),
+            )
+          : Loading(),
     );
   }
 }
