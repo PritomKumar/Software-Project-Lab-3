@@ -253,7 +253,7 @@ export const getAllAttemptedUsers = functions.https.onRequest(
           }
           // console.log("Here 254 = ");
 
-          const title = "Task Assigned dsd fd f";
+          const title = "Task Assigned df a";
           const messageBody =
               `Congrats! you have been assigned to ${attempData.title}`;
           const messageType = "task_assign";
@@ -307,12 +307,27 @@ export const getAllAttemptedUsers = functions.https.onRequest(
 
           };
 
+          const dataOfNotification =  await admin.firestore()
+          .doc("notification/"+winnerUser.uid)
+          .get();
+          console.log("NOtification data");
+          console.log(dataOfNotification);
           try {
-            await admin.firestore()
-                .doc("notification/"+winnerUser.uid)
-                .set({
-                  messages:admin.firestore.FieldValue.arrayUnion(noticationObject)
-              } ,{ merge: false });
+            if(dataOfNotification.exists){
+              await admin.firestore()
+              .doc("notification/"+winnerUser.uid)
+              .update({
+                messages:admin.firestore.FieldValue.arrayUnion(noticationObject)
+            });
+           
+            }
+            else{
+              await admin.firestore()
+              .doc("notification/"+winnerUser.uid)
+              .set({
+                messages:admin.firestore.FieldValue.arrayUnion(noticationObject)
+            });
+            }
             console.log("Notification created successfully.");
           } catch (error) {
             console.log("Notification creation failed for " + winnerUser.uid);
