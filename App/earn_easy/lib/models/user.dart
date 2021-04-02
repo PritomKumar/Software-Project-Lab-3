@@ -14,7 +14,7 @@ class UserMinimum {
   final String email;
   final int level;
   final String type;
-  final List<String> token;
+  List<String> token;
   int numberOfCurrentGigs;
   double distance;
   final bool writeAccess;
