@@ -1,4 +1,5 @@
 import 'package:earneasy/app_screens/home/side_drawer.dart';
+import 'package:earneasy/app_screens/map/google_map_gig.dart';
 import 'package:earneasy/app_screens/theme/theme_changer.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -6,7 +7,18 @@ import 'package:provider/provider.dart';
 
 // import 'file:///F:/SPL3/App/earn_easy/lib/app_screens/theme/theme_changer.dart';
 
-class ThemeSelector extends StatelessWidget {
+class ThemeSelector extends StatefulWidget {
+  @override
+  _ThemeSelectorState createState() => _ThemeSelectorState();
+}
+
+class _ThemeSelectorState extends State<ThemeSelector> {
+  Future<bool> _onWillPop() async {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => GoogleMaps()));
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     ThemeChanger _themeChanger = Provider.of<ThemeChanger>(context);

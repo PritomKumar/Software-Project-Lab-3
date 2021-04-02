@@ -1,4 +1,5 @@
 import 'package:earneasy/app_screens/home/side_drawer.dart';
+import 'package:earneasy/app_screens/map/google_map_gig.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -87,33 +88,42 @@ class _NotificationPageState extends State<NotificationPage> {
     _configureFirebaseListeners();
   }
 
+  Future<bool> _onWillPop() async {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => GoogleMaps()));
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: Theme.of(context),
-      home: SafeArea(
-        child: Scaffold(
-          drawer: SideDrawer(),
-          appBar: AppBar(
-            title: Text("Notification"),
-          ),
-          body: ListView.builder(
-            itemCount: _messagesList == null ? 0 : _messagesList.length,
-            itemBuilder: (context, index) {
-              return Card(
-                child: Padding(
-                  padding: EdgeInsets.all(5.0),
-                  child: Text(
-                    _messagesList[index].body,
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.black,
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: Theme.of(context),
+        home: SafeArea(
+          child: Scaffold(
+            drawer: SideDrawer(),
+            appBar: AppBar(
+              title: Text("Notification"),
+            ),
+            body: ListView.builder(
+              itemCount: _messagesList == null ? 0 : _messagesList.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  child: Padding(
+                    padding: EdgeInsets.all(5.0),
+                    child: Text(
+                      _messagesList[index].body,
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         ),
       ),
