@@ -44,19 +44,27 @@ class _NotificationPageState extends State<NotificationPage> {
       RemoteNotification notification = message.notification;
       AndroidNotification android = message.notification?.android;
       _setMessage(message);
+      // Navigator.push(
+      //     context, MaterialPageRoute(builder: (context) => NotificationPage()));
       print(
           "On Message notification = ${notification.title}  and android = ${android.channelId}");
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       _setMessage(message);
+
+      // Navigator.push(
+      //     context, MaterialPageRoute(builder: (context) => NotificationPage()));
+
       print('A new onMessageOpenedApp event was published! ${message.data}');
     });
-    FirebaseMessaging.onBackgroundMessage((RemoteMessage message) {
-      _setMessage(message);
-      print(' onBackgroundMessage ${message.data}');
-      return;
-    });
+    // FirebaseMessaging.onBackgroundMessage((RemoteMessage message) {
+    //   _setMessage(message);
+    //   print(' onBackgroundMessage ${message.data}');
+    //
+    //   return Navigator.push(
+    //       context, MaterialPageRoute(builder: (context) => NotificationPage()));
+    // });
   }
 
   _setMessage(RemoteMessage message) {
@@ -88,7 +96,7 @@ class _NotificationPageState extends State<NotificationPage> {
         child: Scaffold(
           drawer: SideDrawer(),
           appBar: AppBar(
-            title: Text("Demo"),
+            title: Text("Notification"),
           ),
           body: ListView.builder(
             itemCount: _messagesList == null ? 0 : _messagesList.length,
