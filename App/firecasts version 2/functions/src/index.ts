@@ -253,7 +253,7 @@ export const getAllAttemptedUsers = functions.https.onRequest(
           }
           // console.log("Here 254 = ");
 
-          const title = "Task Assigned";
+          const title = "Task Assigned dsd fd f";
           const messageBody =
               `Congrats! you have been assigned to ${attempData.title}`;
           const messageType = "task_assign";
@@ -274,16 +274,16 @@ export const getAllAttemptedUsers = functions.https.onRequest(
               title: title,
               body: messageBody,
             },
-            data: {
-              click_action: "FLUTTER_NOTIFICATION_CLICK",
-              message: messageType},
+            // data: {
+            //   click_action: "FLUTTER_NOTIFICATION_CLICK",
+            //   message: messageType},
           };
-
+          console.log(payload);
           // console.log("Here 268 = ");
 
           try {
             await
-            admin.messaging().sendToDevice(tokenList, payload);
+            admin.messaging().sendToDevice(tokenList, temp);
             console.log("Notification send success!! " );
           } catch (error) {
             console.log("Error sending notification!!" );
@@ -294,23 +294,28 @@ export const getAllAttemptedUsers = functions.https.onRequest(
           new NotificationMessage(title, messageBody,
               winnerUser.uid, messageType);
 
-          // const noticationObject = {
-          //   title: title,
-          //   body: messageBody,
-          //   uid: winnerUser.uid,
-          //   messageType: messageType,
-
-          // };
+          
           const notificationList:NotificationMessage[] = [];
 
           notificationList.push(notificationMessage);
+
+          const noticationObject = {
+            title: title,
+            body: messageBody,
+            uid: winnerUser.uid,
+            messageType: messageType,
+
+          };
+
           try {
             await admin.firestore()
                 .doc("notification/"+winnerUser.uid)
-                .set(notificationList);
+                .set({
+                  messages:admin.firestore.FieldValue.arrayUnion(noticationObject)
+              } ,{ merge: false });
             console.log("Notification created successfully.");
           } catch (error) {
-            console.log("Notification creation failed." + winnerUser.uid);
+            console.log("Notification creation failed for " + winnerUser.uid);
           }
           // console.log("Here 298 = ");
 
