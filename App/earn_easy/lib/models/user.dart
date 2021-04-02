@@ -14,7 +14,7 @@ class UserMinimum {
   final String email;
   final int level;
   final String type;
-  final String token;
+  final List<String> token;
   int numberOfCurrentGigs;
   double distance;
   final bool writeAccess;
@@ -25,7 +25,7 @@ class UserMinimum {
     this.lastName = "",
     this.email = "",
     this.photoUrl = "",
-    this.token = "",
+    this.token,
     this.level = 1,
     this.numberOfCurrentGigs = 0,
     this.distance = double.infinity,
@@ -39,7 +39,7 @@ class UserMinimum {
         this.lastName = data["lastName"] ?? "",
         this.email = data["email"] ?? "",
         this.photoUrl = data["photoUrl"] ?? "",
-        this.token = data["token"] ?? "",
+        this.token = List.from(data["token"]) ?? <String>[],
         this.level = data["level"] ?? 1,
         this.numberOfCurrentGigs = data["numberOfCurrentGigs"] ?? 0,
         this.distance = data["distance"] ?? double.infinity,
@@ -53,7 +53,7 @@ class UserMinimum {
       'lastName': this.lastName ?? "",
       'email': this.email ?? "",
       'photoUrl': this.photoUrl ?? "",
-      'token': this.token ?? "",
+      'token': this.token ?? [],
       'level': this.level ?? 1,
       'numberOfCurrentGigs': this.numberOfCurrentGigs ?? 0,
       'distance': this.distance ?? double.infinity,
@@ -82,7 +82,7 @@ class UserAccount {
   final String educationLevel;
   final String employmentStatus;
   final String householdIncome;
-  final String token;
+  final List<String> token;
 
   final int
       level; // 1 to 10 // changes positive tasks completion and completion rate
@@ -120,7 +120,7 @@ class UserAccount {
     this.educationLevel = "Not set",
     this.employmentStatus = "Not set",
     this.householdIncome = "Not set",
-    this.token = "",
+    this.token,
     this.level = 1,
     this.rating = 1.0,
     this.type = "worker",
@@ -132,50 +132,6 @@ class UserAccount {
     this.waitListGigs,
     this.createdGigs,
   });
-
-  UserAccount.fromMap(Map<String, dynamic> data)
-      : uid = data['uid'],
-        firstName = data['firstName'],
-        lastName = data['lastName'],
-        email = data['email'],
-        photoUrl = data['photoUrl'],
-        phoneNumber = data['phoneNumber'],
-        birthDay = data['birthDay'],
-        gender = data['gender'],
-        streetAddress = data['streetAddress'],
-        city = data['city'],
-        state = data['state'],
-        zipCode = data['zipCode'],
-        bio = data['bio'],
-        occupation = data['occupation'],
-        maritalStatus = data['maritalStatus'],
-        educationLevel = data['educationLevel'],
-        employmentStatus = data['employmentStatus'],
-        householdIncome = data['householdIncome'],
-        token = data['token'],
-        level = data['level'],
-        rating = data['rating'] ?? 1.0,
-        type = data['type'],
-        writeAccess = data['writeAccess'],
-        allGigs =
-            List.from(data['allGigs'].map((index) => GigMini.fromMap(index))) ??
-                [],
-        attemptedGigs = List.from(
-                data['attemptedGigs'].map((index) => GigMini.fromMap(index))) ??
-            [],
-        currentGigs = List.from(
-                data['currentGigs'].map((index) => GigMini.fromMap(index))) ??
-            [],
-        completedGigs = List.from(
-                data['completedGigs'].map((index) => GigMini.fromMap(index))) ??
-            [],
-        waitListGigs = List.from(
-                data['waitListGigs'].map((index) => GigMini.fromMap(index))) ??
-            [],
-        //TODO HAve to think about its use
-        createdGigs = List.from(
-                data['createdGigs'].map((index) => GigMini.fromMap(index))) ??
-            [];
 
   Map<String, dynamic> toMap() {
     return {
@@ -193,7 +149,7 @@ class UserAccount {
       "zipCode": this.zipCode ?? "",
       "bio": this.bio ?? "",
       "occupation": this.occupation ?? "",
-      "token": this.token ?? "",
+      "token": this.token ?? [],
       "maritalStatus": this.maritalStatus ?? "Not set",
       "educationLevel": this.educationLevel ?? "Not set",
       "employmentStatus": this.employmentStatus ?? "Not set",
@@ -222,6 +178,50 @@ class UserAccount {
           : List.from(this.createdGigs.map((index) => index.toMap())) ?? [],
     };
   }
+
+  UserAccount.fromMap(Map<String, dynamic> data)
+      : this.uid = data['uid'],
+        firstName = data['firstName'],
+        lastName = data['lastName'],
+        email = data['email'],
+        photoUrl = data['photoUrl'],
+        phoneNumber = data['phoneNumber'],
+        birthDay = data['birthDay'],
+        gender = data['gender'],
+        streetAddress = data['streetAddress'],
+        city = data['city'],
+        state = data['state'],
+        zipCode = data['zipCode'],
+        bio = data['bio'],
+        occupation = data['occupation'],
+        maritalStatus = data['maritalStatus'],
+        educationLevel = data['educationLevel'],
+        employmentStatus = data['employmentStatus'],
+        householdIncome = data['householdIncome'],
+        token = List.from(data["token"]) ?? <String>[],
+        level = data['level'],
+        rating = data['rating'] ?? 1.0,
+        type = data['type'],
+        writeAccess = data['writeAccess'],
+        allGigs =
+            List.from(data['allGigs'].map((index) => GigMini.fromMap(index))) ??
+                [],
+        attemptedGigs = List.from(
+                data['attemptedGigs'].map((index) => GigMini.fromMap(index))) ??
+            [],
+        currentGigs = List.from(
+                data['currentGigs'].map((index) => GigMini.fromMap(index))) ??
+            [],
+        completedGigs = List.from(
+                data['completedGigs'].map((index) => GigMini.fromMap(index))) ??
+            [],
+        waitListGigs = List.from(
+                data['waitListGigs'].map((index) => GigMini.fromMap(index))) ??
+            [],
+        //TODO HAve to think about its use
+        createdGigs = List.from(
+                data['createdGigs'].map((index) => GigMini.fromMap(index))) ??
+            [];
 }
 
 class UserResponse {
