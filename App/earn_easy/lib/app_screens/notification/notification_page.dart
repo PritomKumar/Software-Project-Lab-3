@@ -63,7 +63,7 @@ class _NotificationPageState extends State<NotificationPage> {
       // _setMessage(message);
 
       navigatorKey.currentState
-          .push(MaterialPageRoute(builder: (_) => NotificationPage()));
+          .push(MaterialPageRoute(builder: (_) => NotificationPage(notificationList: widget.notificationList,)));
       print('A new onMessageOpenedApp event was published! ${message.data}');
     });
     // FirebaseMessaging.onBackgroundMessage((RemoteMessage message) {
@@ -158,8 +158,6 @@ class _NotificationPageState extends State<NotificationPage> {
                   shadowColor: Colors.black54,
                   child: ListTile(
                     title: Text(
-                      reverseIndex.toString() +
-                          " " +
                           widget.notificationList[reverseIndex].title,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,

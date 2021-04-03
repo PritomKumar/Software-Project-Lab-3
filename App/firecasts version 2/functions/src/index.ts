@@ -176,7 +176,7 @@ export const getAllAttemptedUsers = functions.https.onRequest(
       try {
         const snapshotss = await admin
             .firestore()
-            .doc("Gigs/a3qb8PMNRfWAlDqrgiEh/")
+            .doc("Gigs/aAhkkgnYjwl9kOXpXs9P/")
             .get();
 
         const attempData = snapshotss.data();
@@ -241,15 +241,45 @@ export const getAllAttemptedUsers = functions.https.onRequest(
           //        ${userAccountListResult[highestScoreIndex]}
           // and scores = ${scores[highestScoreIndex]}`);
 
+          try {
+            await admin
+                .firestore()
+                .doc("Gigs/aAhkkgnYjwl9kOXpXs9P")
+                .update({assignedUser: filteredUsers[highestScoreIndex]});
+            console.log("Assigned user updated for gig");
+          } catch (error) {
+            console.log("Assigned user update failed!" + error);
+          }
 
-          await admin
-              .firestore()
-              .doc("Gigs/a3qb8PMNRfWAlDqrgiEh")
-              .update({assignedUser: filteredUsers[highestScoreIndex]});
 
           const winnerUser = userAccountListResult[highestScoreIndex];
           // console.log("winnerUser = ");
           // console.log(winnerUser);
+
+          const gigMini = {
+            "gigId": attempData.gigId,
+            "money": attempData.money,
+            "title": attempData.title,
+            // 'location': this.location,
+            "location": attempData.location,
+
+            "distance": filteredUsers[highestScoreIndex].distance,
+          };
+
+          try {
+            await admin.firestore()
+                .doc("Users/"+winnerUser.uid)
+                .update({
+                  currentGigs: admin.firestore.
+                      FieldValue.arrayUnion(gigMini),
+                });
+
+            console.log("current gig of " + winnerUser.uid + " updated");
+          } catch (error) {
+            console.log("current gig update failed!" + error);
+          }
+
+
           const tokenList : string[] = [];
 
           for (const token of winnerUser.token) {
@@ -287,7 +317,7 @@ export const getAllAttemptedUsers = functions.https.onRequest(
 
           try {
             await
-            admin.messaging().sendToDevice(tokenList, payload,options);
+            admin.messaging().sendToDevice(tokenList, payload, options);
             console.log("Notification send success!! " );
           } catch (error) {
             console.log("Error sending notification!! " + error );

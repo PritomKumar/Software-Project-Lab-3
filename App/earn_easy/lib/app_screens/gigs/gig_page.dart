@@ -35,14 +35,20 @@ class _GigPageState extends State<GigPage> {
   _checkIfUserIsInAttemptedUsers() async {
     var attempt = await fireStoreGigsRef.doc(widget.gig.gigId).get();
     var tempGig = Gig.fromMap(attempt.data());
-    var attemptedUserListFromGig = tempGig.attemptedUsers;
-    for (var attemptedUser in attemptedUserListFromGig) {
-      if (attemptedUser.uid == userUid) {
-        print("User ${userUid} has accepted the gig ${widget.gig.gigId}");
-        setState(() {
-          checker = true;
-        });
-      }
+    // var attemptedUserListFromGig = tempGig.attemptedUsers;
+    // for (var attemptedUser in attemptedUserListFromGig) {
+    //   if (attemptedUser.uid == userUid) {
+    //     print("User ${userUid} has accepted the gig ${widget.gig.gigId}");
+    //     setState(() {
+    //       checker = true;
+    //     });
+    //   }
+    // }
+    var assignedUserUid = tempGig.assignedUser.uid;
+    if(assignedUserUid == userUid){
+      setState(() {
+        checker = true;
+      });
     }
   }
 
@@ -341,6 +347,11 @@ class _GigPageState extends State<GigPage> {
                               ),
                               onPressed: () async {
                                 // print("Start pressed");
+
+                                //TODo : Logic if the user is accepted then createUserResponseForAttemptedUser
+                                await DatabaseServiceTasks()
+                                    .createUserResponseForAttemptedUser(gig);
+
                                 var userResponse = await DatabaseServiceTasks()
                                     .getToUserTaskFromGigId(gig.gigId);
                                 // print(userResponse.taskSnippetList.toString());
@@ -397,10 +408,7 @@ class _GigPageState extends State<GigPage> {
                                         gig, attemptedUser);
                                 await DatabaseServiceUser()
                                     .updateAttemptedGigWaitListedGigAndAllGigsAtTheSameTime(
-                                        gig);
-                                //TODo : Logic if the user is accepted then createUserResponseForAttemptedUser
-                                await DatabaseServiceTasks()
-                                    .createUserResponseForAttemptedUser(gig);
+                                    gig);
                                 await _checkIfUserIsInAttemptedUsers();
                                 setState(() {});
                               },
