@@ -31,4 +31,17 @@ class DatabaseServiceNotification {
 
     return _noticationList;
   }
+
+  Future deleteNotification(List<NotificationMessage> notificationList) async {
+    List<Map<String, dynamic>> result = <Map<String, dynamic>>[];
+    for (int i = 0; i < notificationList.length; i++) {
+      result.add(notificationList[i].toMap());
+      print("message $i");
+      print(result);
+    }
+    await fireStoreNotificationRef.doc(uid).set({
+      "messages": result,
+    });
+    return;
+  }
 }

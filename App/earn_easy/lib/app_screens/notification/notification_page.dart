@@ -1,6 +1,6 @@
 import 'package:earneasy/app_screens/home/side_drawer.dart';
-import 'package:earneasy/app_screens/map/google_map_gig.dart';
 import 'package:earneasy/models/notification.dart';
+import 'package:earneasy/services/firebase_notification_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -96,8 +96,9 @@ class _NotificationPageState extends State<NotificationPage> {
   }
 
   Future<bool> _onWillPop() async {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => GoogleMaps()));
+    await DatabaseServiceNotification()
+        .deleteNotification(widget.notificationList);
+    Navigator.pop(context);
     return true;
   }
 
@@ -125,6 +126,11 @@ class _NotificationPageState extends State<NotificationPage> {
                 // Show a red background as the item is swiped away.
                 background: Container(color: Colors.grey[200]),
                 key: UniqueKey(),
+                confirmDismiss: (direction) async {
+                  await DatabaseServiceNotification()
+                      .deleteNotification(widget.notificationList);
+                  return true;
+                },
                 onDismissed: (direction) async {
                   // added this block
 
