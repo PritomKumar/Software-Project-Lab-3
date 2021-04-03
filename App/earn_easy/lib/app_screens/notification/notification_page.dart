@@ -117,20 +117,31 @@ class _NotificationPageState extends State<NotificationPage> {
             itemCount: widget.notificationList == null
                 ? 0
                 : widget.notificationList.length,
+            shrinkWrap: true,
             itemBuilder: (context, index) {
+              var reverseIndex = widget.notificationList.length - index - 1;
+              // print("reverseIndex = $reverseIndex");
               return Dismissible(
                 // Show a red background as the item is swiped away.
                 background: Container(color: Colors.grey[200]),
                 key: UniqueKey(),
                 onDismissed: (direction) async {
-                  setState(() {
-                    widget.notificationList
-                        .removeAt(widget.notificationList.length - index - 1);
-                  });
+                  // added this block
 
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text(
-                          "${widget.notificationList[widget.notificationList.length - index - 1].title} dismissed")));
+                  setState(() {
+                    var deletedItem =
+                        widget.notificationList.removeAt(reverseIndex);
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text("${deletedItem.title} dismissed"),
+                      action: SnackBarAction(
+                          label: "UNDO",
+                          onPressed: () => setState(
+                                () => widget.notificationList
+                                    .insert(reverseIndex, deletedItem),
+                              ) // this is what you needed
+                          ),
+                    ));
+                  });
                 },
 
                 child: Card(
@@ -141,10 +152,9 @@ class _NotificationPageState extends State<NotificationPage> {
                   shadowColor: Colors.black54,
                   child: ListTile(
                     title: Text(
-                      widget
-                          .notificationList[
-                              widget.notificationList.length - index - 1]
-                          .title,
+                      reverseIndex.toString() +
+                          " " +
+                          widget.notificationList[reverseIndex].title,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
@@ -152,10 +162,7 @@ class _NotificationPageState extends State<NotificationPage> {
                       ),
                     ),
                     subtitle: Text(
-                      widget
-                          .notificationList[
-                              widget.notificationList.length - index - 1]
-                          .body,
+                      widget.notificationList[reverseIndex].body,
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
                         color: Colors.black87,
