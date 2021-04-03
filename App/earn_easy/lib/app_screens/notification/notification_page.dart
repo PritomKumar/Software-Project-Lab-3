@@ -1,10 +1,15 @@
 import 'package:earneasy/app_screens/home/side_drawer.dart';
 import 'package:earneasy/app_screens/map/google_map_gig.dart';
+import 'package:earneasy/models/notification.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class NotificationPage extends StatefulWidget {
+  final List<NotificationMessage> notificationList;
+
+  const NotificationPage({Key key, this.notificationList}) : super(key: key);
+
   @override
   _NotificationPageState createState() => _NotificationPageState();
 }
@@ -47,7 +52,7 @@ class _NotificationPageState extends State<NotificationPage> {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification notification = message.notification;
       AndroidNotification android = message.notification?.android;
-      _setMessage(message);
+      // _setMessage(message);
       // Navigator.push(
       //     context, MaterialPageRoute(builder: (context) => NotificationPage()));
       print(
@@ -55,7 +60,7 @@ class _NotificationPageState extends State<NotificationPage> {
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      _setMessage(message);
+      // _setMessage(message);
 
       navigatorKey.currentState
           .push(MaterialPageRoute(builder: (_) => NotificationPage()));
@@ -109,16 +114,53 @@ class _NotificationPageState extends State<NotificationPage> {
             title: Text("Notification"),
           ),
           body: ListView.builder(
-            itemCount: _messagesList == null ? 0 : _messagesList.length,
+            itemCount: widget.notificationList == null
+                ? 0
+                : widget.notificationList.length,
             itemBuilder: (context, index) {
-              return Card(
-                child: Padding(
-                  padding: EdgeInsets.all(5.0),
-                  child: Text(
-                    _messagesList[index].body,
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.black,
+              return Dismissible(
+                // Show a red background as the item is swiped away.
+                background: Container(color: Colors.grey[200]),
+                key: UniqueKey(),
+                onDismissed: (direction) async {
+                  setState(() {
+                    widget.notificationList
+                        .removeAt(widget.notificationList.length - index - 1);
+                  });
+
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(
+                          "${widget.notificationList[widget.notificationList.length - index - 1].title} dismissed")));
+                },
+
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(5.0),
+                  ),
+                  elevation: 5.0,
+                  shadowColor: Colors.black54,
+                  child: ListTile(
+                    title: Text(
+                      widget
+                          .notificationList[
+                              widget.notificationList.length - index - 1]
+                          .title,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        fontSize: 16.0,
+                      ),
+                    ),
+                    subtitle: Text(
+                      widget
+                          .notificationList[
+                              widget.notificationList.length - index - 1]
+                          .body,
+                      style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black87,
+                        fontSize: 14.0,
+                      ),
                     ),
                   ),
                 ),

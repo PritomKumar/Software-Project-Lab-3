@@ -4,6 +4,7 @@ import 'package:earneasy/app_screens/profile/profile_page.dart';
 import 'package:earneasy/app_screens/setting/setting_page.dart';
 import 'package:earneasy/app_screens/theme/theme_selector.dart';
 import 'package:earneasy/models/user.dart';
+import 'package:earneasy/services/firebase_notification_database.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -81,12 +82,16 @@ class SideDrawer extends StatelessWidget {
               ListTile(
                 leading: Icon(Icons.notifications_active),
                 title: Text("Notifications"),
-                onTap: () {
+                onTap: () async {
+                  var notificationList =
+                      await DatabaseServiceNotification().getAllNotification();
                   Navigator.pop(context);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => NotificationPage()));
+                          builder: (context) => NotificationPage(
+                                notificationList: notificationList,
+                              )));
                 },
               ),
               Divider(),
