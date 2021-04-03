@@ -21,12 +21,16 @@ class DatabaseServiceNotification {
     var _list = await fireStoreNotificationRef.doc(uid).get().then((value) {
       return value;
     });
-    var result = List.from(_list.data()['messages']);
+    if (!_list.exists) {
+      _noticationList = [];
+    } else {
+      var result = List.from(_list.data()['messages']);
 
-    for (int i = 0; i < result.length; i++) {
-      _noticationList.add(NotificationMessage.fromMap(result[i]));
-      print("message $i");
-      print(_noticationList[i].toMap());
+      for (int i = 0; i < result.length; i++) {
+        _noticationList.add(NotificationMessage.fromMap(result[i]));
+        print("message $i");
+        print(_noticationList[i].toMap());
+      }
     }
 
     return _noticationList;

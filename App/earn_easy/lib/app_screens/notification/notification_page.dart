@@ -62,8 +62,10 @@ class _NotificationPageState extends State<NotificationPage> {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       // _setMessage(message);
 
-      navigatorKey.currentState
-          .push(MaterialPageRoute(builder: (_) => NotificationPage(notificationList: widget.notificationList,)));
+      navigatorKey.currentState.push(MaterialPageRoute(
+          builder: (_) => NotificationPage(
+                notificationList: widget.notificationList,
+              )));
       print('A new onMessageOpenedApp event was published! ${message.data}');
     });
     // FirebaseMessaging.onBackgroundMessage((RemoteMessage message) {
@@ -114,70 +116,83 @@ class _NotificationPageState extends State<NotificationPage> {
           appBar: AppBar(
             title: Text("Notification"),
           ),
-          body: ListView.builder(
-            itemCount: widget.notificationList == null
-                ? 0
-                : widget.notificationList.length,
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              var reverseIndex = widget.notificationList.length - index - 1;
-              // print("reverseIndex = $reverseIndex");
-              return Dismissible(
-                // Show a red background as the item is swiped away.
-                background: Container(color: Colors.grey[200]),
-                key: UniqueKey(),
-                confirmDismiss: (direction) async {
-                  await DatabaseServiceNotification()
-                      .deleteNotification(widget.notificationList);
-                  return true;
-                },
-                onDismissed: (direction) async {
-                  // added this block
+          body: widget.notificationList.length == 0
+              ? Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    "No Notification!",
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.black,
+                    ),
+                  ),
+                )
+              : ListView.builder(
+                  itemCount: widget.notificationList == null
+                      ? 0
+                      : widget.notificationList.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    var reverseIndex =
+                        widget.notificationList.length - index - 1;
+                    // print("reverseIndex = $reverseIndex");
+                    return Dismissible(
+                      // Show a red background as the item is swiped away.
+                      background: Container(color: Colors.grey[200]),
+                      key: UniqueKey(),
+                      confirmDismiss: (direction) async {
+                        await DatabaseServiceNotification()
+                            .deleteNotification(widget.notificationList);
+                        return true;
+                      },
+                      onDismissed: (direction) async {
+                        // added this block
 
-                  setState(() {
-                    var deletedItem =
-                        widget.notificationList.removeAt(reverseIndex);
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text("${deletedItem.title} dismissed"),
-                      action: SnackBarAction(
-                          label: "UNDO",
-                          onPressed: () => setState(
-                                () => widget.notificationList
-                                    .insert(reverseIndex, deletedItem),
-                              ) // this is what you needed
+                        setState(() {
+                          var deletedItem =
+                              widget.notificationList.removeAt(reverseIndex);
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text("${deletedItem.title} dismissed"),
+                            action: SnackBarAction(
+                                label: "UNDO",
+                                onPressed: () => setState(
+                                      () => widget.notificationList
+                                          .insert(reverseIndex, deletedItem),
+                                    ) // this is what you needed
+                                ),
+                          ));
+                        });
+                      },
+
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(5.0),
+                        ),
+                        elevation: 5.0,
+                        shadowColor: Colors.black54,
+                        child: ListTile(
+                          title: Text(
+                            widget.notificationList[reverseIndex].title,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 16.0,
+                            ),
                           ),
-                    ));
-                  });
-                },
-
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(5.0),
-                  ),
-                  elevation: 5.0,
-                  shadowColor: Colors.black54,
-                  child: ListTile(
-                    title: Text(
-                          widget.notificationList[reverseIndex].title,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontSize: 16.0,
+                          subtitle: Text(
+                            widget.notificationList[reverseIndex].body,
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              color: Colors.black87,
+                              fontSize: 14.0,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                    subtitle: Text(
-                      widget.notificationList[reverseIndex].body,
-                      style: TextStyle(
-                        fontWeight: FontWeight.normal,
-                        color: Colors.black87,
-                        fontSize: 14.0,
-                      ),
-                    ),
-                  ),
+                    );
+                  },
                 ),
-              );
-            },
-          ),
         ),
       ),
     );
