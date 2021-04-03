@@ -38,14 +38,24 @@ class DatabaseServiceNotification {
 
   Future deleteNotification(List<NotificationMessage> notificationList) async {
     List<Map<String, dynamic>> result = <Map<String, dynamic>>[];
-    for (int i = 0; i < notificationList.length; i++) {
-      result.add(notificationList[i].toMap());
-      print("message $i");
-      print(result);
+    if (notificationList.isEmpty) {
+      await fireStoreNotificationRef.doc(uid).set({
+        "messages": result,
+      });
+      print("Notification list empty");
+    } else {
+      for (int i = 0; i < notificationList.length; i++) {
+        result.add(notificationList[i].toMap());
+        print("message $i");
+        print(result);
+      }
+      print("Notification list size " + notificationList.length.toString());
+
+      await fireStoreNotificationRef.doc(uid).set({
+        "messages": result,
+      });
     }
-    await fireStoreNotificationRef.doc(uid).set({
-      "messages": result,
-    });
+
     return;
   }
 }

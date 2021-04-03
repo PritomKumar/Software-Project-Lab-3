@@ -1,11 +1,14 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 
-admin.initializeApp({
-  credential: admin.credential
-      .cert("F:\\SPL3\\App\\firecasts version 2\\functions\\serviceKey.json"),
-  databaseURL: "https://earneasy-5e92c.firebaseio.com",
-});
+// admin.initializeApp({
+//   credential: admin.credential
+//       .cert
+// ("F:\\SPL3\\App\\firecasts version 2\\functions\\serviceKey.json"),
+//   databaseURL: "https://earneasy-5e92c.firebaseio.com",
+// });
+
+admin.initializeApp();
 
 // distance = 500
 // level = 200 (1-10) for inactivit level goes down
@@ -17,407 +20,469 @@ admin.initializeApp({
 // education = 50
 // current number of task = 300
 
-// exports.onAttemptedUsersUpdate = functions.firestore
-//     .document("Gigs/{gigId}")
-//     .onUpdate(async (change, context) => {
-//     // Get an object representing the current document
-//       try {
-//         const gigDataBefore = change.before.data();
-//         const gigDataAfter = change.after.data();
-//         const gigId = context.params.gigId;
-
-//         if (gigDataAfter) {
-//           console.log(gigDataAfter.description);
-//           console.log(`Now in gig = ${gigId}`);
-
-//           if (
-//             gigDataAfter.attemptedUsers.length ==
-//           gigDataBefore.attemptedUsers.length
-//           ) {
-//             console.log("The attempted users are the same");
-//             return null;
-//           }
-
-//           const attempData = gigDataAfter;
-//           if (attempData) {
-//             const attempUsers = attempData.attemptedUsers;
-//             const filteredUsers: any[] = [];
-//             attempUsers.forEach((singleUser: any) => {
-//               if (firstFilteringBasedOnBasicInfo(singleUser)) {
-//                 filteredUsers.push(singleUser);
-//               }
-//             });
-//             const scores: number[] = [];
-//             const promises: any[] = [];
-//             let i = 0;
-//             filteredUsers.forEach((singleUser: any) => {
-//               console.log("User Email  = " + singleUser.email);
-//               scores[i] = calcuateScoresBasedOnDistance(singleUser);
-//               console.log(
-//                   "Distance score = " +
-//               calcuateScoresBasedOnDistance(singleUser)
-//               );
-//               scores[i] += calcuateScoresBasedOnUserLevel(singleUser);
-//               console.log(
-//                   "User Level score = " +
-//               calcuateScoresBasedOnUserLevel(singleUser)
-//               );
-
-//               const userInUsersDocument = admin
-//                   .firestore()
-//                   .doc(`Users/${singleUser.uid}`)
-//                   .get();
-
-//               promises.push(userInUsersDocument);
-//               i++;
-//             });
-
-//             const reply = await Promise.all(promises);
-
-//             // console.log("reply = " + reply);
-//             // response.send("reply = " + reply);
-//             i = 0;
-//             const userAccountListResult: any[] = [];
-//             if (reply) {
-//               reply.forEach((snap) => {
-//                 const singleUserFullData = snap.data();
-
-//                 scores[i] += calcuateHeuristicScore(singleUserFullData);
-//                 console.log(`Heuristic score =
-//                  ${calcuateHeuristicScore(singleUserFullData)}`);
-
-//                 userAccountListResult.push(singleUserFullData);
-//                 i++;
-//               });
-//             }
-//             console.log(`userAccountListResult =
-//             ${userAccountListResult} and scores = ${scores}`);
-//             const highestScoreIndex = calculateTheBestScoreIndex(scores);
-//             console.log(scores);
-//             console.log(`userAccountListResult =
-//             ${userAccountListResult[highestScoreIndex]};
-//             and scores = ${scores[highestScoreIndex]}`);
-//             // response.send(`userAccountListResult =
-//             // ${userAccountListResult[highestScoreIndex]}
-//             // and scores = ${scores[highestScoreIndex]}`);
-
-
-//             const winnerUser = userAccountListResult[highestScoreIndex];
-//             const tokenList = [];
-
-//             for (const token of winnerUser.token) {
-//               tokenList.push(token.data());
-//             }
-
-//             const title = "Task Assigned";
-//             const messageBody =
-//             `Congrats you have been assigned to ${attempData.title}`;
-//             const messageType = "task_assign";
-
-//             const payload = {
-//               notification: {title: title,
-//                 body: messageBody,
-//                 sound: "default"},
-//               data: {click_action: "FLUTTER_NOTIFICATION_CLICK",
-//                 message: messageType},
-//             };
-
-//             try {
-//               const messageResponse = await
-//               admin.messaging().sendToDevice(tokenList, payload);
-//               console.log("Notification send success!! " );
-//               console.log(messageResponse);
-//             } catch (error) {
-//               console.log("Error sending notification!!" );
-//             }
-
-
-//             const noticationObject = {
-//               title: title,
-//               body: messageBody,
-//               uid: winnerUser.uid,
-//               messageType: messageType,
-
-//             };
-
-//             try {
-//               await admin.firestore()
-//                   .doc("notification/"+winnerUser.uid)
-//                   .set(noticationObject);
-//               console.log("Notification created successfully.");
-//             } catch (error) {
-//               console.log("Notification creation failed." + winnerUser.uid);
-//             }
-
-
-//             return await change.after.ref.update({
-//               assignedUser: filteredUsers[highestScoreIndex],
-//             });
-//           // return await admin
-//           //     .firestore()
-//           //     .doc("Gigs/LNEYY0maGLXeMCFFe1tK")
-//           //     .update({ description: updatedText });
-//           } else {
-//             console.log("No Data in function");
-//             return null;
-//           }
-//         } else {
-//           console.log("NO DATA");
-//           return null;
-//         }
-//       } catch (error) {
-//         console.log(error);
-//         return null;
-//       }
-//     });
-
-export const getAllAttemptedUsers = functions.https.onRequest(
-    async (request, response) => {
+exports.onAttemptedUsersUpdate = functions.firestore
+    .document("Gigs/{gigId}")
+    .onUpdate(async (change, context) => {
+    // Get an object representing the current document
       try {
-        const gigIdPermanent = "QlXhPJqFynohpGL5nXGo";
-        const snapshotss = await admin
-            .firestore()
-            .doc("Gigs/" + gigIdPermanent + "/")
-            .get();
+        const gigDataBefore = change.before.data();
+        const gigDataAfter = change.after.data();
+        const gigId = context.params.gigId;
 
-        const attempData = snapshotss.data();
-        if (attempData) {
-          const attempUsers = attempData.attemptedUsers;
-          const filteredUsers: any[] = [];
-          attempUsers.forEach((singleUser: any) => {
-            if (firstFilteringBasedOnBasicInfo(singleUser)) {
-              filteredUsers.push(singleUser);
-            }
-          });
-          const scores: number[] = [];
-          const promises: any[] = [];
-          let i = 0;
-          filteredUsers.forEach((singleUser: any) => {
-            console.log("User Email  = " + singleUser.email);
-            scores[i] = calcuateScoresBasedOnDistance(singleUser);
-            console.log(
-                "Distance score = " +
+        if (gigDataAfter) {
+          console.log(gigDataAfter.description);
+          console.log(`Now in gig = ${gigId}`);
+
+          if (
+            gigDataAfter.attemptedUsers.length ==
+          gigDataBefore.attemptedUsers.length
+          ) {
+            console.log("The attempted users are the same");
+            return null;
+          }
+
+          const attempData = gigDataAfter;
+          if (attempData) {
+            const attempUsers = attempData.attemptedUsers;
+            const filteredUsers: any[] = [];
+            attempUsers.forEach((singleUser: any) => {
+              if (firstFilteringBasedOnBasicInfo(singleUser)) {
+                filteredUsers.push(singleUser);
+              }
+            });
+            const scores: number[] = [];
+            const promises: any[] = [];
+            let i = 0;
+            filteredUsers.forEach((singleUser: any) => {
+              console.log("User Email  = " + singleUser.email);
+              scores[i] = calcuateScoresBasedOnDistance(singleUser);
+              console.log(
+                  "Distance score = " +
             calcuateScoresBasedOnDistance(singleUser)
-            );
-            scores[i] += calcuateScoresBasedOnUserLevel(singleUser);
-            console.log(
-                "User Level score = " +
+              );
+              scores[i] += calcuateScoresBasedOnUserLevel(singleUser);
+              console.log(
+                  "User Level score = " +
             calcuateScoresBasedOnUserLevel(singleUser)
-            );
+              );
 
-            const userInUsersDocument = admin
-                .firestore()
-                .doc(`Users/${singleUser.uid}`)
-                .get();
+              const userInUsersDocument = admin
+                  .firestore()
+                  .doc(`Users/${singleUser.uid}`)
+                  .get();
 
-            promises.push(userInUsersDocument);
-            i++;
-          });
+              promises.push(userInUsersDocument);
+              i++;
+            });
 
-          const reply = await Promise.all(promises);
+            const reply = await Promise.all(promises);
 
-          // console.log("reply = " + reply);
-          // response.send("reply = " + reply);
-          i = 0;
-          const userAccountListResult: any[] = [];
-          if (reply) {
-            reply.forEach((snap) => {
-              const singleUserFullData = snap.data();
+            // console.log("reply = " + reply);
+            // response.send("reply = " + reply);
+            i = 0;
+            const userAccountListResult: any[] = [];
+            if (reply) {
+              reply.forEach((snap) => {
+                const singleUserFullData = snap.data();
 
-              scores[i] += calcuateHeuristicScore(singleUserFullData);
-              console.log(`Heuristic score =
+                scores[i] += calcuateHeuristicScore(singleUserFullData);
+                console.log(`Heuristic score =
                  ${calcuateHeuristicScore(singleUserFullData)}`);
 
 
-              userAccountListResult.push(singleUserFullData);
-              i++;
-            });
-          }
-          const highestScoreIndex = calculateTheBestScoreIndex(scores);
-          console.log(scores);
-          console.log("userAccountListResult = " +
+                userAccountListResult.push(singleUserFullData);
+                i++;
+              });
+            }
+            const highestScoreIndex = calculateTheBestScoreIndex(scores);
+            console.log(scores);
+            console.log("userAccountListResult = " +
           userAccountListResult[highestScoreIndex]+
           " and scores = " +scores[highestScoreIndex]);
 
-          // response.send(`userAccountListResult =
-          //        ${userAccountListResult[highestScoreIndex]}
-          // and scores = ${scores[highestScoreIndex]}`);
-
-          try {
-            await admin
-                .firestore()
-                .doc("Gigs/" + gigIdPermanent)
-                .update({assignedUser: filteredUsers[highestScoreIndex]});
-            console.log("Assigned user updated for gig");
-          } catch (error) {
-            console.log("Assigned user update failed!" + error);
-          }
+            // response.send(`userAccountListResult =
+            //        ${userAccountListResult[highestScoreIndex]}
+            // and scores = ${scores[highestScoreIndex]}`);
 
 
-          const winnerUser = userAccountListResult[highestScoreIndex];
-          // console.log("winnerUser = ");
-          // console.log(winnerUser);
+            const winnerUser = userAccountListResult[highestScoreIndex];
+            // console.log("winnerUser = ");
+            // console.log(winnerUser);
 
 
-          const gigMini = {
-            "gigId": attempData.gigId,
-            "money": attempData.money,
-            "title": attempData.title,
-            // 'location': this.location,
-            "location": attempData.location,
+            const gigMini = {
+              "gigId": attempData.gigId,
+              "money": attempData.money,
+              "title": attempData.title,
+              // 'location': this.location,
+              "location": attempData.location,
 
-            "distance": filteredUsers[highestScoreIndex].distance,
-          };
+              "distance": filteredUsers[highestScoreIndex].distance,
+            };
 
-          try {
-            await admin.firestore()
-                .doc("Users/"+winnerUser.uid)
-                .update({
-                  currentGigs: admin.firestore.
-                      FieldValue.arrayUnion(gigMini),
-                });
-
-            console.log("current gig of " + winnerUser.uid + " updated");
-          } catch (error) {
-            console.log("current gig update failed!" + error);
-          }
-
-          attempUsers.forEach((singleUser: any) => {
             try {
-              admin.firestore()
-                  .doc("Users/"+singleUser.uid)
+              await admin.firestore()
+                  .doc("Users/"+winnerUser.uid)
                   .update({
-                    waitListGigs: admin.firestore.
-                        FieldValue.arrayRemove(gigMini),
+                    currentGigs: admin.firestore.
+                        FieldValue.arrayUnion(gigMini),
                   });
-  
-              console.log("Waitlisted gig of " + singleUser.uid + " updated");
+
+              console.log("current gig of " + winnerUser.uid + " updated");
             } catch (error) {
-              console.log("Waitlisted gig update failed!" + error);
+              console.log("current gig update failed!" + error);
             }
-          });
-          
 
-          const tokenList : string[] = [];
+            attempUsers.forEach((singleUser: any) => {
+              try {
+                admin.firestore()
+                    .doc("Users/"+singleUser.uid)
+                    .update({
+                      waitListGigs: admin.firestore.
+                          FieldValue.arrayRemove(gigMini),
+                    });
 
-          for (const token of winnerUser.token) {
-            tokenList.push(token);
-          }
-          // console.log("Here 254 = ");
+                console.log("Waitlisted gig of " + singleUser.uid + " updated");
+              } catch (error) {
+                console.log("Waitlisted gig update failed!" + error);
+              }
+            });
 
-          const title = "Task Assigned to " +
+
+            const tokenList : string[] = [];
+
+            for (const token of winnerUser.token) {
+              tokenList.push(token);
+            }
+            // console.log("Here 254 = ");
+
+            const title = "Task Assigned to " +
            winnerUser.firstName + " " + winnerUser.lastName;
-          const messageBody =
+            const messageBody =
               `Congrats! Task ${attempData.title} has been assigned to you`;
-          const messageType = "task_assign";
+            const messageType = "task_assign";
 
-          const payload = {
-            notification: {
+            const payload = {
+              notification: {
+                title: title,
+                body: messageBody,
+              },
+              data: {
+                click_action: "FLUTTER_NOTIFICATION_CLICK",
+                message: messageType},
+            };
+            // console.log(payload);
+
+            const options = {
+              priority: "normal",
+              timeToLive: 60 * 60,
+            };
+
+            // console.log(options);
+
+            // console.log("Here 268 = ");
+            // console.log("Token list");
+            // console.log(tokenList);
+
+            try {
+              await
+              admin.messaging().sendToDevice(tokenList, payload, options);
+              console.log("Notification send success!! " );
+            } catch (error) {
+              console.log("Error sending notification!! " + error );
+            }
+            // console.log("Here 279 = ");
+
+            const noticationObject = {
               title: title,
               body: messageBody,
-            },
-            data: {
-              click_action: "FLUTTER_NOTIFICATION_CLICK",
-              message: messageType},
-          };
-          // console.log(payload);
+              uid: winnerUser.uid,
+              messageType: messageType,
+            };
 
-          const options = {
-            priority: "normal",
-            timeToLive: 60 * 60,
-          };
-
-          // console.log(options);
-
-          // console.log("Here 268 = ");
-          // console.log("Token list");
-          // console.log(tokenList);
-
-          try {
-            await
-            admin.messaging().sendToDevice(tokenList, payload, options);
-            console.log("Notification send success!! " );
-          } catch (error) {
-            console.log("Error sending notification!! " + error );
-          }
-          // console.log("Here 279 = ");
-
-          const notificationMessage: NotificationMessage =
-          new NotificationMessage(title, messageBody,
-              winnerUser.uid, messageType);
-
-
-          const notificationList:NotificationMessage[] = [];
-
-          notificationList.push(notificationMessage);
-
-          const noticationObject = {
-            title: title,
-            body: messageBody,
-            uid: winnerUser.uid,
-            messageType: messageType,
-          };
-
-          const dataOfNotification = await admin.firestore()
-              .doc("notification/"+winnerUser.uid)
-              .get();
-          console.log("NOtification data");
-          // console.log(dataOfNotification);
-          try {
-            if (dataOfNotification.exists) {
-              await admin.firestore()
-                  .doc("notification/"+winnerUser.uid)
-                  .update({
-                    messages: admin.firestore.
-                        FieldValue.arrayUnion(noticationObject),
-                  });
-            } else {
-              await admin.firestore()
-                  .doc("notification/"+winnerUser.uid)
-                  .set({
-                    messages: admin.firestore.
-                        FieldValue.arrayUnion(noticationObject),
-                  });
+            const dataOfNotification = await admin.firestore()
+                .doc("notification/"+winnerUser.uid)
+                .get();
+            console.log("NOtification data");
+            // console.log(dataOfNotification);
+            try {
+              if (dataOfNotification.exists) {
+                await admin.firestore()
+                    .doc("notification/"+winnerUser.uid)
+                    .update({
+                      messages: admin.firestore.
+                          FieldValue.arrayUnion(noticationObject),
+                    });
+              } else {
+                await admin.firestore()
+                    .doc("notification/"+winnerUser.uid)
+                    .set({
+                      messages: admin.firestore.
+                          FieldValue.arrayUnion(noticationObject),
+                    });
+              }
+              console.log("Notification created successfully.");
+            } catch (error) {
+              console.log("Notification creation failed for " + winnerUser.uid);
             }
-            console.log("Notification created successfully.");
-          } catch (error) {
-            console.log("Notification creation failed for " + winnerUser.uid);
+            // console.log("Here 298 = ");
+
+            try {
+              console.log("Assigned user updated for gig");
+              return await change.after.ref.update({
+                assignedUser: filteredUsers[highestScoreIndex],
+              });
+            } catch (error) {
+              console.log("Assigned user update failed!" + error);
+              return null;
+            }
+
+          // return await admin
+          //     .firestore()
+          //     .doc("Gigs/LNEYY0maGLXeMCFFe1tK")
+          //     .update({ description: updatedText });
+          } else {
+            console.log("No Data in function");
+            return null;
           }
-          // console.log("Here 298 = ");
-
-
-          response.send(filteredUsers[highestScoreIndex]);
         } else {
-          console.log("Error");
-          response.status(500).send("No Data");
+          console.log("NO DATA");
+          return null;
         }
       } catch (error) {
-        console.log("Error");
-        response.status(500).send(error);
+        console.log(error);
+        return null;
       }
-    }
-);
-/** Class representing a Notification message. */
-class NotificationMessage {
-  title:string;
-  body:string;
-  uid:string;
-  messageType:string;
+    });
 
-  /**
-     * Create a point.
-     * @param {string} title - The title value.
-     * @param {string} body - The body value.
-     * @param {string} uid - The uid value.
-     * @param {string} messageType - The messageType value.
-     */
-  constructor(title:string, body:string, uid:string, messageType:string) {
-    this.title = title;
-    this.body = body;
-    this.uid = uid;
-    this.messageType = messageType;
-  }
-}
+// export const getAllAttemptedUsers = functions.https.onRequest(
+//     async (request, response) => {
+//       try {
+//         const gigIdPermanent = "QlXhPJqFynohpGL5nXGo";
+//         const snapshotss = await admin
+//             .firestore()
+//             .doc("Gigs/" + gigIdPermanent + "/")
+//             .get();
+
+//         const attempData = snapshotss.data();
+//         if (attempData) {
+//           const attempUsers = attempData.attemptedUsers;
+//           const filteredUsers: any[] = [];
+//           attempUsers.forEach((singleUser: any) => {
+//             if (firstFilteringBasedOnBasicInfo(singleUser)) {
+//               filteredUsers.push(singleUser);
+//             }
+//           });
+//           const scores: number[] = [];
+//           const promises: any[] = [];
+//           let i = 0;
+//           filteredUsers.forEach((singleUser: any) => {
+//             console.log("User Email  = " + singleUser.email);
+//             scores[i] = calcuateScoresBasedOnDistance(singleUser);
+//             console.log(
+//                 "Distance score = " +
+//             calcuateScoresBasedOnDistance(singleUser)
+//             );
+//             scores[i] += calcuateScoresBasedOnUserLevel(singleUser);
+//             console.log(
+//                 "User Level score = " +
+//             calcuateScoresBasedOnUserLevel(singleUser)
+//             );
+
+//             const userInUsersDocument = admin
+//                 .firestore()
+//                 .doc(`Users/${singleUser.uid}`)
+//                 .get();
+
+//             promises.push(userInUsersDocument);
+//             i++;
+//           });
+
+//           const reply = await Promise.all(promises);
+
+//           // console.log("reply = " + reply);
+//           // response.send("reply = " + reply);
+//           i = 0;
+//           const userAccountListResult: any[] = [];
+//           if (reply) {
+//             reply.forEach((snap) => {
+//               const singleUserFullData = snap.data();
+
+//               scores[i] += calcuateHeuristicScore(singleUserFullData);
+//               console.log(`Heuristic score =
+//                  ${calcuateHeuristicScore(singleUserFullData)}`);
+
+
+//               userAccountListResult.push(singleUserFullData);
+//               i++;
+//             });
+//           }
+//           const highestScoreIndex = calculateTheBestScoreIndex(scores);
+//           console.log(scores);
+//           console.log("userAccountListResult = " +
+//           userAccountListResult[highestScoreIndex]+
+//           " and scores = " +scores[highestScoreIndex]);
+
+//           // response.send(`userAccountListResult =
+//           //        ${userAccountListResult[highestScoreIndex]}
+//           // and scores = ${scores[highestScoreIndex]}`);
+
+//           try {
+//             await admin
+//                 .firestore()
+//                 .doc("Gigs/" + gigIdPermanent)
+//                 .update({assignedUser: filteredUsers[highestScoreIndex]});
+//             console.log("Assigned user updated for gig");
+//           } catch (error) {
+//             console.log("Assigned user update failed!" + error);
+//           }
+
+
+//           const winnerUser = userAccountListResult[highestScoreIndex];
+//           // console.log("winnerUser = ");
+//           // console.log(winnerUser);
+
+
+//           const gigMini = {
+//             "gigId": attempData.gigId,
+//             "money": attempData.money,
+//             "title": attempData.title,
+//             // 'location': this.location,
+//             "location": attempData.location,
+
+//             "distance": filteredUsers[highestScoreIndex].distance,
+//           };
+
+//           try {
+//             await admin.firestore()
+//                 .doc("Users/"+winnerUser.uid)
+//                 .update({
+//                   currentGigs: admin.firestore.
+//                       FieldValue.arrayUnion(gigMini),
+//                 });
+
+//             console.log("current gig of " + winnerUser.uid + " updated");
+//           } catch (error) {
+//             console.log("current gig update failed!" + error);
+//           }
+
+//           attempUsers.forEach((singleUser: any) => {
+//             try {
+//               admin.firestore()
+//                   .doc("Users/"+singleUser.uid)
+//                   .update({
+//                     waitListGigs: admin.firestore.
+//                         FieldValue.arrayRemove(gigMini),
+//                   });
+
+//               console.log("Waitlisted gig of "
+// + singleUser.uid + " updated");
+//             } catch (error) {
+//               console.log("Waitlisted gig update failed!" + error);
+//             }
+//           });
+
+
+//           const tokenList : string[] = [];
+
+//           for (const token of winnerUser.token) {
+//             tokenList.push(token);
+//           }
+//           // console.log("Here 254 = ");
+
+//           const title = "Task Assigned to " +
+//            winnerUser.firstName + " " + winnerUser.lastName;
+//           const messageBody =
+//               `Congrats! Task ${attempData.title} has been assigned to you`;
+//           const messageType = "task_assign";
+
+//           const payload = {
+//             notification: {
+//               title: title,
+//               body: messageBody,
+//             },
+//             data: {
+//               click_action: "FLUTTER_NOTIFICATION_CLICK",
+//               message: messageType},
+//           };
+//           // console.log(payload);
+
+//           const options = {
+//             priority: "normal",
+//             timeToLive: 60 * 60,
+//           };
+
+//           // console.log(options);
+
+//           // console.log("Here 268 = ");
+//           // console.log("Token list");
+//           // console.log(tokenList);
+
+//           try {
+//             await
+//             admin.messaging().sendToDevice(tokenList, payload, options);
+//             console.log("Notification send success!! " );
+//           } catch (error) {
+//             console.log("Error sending notification!! " + error );
+//           }
+//           // console.log("Here 279 = ");
+
+//           const notificationMessage: NotificationMessage =
+//           new NotificationMessage(title, messageBody,
+//               winnerUser.uid, messageType);
+
+
+//           const notificationList:NotificationMessage[] = [];
+
+//           notificationList.push(notificationMessage);
+
+//           const noticationObject = {
+//             title: title,
+//             body: messageBody,
+//             uid: winnerUser.uid,
+//             messageType: messageType,
+//           };
+
+//           const dataOfNotification = await admin.firestore()
+//               .doc("notification/"+winnerUser.uid)
+//               .get();
+//           console.log("NOtification data");
+//           // console.log(dataOfNotification);
+//           try {
+//             if (dataOfNotification.exists) {
+//               await admin.firestore()
+//                   .doc("notification/"+winnerUser.uid)
+//                   .update({
+//                     messages: admin.firestore.
+//                         FieldValue.arrayUnion(noticationObject),
+//                   });
+//             } else {
+//               await admin.firestore()
+//                   .doc("notification/"+winnerUser.uid)
+//                   .set({
+//                     messages: admin.firestore.
+//                         FieldValue.arrayUnion(noticationObject),
+//                   });
+//             }
+//             console.log("Notification created successfully.");
+//           } catch (error) {
+//             console.log("Notification
+// creation failed for " + winnerUser.uid);
+//           }
+//           // console.log("Here 298 = ");
+
+
+//           response.send(filteredUsers[highestScoreIndex]);
+//         } else {
+//           console.log("Error");
+//           response.status(500).send("No Data");
+//         }
+//       } catch (error) {
+//         console.log("Error");
+//         response.status(500).send(error);
+//       }
+//     }
+// );
 
 /**
    * filter based on distance form the user

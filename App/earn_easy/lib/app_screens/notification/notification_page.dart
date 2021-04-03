@@ -16,6 +16,7 @@ class NotificationPage extends StatefulWidget {
 
 class _NotificationPageState extends State<NotificationPage> {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  List<NotificationMessage> notificationInsiderList = <NotificationMessage>[];
 
   List<Message> _messagesList = <Message>[];
   final GlobalKey<NavigatorState> navigatorKey =
@@ -92,6 +93,9 @@ class _NotificationPageState extends State<NotificationPage> {
   @override
   void initState() {
     super.initState();
+    for (int i = 0; i < widget.notificationList.length; i++) {
+      notificationInsiderList.add(widget.notificationList[i]);
+    }
     _getPermission();
     _getToken();
     _configureFirebaseListeners();
@@ -129,40 +133,46 @@ class _NotificationPageState extends State<NotificationPage> {
                   ),
                 )
               : ListView.builder(
-                  itemCount: widget.notificationList == null
+            itemCount: notificationInsiderList == null
                       ? 0
-                      : widget.notificationList.length,
+                      : notificationInsiderList.length,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     var reverseIndex =
-                        widget.notificationList.length - index - 1;
+                        notificationInsiderList.length - index - 1;
+                    bool confirmDismiss = false;
                     // print("reverseIndex = $reverseIndex");
                     return Dismissible(
                       // Show a red background as the item is swiped away.
                       background: Container(color: Colors.grey[200]),
                       key: UniqueKey(),
                       confirmDismiss: (direction) async {
-                        await DatabaseServiceNotification()
-                            .deleteNotification(widget.notificationList);
                         return true;
                       },
+
                       onDismissed: (direction) async {
                         // added this block
 
-                        setState(() {
+                  setState(() {
                           var deletedItem =
-                              widget.notificationList.removeAt(reverseIndex);
+                              notificationInsiderList.removeAt(reverseIndex);
+
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text("${deletedItem.title} dismissed"),
-                            action: SnackBarAction(
-                                label: "UNDO",
-                                onPressed: () => setState(
-                                      () => widget.notificationList
-                                          .insert(reverseIndex, deletedItem),
-                                    ) // this is what you needed
-                                ),
+                            duration: Duration(
+                              milliseconds: 2500,
+                            ),
+                            // action: SnackBarAction(
+                            //     label: "UNDO",
+                            //     onPressed: () => setState(
+                            //           () => notificationInsiderList.insert(
+                            //               reverseIndex, deletedItem),
+                            //         ) // this is what you needed
+                            //     ),
                           ));
                         });
+                        await DatabaseServiceNotification()
+                            .deleteNotification(notificationInsiderList);
                       },
 
                       child: Card(
@@ -173,7 +183,7 @@ class _NotificationPageState extends State<NotificationPage> {
                         shadowColor: Colors.black54,
                         child: ListTile(
                           title: Text(
-                            widget.notificationList[reverseIndex].title,
+                            notificationInsiderList[reverseIndex].title,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
@@ -181,7 +191,7 @@ class _NotificationPageState extends State<NotificationPage> {
                             ),
                           ),
                           subtitle: Text(
-                            widget.notificationList[reverseIndex].body,
+                            notificationInsiderList[reverseIndex].body,
                             style: TextStyle(
                               fontWeight: FontWeight.normal,
                               color: Colors.black87,
