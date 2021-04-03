@@ -174,9 +174,10 @@ admin.initializeApp({
 export const getAllAttemptedUsers = functions.https.onRequest(
     async (request, response) => {
       try {
+        const gigIdPermanent = "QlXhPJqFynohpGL5nXGo";
         const snapshotss = await admin
             .firestore()
-            .doc("Gigs/aAhkkgnYjwl9kOXpXs9P/")
+            .doc("Gigs/" + gigIdPermanent + "/")
             .get();
 
         const attempData = snapshotss.data();
@@ -227,6 +228,7 @@ export const getAllAttemptedUsers = functions.https.onRequest(
               console.log(`Heuristic score =
                  ${calcuateHeuristicScore(singleUserFullData)}`);
 
+
               userAccountListResult.push(singleUserFullData);
               i++;
             });
@@ -244,7 +246,7 @@ export const getAllAttemptedUsers = functions.https.onRequest(
           try {
             await admin
                 .firestore()
-                .doc("Gigs/aAhkkgnYjwl9kOXpXs9P")
+                .doc("Gigs/" + gigIdPermanent)
                 .update({assignedUser: filteredUsers[highestScoreIndex]});
             console.log("Assigned user updated for gig");
           } catch (error) {
@@ -255,6 +257,7 @@ export const getAllAttemptedUsers = functions.https.onRequest(
           const winnerUser = userAccountListResult[highestScoreIndex];
           // console.log("winnerUser = ");
           // console.log(winnerUser);
+
 
           const gigMini = {
             "gigId": attempData.gigId,
@@ -279,6 +282,21 @@ export const getAllAttemptedUsers = functions.https.onRequest(
             console.log("current gig update failed!" + error);
           }
 
+          attempUsers.forEach((singleUser: any) => {
+            try {
+              admin.firestore()
+                  .doc("Users/"+singleUser.uid)
+                  .update({
+                    waitListGigs: admin.firestore.
+                        FieldValue.arrayRemove(gigMini),
+                  });
+  
+              console.log("Waitlisted gig of " + singleUser.uid + " updated");
+            } catch (error) {
+              console.log("Waitlisted gig update failed!" + error);
+            }
+          });
+          
 
           const tokenList : string[] = [];
 
@@ -302,18 +320,18 @@ export const getAllAttemptedUsers = functions.https.onRequest(
               click_action: "FLUTTER_NOTIFICATION_CLICK",
               message: messageType},
           };
-          console.log(payload);
+          // console.log(payload);
 
           const options = {
             priority: "normal",
             timeToLive: 60 * 60,
           };
 
-          console.log(options);
+          // console.log(options);
 
           // console.log("Here 268 = ");
-          console.log("Token list");
-          console.log(tokenList);
+          // console.log("Token list");
+          // console.log(tokenList);
 
           try {
             await
@@ -681,4 +699,12 @@ function calculateTheBestScoreIndex(
   return index;
 }
 
+// /**
+//    * delete waitlisted gig from all attempted Users
+//    * @param {singleUserFullData} any scores array
+//    * @return {void} deletion
+//    */
+// function deleteFromWaitlistedGig(singleUserFullData: any) {
+
+// }
 
