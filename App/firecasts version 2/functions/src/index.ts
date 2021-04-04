@@ -1,12 +1,13 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 
-// admin.initializeApp();
-admin.initializeApp({
-  credential: admin.credential
-      .cert("F:\\SPL3\\App\\firecasts version 2\\functions\\serviceKey.json"),
-  databaseURL: "https://earneasy-5e92c.firebaseio.com",
-});
+admin.initializeApp();
+// admin.initializeApp({
+//   credential: admin.credential
+//       .cert
+//       ("F:\\SPL3\\App\\firecasts version 2\\functions\\serviceKey.json"),
+//   databaseURL: "https://earneasy-5e92c.firebaseio.com",
+// });
 
 
 // distance = 500
@@ -18,6 +19,236 @@ admin.initializeApp({
 // household income = 50
 // education = 50
 // current number of task = 300
+
+
+// export const getAllAttemptedUsers = functions.https.onRequest(
+//     async (request, response) => {
+//       try {
+//         const gigIdPermanent = "QlXhPJqFynohpGL5nXGo";
+//         const snapshotss = await admin
+//             .firestore()
+//             .doc("Gigs/" + gigIdPermanent + "/")
+//             .get();
+
+//         const attempData = snapshotss.data();
+//         if (attempData) {
+//           const attempUsers = attempData.attemptedUsers;
+//           const filteredUsers: any[] = [];
+//           attempUsers.forEach((singleUser: any) => {
+//             if (firstFilteringBasedOnBasicInfo(singleUser)) {
+//               filteredUsers.push(singleUser);
+//             }
+//           });
+//           const scores: number[] = [];
+//           const promises: any[] = [];
+//           let i = 0;
+//           filteredUsers.forEach((singleUser: any) => {
+//             console.log("User Email  = " + singleUser.email);
+//             scores[i] = calcuateScoresBasedOnDistance(singleUser);
+//             console.log(
+//                 "Distance score = " +
+//             calcuateScoresBasedOnDistance(singleUser)
+//             );
+//             scores[i] += calcuateScoresBasedOnUserLevel(singleUser);
+//             console.log(
+//                 "User Level score = " +
+//             calcuateScoresBasedOnUserLevel(singleUser)
+//             );
+
+//             const userInUsersDocument = admin
+//                 .firestore()
+//                 .doc(`Users/${singleUser.uid}`)
+//                 .get();
+
+//             promises.push(userInUsersDocument);
+//             i++;
+//           });
+
+//           const reply = await Promise.all(promises);
+
+//           // console.log("reply = " + reply);
+//           // response.send("reply = " + reply);
+//           i = 0;
+//           const userAccountListResult: any[] = [];
+//           if (reply) {
+//             reply.forEach((snap) => {
+//               const singleUserFullData = snap.data();
+
+//               scores[i] += calcuateHeuristicScore(singleUserFullData);
+//               console.log(`Heuristic score =
+//                  ${calcuateHeuristicScore(singleUserFullData)}`);
+
+
+//               userAccountListResult.push(singleUserFullData);
+//               i++;
+//             });
+//           }
+//           const highestScoreIndex = calculateTheBestScoreIndex(scores);
+//           console.log(scores);
+//           console.log("userAccountListResult = " +
+//           userAccountListResult[highestScoreIndex]+
+//           " and scores = " +scores[highestScoreIndex]);
+
+//           // response.send(`userAccountListResult =
+//           //        ${userAccountListResult[highestScoreIndex]}
+//           // and scores = ${scores[highestScoreIndex]}`);
+
+//           try {
+//             await admin
+//                 .firestore()
+//                 .doc("Gigs/" + gigIdPermanent)
+//                 .update({assignedUser: filteredUsers[highestScoreIndex]});
+//             console.log("Assigned user updated for gig");
+//           } catch (error) {
+//             console.log("Assigned user update failed!" + error);
+//           }
+
+
+//           const winnerUser = userAccountListResult[highestScoreIndex];
+//           // console.log("winnerUser = ");
+//           // console.log(winnerUser);
+
+
+//           const gigMini = {
+//             "gigId": attempData.gigId,
+//             "money": attempData.money,
+//             "title": attempData.title,
+//             // 'location': this.location,
+//             "location": attempData.location,
+
+//             "distance": filteredUsers[highestScoreIndex].distance,
+//           };
+
+//           try {
+//             await admin.firestore()
+//                 .doc("Users/"+winnerUser.uid)
+//                 .update({
+//                   currentGigs: admin.firestore.
+//                       FieldValue.arrayUnion(gigMini),
+//                 });
+
+//             console.log("current gig of " + winnerUser.uid + " updated");
+//           } catch (error) {
+//             console.log("current gig update failed!" + error);
+//           }
+
+//           attempUsers.forEach((singleUser: any) => {
+//             try {
+//               admin.firestore()
+//                   .doc("Users/"+singleUser.uid)
+//                   .update({
+//                     waitListGigs: admin.firestore.
+//                         FieldValue.arrayRemove(gigMini),
+//                   });
+
+//               console.log("Waitlisted gig of "
+// + singleUser.uid + " updated");
+//             } catch (error) {
+//               console.log("Waitlisted gig update failed!" + error);
+//             }
+//           });
+
+
+//           const tokenList : string[] = [];
+
+//           for (const token of winnerUser.token) {
+//             tokenList.push(token);
+//           }
+//           // console.log("Here 254 = ");
+
+//           const title = "Task Assigned to " +
+//            winnerUser.firstName + " " + winnerUser.lastName;
+//           const messageBody =
+//               `Congrats! Task ${attempData.title} has been assigned to you`;
+//           const messageType = "task_assign";
+
+//           const payload = {
+//             notification: {
+//               title: title,
+//               body: messageBody,
+//             },
+//             data: {
+//               click_action: "FLUTTER_NOTIFICATION_CLICK",
+//               message: messageType},
+//           };
+//           // console.log(payload);
+
+//           const options = {
+//             priority: "normal",
+//             timeToLive: 60 * 60,
+//           };
+
+//           // console.log(options);
+
+//           // console.log("Here 268 = ");
+//           // console.log("Token list");
+//           // console.log(tokenList);
+
+//           try {
+//             await
+//             admin.messaging().sendToDevice(tokenList, payload, options);
+//             console.log("Notification send success!! " );
+//           } catch (error) {
+//             console.log("Error sending notification!! " + error );
+//           }
+//           // console.log("Here 279 = ");
+
+//           const notificationMessage: NotificationMessage =
+//           new NotificationMessage(title, messageBody,
+//               winnerUser.uid, messageType);
+
+
+//           const notificationList:NotificationMessage[] = [];
+
+//           notificationList.push(notificationMessage);
+
+//           const noticationObject = {
+//             title: title,
+//             body: messageBody,
+//             uid: winnerUser.uid,
+//             messageType: messageType,
+//           };
+
+//           const dataOfNotification = await admin.firestore()
+//               .doc("notification/"+winnerUser.uid)
+//               .get();
+//           console.log("NOtification data");
+//           // console.log(dataOfNotification);
+//           try {
+//             if (dataOfNotification.exists) {
+//               await admin.firestore()
+//                   .doc("notification/"+winnerUser.uid)
+//                   .update({
+//                     messages: admin.firestore.
+//                         FieldValue.arrayUnion(noticationObject),
+//                   });
+//             } else {
+//               await admin.firestore()
+//                   .doc("notification/"+winnerUser.uid)
+//                   .set({
+//                     messages: admin.firestore.
+//                         FieldValue.arrayUnion(noticationObject),
+//                   });
+//             }
+//             console.log("Notification created successfully.");
+//           } catch (error) {
+//             console.log("Notification
+// creation failed for " + winnerUser.uid);
+//           }
+//           // console.log("Here 298 = ");
+
+
+//           response.send(filteredUsers[highestScoreIndex]);
+//         } else {
+//           console.log("Error");
+//           response.status(500).send("No Data");
+//         }
+//       } catch (error) {
+//         console.log("Error");
+//         response.status(500).send(error);
+//       }
+//     }
+// );
 
 exports.onAttemptedUsersUpdate = functions.firestore
     .document("Gigs/{gigId}")
@@ -254,226 +485,250 @@ exports.onAttemptedUsersUpdate = functions.firestore
       }
     });
 
-// export const getAllAttemptedUsers = functions.https.onRequest(
+
+exports.finishTaskOnUpdate = functions.firestore
+    .document("Gigs/{gigId}")
+    .onUpdate(async (change, context) => {
+      try {
+        const gigDataBefore = change.before.data();
+        const gigDataAfter = change.after.data();
+        const gigId = context.params.gigId;
+        console.log(gigDataAfter.description);
+        console.log(`Now in gig = ${gigId}`);
+        if (gigDataAfter) {
+          if (
+            gigDataAfter.finishTaskUsers.length ==
+        gigDataBefore.finishTaskUsers.length
+          ) {
+            console.log("The attempted users are the same");
+            return null;
+          }
+
+          const gigData = gigDataAfter;
+          if (gigData) {
+            if (gigData.finishTaskUsers.length>0) {
+              const providerId = gigData.providerId;
+
+
+              const userInUsersDocument = await admin
+                  .firestore()
+                  .doc(`Users/${providerId}`)
+                  .get();
+              const winnerUser = userInUsersDocument.data();
+
+              if (winnerUser) {
+                const tokenList : string[] = [];
+
+                for (const token of winnerUser.token) {
+                  tokenList.push(token);
+                }
+                // console.log("Here 254 = ");
+
+                const title = "Task submitted by member!";
+
+                const messageBody =
+              `Please review task ${gigData.title}.`;
+                const messageType = "task_submit";
+
+                const payload = {
+                  notification: {
+                    title: title,
+                    body: messageBody,
+                  },
+                  data: {
+                    click_action: "FLUTTER_NOTIFICATION_CLICK",
+                    message: messageType},
+                };
+                // console.log(payload);
+
+                const options = {
+                  priority: "high",
+                  timeToLive: 60 * 60,
+                };
+
+                // console.log(options);
+
+                // console.log("Here 268 = ");
+                // console.log("Token list");
+                // console.log(tokenList);
+
+                try {
+                  await
+                  admin.messaging().sendToDevice(tokenList, payload, options);
+                  console.log("Notification send success!! " );
+                } catch (error) {
+                  console.log("Error sending notification!! " + error );
+                }
+                // console.log("Here 279 = ");
+
+                const noticationObject = {
+                  title: title,
+                  body: messageBody,
+                  uid: winnerUser.uid,
+                  messageType: messageType,
+                };
+
+                const dataOfNotification = await admin.firestore()
+                    .doc("notification/"+winnerUser.uid)
+                    .get();
+                console.log("NOtification data");
+                // console.log(dataOfNotification);
+                try {
+                  if (dataOfNotification.exists) {
+                    await admin.firestore()
+                        .doc("notification/"+winnerUser.uid)
+                        .update({
+                          messages: admin.firestore.
+                              FieldValue.arrayUnion(noticationObject),
+                        });
+                  } else {
+                    await admin.firestore()
+                        .doc("notification/"+winnerUser.uid)
+                        .set({
+                          messages: admin.firestore.
+                              FieldValue.arrayUnion(noticationObject),
+                        });
+                  }
+                  console.log("Notification created successfully.");
+                } catch (error) {
+                  console.log("Notification creation failed for " +
+              winnerUser.uid);
+                }
+                return null;
+              } else {
+                console.log("No user of this id = " + providerId);
+                return null;
+              }
+            } else {
+              console.log("Error No User");
+              return null;
+            }
+          } else {
+            console.log("Error No Data");
+            return null;
+          }
+        } else {
+          console.log("Error Gig data after");
+          return null;
+        }
+      } catch (error) {
+        console.log("Error");
+        return null;
+      }
+    }
+    );
+
+
+// export const finishTaskOnUpdate = functions.https.onRequest(
 //     async (request, response) => {
 //       try {
-//         const gigIdPermanent = "QlXhPJqFynohpGL5nXGo";
+//         const gigIdPermanent = "7GTkIACCtdmY5YAU2jXy";
 //         const snapshotss = await admin
 //             .firestore()
 //             .doc("Gigs/" + gigIdPermanent + "/")
 //             .get();
 
-//         const attempData = snapshotss.data();
-//         if (attempData) {
-//           const attempUsers = attempData.attemptedUsers;
-//           const filteredUsers: any[] = [];
-//           attempUsers.forEach((singleUser: any) => {
-//             if (firstFilteringBasedOnBasicInfo(singleUser)) {
-//               filteredUsers.push(singleUser);
-//             }
-//           });
-//           const scores: number[] = [];
-//           const promises: any[] = [];
-//           let i = 0;
-//           filteredUsers.forEach((singleUser: any) => {
-//             console.log("User Email  = " + singleUser.email);
-//             scores[i] = calcuateScoresBasedOnDistance(singleUser);
-//             console.log(
-//                 "Distance score = " +
-//             calcuateScoresBasedOnDistance(singleUser)
-//             );
-//             scores[i] += calcuateScoresBasedOnUserLevel(singleUser);
-//             console.log(
-//                 "User Level score = " +
-//             calcuateScoresBasedOnUserLevel(singleUser)
-//             );
+//         const gigData = snapshotss.data();
+//         if (gigData) {
+//           if (gigData.finishTaskUsers.length>0) {
+//             const providerId = gigData.providerId;
 
-//             const userInUsersDocument = admin
+
+//             const userInUsersDocument = await admin
 //                 .firestore()
-//                 .doc(`Users/${singleUser.uid}`)
+//                 .doc(`Users/${providerId}`)
 //                 .get();
+//             const winnerUser = userInUsersDocument.data();
 
-//             promises.push(userInUsersDocument);
-//             i++;
-//           });
+//             if (winnerUser) {
+//               const tokenList : string[] = [];
 
-//           const reply = await Promise.all(promises);
+//               for (const token of winnerUser.token) {
+//                 tokenList.push(token);
+//               }
+//               // console.log("Here 254 = ");
 
-//           // console.log("reply = " + reply);
-//           // response.send("reply = " + reply);
-//           i = 0;
-//           const userAccountListResult: any[] = [];
-//           if (reply) {
-//             reply.forEach((snap) => {
-//               const singleUserFullData = snap.data();
+//               const title = "Task submitted by member!";
 
-//               scores[i] += calcuateHeuristicScore(singleUserFullData);
-//               console.log(`Heuristic score =
-//                  ${calcuateHeuristicScore(singleUserFullData)}`);
+//               const messageBody =
+//                 `Please review task ${gigData.title}.`;
+//               const messageType = "task_submit";
 
+//               const payload = {
+//                 notification: {
+//                   title: title,
+//                   body: messageBody,
+//                 },
+//                 data: {
+//                   click_action: "FLUTTER_NOTIFICATION_CLICK",
+//                   message: messageType},
+//               };
+//               // console.log(payload);
 
-//               userAccountListResult.push(singleUserFullData);
-//               i++;
-//             });
-//           }
-//           const highestScoreIndex = calculateTheBestScoreIndex(scores);
-//           console.log(scores);
-//           console.log("userAccountListResult = " +
-//           userAccountListResult[highestScoreIndex]+
-//           " and scores = " +scores[highestScoreIndex]);
+//               const options = {
+//                 priority: "high",
+//                 timeToLive: 60 * 60,
+//               };
 
-//           // response.send(`userAccountListResult =
-//           //        ${userAccountListResult[highestScoreIndex]}
-//           // and scores = ${scores[highestScoreIndex]}`);
+//               // console.log(options);
 
-//           try {
-//             await admin
-//                 .firestore()
-//                 .doc("Gigs/" + gigIdPermanent)
-//                 .update({assignedUser: filteredUsers[highestScoreIndex]});
-//             console.log("Assigned user updated for gig");
-//           } catch (error) {
-//             console.log("Assigned user update failed!" + error);
-//           }
+//               // console.log("Here 268 = ");
+//               // console.log("Token list");
+//               // console.log(tokenList);
 
+//               try {
+//                 await
+//                 admin.messaging().sendToDevice(tokenList, payload, options);
+//                 console.log("Notification send success!! " );
+//               } catch (error) {
+//                 console.log("Error sending notification!! " + error );
+//               }
+//               // console.log("Here 279 = ");
 
-//           const winnerUser = userAccountListResult[highestScoreIndex];
-//           // console.log("winnerUser = ");
-//           // console.log(winnerUser);
+//               const noticationObject = {
+//                 title: title,
+//                 body: messageBody,
+//                 uid: winnerUser.uid,
+//                 messageType: messageType,
+//               };
 
-
-//           const gigMini = {
-//             "gigId": attempData.gigId,
-//             "money": attempData.money,
-//             "title": attempData.title,
-//             // 'location': this.location,
-//             "location": attempData.location,
-
-//             "distance": filteredUsers[highestScoreIndex].distance,
-//           };
-
-//           try {
-//             await admin.firestore()
-//                 .doc("Users/"+winnerUser.uid)
-//                 .update({
-//                   currentGigs: admin.firestore.
-//                       FieldValue.arrayUnion(gigMini),
-//                 });
-
-//             console.log("current gig of " + winnerUser.uid + " updated");
-//           } catch (error) {
-//             console.log("current gig update failed!" + error);
-//           }
-
-//           attempUsers.forEach((singleUser: any) => {
-//             try {
-//               admin.firestore()
-//                   .doc("Users/"+singleUser.uid)
-//                   .update({
-//                     waitListGigs: admin.firestore.
-//                         FieldValue.arrayRemove(gigMini),
-//                   });
-
-//               console.log("Waitlisted gig of "
-// + singleUser.uid + " updated");
-//             } catch (error) {
-//               console.log("Waitlisted gig update failed!" + error);
-//             }
-//           });
-
-
-//           const tokenList : string[] = [];
-
-//           for (const token of winnerUser.token) {
-//             tokenList.push(token);
-//           }
-//           // console.log("Here 254 = ");
-
-//           const title = "Task Assigned to " +
-//            winnerUser.firstName + " " + winnerUser.lastName;
-//           const messageBody =
-//               `Congrats! Task ${attempData.title} has been assigned to you`;
-//           const messageType = "task_assign";
-
-//           const payload = {
-//             notification: {
-//               title: title,
-//               body: messageBody,
-//             },
-//             data: {
-//               click_action: "FLUTTER_NOTIFICATION_CLICK",
-//               message: messageType},
-//           };
-//           // console.log(payload);
-
-//           const options = {
-//             priority: "normal",
-//             timeToLive: 60 * 60,
-//           };
-
-//           // console.log(options);
-
-//           // console.log("Here 268 = ");
-//           // console.log("Token list");
-//           // console.log(tokenList);
-
-//           try {
-//             await
-//             admin.messaging().sendToDevice(tokenList, payload, options);
-//             console.log("Notification send success!! " );
-//           } catch (error) {
-//             console.log("Error sending notification!! " + error );
-//           }
-//           // console.log("Here 279 = ");
-
-//           const notificationMessage: NotificationMessage =
-//           new NotificationMessage(title, messageBody,
-//               winnerUser.uid, messageType);
-
-
-//           const notificationList:NotificationMessage[] = [];
-
-//           notificationList.push(notificationMessage);
-
-//           const noticationObject = {
-//             title: title,
-//             body: messageBody,
-//             uid: winnerUser.uid,
-//             messageType: messageType,
-//           };
-
-//           const dataOfNotification = await admin.firestore()
-//               .doc("notification/"+winnerUser.uid)
-//               .get();
-//           console.log("NOtification data");
-//           // console.log(dataOfNotification);
-//           try {
-//             if (dataOfNotification.exists) {
-//               await admin.firestore()
+//               const dataOfNotification = await admin.firestore()
 //                   .doc("notification/"+winnerUser.uid)
-//                   .update({
-//                     messages: admin.firestore.
-//                         FieldValue.arrayUnion(noticationObject),
-//                   });
+//                   .get();
+//               console.log("NOtification data");
+//               // console.log(dataOfNotification);
+//               try {
+//                 if (dataOfNotification.exists) {
+//                   await admin.firestore()
+//                       .doc("notification/"+winnerUser.uid)
+//                       .update({
+//                         messages: admin.firestore.
+//                             FieldValue.arrayUnion(noticationObject),
+//                       });
+//                 } else {
+//                   await admin.firestore()
+//                       .doc("notification/"+winnerUser.uid)
+//                       .set({
+//                         messages: admin.firestore.
+//                             FieldValue.arrayUnion(noticationObject),
+//                       });
+//                 }
+//                 console.log("Notification created successfully.");
+//               } catch (error) {
+//                 console.log("Notification creation failed for " +
+//                 winnerUser.uid);
+//               }
+//               response.send("success");
 //             } else {
-//               await admin.firestore()
-//                   .doc("notification/"+winnerUser.uid)
-//                   .set({
-//                     messages: admin.firestore.
-//                         FieldValue.arrayUnion(noticationObject),
-//                   });
+//               console.log("No user of this id = " + providerId);
+//               response.status(500).send("No Data provider");
 //             }
-//             console.log("Notification created successfully.");
-//           } catch (error) {
-//             console.log("Notification
-// creation failed for " + winnerUser.uid);
+//           } else {
+//             console.log("Error No User");
+//             response.status(500).send("No User");
 //           }
-//           // console.log("Here 298 = ");
-
-
-//           response.send(filteredUsers[highestScoreIndex]);
 //         } else {
-//           console.log("Error");
+//           console.log("Error No Data");
 //           response.status(500).send("No Data");
 //         }
 //       } catch (error) {
@@ -482,123 +737,6 @@ exports.onAttemptedUsersUpdate = functions.firestore
 //       }
 //     }
 // );
-
-
-export const finishTaskOnUpdate = functions.https.onRequest(
-    async (request, response) => {
-      try {
-        const gigIdPermanent = "QlXhPJqFynohpGL5nXGo";
-        const snapshotss = await admin
-            .firestore()
-            .doc("Gigs/" + gigIdPermanent + "/")
-            .get();
-
-        const gigData = snapshotss.data();
-        if (gigData) {
-          if (gigData.finishTaskUsers.length>0) {
-            const providerId = gigData.providerId;
-
-
-            const userInUsersDocument = await admin
-                .firestore()
-                .doc(`Users/${providerId}`)
-                .get();
-            const winnerUser = userInUsersDocument.data();
-
-            if (winnerUser) {
-              const tokenList : string[] = [];
-
-              for (const token of winnerUser.token) {
-                tokenList.push(token);
-              }
-              // console.log("Here 254 = ");
-
-              const title = "Task submitted by member!";
-
-              const messageBody =
-                `Please review task ${gigData.title}.`;
-              const messageType = "task_submit";
-
-              const payload = {
-                notification: {
-                  title: title,
-                  body: messageBody,
-                },
-                data: {
-                  click_action: "FLUTTER_NOTIFICATION_CLICK",
-                  message: messageType},
-              };
-              // console.log(payload);
-
-              const options = {
-                priority: "high",
-                timeToLive: 60 * 60,
-              };
-
-              // console.log(options);
-
-              // console.log("Here 268 = ");
-              // console.log("Token list");
-              // console.log(tokenList);
-
-              try {
-                await
-                admin.messaging().sendToDevice(tokenList, payload, options);
-                console.log("Notification send success!! " );
-              } catch (error) {
-                console.log("Error sending notification!! " + error );
-              }
-              // console.log("Here 279 = ");
-
-              const noticationObject = {
-                title: title,
-                body: messageBody,
-                uid: winnerUser.uid,
-                messageType: messageType,
-              };
-
-              const dataOfNotification = await admin.firestore()
-                  .doc("notification/"+winnerUser.uid)
-                  .get();
-              console.log("NOtification data");
-              // console.log(dataOfNotification);
-              try {
-                if (dataOfNotification.exists) {
-                  await admin.firestore()
-                      .doc("notification/"+winnerUser.uid)
-                      .update({
-                        messages: admin.firestore.
-                            FieldValue.arrayUnion(noticationObject),
-                      });
-                } else {
-                  await admin.firestore()
-                      .doc("notification/"+winnerUser.uid)
-                      .set({
-                        messages: admin.firestore.
-                            FieldValue.arrayUnion(noticationObject),
-                      });
-                }
-                console.log("Notification created successfully.");
-              } catch (error) {
-                console.log("Notification creation failed for " +
-                winnerUser.uid);
-              }
-            } else {
-              console.log("No user of this id = " + providerId);
-            }
-          }
-
-          response.send("something");
-        } else {
-          console.log("Error");
-          response.status(500).send("No Data");
-        }
-      } catch (error) {
-        console.log("Error");
-        response.status(500).send(error);
-      }
-    }
-);
 
 /**
    * filter based on distance form the user
