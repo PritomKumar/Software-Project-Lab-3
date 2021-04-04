@@ -3,6 +3,7 @@ import 'package:earneasy/app_screens/task/checkbox_task.dart';
 import 'package:earneasy/app_screens/task/dropdown_task.dart';
 import 'package:earneasy/app_screens/task/free_text_task.dart';
 import 'package:earneasy/app_screens/task/multiple_choice_task.dart';
+import 'package:earneasy/app_screens/task/warning_message_task.dart';
 import 'package:earneasy/models/task.dart';
 import 'package:earneasy/models/user.dart';
 import 'package:earneasy/services/firestore_task_databse.dart';
@@ -84,6 +85,16 @@ class _TaskListPageState extends State<TaskListPage> {
     return true;
   }
 
+  void _showErrorDialog() async {
+    dynamic selectedTask = await showDialog<dynamic>(
+      context: context,
+      builder: (context) => WarningMessageTask(
+        allUserCompletedTask: _allUserCompletedTask,
+        taskSnippetList: widget.userResponse.taskSnippetList,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var taskList = widget.userResponse.taskSnippetList;
@@ -115,8 +126,13 @@ class _TaskListPageState extends State<TaskListPage> {
                       : "Submit & Review"),
                   icon: Icon(Icons.check),
                   onPressed: () async {
-                    await _findTasksThatAreCompletedOrNot(taskList);
+                    if (!_floatingActionButtonPressed) {
+                      await _findTasksThatAreCompletedOrNot(taskList);
+                    } else {
+                      _showErrorDialog();
+                    }
                     _floatingActionButtonPressed = true;
+
                     setState(() {});
                   },
                 ),
