@@ -5,6 +5,7 @@ import 'dart:math' as Math;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/app_screens/gigs/gig_page.dart';
 import 'package:earneasy/app_screens/home/side_drawer.dart';
+import 'package:earneasy/app_screens/task/review_task.dart';
 import 'package:earneasy/models/gig.dart';
 import 'package:earneasy/models/user.dart';
 import 'package:earneasy/models/user_location.dart';
@@ -486,7 +487,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
                   onTap: _handleTap,
                   myLocationButtonEnabled: true,
                   myLocationEnabled: true,
-                  compassEnabled: true,
+                  compassEnabled: false,
                   trafficEnabled: userType == "worker" ? true : false,
 
                   buildingsEnabled: true,
@@ -506,7 +507,28 @@ class _GoogleMapsState extends State<GoogleMaps> {
                           //color: Theme.of(context).buttonColor,
                         ),
                       )
-                    : Container(),
+                    : Positioned(
+                        top: 0,
+                        left: 10,
+                        child: RaisedButton(
+                          child: Text(
+                            "Review Task",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.normal),
+                          ),
+                          onPressed: () {
+                            print("Pressed review ");
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ReviewTask(
+                                        gigMiniList: _user.createdGigs)));
+                          },
+                          color: Colors.deepPurpleAccent,
+                          //color: Theme.of(context).buttonColor,
+                        ),
+                      ),
                 userType == "provider"
                     ? Container(
                         alignment: Alignment.bottomCenter,

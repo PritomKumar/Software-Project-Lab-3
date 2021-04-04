@@ -42,7 +42,7 @@ class WarningMessageTaskState extends State<WarningMessageTask> {
                 margin: EdgeInsets.symmetric(
                   horizontal: 0.0,
                 ),
-                height: MediaQuery.of(context).size.height - 210,
+                height: MediaQuery.of(context).size.height - 250,
                 width: double.maxFinite,
                 padding: EdgeInsets.all(10.0),
                 child: ListView.builder(

@@ -44,6 +44,18 @@ void showWarningToast(String message) {
   );
 }
 
+void showNeutralToast(String message) {
+  Fluttertoast.showToast(
+    msg: message,
+    toastLength: Toast.LENGTH_SHORT,
+    gravity: ToastGravity.BOTTOM,
+    timeInSecForIosWeb: 1,
+    backgroundColor: Colors.black87,
+    textColor: Colors.white,
+    fontSize: 16.0,
+  );
+}
+
 void showSuccessToast(String message) {
   Fluttertoast.showToast(
     msg: message,
@@ -65,6 +77,7 @@ final CollectionReference fireStoreUsersRef =
     FirebaseFirestore.instance.collection("Users");
 final CollectionReference fireStoreGigsRef =
     FirebaseFirestore.instance.collection("Gigs");
+
 //#endregion
 
 //#region Text Field Decorations

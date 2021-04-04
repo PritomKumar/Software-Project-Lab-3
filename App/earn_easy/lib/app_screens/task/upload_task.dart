@@ -63,7 +63,7 @@ class UploadTaskListTile extends StatelessWidget {
           key: Key(task.hashCode.toString()),
           onDismissed: ($) => onDismissed(),
           child: ListTile(
-            title: Text('Upload Task #${task.hashCode}'),
+            // title: Text('Upload Task #${task.hashCode}'),
             subtitle: subtitle,
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
