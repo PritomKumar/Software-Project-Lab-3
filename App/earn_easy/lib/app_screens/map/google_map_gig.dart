@@ -278,7 +278,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
         onDragEnd: (dragEndPosition) {
           print(dragEndPosition);
         },
-        infoWindow: InfoWindow(title: "Add Gig", snippet: "Create new gig?"),
+        infoWindow: InfoWindow(title: "Add Task", snippet: "Create new task?"),
       ));
     });
   }
@@ -416,7 +416,11 @@ class _GoogleMapsState extends State<GoogleMaps> {
               actions: <Widget>[
                 FlatButton.icon(
                   icon: Icon(Icons.person),
-                  label: Text("Logout"),
+                  label: Text(
+                    "Logout",
+                    textScaleFactor: 1.2,
+                    style: TextStyle(),
+                  ),
                   onPressed: () async {
                     await _authService.signOut();
                   },
@@ -424,37 +428,39 @@ class _GoogleMapsState extends State<GoogleMaps> {
               ],
             ),
             //#region bottomNavigationBar
-            bottomNavigationBar: BottomNavigationBar(
-              currentIndex: _bottomNavigationBarIndex,
-              //backgroundColor: Theme.of(context).primaryColor,
-              items: [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.directions_run),
-                  title: Text("Available"),
-                  backgroundColor: Theme.of(context).accentColor,
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.assignment_turned_in),
-                  title: Text("My gigs"),
-                  backgroundColor: Theme.of(context).accentColor,
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.hourglass_empty),
-                  title: Text("Waitlisted"),
-                  backgroundColor: Theme.of(context).accentColor,
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.assignment),
-                  title: Text("Completed"),
-                  backgroundColor: Theme.of(context).accentColor,
-                ),
-              ],
-              onTap: (value) {
-                setState(() {
-                  _bottomNavigationBarIndex = value;
-                });
-              },
-            ),
+            bottomNavigationBar: userType == "worker"
+                ? BottomNavigationBar(
+                    currentIndex: _bottomNavigationBarIndex,
+                    //backgroundColor: Theme.of(context).primaryColor,
+                    items: [
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.directions_run),
+                        title: Text("Available"),
+                        backgroundColor: Theme.of(context).accentColor,
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.assignment_turned_in),
+                        title: Text("My Tasks"),
+                        backgroundColor: Theme.of(context).accentColor,
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.hourglass_empty),
+                        title: Text("Waitlisted"),
+                        backgroundColor: Theme.of(context).accentColor,
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.assignment),
+                        title: Text("Completed"),
+                        backgroundColor: Theme.of(context).accentColor,
+                      ),
+                    ],
+                    onTap: (value) {
+                      setState(() {
+                        _bottomNavigationBarIndex = value;
+                      });
+                    },
+                  )
+                : null,
             //#endregion bottomNavigationBar
             body: Stack(
               children: <Widget>[
@@ -481,6 +487,10 @@ class _GoogleMapsState extends State<GoogleMaps> {
                   myLocationButtonEnabled: true,
                   myLocationEnabled: true,
                   compassEnabled: true,
+                  trafficEnabled: userType == "worker" ? true : false,
+
+                  buildingsEnabled: true,
+                  zoomControlsEnabled: userType == "worker" ? false : true,
                 ),
                 userType == "worker"
                     ? Positioned(
@@ -502,7 +512,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
                         alignment: Alignment.bottomCenter,
                         child: RaisedButton(
                           child: Text(
-                            "Add GIG",
+                            "Add Task",
                             style: TextStyle(color: Colors.white),
                           ),
                           color: Colors.deepPurpleAccent,

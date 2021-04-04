@@ -87,61 +87,61 @@ class _SignInOptionsState extends State<SignInOptions> {
                               dynamic result =
                               await _authService.signInWithGoogleAuth();
                               if (result == null) {
-                                setState(() {
-                                  loading = false;
-                                  error =
-                                  "could not sign in to your google account";
-                                });
-                              }
-                            }
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        width: 250.0,
-                        child: RaisedButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
+                                    setState(() {
+                                      loading = false;
+                                      error =
+                                          "could not sign in to your google account";
+                                    });
+                                  }
+                                }
+                              },
+                            ),
                           ),
-                          color: Colors.white,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Icon(
-                                FontAwesomeIcons.facebook,
-                                color: Colors.blueAccent,
-                              ),
-                              SizedBox(
-                                width: 10.0,
-                              ),
-                              Text(
-                                "Sign in with Facebook",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18.0,
-                                ),
-                              ),
-                            ],
+                          // SizedBox(
+                          //   height: 10,
+                          // ),
+                          // Container(
+                          //   width: 250.0,
+                          //   child: RaisedButton(
+                          //     shape: RoundedRectangleBorder(
+                          //       borderRadius: BorderRadius.circular(30.0),
+                          //     ),
+                          //     color: Colors.white,
+                          //     child: Row(
+                          //       mainAxisAlignment: MainAxisAlignment.start,
+                          //       children: <Widget>[
+                          //         Icon(
+                          //           FontAwesomeIcons.facebook,
+                          //           color: Colors.blueAccent,
+                          //         ),
+                          //         SizedBox(
+                          //           width: 10.0,
+                          //         ),
+                          //         Text(
+                          //           "Sign in with Facebook",
+                          //           style: TextStyle(
+                          //             color: Colors.black,
+                          //             fontSize: 18.0,
+                          //           ),
+                          //         ),
+                          //       ],
+                          //     ),
+                          //     onPressed: () async {
+                          //
+                          //     },
+                          //   ),
+                          // ),
+                          SizedBox(
+                            height: 10,
                           ),
-                          onPressed: () async {
-
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        width: 250.0,
-                        child: RaisedButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                          color: Colors.white,
-                          child: Row(
+                          Container(
+                            width: 250.0,
+                            child: RaisedButton(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                              color: Colors.white,
+                              child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
                               Icon(

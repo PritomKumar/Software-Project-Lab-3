@@ -75,7 +75,7 @@ class _GigPageState extends State<GigPage> {
         child: Scaffold(
           appBar: AppBar(
             // title: Text(gig.title),
-            title: Text("Available Gigs"),
+            title: Text("Available Tasks"),
             automaticallyImplyLeading: true,
             leading: IconButton(
               icon: Icon(Icons.arrow_back_ios),

@@ -71,7 +71,7 @@ class _SplashScreenState extends State<SplashScreen> {
                         padding: EdgeInsets.only(top: 10.0),
                       ),
                       Text(
-                        "earnEasy",
+                        "EarnEasy",
                         textDirection: TextDirection.ltr,
                         style: theme.textTheme.headline4,
                       ),

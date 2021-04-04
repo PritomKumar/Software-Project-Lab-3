@@ -114,11 +114,12 @@ class _GigAddPageState extends State<GigAddPage> {
 
     return MaterialApp(
         debugShowCheckedModeBanner: false,
+        theme: Theme.of(context),
         home: SafeArea(
           child: isLoading
               ? Scaffold(
                   appBar: AppBar(
-                    title: Text('Add Gig'),
+                    title: Text('Add Task'),
                   ),
                   body: Form(
                     key: _formKey,
@@ -165,10 +166,10 @@ class _GigAddPageState extends State<GigAddPage> {
                                   child: TextFormField(
                                     controller: titleController,
                                     decoration:
-                                        InputDecoration(hintText: "Gig Title"),
+                                        InputDecoration(hintText: "Task Title"),
                                     validator: (value) {
                                       return value.isEmpty
-                                          ? "Enter your gig title"
+                                          ? "Enter your task title"
                                           : null;
                                     },
                                   ),
@@ -188,10 +189,10 @@ class _GigAddPageState extends State<GigAddPage> {
                                   child: TextFormField(
                                     controller: descriptionController,
                                     decoration: InputDecoration(
-                                        hintText: "Gig description"),
+                                        hintText: "Task description"),
                                     validator: (value) {
                                       return value.isEmpty
-                                          ? "Enter gig description"
+                                          ? "Enter task description"
                                           : null;
                                     },
                                   ),
@@ -414,7 +415,7 @@ class _GigAddPageState extends State<GigAddPage> {
                               child: Row(
                                 children: <Widget>[
                                   Text(
-                                    "Type of Gig :",
+                                    "Type of Task :",
                                     style: TextStyle(fontSize: size.width / 25),
                                   ),
                                   SizedBox(
@@ -461,7 +462,7 @@ class _GigAddPageState extends State<GigAddPage> {
                                 child: ExpansionTile(
                                   initiallyExpanded: false,
                                   title: Text(
-                                    "Tasks",
+                                    "Sub Tasks",
                                     textScaleFactor: 1.35,
                                     style: TextStyle(
                                         //color: Colors.red,
@@ -498,7 +499,7 @@ class _GigAddPageState extends State<GigAddPage> {
                                             ),
                                           ),
                                           subtitle: Text(
-                                            "Task #${index + 1}",
+                                            "Sub Task #${index + 1}",
                                             textScaleFactor: 1.1,
                                           ),
                                           trailing: IconButton(
@@ -544,7 +545,7 @@ class _GigAddPageState extends State<GigAddPage> {
                                     elevation: 5.0,
                                     autofocus: true,
                                     icon: Icon(Icons.add_circle),
-                                    label: Text("Add Task"),
+                                    label: Text("Add Sub Task"),
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(15.0)),
@@ -556,7 +557,7 @@ class _GigAddPageState extends State<GigAddPage> {
                             RaisedButton(
                               color: Colors.pink[400],
                               child: Text(
-                                "Create Gig",
+                                "Create Task",
                                 style: TextStyle(color: Colors.white),
                               ),
                               onPressed: () async {
@@ -603,11 +604,11 @@ class _GigAddPageState extends State<GigAddPage> {
                                     } else {
                                       Fluttertoast.showToast(
                                           msg:
-                                              "Your Gig is added successfully");
+                                              "Your Task is added successfully");
                                     }
                                   } else {
                                     Fluttertoast.showToast(
-                                        msg: "Your Gig is already added");
+                                        msg: "Your Task is already added");
                                   }
                                 }
                               },
