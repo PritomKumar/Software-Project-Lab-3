@@ -497,10 +497,10 @@ export const finishTaskOnUpdate = functions.https.onRequest(
 
         const attempData = snapshotss.data();
         if (attempData) {
-          const attempUsers = attempData.attemptedUsers;
+          const attempUsers = attempData.finishTaskUsers;
           
 
-          response.send(filteredUsers[highestScoreIndex]);
+          response.send("something");
         } else {
           console.log("Error");
           response.status(500).send("No Data");

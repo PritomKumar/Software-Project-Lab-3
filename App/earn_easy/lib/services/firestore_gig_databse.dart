@@ -142,6 +142,19 @@ class DatabaseServiceGigs {
     }
   }
 
+  Future updateFinishTaskUserInGig(
+      String gigId, UserMinimum finishTaskUser) async {
+    try {
+      await fireStoreGigsRef.doc(gigId).update({
+        'finishTaskUsers': FieldValue.arrayUnion([finishTaskUser.toMap()])
+      }).then((value) {
+        print("Finish task user updated with $userUid");
+      });
+    } catch (e) {
+      print("Finish task update failed $e");
+    }
+  }
+
   Future userAccountOfCurrentUser() async {
     var result =
         await fireStoreGigsRef.doc(FirebaseAuth.instance.currentUser.uid).get();

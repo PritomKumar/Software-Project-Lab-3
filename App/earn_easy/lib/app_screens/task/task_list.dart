@@ -6,6 +6,7 @@ import 'package:earneasy/app_screens/task/multiple_choice_task.dart';
 import 'package:earneasy/app_screens/task/warning_message_task.dart';
 import 'package:earneasy/models/task.dart';
 import 'package:earneasy/models/user.dart';
+import 'package:earneasy/services/firestore_gig_databse.dart';
 import 'package:earneasy/services/firestore_task_databse.dart';
 import 'package:earneasy/services/firestore_user_databse.dart';
 import 'package:earneasy/shared/constants.dart';
@@ -151,6 +152,26 @@ class _TaskListPageState extends State<TaskListPage> {
                               await DatabaseServiceUser()
                                   .submitFinalTaskToProvider(
                                       widget.userResponse);
+
+                              var finishTaskUser = UserMinimum(
+                                uid: _userAccount.uid,
+                                firstName: _userAccount.firstName,
+                                lastName: _userAccount.lastName,
+                                email: _userAccount.email,
+                                photoUrl: _userAccount.photoUrl,
+                                token: _userAccount.token,
+                                level: _userAccount.level,
+                                numberOfCurrentGigs:
+                                    _userAccount.currentGigs.length,
+                                distance: widget.userResponse.distance,
+                                type: _userAccount.type,
+                                writeAccess: _userAccount.writeAccess,
+                              );
+
+                              await DatabaseServiceGigs()
+                                  .updateFinishTaskUserInGig(
+                                      widget.userResponse.gigId,
+                                      finishTaskUser);
                               showSuccessToast(
                                   "Task is submitted successfully!");
                             } else {
