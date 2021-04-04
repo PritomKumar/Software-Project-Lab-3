@@ -79,7 +79,7 @@ class _GigPageState extends State<GigPage> {
             automaticallyImplyLeading: true,
             leading: IconButton(
               icon: Icon(Icons.arrow_back_ios),
-              onPressed: () => Navigator.pop(context, false),
+              onPressed: () => Navigator.pop(context),
             ),
           ),
           body: Center(

@@ -72,12 +72,30 @@ class _DropdownTaskScreenState extends State<DropdownTaskScreen> {
     return true;
   }
 
+  String _getResultFromTask(DropdownTask task) {
+    String answer = "Response: ";
+    bool check = false;
+    for (int i = 0; i < task.optionList.length; i++) {
+      if (task.optionList[i].checked) {
+        answer += task.optionList[i].option + ", ";
+        check = true;
+      }
+    }
+    if (check) {
+      answer = answer.substring(0, answer.length - 2) + ".";
+    }
+    return answer;
+  }
+
   @override
   Widget build(BuildContext context) {
     _dropdownTask = Provider.of<DropdownTask>(context);
     var _userAccount = Provider.of<UserAccount>(context);
     var userType = _userAccount.type;
     int index = widget.index;
+    String answer = _dropdownTask != null
+        ? _getResultFromTask(_dropdownTask)
+        : "Response: ";
     if (_dropdownTask != null) _getSelectedValueFromOptionList();
     return SafeArea(
       child: _dropdownTask != null
@@ -187,41 +205,53 @@ class _DropdownTaskScreenState extends State<DropdownTaskScreen> {
                     SizedBox(
                       height: 20.0,
                     ),
-                    DropdownButtonFormField(
-                        elevation: 5,
-                        decoration: InputDecoration(
-                          hoverColor: Colors.red,
-                          filled: true,
-                          focusColor: Colors.green,
-                          fillColor: Colors.grey[150],
-                          contentPadding:
-                              EdgeInsets.only(left: 5.0, right: 5.0),
-                        ),
-                        icon: Icon(FontAwesomeIcons.angleDown),
-                        iconEnabledColor: Colors.blueGrey,
-                        iconDisabledColor: Colors.grey[350],
-                        isExpanded: true,
-                        hint: Text(
-                          _selectedItem ?? "Choose a option",
-                          textScaleFactor: 1.1,
-                        ),
-                        value: _selectedItem,
-                        items: _dropdownTask.optionList
-                            .map((TaskOption dropdownItem) {
-                          if (_selectedItem == null) {
-                            _selectedItem = _dropdownTask.optionList[0].option;
-                          }
-                          return DropdownMenuItem<String>(
-                            value: dropdownItem.option,
-                            child: Text(dropdownItem.option),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedItem = value;
-                            _setOptionsAccordingToSelectedValue(_selectedItem);
-                          });
-                        }),
+                    userType == "worker"
+                        ? DropdownButtonFormField(
+                            elevation: 5,
+                            decoration: InputDecoration(
+                              hoverColor: Colors.red,
+                              filled: true,
+                              focusColor: Colors.green,
+                              fillColor: Colors.grey[150],
+                              contentPadding:
+                                  EdgeInsets.only(left: 5.0, right: 5.0),
+                            ),
+                            icon: Icon(FontAwesomeIcons.angleDown),
+                            iconEnabledColor: Colors.blueGrey,
+                            iconDisabledColor: Colors.grey[350],
+                            isExpanded: true,
+                            hint: Text(
+                              _selectedItem ?? "Choose a option",
+                              textScaleFactor: 1.1,
+                            ),
+                            value: _selectedItem,
+                            items: _dropdownTask.optionList
+                                .map((TaskOption dropdownItem) {
+                              if (_selectedItem == null) {
+                                _selectedItem =
+                                    _dropdownTask.optionList[0].option;
+                              }
+                              return DropdownMenuItem<String>(
+                                value: dropdownItem.option,
+                                child: Text(dropdownItem.option),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedItem = value;
+                                _setOptionsAccordingToSelectedValue(
+                                    _selectedItem);
+                              });
+                            })
+                        : Text(
+                            answer,
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontStyle: FontStyle.italic,
+                              color: Colors.black,
+                              fontSize: 18,
+                            ),
+                          ),
                     SizedBox(
                       height: 20.0,
                     ),

@@ -1,14 +1,14 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 
-// admin.initializeApp({
-//   credential: admin.credential
-//       .cert
-// ("F:\\SPL3\\App\\firecasts version 2\\functions\\serviceKey.json"),
-//   databaseURL: "https://earneasy-5e92c.firebaseio.com",
-// });
+// admin.initializeApp();
+admin.initializeApp({
+  credential: admin.credential
+      .cert
+("F:\\SPL3\\App\\firecasts version 2\\functions\\serviceKey.json"),
+  databaseURL: "https://earneasy-5e92c.firebaseio.com",
+});
 
-admin.initializeApp();
 
 // distance = 500
 // level = 200 (1-10) for inactivit level goes down
@@ -483,6 +483,34 @@ exports.onAttemptedUsersUpdate = functions.firestore
 //       }
 //     }
 // );
+
+
+
+export const finishTaskOnUpdate = functions.https.onRequest(
+    async (request, response) => {
+      try {
+        const gigIdPermanent = "QlXhPJqFynohpGL5nXGo";
+        const snapshotss = await admin
+            .firestore()
+            .doc("Gigs/" + gigIdPermanent + "/")
+            .get();
+
+        const attempData = snapshotss.data();
+        if (attempData) {
+          const attempUsers = attempData.attemptedUsers;
+          
+
+          response.send(filteredUsers[highestScoreIndex]);
+        } else {
+          console.log("Error");
+          response.status(500).send("No Data");
+        }
+      } catch (error) {
+        console.log("Error");
+        response.status(500).send(error);
+      }
+    }
+);
 
 /**
    * filter based on distance form the user

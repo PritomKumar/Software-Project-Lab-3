@@ -120,6 +120,11 @@ class _GigAddPageState extends State<GigAddPage> {
               ? Scaffold(
                   appBar: AppBar(
                     title: Text('Add Task'),
+                    automaticallyImplyLeading: true,
+                    leading: IconButton(
+                      icon: Icon(Icons.arrow_back_ios),
+                      onPressed: () => Navigator.pop(context),
+                    ),
                   ),
                   body: Form(
                     key: _formKey,

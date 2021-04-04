@@ -44,9 +44,18 @@ class _FreeTextTaskScreenState extends State<FreeTextTaskScreen> {
     return true;
   }
 
+  String _getResultFromTask(FreeTextTask task) {
+    String answer = "Response: ";
+    answer += task.userResponse + ".";
+    return answer;
+  }
+
   @override
   Widget build(BuildContext context) {
     _freeTextTask = Provider.of<FreeTextTask>(context);
+    String answer = _freeTextTask != null
+        ? _getResultFromTask(_freeTextTask)
+        : "Response: ";
     int index = widget.index;
     var _userAccount = Provider.of<UserAccount>(context);
     var userType = _userAccount.type;
@@ -157,22 +166,32 @@ class _FreeTextTaskScreenState extends State<FreeTextTaskScreen> {
                       textScaleFactor: 1.5,
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    Container(
-                      height: 200.0,
-                      child: Card(
-                          color: Colors.grey[100],
-                          elevation: 2.0,
-                          child: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: TextField(
-                              maxLines: null,
-                              autofocus: true,
-                              controller: _freeTextEditingController,
-                              decoration: InputDecoration.collapsed(
-                                  hintText: "Enter your answer here"),
+                    userType == "worker"
+                        ? Container(
+                            height: 200.0,
+                            child: Card(
+                                color: Colors.grey[100],
+                                elevation: 2.0,
+                                child: Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: TextField(
+                                    maxLines: null,
+                                    autofocus: true,
+                                    controller: _freeTextEditingController,
+                                    decoration: InputDecoration.collapsed(
+                                        hintText: "Enter your answer here"),
+                                  ),
+                                )),
+                          )
+                        : Text(
+                            answer,
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontStyle: FontStyle.italic,
+                              color: Colors.black,
+                              fontSize: 18,
                             ),
-                          )),
-                    ),
+                          ),
                     userType == "worker"
                         ? Align(
                             alignment: Alignment.bottomCenter,

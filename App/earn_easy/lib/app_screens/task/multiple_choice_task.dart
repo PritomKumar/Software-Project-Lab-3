@@ -58,9 +58,27 @@ class _MultipleChoiceTaskScreenState extends State<MultipleChoiceTaskScreen> {
     return true;
   }
 
+  String _getResultFromTask(MultipleChoiceTask task) {
+    String answer = "Response: ";
+    bool check = false;
+    for (int i = 0; i < task.optionList.length; i++) {
+      if (task.optionList[i].checked) {
+        answer += task.optionList[i].option + ", ";
+        check = true;
+      }
+    }
+    if (check) {
+      answer = answer.substring(0, answer.length - 2) + ".";
+    }
+    return answer;
+  }
+
   @override
   Widget build(BuildContext context) {
     _multipleChoiceTask = Provider.of<MultipleChoiceTask>(context);
+    String answer = _multipleChoiceTask != null
+        ? _getResultFromTask(_multipleChoiceTask)
+        : "Response: ";
     int index = widget.index;
     var _userAccount = Provider.of<UserAccount>(context);
     var userType = _userAccount.type;
@@ -177,33 +195,44 @@ class _MultipleChoiceTaskScreenState extends State<MultipleChoiceTaskScreen> {
                     SizedBox(
                       height: 20.0,
                     ),
-                    ListView.builder(
-                      itemCount: _multipleChoiceTask.optionList.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        _getGroupValueFromOptionList();
-                        return RadioListTile(
-                          title: Text(
-                            _multipleChoiceTask.optionList[index].option,
-                            textScaleFactor: 1.2,
+                    userType == "worker"
+                        ? ListView.builder(
+                            itemCount: _multipleChoiceTask.optionList.length,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              _getGroupValueFromOptionList();
+                              return RadioListTile(
+                                title: Text(
+                                  _multipleChoiceTask.optionList[index].option,
+                                  textScaleFactor: 1.2,
+                                ),
+                                controlAffinity:
+                                    ListTileControlAffinity.leading,
+                                activeColor: Colors.deepPurple,
+                                selected: _groupValue == index,
+                                value: index,
+                                groupValue: _groupValue,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _groupValue = value;
+                                    print("Value $_groupValue");
+                                    _multipleChoiceTask.optionList[index]
+                                        .checked = _groupValue == index;
+                                    _setOtherOptionsToFalse(index);
+                                  });
+                                },
+                              );
+                            },
+                          )
+                        : Text(
+                            answer,
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontStyle: FontStyle.italic,
+                              color: Colors.black,
+                              fontSize: 18,
+                            ),
                           ),
-                          controlAffinity: ListTileControlAffinity.leading,
-                          activeColor: Colors.deepPurple,
-                          selected: _groupValue == index,
-                          value: index,
-                          groupValue: _groupValue,
-                          onChanged: (value) {
-                            setState(() {
-                              _groupValue = value;
-                              print("Value $_groupValue");
-                              _multipleChoiceTask.optionList[index].checked =
-                                  _groupValue == index;
-                              _setOtherOptionsToFalse(index);
-                            });
-                          },
-                        );
-                      },
-                    ),
                     userType == "worker"
                         ? Align(
                             alignment: Alignment.bottomCenter,

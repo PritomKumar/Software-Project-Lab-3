@@ -47,12 +47,31 @@ class _CheckBoxTaskScreenState extends State<CheckBoxTaskScreen> {
     return true;
   }
 
+  String _getResultFromTask(CheckboxTask task) {
+    String answer = "Response: ";
+    bool check = false;
+    for (int i = 0; i < task.optionList.length; i++) {
+      if (task.optionList[i].checked) {
+        answer += task.optionList[i].option + ", ";
+        check = true;
+      }
+    }
+    if (check) {
+      answer = answer.substring(0, answer.length - 2) + ".";
+    }
+    return answer;
+  }
+
   @override
   Widget build(BuildContext context) {
     int index = widget.index;
+
     _checkboxTask = Provider.of<CheckboxTask>(context);
     var _userAccount = Provider.of<UserAccount>(context);
     var userType = _userAccount.type;
+    String answer = _checkboxTask != null
+        ? _getResultFromTask(_checkboxTask)
+        : "Response: ";
     return SafeArea(
       child: _checkboxTask != null
           ? Scaffold(
@@ -161,28 +180,41 @@ class _CheckBoxTaskScreenState extends State<CheckBoxTaskScreen> {
                     SizedBox(
                       height: 20.0,
                     ),
-                    ListView.builder(
-                      itemCount: _checkboxTask.optionList.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return CheckboxListTile(
-                          title: Text(
-                            _checkboxTask.optionList[index].option,
-                            textScaleFactor: 1.2,
+                    userType == "worker"
+                        ? ListView.builder(
+                            itemCount: _checkboxTask.optionList.length,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return CheckboxListTile(
+                                title: Text(
+                                  _checkboxTask.optionList[index].option,
+                                  textScaleFactor: 1.2,
+                                ),
+                                controlAffinity:
+                                    ListTileControlAffinity.leading,
+                                activeColor: Colors.deepPurple,
+                                checkColor: Colors.white,
+                                selected:
+                                    _checkboxTask.optionList[index].checked,
+                                value: _checkboxTask.optionList[index].checked,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    _checkboxTask.optionList[index].checked =
+                                        value;
+                                  });
+                                },
+                              );
+                            },
+                          )
+                        : Text(
+                            answer,
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontStyle: FontStyle.italic,
+                              color: Colors.black,
+                              fontSize: 18,
+                            ),
                           ),
-                          controlAffinity: ListTileControlAffinity.leading,
-                          activeColor: Colors.deepPurple,
-                          checkColor: Colors.white,
-                          selected: _checkboxTask.optionList[index].checked,
-                          value: _checkboxTask.optionList[index].checked,
-                          onChanged: (bool value) {
-                            setState(() {
-                              _checkboxTask.optionList[index].checked = value;
-                            });
-                          },
-                        );
-                      },
-                    ),
                     userType == "worker"
                         ? Align(
                             alignment: Alignment.bottomCenter,

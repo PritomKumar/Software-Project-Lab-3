@@ -52,6 +52,11 @@ class _ReviewTaskState extends State<ReviewTask> {
         child: Scaffold(
           appBar: AppBar(
             title: Text('Review Task'),
+            automaticallyImplyLeading: true,
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back_ios),
+              onPressed: () => Navigator.pop(context),
+            ),
           ),
           body: widget.gigMiniList.length == 0
               ? Center(
