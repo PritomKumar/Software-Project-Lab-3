@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earneasy/models/gig.dart';
 import 'package:earneasy/models/user.dart';
+import 'package:earneasy/services/firestore_gig_databse.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -51,6 +52,37 @@ class DatabaseServiceUser {
 
   UserAccount _userDataFromSnapshot(DocumentSnapshot snapshot) {
     return isLoggedIn() ? UserAccount.fromMap(snapshot.data()) : null;
+  }
+
+  Future updateCompletedGigAndRemoveFromCurrentGigList(String gigId) async {
+    try {
+      Gig gig = await DatabaseServiceGigs().getGigFromGigID(gigId);
+      print(gig);
+      await fireStoreUsersRef.doc(userUid).update({
+        'completedGigs': FieldValue.arrayUnion([
+          GigMini(
+            gigId: gig.gigId,
+            title: gig.title,
+            money: gig.money,
+            location: gig.location,
+            distance: LocationService()
+                .calculateDistanceGigAndUserCurrentLocation(gig.location),
+          ).toMap()
+        ]),
+        'currentGigs': FieldValue.arrayRemove([
+          GigMini(
+            gigId: gig.gigId,
+            title: gig.title,
+            money: gig.money,
+            location: gig.location,
+            distance: LocationService()
+                .calculateDistanceGigAndUserCurrentLocation(gig.location),
+          ).toMap()
+        ]),
+      }).then((value) {
+        print("attemptedGigs, waitListGigs and allGigs updated in user");
+      });
+    } catch (error) {}
   }
 
   Future updateAttemptedGigWaitListedGigAndAllGigsAtTheSameTime(Gig gig) async {

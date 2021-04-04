@@ -7,6 +7,7 @@ import 'package:earneasy/app_screens/task/warning_message_task.dart';
 import 'package:earneasy/models/task.dart';
 import 'package:earneasy/models/user.dart';
 import 'package:earneasy/services/firestore_task_databse.dart';
+import 'package:earneasy/services/firestore_user_databse.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
 import 'package:flutter/cupertino.dart';
@@ -79,6 +80,16 @@ class _TaskListPageState extends State<TaskListPage> {
     }
   }
 
+  bool _checkIfTaskListIsComplete(List<TaskSnippet> taskSnippetList) {
+    for (int i = 0; i < taskSnippetList.length; i++) {
+      if (taskSnippetList[i].require && !_allUserCompletedTask[i]) {
+        print("Task is not complete ${taskSnippetList[i].taskDescription}");
+        return false;
+      }
+    }
+    return true;
+  }
+
   Future<bool> _onWillPop() async {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => GoogleMaps()));
@@ -86,7 +97,7 @@ class _TaskListPageState extends State<TaskListPage> {
   }
 
   void _showErrorDialog() async {
-    dynamic selectedTask = await showDialog<dynamic>(
+    await showDialog<dynamic>(
       context: context,
       builder: (context) => WarningMessageTask(
         allUserCompletedTask: _allUserCompletedTask,
@@ -129,7 +140,14 @@ class _TaskListPageState extends State<TaskListPage> {
                     if (!_floatingActionButtonPressed) {
                       await _findTasksThatAreCompletedOrNot(taskList);
                     } else {
-                      _showErrorDialog();
+                      if (_checkIfTaskListIsComplete(
+                          widget.userResponse.taskSnippetList)) {
+                        await DatabaseServiceUser()
+                            .updateCompletedGigAndRemoveFromCurrentGigList(
+                                widget.userResponse.gigId);
+                      } else {
+                        _showErrorDialog();
+                      }
                     }
                     _floatingActionButtonPressed = true;
 
