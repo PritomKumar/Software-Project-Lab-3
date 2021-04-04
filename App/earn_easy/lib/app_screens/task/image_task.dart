@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:earneasy/app_screens/task/task_list.dart';
 import 'package:earneasy/app_screens/task/upload_task.dart';
 import 'package:earneasy/models/task.dart';
+import 'package:earneasy/models/user.dart';
 import 'package:earneasy/services/firestore_task_databse.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
@@ -317,6 +318,8 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
     super.build(context);
     _imageTask = Provider.of<ImageTask>(context);
     int index = widget.index;
+    var _userAccount = Provider.of<UserAccount>(context);
+    var userType = _userAccount.type;
 
     if (_imageTask == null) {
       print("_imageTask is nullll");
@@ -647,39 +650,41 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
                         },
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: RaisedButton.icon(
-                        elevation: 5.0,
-                        color: Colors.white,
-                        label: Text(
-                          "Finish Task",
-                          style: TextStyle(
-                            color: Colors.black87,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        icon: Icon(
-                          Icons.cloud_upload,
-                          color: Colors.blueAccent,
-                        ),
-                        onPressed: () async {
-                          //compressImageFromImageFile();
-                          // print("Task Added = ${_imageFileList
-                          //     .length} Task needed = ${_imageTask.numberOfImages}");
-                          if (_imageFileList.length >=
-                              _imageTask.numberOfImages) {
-                            _imageTask.isCompleted = true;
-                            await uploadToFirebase();
-                            showSuccessToast(
-                                "${_imageFileList.length} images has been successfully added");
-                          } else {
-                            showWarningToast(
-                                "Please select at least ${_imageTask.numberOfImages} images");
-                          }
-                        },
-                      ),
-                    ),
+                    userType == "worker"
+                        ? Align(
+                            alignment: Alignment.bottomCenter,
+                            child: RaisedButton.icon(
+                              elevation: 5.0,
+                              color: Colors.white,
+                              label: Text(
+                                "Finish Task",
+                                style: TextStyle(
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              icon: Icon(
+                                Icons.cloud_upload,
+                                color: Colors.blueAccent,
+                              ),
+                              onPressed: () async {
+                                //compressImageFromImageFile();
+                                // print("Task Added = ${_imageFileList
+                                //     .length} Task needed = ${_imageTask.numberOfImages}");
+                                if (_imageFileList.length >=
+                                    _imageTask.numberOfImages) {
+                                  _imageTask.isCompleted = true;
+                                  await uploadToFirebase();
+                                  showSuccessToast(
+                                      "${_imageFileList.length} images has been successfully added");
+                                } else {
+                                  showWarningToast(
+                                      "Please select at least ${_imageTask.numberOfImages} images");
+                                }
+                              },
+                            ),
+                          )
+                        : Container(),
                     ...uploadFileTileList,
                   ],
                 ),

@@ -27,6 +27,11 @@ class TaskListPage extends StatefulWidget {
 }
 
 class _TaskListPageState extends State<TaskListPage> {
+  bool _floatingActionButtonPressed = false;
+  var _userAccount;
+  String userType = "worker";
+  List<bool> _allUserCompletedTask = <bool>[];
+
   Widget _getIconBasedOnTaskType(String taskType) {
     switch (taskType) {
       case ImageTaskType:
@@ -49,11 +54,6 @@ class _TaskListPageState extends State<TaskListPage> {
         break;
     }
   }
-
-  bool _floatingActionButtonPressed = false;
-  var _userAccount;
-
-  List<bool> _allUserCompletedTask = <bool>[];
 
   Future _findTasksThatAreCompletedOrNot(
       List<TaskSnippet> taskSnippetList) async {
@@ -110,6 +110,7 @@ class _TaskListPageState extends State<TaskListPage> {
   Widget build(BuildContext context) {
     var taskList = widget.userResponse.taskSnippetList;
     _userAccount = Provider.of<UserAccount>(context);
+    userType = _userAccount.type;
     return taskList != null
         ? MaterialApp(
             debugShowCheckedModeBanner: false,
@@ -127,35 +128,41 @@ class _TaskListPageState extends State<TaskListPage> {
                         Navigator.pop(context);
                       }),
                 ),
-                floatingActionButton: FloatingActionButton.extended(
-                  splashColor: Colors.white,
-                  highlightElevation: 5.0,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(15.0))),
-                  label: Text(_floatingActionButtonPressed
-                      ? "Submit"
-                      : "Submit & Review"),
-                  icon: Icon(Icons.check),
-                  onPressed: () async {
-                    if (!_floatingActionButtonPressed) {
-                      await _findTasksThatAreCompletedOrNot(taskList);
-                    } else {
-                      if (_checkIfTaskListIsComplete(
-                          widget.userResponse.taskSnippetList)) {
-                        await DatabaseServiceUser()
-                            .updateCompletedGigAndRemoveFromCurrentGigList(
-                                widget.userResponse.gigId);
-                        await DatabaseServiceUser()
-                            .submitFinalTaskToProvider(widget.userResponse);
-                      } else {
-                        _showErrorDialog();
-                      }
-                    }
-                    _floatingActionButtonPressed = true;
+                floatingActionButton: userType == "worker"
+                    ? FloatingActionButton.extended(
+                        splashColor: Colors.white,
+                        highlightElevation: 5.0,
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(15.0))),
+                        label: Text(_floatingActionButtonPressed
+                            ? "Submit"
+                            : "Submit & Review"),
+                        icon: Icon(Icons.check),
+                        onPressed: () async {
+                          if (!_floatingActionButtonPressed) {
+                            await _findTasksThatAreCompletedOrNot(taskList);
+                          } else {
+                            if (_checkIfTaskListIsComplete(
+                                widget.userResponse.taskSnippetList)) {
+                              await DatabaseServiceUser()
+                                  .updateCompletedGigAndRemoveFromCurrentGigList(
+                                      widget.userResponse.gigId);
+                              await DatabaseServiceUser()
+                                  .submitFinalTaskToProvider(
+                                      widget.userResponse);
+                              showSuccessToast(
+                                  "Task is submitted successfully!");
+                            } else {
+                              _showErrorDialog();
+                            }
+                          }
+                          _floatingActionButtonPressed = true;
 
-                    setState(() {});
-                  },
-                ),
+                          setState(() {});
+                        },
+                      )
+                    : null,
                 body: ListView.builder(
                   itemCount: taskList.length ?? 10,
                   itemBuilder: (context, index) => Column(

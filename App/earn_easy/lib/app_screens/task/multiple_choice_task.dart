@@ -1,5 +1,6 @@
 import 'package:earneasy/app_screens/task/task_list.dart';
 import 'package:earneasy/models/task.dart';
+import 'package:earneasy/models/user.dart';
 import 'package:earneasy/services/firestore_task_databse.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
@@ -61,7 +62,8 @@ class _MultipleChoiceTaskScreenState extends State<MultipleChoiceTaskScreen> {
   Widget build(BuildContext context) {
     _multipleChoiceTask = Provider.of<MultipleChoiceTask>(context);
     int index = widget.index;
-
+    var _userAccount = Provider.of<UserAccount>(context);
+    var userType = _userAccount.type;
     return SafeArea(
       child: _multipleChoiceTask != null
           ? Scaffold(
@@ -202,37 +204,40 @@ class _MultipleChoiceTaskScreenState extends State<MultipleChoiceTaskScreen> {
                         );
                       },
                     ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: RaisedButton.icon(
-                        elevation: 5.0,
-                        color: Colors.white,
-                        label: Text(
-                          "Finish Task",
-                          style: TextStyle(
-                            color: Colors.black87,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        icon: Icon(
-                          Icons.cloud_upload,
-                          color: Colors.blueAccent,
-                        ),
-                        onPressed: () async {
-                          print("Group value =  $_groupValue");
-                          if (_groupValue == null) {
-                            showWarningToast("Please select a option.");
-                          } else {
-                            _multipleChoiceTask.isCompleted = true;
-                            await DatabaseServiceTasks()
-                                .updateMultipleChoiceTask(_multipleChoiceTask);
-                            showSuccessToast(
-                                "Your choice is successfully added");
-                            // Navigator.pop(context, _multipleChoiceTask);
-                          }
-                        },
-                      ),
-                    ),
+                    userType == "worker"
+                        ? Align(
+                            alignment: Alignment.bottomCenter,
+                            child: RaisedButton.icon(
+                              elevation: 5.0,
+                              color: Colors.white,
+                              label: Text(
+                                "Finish Task",
+                                style: TextStyle(
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              icon: Icon(
+                                Icons.cloud_upload,
+                                color: Colors.blueAccent,
+                              ),
+                              onPressed: () async {
+                                print("Group value =  $_groupValue");
+                                if (_groupValue == null) {
+                                  showWarningToast("Please select a option.");
+                                } else {
+                                  _multipleChoiceTask.isCompleted = true;
+                                  await DatabaseServiceTasks()
+                                      .updateMultipleChoiceTask(
+                                          _multipleChoiceTask);
+                                  showSuccessToast(
+                                      "Your choice is successfully added");
+                                  // Navigator.pop(context, _multipleChoiceTask);
+                                }
+                              },
+                            ),
+                          )
+                        : Container(),
                   ],
                 ),
               ),

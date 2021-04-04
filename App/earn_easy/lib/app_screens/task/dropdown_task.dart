@@ -1,6 +1,7 @@
 import 'package:earneasy/app_screens/task/task_list.dart';
 import 'package:earneasy/models/task.dart';
 import 'package:earneasy/models/task_option.dart';
+import 'package:earneasy/models/user.dart';
 import 'package:earneasy/services/firestore_task_databse.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
@@ -74,6 +75,8 @@ class _DropdownTaskScreenState extends State<DropdownTaskScreen> {
   @override
   Widget build(BuildContext context) {
     _dropdownTask = Provider.of<DropdownTask>(context);
+    var _userAccount = Provider.of<UserAccount>(context);
+    var userType = _userAccount.type;
     int index = widget.index;
     if (_dropdownTask != null) _getSelectedValueFromOptionList();
     return SafeArea(
@@ -222,38 +225,41 @@ class _DropdownTaskScreenState extends State<DropdownTaskScreen> {
                     SizedBox(
                       height: 20.0,
                     ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: RaisedButton.icon(
-                        elevation: 5.0,
-                        color: Colors.white,
-                        label: Text(
-                          "Finish Task",
-                          style: TextStyle(
-                            color: Colors.black87,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        icon: Icon(
-                          Icons.cloud_upload,
-                          color: Colors.blueAccent,
-                        ),
-                        onPressed: () async {
-                          // print(_dropdownTask.toMap());
-                          print("Selected Item = ${_selectedItem}");
-                          if (_checkIfAnyOptionsHaveBeenSelected() == false) {
-                            showWarningToast("Please select an option.");
-                          } else {
-                            _dropdownTask.isCompleted = true;
-                            await DatabaseServiceTasks()
-                                .updateDropdownTask(_dropdownTask);
-                            // Navigator.pop(context, _dropdownTask);
-                            showSuccessToast(
-                                "Option ${_selectedItem} is successfully added");
-                          }
-                        },
-                      ),
-                    ),
+                    userType == "worker"
+                        ? Align(
+                            alignment: Alignment.bottomCenter,
+                            child: RaisedButton.icon(
+                              elevation: 5.0,
+                              color: Colors.white,
+                              label: Text(
+                                "Finish Task",
+                                style: TextStyle(
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              icon: Icon(
+                                Icons.cloud_upload,
+                                color: Colors.blueAccent,
+                              ),
+                              onPressed: () async {
+                                // print(_dropdownTask.toMap());
+                                print("Selected Item = ${_selectedItem}");
+                                if (_checkIfAnyOptionsHaveBeenSelected() ==
+                                    false) {
+                                  showWarningToast("Please select an option.");
+                                } else {
+                                  _dropdownTask.isCompleted = true;
+                                  await DatabaseServiceTasks()
+                                      .updateDropdownTask(_dropdownTask);
+                                  // Navigator.pop(context, _dropdownTask);
+                                  showSuccessToast(
+                                      "Option ${_selectedItem} is successfully added");
+                                }
+                              },
+                            ),
+                          )
+                        : Container(),
                   ],
                 ),
               ),

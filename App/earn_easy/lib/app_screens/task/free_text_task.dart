@@ -1,5 +1,6 @@
 import 'package:earneasy/app_screens/task/task_list.dart';
 import 'package:earneasy/models/task.dart';
+import 'package:earneasy/models/user.dart';
 import 'package:earneasy/services/firestore_task_databse.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
@@ -47,7 +48,8 @@ class _FreeTextTaskScreenState extends State<FreeTextTaskScreen> {
   Widget build(BuildContext context) {
     _freeTextTask = Provider.of<FreeTextTask>(context);
     int index = widget.index;
-
+    var _userAccount = Provider.of<UserAccount>(context);
+    var userType = _userAccount.type;
     if (_freeTextTask != null)
       _freeTextEditingController.text = _freeTextTask.userResponse;
     return SafeArea(
@@ -171,38 +173,40 @@ class _FreeTextTaskScreenState extends State<FreeTextTaskScreen> {
                             ),
                           )),
                     ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: RaisedButton.icon(
-                        elevation: 5.0,
-                        color: Colors.white,
-                        label: Text(
-                          "Finish Task",
-                          style: TextStyle(
-                            color: Colors.black87,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        icon: Icon(
-                          Icons.cloud_upload,
-                          color: Colors.blueAccent,
-                        ),
-                        onPressed: () async {
-                          _freeTextTask.userResponse =
-                              _freeTextEditingController.text;
-                          if (_freeTextEditingController.text == "") {
-                            showWarningToast(
-                                "Please write a response to the question.");
-                          } else {
-                            _freeTextTask.isCompleted = true;
-                            await DatabaseServiceTasks()
-                                .updateFreeTextTask(_freeTextTask);
-                            showSuccessToast(
-                                "Your response is successfully stored.");
-                          }
-                        },
-                      ),
-                    ),
+                    userType == "worker"
+                        ? Align(
+                            alignment: Alignment.bottomCenter,
+                            child: RaisedButton.icon(
+                              elevation: 5.0,
+                              color: Colors.white,
+                              label: Text(
+                                "Finish Task",
+                                style: TextStyle(
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              icon: Icon(
+                                Icons.cloud_upload,
+                                color: Colors.blueAccent,
+                              ),
+                              onPressed: () async {
+                                _freeTextTask.userResponse =
+                                    _freeTextEditingController.text;
+                                if (_freeTextEditingController.text == "") {
+                                  showWarningToast(
+                                      "Please write a response to the question.");
+                                } else {
+                                  _freeTextTask.isCompleted = true;
+                                  await DatabaseServiceTasks()
+                                      .updateFreeTextTask(_freeTextTask);
+                                  showSuccessToast(
+                                      "Your response is successfully stored.");
+                                }
+                              },
+                            ),
+                          )
+                        : Container(),
                   ],
                 ),
               ),

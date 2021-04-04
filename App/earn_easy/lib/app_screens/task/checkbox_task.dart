@@ -1,5 +1,6 @@
 import 'package:earneasy/app_screens/task/task_list.dart';
 import 'package:earneasy/models/task.dart';
+import 'package:earneasy/models/user.dart';
 import 'package:earneasy/services/firestore_task_databse.dart';
 import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
@@ -50,6 +51,8 @@ class _CheckBoxTaskScreenState extends State<CheckBoxTaskScreen> {
   Widget build(BuildContext context) {
     int index = widget.index;
     _checkboxTask = Provider.of<CheckboxTask>(context);
+    var _userAccount = Provider.of<UserAccount>(context);
+    var userType = _userAccount.type;
     return SafeArea(
       child: _checkboxTask != null
           ? Scaffold(
@@ -180,40 +183,42 @@ class _CheckBoxTaskScreenState extends State<CheckBoxTaskScreen> {
                         );
                       },
                     ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: RaisedButton.icon(
-                        elevation: 5.0,
-                        color: Colors.white,
-                        label: Text(
-                          "Finish Task",
-                          style: TextStyle(
-                            color: Colors.black87,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        icon: Icon(
-                          Icons.cloud_upload,
-                          color: Colors.blueAccent,
-                        ),
-                        onPressed: () async {
-                          int numberOfOptionsSelected =
-                              _checkIfAnyOptionsHaveBeenSelected();
-                          if (numberOfOptionsSelected <= 0) {
-                            showWarningToast("Please select an option.");
-                          } else {
-                            _checkboxTask.isCompleted = true;
-                            await DatabaseServiceTasks()
-                                .updateCheckboxTask(_checkboxTask);
-                            // Navigator.pop(context, _dropdownTask);
-                            showSuccessToast(numberOfOptionsSelected > 1
-                                ? "Your selected options are successfully added."
-                                : "Your selected option is successfully added.");
-                          }
-                          //Navigator.pop(context,_checkboxTask);
-                        },
-                      ),
-                    ),
+                    userType == "worker"
+                        ? Align(
+                            alignment: Alignment.bottomCenter,
+                            child: RaisedButton.icon(
+                              elevation: 5.0,
+                              color: Colors.white,
+                              label: Text(
+                                "Finish Task",
+                                style: TextStyle(
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              icon: Icon(
+                                Icons.cloud_upload,
+                                color: Colors.blueAccent,
+                              ),
+                              onPressed: () async {
+                                int numberOfOptionsSelected =
+                                    _checkIfAnyOptionsHaveBeenSelected();
+                                if (numberOfOptionsSelected <= 0) {
+                                  showWarningToast("Please select an option.");
+                                } else {
+                                  _checkboxTask.isCompleted = true;
+                                  await DatabaseServiceTasks()
+                                      .updateCheckboxTask(_checkboxTask);
+                                  // Navigator.pop(context, _dropdownTask);
+                                  showSuccessToast(numberOfOptionsSelected > 1
+                                      ? "Your selected options are successfully added."
+                                      : "Your selected option is successfully added.");
+                                }
+                                //Navigator.pop(context,_checkboxTask);
+                              },
+                            ),
+                          )
+                        : Container(),
                   ],
                 ),
               ),
