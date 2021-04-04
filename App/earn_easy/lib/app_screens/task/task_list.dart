@@ -145,6 +145,8 @@ class _TaskListPageState extends State<TaskListPage> {
                         await DatabaseServiceUser()
                             .updateCompletedGigAndRemoveFromCurrentGigList(
                                 widget.userResponse.gigId);
+                        await DatabaseServiceUser()
+                            .submitFinalTaskToProvider(widget.userResponse);
                       } else {
                         _showErrorDialog();
                       }

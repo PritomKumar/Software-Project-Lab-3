@@ -54,6 +54,37 @@ class DatabaseServiceUser {
     return isLoggedIn() ? UserAccount.fromMap(snapshot.data()) : null;
   }
 
+  Future submitFinalTaskToProvider(UserResponse userResponse) async {
+    try {
+      Gig gig = await DatabaseServiceGigs().getGigFromGigID(userResponse.gigId);
+      print(gig);
+      await fireStoreUsersRef
+          .doc(gig.providerId)
+          .collection("submittedResponse")
+          .doc(gig.gigId)
+          .set(userResponse.toMap())
+          .then((_) {
+        print("Submitter response to provider ${gig.providerId} is a success");
+      });
+
+      for (int i = 0; i < userResponse.taskSnippetList.length; i++) {
+        fireStoreUsersRef
+            .doc(gig.providerId)
+            .collection("submittedResponse")
+            .doc(gig.gigId)
+            .collection("Tasks")
+            .doc(userResponse.taskSnippetList[i].taskId)
+            .set(userResponse.taskSnippetList[i].toMap())
+            .then((_) {
+          print("Task submit to provider = ${gig.providerId} with taskId ="
+              " ${userResponse.taskSnippetList[i].taskId} successful");
+        });
+      }
+    } catch (e) {
+      print("Submitter response to failed!  " + e.toString());
+    }
+  }
+
   Future updateCompletedGigAndRemoveFromCurrentGigList(String gigId) async {
     try {
       Gig gig = await DatabaseServiceGigs().getGigFromGigID(gigId);
@@ -80,7 +111,7 @@ class DatabaseServiceUser {
           ).toMap()
         ]),
       }).then((value) {
-        print("attemptedGigs, waitListGigs and allGigs updated in user");
+        print("completedGigs updated and currentGigs Remove in user");
       });
     } catch (error) {}
   }
