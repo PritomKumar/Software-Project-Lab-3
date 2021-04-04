@@ -4,8 +4,7 @@ import * as admin from "firebase-admin";
 // admin.initializeApp();
 admin.initializeApp({
   credential: admin.credential
-      .cert
-("F:\\SPL3\\App\\firecasts version 2\\functions\\serviceKey.json"),
+      .cert("F:\\SPL3\\App\\firecasts version 2\\functions\\serviceKey.json"),
   databaseURL: "https://earneasy-5e92c.firebaseio.com",
 });
 
@@ -174,7 +173,7 @@ exports.onAttemptedUsersUpdate = functions.firestore
             // console.log(payload);
 
             const options = {
-              priority: "normal",
+              priority: "high",
               timeToLive: 60 * 60,
             };
 
@@ -485,7 +484,6 @@ exports.onAttemptedUsersUpdate = functions.firestore
 // );
 
 
-
 export const finishTaskOnUpdate = functions.https.onRequest(
     async (request, response) => {
       try {
@@ -495,100 +493,101 @@ export const finishTaskOnUpdate = functions.https.onRequest(
             .doc("Gigs/" + gigIdPermanent + "/")
             .get();
 
-        const attempData = snapshotss.data();
-        if (attempData) {
-          const providerId = attempData.providerId;
-          
+        const gigData = snapshotss.data();
+        if (gigData) {
+          if (gigData.finishTaskUsers.length>0) {
+            const providerId = gigData.providerId;
 
-          const userInUsersDocument = await admin
-          .firestore()
-          .doc(`Users/${providerId}`)
-          .get();
-          const winnerUser =  userInUsersDocument.data();
 
-          if(winnerUser){
-            
-            const tokenList : string[] = [];
-  
-            for (const token of winnerUser.token) {
-              tokenList.push(token);
-            }
-            // console.log("Here 254 = ");
-  
-            const title = "Task Assigned to " +
-           winnerUser.firstName + " " + winnerUser.lastName;
-            const messageBody =
-              `Congrats! Task ${attempData.title} has been assigned to you`;
-            const messageType = "task_assign";
-  
-            const payload = {
-              notification: {
+            const userInUsersDocument = await admin
+                .firestore()
+                .doc(`Users/${providerId}`)
+                .get();
+            const winnerUser = userInUsersDocument.data();
+
+            if (winnerUser) {
+              const tokenList : string[] = [];
+
+              for (const token of winnerUser.token) {
+                tokenList.push(token);
+              }
+              // console.log("Here 254 = ");
+
+              const title = "Task submitted by member!";
+
+              const messageBody =
+                `Please review task ${gigData.title}.`;
+              const messageType = "task_submit";
+
+              const payload = {
+                notification: {
+                  title: title,
+                  body: messageBody,
+                },
+                data: {
+                  click_action: "FLUTTER_NOTIFICATION_CLICK",
+                  message: messageType},
+              };
+              // console.log(payload);
+
+              const options = {
+                priority: "high",
+                timeToLive: 60 * 60,
+              };
+
+              // console.log(options);
+
+              // console.log("Here 268 = ");
+              // console.log("Token list");
+              // console.log(tokenList);
+
+              try {
+                await
+                admin.messaging().sendToDevice(tokenList, payload, options);
+                console.log("Notification send success!! " );
+              } catch (error) {
+                console.log("Error sending notification!! " + error );
+              }
+              // console.log("Here 279 = ");
+
+              const noticationObject = {
                 title: title,
                 body: messageBody,
-              },
-              data: {
-                click_action: "FLUTTER_NOTIFICATION_CLICK",
-                message: messageType},
-            };
-            // console.log(payload);
-  
-            const options = {
-              priority: "normal",
-              timeToLive: 60 * 60,
-            };
-  
-            // console.log(options);
-  
-            // console.log("Here 268 = ");
-            // console.log("Token list");
-            // console.log(tokenList);
-  
-            try {
-              await
-              admin.messaging().sendToDevice(tokenList, payload, options);
-              console.log("Notification send success!! " );
-            } catch (error) {
-              console.log("Error sending notification!! " + error );
-            }
-            // console.log("Here 279 = ");
-  
-            const noticationObject = {
-              title: title,
-              body: messageBody,
-              uid: winnerUser.uid,
-              messageType: messageType,
-            };
-  
-            const dataOfNotification = await admin.firestore()
-                .doc("notification/"+winnerUser.uid)
-                .get();
-            console.log("NOtification data");
-            // console.log(dataOfNotification);
-            try {
-              if (dataOfNotification.exists) {
-                await admin.firestore()
-                    .doc("notification/"+winnerUser.uid)
-                    .update({
-                      messages: admin.firestore.
-                          FieldValue.arrayUnion(noticationObject),
-                    });
-              } else {
-                await admin.firestore()
-                    .doc("notification/"+winnerUser.uid)
-                    .set({
-                      messages: admin.firestore.
-                          FieldValue.arrayUnion(noticationObject),
-                    });
+                uid: winnerUser.uid,
+                messageType: messageType,
+              };
+
+              const dataOfNotification = await admin.firestore()
+                  .doc("notification/"+winnerUser.uid)
+                  .get();
+              console.log("NOtification data");
+              // console.log(dataOfNotification);
+              try {
+                if (dataOfNotification.exists) {
+                  await admin.firestore()
+                      .doc("notification/"+winnerUser.uid)
+                      .update({
+                        messages: admin.firestore.
+                            FieldValue.arrayUnion(noticationObject),
+                      });
+                } else {
+                  await admin.firestore()
+                      .doc("notification/"+winnerUser.uid)
+                      .set({
+                        messages: admin.firestore.
+                            FieldValue.arrayUnion(noticationObject),
+                      });
+                }
+                console.log("Notification created successfully.");
+              } catch (error) {
+                console.log("Notification creation failed for " +
+                winnerUser.uid);
               }
-              console.log("Notification created successfully.");
-            } catch (error) {
-              console.log("Notification creation failed for " + winnerUser.uid);
+            } else {
+              console.log("No user of this id = " + providerId);
             }
           }
-          else{
-            console.log("No user of this id = " + providerId);
-          }
-         
+
           response.send("something");
         } else {
           console.log("Error");
