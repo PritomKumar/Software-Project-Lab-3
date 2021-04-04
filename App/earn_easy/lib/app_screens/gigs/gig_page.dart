@@ -349,13 +349,18 @@ class _GigPageState extends State<GigPage> {
                                 // print("Start pressed");
 
                                 //TODo : Logic if the user is accepted then createUserResponseForAttemptedUser
-                                var checkIfUserResponseExits = fireStoreGigsRef
-                                    .doc(gig.gigId)
-                                    .collection("UserResponse")
-                                    .doc(userUid)
-                                    .get()
-                                    .then((value) {
-                                  return value;
+                                var checkIfUserResponseExits =
+                                    await fireStoreGigsRef
+                                        .doc(gig.gigId)
+                                        .collection("UserResponse")
+                                        .doc(userUid)
+                                        .get()
+                                        .then((value) {
+                                  if (value.exists) {
+                                    return value;
+                                  } else {
+                                    return null;
+                                  }
                                 });
                                 if (checkIfUserResponseExits == null) {
                                   await DatabaseServiceTasks()
