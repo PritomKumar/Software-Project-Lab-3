@@ -95,54 +95,67 @@ class _MapCustomItemBoxViewerState extends State<MapCustomItemBoxViewer> {
             SizedBox(
               height: MediaQuery.of(context).size.height / 3,
               child: ListView.builder(
+                shrinkWrap: true,
                 itemCount: gigs.length,
                 itemBuilder: (context, index) {
                   //TODO Have to use custom stateless widget instead of ListTile
-                  return ListTile(
-                    title: Text(gigs[index].title),
-                    dense: true,
-                    //TODO Subtitle with location name from google
-                    subtitle: Text("TODO"),
-                    trailing: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Text(
-                          gigs[index].money.toString(),
-                          textScaleFactor: 1.0,
+                  return Column(
+                    children: [
+                      ListTile(
+                        title: Text(
+                          gigs[index].title,
                           style: TextStyle(
-                            color: Colors.green,
-                            fontWeight: FontWeight.bold,
-                          ),
+                              fontSize: 14, fontWeight: FontWeight.bold),
                         ),
-                        Text(
-                          gigs[index].distance > 1.0
-                              ? gigs[index].distance.round().toString() + " km"
-                              : (gigs[index].distance * 1000)
-                                      .round()
-                                      .toString() +
-                                  " m",
-                          textScaleFactor: 1.0,
-                          style: TextStyle(
-                            color: Colors.black87,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                    onTap: () async {
-                      var gig = await DatabaseServiceGigs()
-                          .getGigFromGigID(gigs[index].gigId);
-                      if (gig != null) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => GigPage(
-                                gig: gig,
+
+                        dense: true,
+                        //TODO Subtitle with location name from google
+                        trailing: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Text(
+                              "\u0024 " + gigs[index].money.toString(),
+                              textScaleFactor: 1.0,
+                              style: TextStyle(
+                                color: Colors.green,
+                                fontWeight: FontWeight.bold,
                               ),
-                            ));
-                      }
-                    },
+                            ),
+                            Text(
+                              gigs[index].distance > 1.0
+                                  ? gigs[index].distance.round().toString() +
+                                      " km"
+                                  : (gigs[index].distance * 1000)
+                                          .round()
+                                          .toString() +
+                                      " m",
+                              textScaleFactor: 1.0,
+                              style: TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        ),
+                        onTap: () async {
+                          var gig = await DatabaseServiceGigs()
+                              .getGigFromGigID(gigs[index].gigId);
+                          if (gig != null) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => GigPage(
+                                    gig: gig,
+                                  ),
+                                ));
+                          }
+                        },
+                      ),
+                      Divider(
+                        thickness: 2,
+                      ),
+                    ],
                   );
                 },
               ),

@@ -43,7 +43,7 @@ dependencies:
   flutter_local_notifications: ^4.0.1
 
   # UI Elements
-  flutter_rating_bar: ^3.0.1+1
+  flutter_rating_bar: ^4.0.0
   flutter_spinkit: ^4.1.2
   font_awesome_flutter: ^8.8.1
   fluttertoast: ^7.0.1

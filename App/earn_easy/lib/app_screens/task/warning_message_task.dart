@@ -55,7 +55,10 @@ class WarningMessageTaskState extends State<WarningMessageTask> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              widget.taskSnippetList[index].taskDescription,
+                              "Question " +
+                                  index.toString() +
+                                  " " +
+                                  widget.taskSnippetList[index].taskDescription,
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                 fontSize: 18,
@@ -71,6 +74,7 @@ class WarningMessageTaskState extends State<WarningMessageTask> {
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w300,
+                                fontStyle: FontStyle.italic,
                                 color: widget.taskSnippetList[index].require
                                     ? Colors.red
                                     : Colors.black,
