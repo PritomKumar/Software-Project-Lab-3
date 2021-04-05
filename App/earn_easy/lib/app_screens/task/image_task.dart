@@ -800,7 +800,7 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
                       ),
                     )
                   : Padding(
-                padding: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(10.0),
                       child: Center(
                         child: ListView(
                           children: <Widget>[
