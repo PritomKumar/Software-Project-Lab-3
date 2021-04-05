@@ -16,6 +16,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:http/http.dart' show get;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
@@ -336,9 +337,71 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
     });
   }
 
+  String imageData;
+  bool dataLoaded = false;
+
+  _asyncMethod() async {
+    //comment out the next two lines to prevent the device from getting
+    // the image from the web in order to prove that the picture is
+    // coming from the device instead of the web.
+    var url =
+        "https://www.tottus.cl/static/img/productos/20104355_2.jpg"; // <-- 1
+    var response = await get(url); // <--2
+    var documentDirectory = await path_provider.getDownloadsDirectory();
+    var firstPath = documentDirectory.path + "/images";
+    var filePathAndName = documentDirectory.path + '/images/pic.jpg';
+
+    print("Data loaded ${filePathAndName}");
+    //comment out the next three lines to prevent the image from being saved
+    //to the device to show that it's coming from the internet
+    await Directory(firstPath).create(recursive: true); // <-- 1
+    File file2 = new File(filePathAndName); // <-- 2
+    file2.writeAsBytesSync(response.bodyBytes); // <-- 3
+    setState(() {
+      imageData = filePathAndName;
+      dataLoaded = true;
+    });
+  }
+
   @override
   void updateKeepAlive() {
     super.updateKeepAlive();
+  }
+
+  File downloadedImage;
+
+  List<Widget> listDownloaded = <Widget>[];
+
+  _downLoadImage() async {
+    for (int i = 0; i < _imageTask.imageDownloadUrlList.length; i++) {
+      var url = _imageTask.imageDownloadUrlList[i];
+
+      var image = Image.network(
+        url,
+        height: 500,
+        width: 200,
+      );
+      var widgetTemp = Container(
+        margin: EdgeInsets.symmetric(vertical: 1.0),
+        child: Card(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
+            child: image,
+          ),
+        ),
+      );
+
+      listDownloaded.add(widgetTemp);
+
+      // var documentDirectory = await path_provider.getDownloadsDirectory();
+      // var firstPath = documentDirectory.path + "/images";
+      // var imageId  = await ImageDownloader.downloadImage(url,destination: AndroidDestinationType.custom(directory: firstPath));
+      // var path = await ImageDownloader.findPath(imageId);
+      // downloadedImage = new File(path);
+      // print("Result + path");
+    }
   }
 
   @override
@@ -351,6 +414,11 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
     int index = widget.index;
     var _userAccount = Provider.of<UserAccount>(context);
     var userType = _userAccount.type;
+    if (_imageTask != null) {
+      if (_imageTask.imageDownloadUrlList.length > 0) {
+        _downLoadImage();
+      }
+    }
 
     if (_imageTask == null) {
       print("_imageTask is nullll");
@@ -732,204 +800,56 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
                       ),
                     )
                   : Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: ListView(
-                        children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.image,
-                                    size: 20.0,
-                                  ),
-                                  SizedBox(width: 10.0),
-                                  Text("Photo"),
-                                ],
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Text(
-                                    "Required",
-                                    textScaleFactor: 1.1,
-                                    style: TextStyle(
-                                      color: _imageTask.require
-                                          ? Colors.deepPurpleAccent
-                                          : Colors.black87,
+                padding: const EdgeInsets.all(10.0),
+                      child: Center(
+                        child: ListView(
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.image,
+                                      size: 20.0,
                                     ),
-                                  ),
-                                  Switch(
-                                    value: _imageTask.require,
-                                    onChanged: (value) {},
-                                    activeTrackColor: Colors.deepPurple[200],
-                                    focusColor: Colors.red,
-                                    activeColor: Colors.deepPurple,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Text(
-                            "${_imageTask.taskDescription}",
-                            textScaleFactor: 1.5,
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 5.0),
-                            child: GridView.builder(
-                              physics: ScrollPhysics(),
-                              shrinkWrap: true,
-                              scrollDirection: Axis.vertical,
-                              // +1 for the special case
-                              itemCount: _imageFileList.length + 1,
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount:
-                                          (MediaQuery.of(context).orientation ==
-                                                  Orientation.portrait)
-                                              ? 3
-                                              : 4),
-                              itemBuilder: (BuildContext context, int index) {
-                                return index == _imageFileList.length
-                                    ? Container(
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 10.0, horizontal: 5.0),
-                                        child: Card(
-                                          elevation: 5.0,
-                                          shadowColor: Colors.black87,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(5.0),
-                                          ),
-                                          borderOnForeground: true,
-                                          child: IconButton(
-                                            icon: Icon(
-                                              Icons.add_circle_outline,
-                                              color: Colors.grey[600],
-                                            ),
-                                            iconSize: 50.0,
-                                            splashColor: Colors.green,
-                                            onPressed: () {
-                                              _selectImageSource();
-                                            },
-                                          ),
-                                        ),
-                                      )
-                                    : Container(
-                                        margin: EdgeInsets.symmetric(
-                                            horizontal: 10.0, vertical: 10.0),
-                                        child: Stack(
-                                          fit: StackFit.expand,
-                                          overflow: Overflow.visible,
-                                          children: <Widget>[
-                                            Positioned(
-                                              child: Card(
-                                                elevation: 5.0,
-                                                shadowColor: Colors.green,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0),
-                                                ),
-                                                child: GridTile(
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.0),
-                                                    child: Image.file(
-                                                      _imageFileList[index],
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Positioned(
-                                              top: -20.0,
-                                              right: -20.0,
-                                              child: IconButton(
-                                                icon: Icon(
-                                                  Icons.cancel,
-                                                  color: Colors.redAccent,
-                                                ),
-                                                onPressed: () {
-                                                  setState(() {
-                                                    _imageFileList
-                                                        .removeAt(index);
-                                                  });
-                                                },
-                                              ),
-                                            ),
-                                            Positioned(
-                                              bottom: -20.0,
-                                              left: -20.0,
-                                              child: IconButton(
-                                                icon: Icon(
-                                                  FontAwesomeIcons.solidEdit,
-                                                  color: Colors.blueAccent,
-                                                ),
-                                                onPressed: () async {
-                                                  File croppedImage =
-                                                      await _cropImage(
-                                                          _imageFileList[
-                                                              index]);
-                                                  setState(() {
-                                                    _imageFileList[index] =
-                                                        croppedImage;
-                                                  });
-                                                },
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                              },
-                            ),
-                          ),
-                          userType == "worker"
-                              ? Align(
-                                  alignment: Alignment.bottomCenter,
-                                  child: RaisedButton.icon(
-                                    elevation: 5.0,
-                                    color: Colors.white,
-                                    label: Text(
-                                      "Finish Task",
+                                    SizedBox(width: 10.0),
+                                    Text("Photo"),
+                                  ],
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    Text(
+                                      "Required",
+                                      textScaleFactor: 1.1,
                                       style: TextStyle(
-                                        color: Colors.black87,
-                                        fontWeight: FontWeight.bold,
+                                        color: _imageTask.require
+                                            ? Colors.deepPurpleAccent
+                                            : Colors.black87,
                                       ),
                                     ),
-                                    icon: Icon(
-                                      Icons.cloud_upload,
-                                      color: Colors.blueAccent,
+                                    Switch(
+                                      value: _imageTask.require,
+                                      onChanged: (value) {},
+                                      activeTrackColor: Colors.deepPurple[200],
+                                      focusColor: Colors.red,
+                                      activeColor: Colors.deepPurple,
                                     ),
-                                    onPressed: () async {
-                                      //compressImageFromImageFile();
-                                      // print("Task Added = ${_imageFileList
-                                      //     .length} Task needed = ${_imageTask.numberOfImages}");
-                                      if (_imageFileList.length >=
-                                          _imageTask.numberOfImages) {
-                                        await uploadToFirebase();
-                                        _imageTask.isCompleted = true;
-                                        await DatabaseServiceTasks()
-                                            .updateImageTask(_imageTask);
-                                        showSuccessToast(
-                                            "${_imageFileList.length} images has been successfully added");
-                                      } else {
-                                        showWarningToast(
-                                            "Please select at least ${_imageTask.numberOfImages} images");
-                                      }
-                                    },
-                                  ),
-                                )
-                              : Container(),
-                          ...uploadFileTileList,
-                        ],
+                                  ],
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            Text(
+                              "${_imageTask.taskDescription}",
+                              textScaleFactor: 1.5,
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            ...listDownloaded,
+                          ],
+                        ),
                       ),
                     ),
             )

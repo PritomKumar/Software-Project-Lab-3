@@ -52,6 +52,8 @@ dependencies:
   file_picker: ^2.1.5
   flutter_image_compress: ^0.7.0
   path_provider: ^1.6.18
+  image_downloader: ^0.30.0
+
 
   # Google Maps Usage
   google_maps_flutter: ^0.5.28+1
