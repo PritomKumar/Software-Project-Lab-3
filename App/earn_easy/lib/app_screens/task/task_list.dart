@@ -3,6 +3,7 @@ import 'package:earneasy/app_screens/task/checkbox_task.dart';
 import 'package:earneasy/app_screens/task/dropdown_task.dart';
 import 'package:earneasy/app_screens/task/free_text_task.dart';
 import 'package:earneasy/app_screens/task/multiple_choice_task.dart';
+import 'package:earneasy/app_screens/task/rate_task.dart';
 import 'package:earneasy/app_screens/task/warning_message_task.dart';
 import 'package:earneasy/models/task.dart';
 import 'package:earneasy/models/user.dart';
@@ -13,6 +14,7 @@ import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -107,6 +109,15 @@ class _TaskListPageState extends State<TaskListPage> {
     );
   }
 
+  double rating = 3.5;
+
+  void showRatingBar() {
+    StarRating(
+      rating: rating,
+      onRatingChanged: (rating) => setState(() => this.rating = rating),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var taskList = widget.userResponse.taskSnippetList;
@@ -183,6 +194,25 @@ class _TaskListPageState extends State<TaskListPage> {
                           setState(() {});
                         },
                       )
+                    //   : FloatingActionButton.extended(
+                    //       elevation: 5.0,
+                    //       splashColor: Colors.white,
+                    //       backgroundColor: Colors.yellow,
+                    //       highlightElevation: 5.0,
+                    //       label: Text(
+                    //         "Rate Task",
+                    //         style: TextStyle(
+                    //           color: Colors.black,
+                    //           fontSize: 16,
+                    //         ),
+                    //       ),
+                    //       icon: Icon(Icons.sentiment_satisfied,color: Colors.green,),
+                    // onPressed: (){
+                    //   Navigator.push(context,
+                    //       MaterialPageRoute(builder: (context) =>   RateTask()));
+                    //   // showRatingBar();
+                    // },
+                    //     )
                     : null,
                 body: ListView.builder(
                   itemCount: taskList.length ?? 10,

@@ -33,8 +33,14 @@ class _GigPageState extends State<GigPage> {
 
   //#region Methods
   _checkIfUserIsInAttemptedUsers() async {
-    var attempt = await fireStoreGigsRef.doc(widget.gig.gigId).get();
-    var tempGig = Gig.fromMap(attempt.data());
+    var tempGig =
+        await fireStoreGigsRef.doc(widget.gig.gigId).get().then((value) {
+      if (value.exists) {
+        return Gig.fromMap(value.data());
+      } else {
+        return null;
+      }
+    });
     // var attemptedUserListFromGig = tempGig.attemptedUsers;
     // for (var attemptedUser in attemptedUserListFromGig) {
     //   if (attemptedUser.uid == userUid) {
@@ -44,8 +50,13 @@ class _GigPageState extends State<GigPage> {
     //     });
     //   }
     // }
-    var assignedUserUid = tempGig.assignedUser.uid;
-    if(assignedUserUid == userUid){
+    String assignedUserUid;
+    if (tempGig != null) {
+      assignedUserUid = tempGig.assignedUser.uid;
+    } else {
+      assignedUserUid = "";
+    }
+    if (assignedUserUid == userUid) {
       setState(() {
         checker = true;
       });

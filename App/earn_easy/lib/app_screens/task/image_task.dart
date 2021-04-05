@@ -9,7 +9,9 @@ import 'package:earneasy/shared/constants.dart';
 import 'package:earneasy/shared/loading.dart';
 import 'package:earneasy/utils/utils.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_core/firebase_core.dart' as firebase_core;
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
@@ -129,15 +131,44 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
   Future<void> upload(fileName, filePath) async {
     String path =
         "${_imageTask.gigId}/${_imageTask.taskId}/images/$fileName ${DateTime.now().microsecondsSinceEpoch.toString()}.png";
-    final Reference storageRef = FirebaseStorage.instance
-        .ref("gs://earneasy-5e92c.appspot.com")
-        .child(path);
-    final UploadTask uploadTask = storageRef.putFile(
-      File(filePath),
-    );
-    setState(() {
-      _tasks.add(uploadTask);
-    });
+
+    try {
+      // final Reference storageRef = firebase_storage.FirebaseStorage.instance
+      //     .ref("gs://earneasy-5e92c.appspot.com")
+      //     .child(path);
+
+      // final UploadTask uploadTask = storageRef.putFile(
+      //   File(filePath),
+      //
+      // );
+
+      // final Reference storageRef = firebase_storage.FirebaseStorage.instance
+      //     .ref('uploads/file-to-upload.png')
+      //     .putFile(file);
+
+      final UploadTask uploadTask = firebase_storage.FirebaseStorage.instance
+          .ref(path)
+          .putFile(File(filePath));
+      print("Upload success for file waiting");
+
+      setState(() {
+        _tasks.add(uploadTask);
+      });
+    } on firebase_core.FirebaseException catch (e) {
+      print(" Upload Error!  $e");
+      // e.g, e.code == 'canceled'
+    }
+
+    // final UploadTask uploadTask;
+    // try {
+    //   await firebase_storage.FirebaseStorage.instance
+    //       .ref('uploads/' + path)
+    //       .putFile(File(filePath));
+    //   print("Upload success for firle");
+    // } on firebase_core.FirebaseException catch (e) {
+    //   print(" Upload Error! + $e");
+    //   // e.g, e.code == 'canceled'
+    // }
   }
 
   //</editor-fold>
@@ -328,17 +359,25 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
     }
 
     //print("Image task = ${_imageTask.toMap()}");
+    print("Upload Tasks Length = " + _tasks.length.toString());
     final List<Widget> uploadFileTileList = <Widget>[];
     if (_imageFileList.length != 0) {
       for (int i = 0; i < _tasks.length; i++) {
         final Widget tile = UploadTaskListTile(
           task: _tasks[i],
-          onSuccessful: () async {
+          onSuccessful: null,
+          onDismissed: () {
+            setState(() {
+              _tasks.remove(_tasks[i]);
+            });
+          },
+          onDownload: () async {
             var url = await (await _tasks[i]).ref.getDownloadURL();
             if (url != null) {
               if (_submittedImageUrlList.length <= _imageFileList.length &&
                   _imageFileList.length != 0) {
                 _submittedImageUrlList.add(url);
+                print("Url = $url");
               }
               print(url);
               url = null;
@@ -353,12 +392,6 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
               }
             }
           },
-          onDismissed: () {
-            setState(() {
-              _tasks.remove(_tasks[i]);
-            });
-          },
-          onDownload: () => null,
         );
         uploadFileTileList.add(tile);
       }
@@ -496,199 +529,409 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
                   });
                 },
               ),
-              body: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: ListView(
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Icon(
-                              Icons.image,
-                              size: 20.0,
-                            ),
-                            SizedBox(width: 10.0),
-                            Text("Photo"),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              "Required",
-                              textScaleFactor: 1.1,
-                              style: TextStyle(
-                                color: _imageTask.require
-                                    ? Colors.deepPurpleAccent
-                                    : Colors.black87,
+              body: userType == "worker"
+                  ? Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: ListView(
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.image,
+                                    size: 20.0,
+                                  ),
+                                  SizedBox(width: 10.0),
+                                  Text("Photo"),
+                                ],
                               ),
-                            ),
-                            Switch(
-                              value: _imageTask.require,
-                              onChanged: (value) {},
-                              activeTrackColor: Colors.deepPurple[200],
-                              focusColor: Colors.red,
-                              activeColor: Colors.deepPurple,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    Text(
-                      "${_imageTask.taskDescription}",
-                      textScaleFactor: 1.5,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
-                      child: GridView.builder(
-                        physics: ScrollPhysics(),
-                        shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
-                        // +1 for the special case
-                        itemCount: _imageFileList.length + 1,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount:
-                                (MediaQuery.of(context).orientation ==
-                                        Orientation.portrait)
-                                    ? 3
-                                    : 4),
-                        itemBuilder: (BuildContext context, int index) {
-                          return index == _imageFileList.length
-                              ? Container(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 10.0, horizontal: 5.0),
-                                  child: Card(
-                                    elevation: 5.0,
-                                    shadowColor: Colors.black87,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5.0),
-                                    ),
-                                    borderOnForeground: true,
-                                    child: IconButton(
-                                      icon: Icon(
-                                        Icons.add_circle_outline,
-                                        color: Colors.grey[600],
-                                      ),
-                                      iconSize: 50.0,
-                                      splashColor: Colors.green,
-                                      onPressed: () {
-                                        _selectImageSource();
-                                      },
+                              Row(
+                                children: <Widget>[
+                                  Text(
+                                    "Required",
+                                    textScaleFactor: 1.1,
+                                    style: TextStyle(
+                                      color: _imageTask.require
+                                          ? Colors.deepPurpleAccent
+                                          : Colors.black87,
                                     ),
                                   ),
-                                )
-                              : Container(
-                                  margin: EdgeInsets.symmetric(
-                                      horizontal: 10.0, vertical: 10.0),
-                                  child: Stack(
-                                    fit: StackFit.expand,
-                                    overflow: Overflow.visible,
-                                    children: <Widget>[
-                                      Positioned(
+                                  Switch(
+                                    value: _imageTask.require,
+                                    onChanged: (value) {},
+                                    activeTrackColor: Colors.deepPurple[200],
+                                    focusColor: Colors.red,
+                                    activeColor: Colors.deepPurple,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          Text(
+                            "${_imageTask.taskDescription}",
+                            textScaleFactor: 1.5,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 5.0),
+                            child: GridView.builder(
+                              physics: ScrollPhysics(),
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              // +1 for the special case
+                              itemCount: _imageFileList.length + 1,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount:
+                                          (MediaQuery.of(context).orientation ==
+                                                  Orientation.portrait)
+                                              ? 3
+                                              : 4),
+                              itemBuilder: (BuildContext context, int index) {
+                                return index == _imageFileList.length
+                                    ? Container(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 10.0, horizontal: 5.0),
                                         child: Card(
                                           elevation: 5.0,
-                                          shadowColor: Colors.green,
+                                          shadowColor: Colors.black87,
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
-                                                BorderRadius.circular(10.0),
+                                                BorderRadius.circular(5.0),
                                           ),
-                                          child: GridTile(
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                              child: Image.file(
-                                                _imageFileList[index],
-                                                fit: BoxFit.cover,
+                                          borderOnForeground: true,
+                                          child: IconButton(
+                                            icon: Icon(
+                                              Icons.add_circle_outline,
+                                              color: Colors.grey[600],
+                                            ),
+                                            iconSize: 50.0,
+                                            splashColor: Colors.green,
+                                            onPressed: () {
+                                              _selectImageSource();
+                                            },
+                                          ),
+                                        ),
+                                      )
+                                    : Container(
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal: 10.0, vertical: 10.0),
+                                        child: Stack(
+                                          fit: StackFit.expand,
+                                          overflow: Overflow.visible,
+                                          children: <Widget>[
+                                            Positioned(
+                                              child: Card(
+                                                elevation: 5.0,
+                                                shadowColor: Colors.green,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0),
+                                                ),
+                                                child: GridTile(
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                    child: Image.file(
+                                                      _imageFileList[index],
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                ),
                                               ),
                                             ),
-                                          ),
+                                            Positioned(
+                                              top: -20.0,
+                                              right: -20.0,
+                                              child: IconButton(
+                                                icon: Icon(
+                                                  Icons.cancel,
+                                                  color: Colors.redAccent,
+                                                ),
+                                                onPressed: () {
+                                                  setState(() {
+                                                    _imageFileList
+                                                        .removeAt(index);
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                            Positioned(
+                                              bottom: -20.0,
+                                              left: -20.0,
+                                              child: IconButton(
+                                                icon: Icon(
+                                                  FontAwesomeIcons.solidEdit,
+                                                  color: Colors.blueAccent,
+                                                ),
+                                                onPressed: () async {
+                                                  File croppedImage =
+                                                      await _cropImage(
+                                                          _imageFileList[
+                                                              index]);
+                                                  setState(() {
+                                                    _imageFileList[index] =
+                                                        croppedImage;
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ),
-                                      Positioned(
-                                        top: -20.0,
-                                        right: -20.0,
-                                        child: IconButton(
-                                          icon: Icon(
-                                            Icons.cancel,
-                                            color: Colors.redAccent,
-                                          ),
-                                          onPressed: () {
-                                            setState(() {
-                                              _imageFileList.removeAt(index);
-                                            });
-                                          },
-                                        ),
-                                      ),
-                                      Positioned(
-                                        bottom: -20.0,
-                                        left: -20.0,
-                                        child: IconButton(
-                                          icon: Icon(
-                                            FontAwesomeIcons.solidEdit,
-                                            color: Colors.blueAccent,
-                                          ),
-                                          onPressed: () async {
-                                            File croppedImage =
-                                                await _cropImage(
-                                                    _imageFileList[index]);
-                                            setState(() {
-                                              _imageFileList[index] =
-                                                  croppedImage;
-                                            });
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                        },
-                      ),
-                    ),
-                    userType == "worker"
-                        ? Align(
-                            alignment: Alignment.bottomCenter,
-                            child: RaisedButton.icon(
-                              elevation: 5.0,
-                              color: Colors.white,
-                              label: Text(
-                                "Finish Task",
-                                style: TextStyle(
-                                  color: Colors.black87,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              icon: Icon(
-                                Icons.cloud_upload,
-                                color: Colors.blueAccent,
-                              ),
-                              onPressed: () async {
-                                //compressImageFromImageFile();
-                                // print("Task Added = ${_imageFileList
-                                //     .length} Task needed = ${_imageTask.numberOfImages}");
-                                if (_imageFileList.length >=
-                                    _imageTask.numberOfImages) {
-                                  _imageTask.isCompleted = true;
-                                  await uploadToFirebase();
-                                  showSuccessToast(
-                                      "${_imageFileList.length} images has been successfully added");
-                                } else {
-                                  showWarningToast(
-                                      "Please select at least ${_imageTask.numberOfImages} images");
-                                }
+                                      );
                               },
                             ),
-                          )
-                        : Container(),
-                    ...uploadFileTileList,
-                  ],
-                ),
-              ),
+                          ),
+                          userType == "worker"
+                              ? Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: RaisedButton.icon(
+                                    elevation: 5.0,
+                                    color: Colors.white,
+                                    label: Text(
+                                      "Finish Task",
+                                      style: TextStyle(
+                                        color: Colors.black87,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    icon: Icon(
+                                      Icons.cloud_upload,
+                                      color: Colors.blueAccent,
+                                    ),
+                                    onPressed: () async {
+                                      //compressImageFromImageFile();
+                                      // print("Task Added = ${_imageFileList
+                                      //     .length} Task needed = ${_imageTask.numberOfImages}");
+                                      if (_imageFileList.length >=
+                                          _imageTask.numberOfImages) {
+                                        await uploadToFirebase();
+                                        _imageTask.isCompleted = true;
+                                        await DatabaseServiceTasks()
+                                            .updateImageTask(_imageTask);
+                                        showSuccessToast(
+                                            "${_imageFileList.length} images has been successfully added");
+                                      } else {
+                                        showWarningToast(
+                                            "Please select at least ${_imageTask.numberOfImages} images");
+                                      }
+                                    },
+                                  ),
+                                )
+                              : Container(),
+                          ...uploadFileTileList,
+                        ],
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: ListView(
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.image,
+                                    size: 20.0,
+                                  ),
+                                  SizedBox(width: 10.0),
+                                  Text("Photo"),
+                                ],
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Text(
+                                    "Required",
+                                    textScaleFactor: 1.1,
+                                    style: TextStyle(
+                                      color: _imageTask.require
+                                          ? Colors.deepPurpleAccent
+                                          : Colors.black87,
+                                    ),
+                                  ),
+                                  Switch(
+                                    value: _imageTask.require,
+                                    onChanged: (value) {},
+                                    activeTrackColor: Colors.deepPurple[200],
+                                    focusColor: Colors.red,
+                                    activeColor: Colors.deepPurple,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          Text(
+                            "${_imageTask.taskDescription}",
+                            textScaleFactor: 1.5,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 5.0),
+                            child: GridView.builder(
+                              physics: ScrollPhysics(),
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              // +1 for the special case
+                              itemCount: _imageFileList.length + 1,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount:
+                                          (MediaQuery.of(context).orientation ==
+                                                  Orientation.portrait)
+                                              ? 3
+                                              : 4),
+                              itemBuilder: (BuildContext context, int index) {
+                                return index == _imageFileList.length
+                                    ? Container(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 10.0, horizontal: 5.0),
+                                        child: Card(
+                                          elevation: 5.0,
+                                          shadowColor: Colors.black87,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(5.0),
+                                          ),
+                                          borderOnForeground: true,
+                                          child: IconButton(
+                                            icon: Icon(
+                                              Icons.add_circle_outline,
+                                              color: Colors.grey[600],
+                                            ),
+                                            iconSize: 50.0,
+                                            splashColor: Colors.green,
+                                            onPressed: () {
+                                              _selectImageSource();
+                                            },
+                                          ),
+                                        ),
+                                      )
+                                    : Container(
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal: 10.0, vertical: 10.0),
+                                        child: Stack(
+                                          fit: StackFit.expand,
+                                          overflow: Overflow.visible,
+                                          children: <Widget>[
+                                            Positioned(
+                                              child: Card(
+                                                elevation: 5.0,
+                                                shadowColor: Colors.green,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0),
+                                                ),
+                                                child: GridTile(
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                    child: Image.file(
+                                                      _imageFileList[index],
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Positioned(
+                                              top: -20.0,
+                                              right: -20.0,
+                                              child: IconButton(
+                                                icon: Icon(
+                                                  Icons.cancel,
+                                                  color: Colors.redAccent,
+                                                ),
+                                                onPressed: () {
+                                                  setState(() {
+                                                    _imageFileList
+                                                        .removeAt(index);
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                            Positioned(
+                                              bottom: -20.0,
+                                              left: -20.0,
+                                              child: IconButton(
+                                                icon: Icon(
+                                                  FontAwesomeIcons.solidEdit,
+                                                  color: Colors.blueAccent,
+                                                ),
+                                                onPressed: () async {
+                                                  File croppedImage =
+                                                      await _cropImage(
+                                                          _imageFileList[
+                                                              index]);
+                                                  setState(() {
+                                                    _imageFileList[index] =
+                                                        croppedImage;
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                              },
+                            ),
+                          ),
+                          userType == "worker"
+                              ? Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: RaisedButton.icon(
+                                    elevation: 5.0,
+                                    color: Colors.white,
+                                    label: Text(
+                                      "Finish Task",
+                                      style: TextStyle(
+                                        color: Colors.black87,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    icon: Icon(
+                                      Icons.cloud_upload,
+                                      color: Colors.blueAccent,
+                                    ),
+                                    onPressed: () async {
+                                      //compressImageFromImageFile();
+                                      // print("Task Added = ${_imageFileList
+                                      //     .length} Task needed = ${_imageTask.numberOfImages}");
+                                      if (_imageFileList.length >=
+                                          _imageTask.numberOfImages) {
+                                        await uploadToFirebase();
+                                        _imageTask.isCompleted = true;
+                                        await DatabaseServiceTasks()
+                                            .updateImageTask(_imageTask);
+                                        showSuccessToast(
+                                            "${_imageFileList.length} images has been successfully added");
+                                      } else {
+                                        showWarningToast(
+                                            "Please select at least ${_imageTask.numberOfImages} images");
+                                      }
+                                    },
+                                  ),
+                                )
+                              : Container(),
+                          ...uploadFileTileList,
+                        ],
+                      ),
+                    ),
             )
           : Loading(),
     );

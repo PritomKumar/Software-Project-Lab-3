@@ -33,6 +33,10 @@ class UploadTaskListTile extends StatelessWidget {
     return '${snapshot.bytesTransferred}/${snapshot.totalBytes}';
   }
 
+  double _bytesTransferredDouble(firebase_storage.TaskSnapshot snapshot) {
+    return snapshot.bytesTransferred / snapshot.totalBytes;
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<firebase_storage.TaskSnapshot>(
@@ -42,6 +46,7 @@ class UploadTaskListTile extends StatelessWidget {
         AsyncSnapshot<firebase_storage.TaskSnapshot> asyncSnapshot,
       ) {
         Widget subtitle = const Text('---');
+        double progressPercent;
         firebase_storage.TaskSnapshot snapshot = asyncSnapshot.data;
         firebase_storage.TaskState state = snapshot?.state;
         if (state == firebase_storage.TaskState.success) {}
@@ -56,6 +61,7 @@ class UploadTaskListTile extends StatelessWidget {
             subtitle = const Text('Something went wrong.');
           }
         } else if (snapshot != null) {
+          progressPercent = _bytesTransferredDouble(snapshot);
           subtitle = Text('$state: ${_bytesTransferred(snapshot)} bytes sent');
         }
 
