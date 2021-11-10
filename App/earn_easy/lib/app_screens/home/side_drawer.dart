@@ -1,7 +1,6 @@
 import 'package:earneasy/app_screens/map/google_map_gig.dart';
 import 'package:earneasy/app_screens/notification/notification_page.dart';
 import 'package:earneasy/app_screens/profile/profile_page.dart';
-import 'package:earneasy/app_screens/setting/setting_page.dart';
 import 'package:earneasy/app_screens/theme/theme_selector.dart';
 import 'package:earneasy/models/user.dart';
 import 'package:earneasy/services/firebase_notification_database.dart';
@@ -94,16 +93,16 @@ class SideDrawer extends StatelessWidget {
                               )));
                 },
               ),
-              Divider(),
-              ListTile(
-                leading: Icon(Icons.settings),
-                title: Text("Settings"),
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Setting()));
-                },
-              ),
+              // Divider(),
+              // ListTile(
+              //   leading: Icon(Icons.settings),
+              //   title: Text("Settings"),
+              //   onTap: () {
+              //     Navigator.pop(context);
+              //     Navigator.push(context,
+              //         MaterialPageRoute(builder: (context) => Setting()));
+              //   },
+              // ),
               Divider(),
               ListTile(
                 leading: Icon(FontAwesomeIcons.themeco),

@@ -18,6 +18,7 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' show get;
 import 'package:image_cropper/image_cropper.dart';
+import 'package:image_downloader/image_downloader.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
@@ -375,8 +376,11 @@ class _ImageTaskScreenState extends State<ImageTaskScreen>
   _downLoadImage() async {
     for (int i = 0; i < _imageTask.imageDownloadUrlList.length; i++) {
       var url = _imageTask.imageDownloadUrlList[i];
-
-      var image = Image.network(
+      var imageId = await ImageDownloader.downloadImage(url);
+      if (imageId != null) {
+        print("Image downloaded successfully! = $imageId");
+      }
+      Image image = Image.network(
         url,
         height: 500,
         width: 200,
