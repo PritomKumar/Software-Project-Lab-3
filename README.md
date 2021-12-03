@@ -22,13 +22,11 @@
 
 ## About The Project
 
-The calendar committee of Dhaka University publishes a calendar for the very first year students of the university to be familiar with the University campus and its glorious history every year. This project takes the task of creating an android application for freshmen and web portal for admins that represent Dhaka University Calendar.
+Mobile crowdsourcing is an emerging technology that has enormous potential in Bangladesh. It is a term that describes crowdsourcing activities that use information collected through smartphones or other mobile devices. Companies such as Pathao, Uber, Food Panda, Sohoz are tapping into this potential to proliferate their business. However, this is only a tiny portion of what can be done using mobile crowdsourcing. With mobile crowdsourcing we can tackle the issue of lack of communication between companies and users. The goal of our project is to help the companies to get the opinion of the crowd regarding the usage, storage, purchase of their products with a simple, reliable and trustworthy method. Thanks to various useful smartphone features, including reliable GPS, excellent cameras, as well as the easy availability of smartphones; users can work on crowdsourcing tasks without almost zero difficulties. The companies can provide any task for example stock checking, user feedback of items or surveys, just-in-time checking on product situations or other simple tasks that can help with the company’s growth, prestige, popularity or profit to the users of the application. As a simple task it does not need any device other than a smartphone. The users will complete the task to earn the financial benefits that the companies offer. It will create a large body of working people and help mitigate the problem of unemployment in our country. In the era of Digital Bangladesh this project can become the gateway that connects both the companies and people. This way the companies and the users both can gain benefits through a mutual win-win situation.
 
 ---
 
 ## Technologies
-
-#### Android Technology
 
 - JAVA
 - Retrofit
@@ -46,6 +44,7 @@ The calendar committee of Dhaka University publishes a calendar for the very fir
 - Xampp
 - Rest API
 - Postman
+
 
 [![](https://img.shields.io/badge/back%20to%20top-%E2%86%A9-blue)](#DU-Calendar-DEV)
 
@@ -98,7 +97,7 @@ The calendar committee of Dhaka University publishes a calendar for the very fir
   </tr>
 </table>
 
-[Back To The Top](#DU-Calendar-DEV)
+[![](https://img.shields.io/badge/back%20to%20top-%E2%86%A9-blue)](#DU-Calendar-DEV)
 
 ## Web Portal Screenshots
 <table style="width:100%">
@@ -117,7 +116,7 @@ The calendar committee of Dhaka University publishes a calendar for the very fir
 </table>
 
 
-[Back To The Top](#DU-Calendar-DEV)
+[![](https://img.shields.io/badge/back%20to%20top-%E2%86%A9-blue)](#DU-Calendar-DEV)
 
 ---
 
@@ -129,7 +128,7 @@ The calendar committee of Dhaka University publishes a calendar for the very fir
 *For detailed project code overview go inside the "Dhaka U C Android" folder or click [here](https://github.com/PritomKumar/DU-Calendar-DEV/tree/master/Dhaka%20U%20C%20Android).*
 
 
-[Back To The Top](#DU-Calendar-DEV)
+[![](https://img.shields.io/badge/back%20to%20top-%E2%86%A9-blue)](#DU-Calendar-DEV)
 
 ---
 
@@ -160,7 +159,7 @@ SOFTWARE.
 
 ```
 
-[Back To The Top](#DU-Calendar-DEV)
+[![](https://img.shields.io/badge/back%20to%20top-%E2%86%A9-blue)](#DU-Calendar-DEV)
 
 ---
 
@@ -169,4 +168,4 @@ SOFTWARE.
 - Linkedin - [Linked In](https://www.linkedin.com/in/pritomkumar/fr)
 - Website - [Pritom Kumar Das](https://sites.google.com/view/pritom-kumar-das/)
 
-[Back To The Top](#DU-Calendar-DEV)
+[![](https://img.shields.io/badge/back%20to%20top-%E2%86%A9-blue)](#DU-Calendar-DEV)
