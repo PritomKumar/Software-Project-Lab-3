@@ -47,7 +47,7 @@ The calendar committee of Dhaka University publishes a calendar for the very fir
 - Rest API
 - Postman
 
-[Back To The Top](#DU-Calendar-DEV)
+[![](https://img.shields.io/badge/back%20to%20top-%E2%86%A9-blue)](#DU-Calendar-DEV)
 
 ---
 
