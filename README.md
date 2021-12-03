@@ -1,1 +1,1 @@
-# Software-Project-Lab-3
+# EarnEasy
