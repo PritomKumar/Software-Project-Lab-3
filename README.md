@@ -53,24 +53,26 @@ Mobile crowdsourcing is an emerging technology that has enormous potential in Ba
 
 ## Project Demo
 
-## Mobile Application Screenshots
+### Member Application Screenshots
+
+---
 
 <table style="width:100%">
   <tr>
-    <th>No password, No hassle!</th>
-    <th>Get everything on a touch.</th>
+    <th>Start your journey!</th>
+    <th>Google sign in.</th>
   </tr>
   <tr>
     <td><img src="Documentation/Demo/earneasy1.jpg"/></td>
     <td><img src="Documentation/Demo/earneasy2.jpg"/></td>
   </tr>
   <tr>
-    <th>Automatically create a profile!</th>
-    <th>Easy to edit!</th>
+    <th>Sign in by email.</th>
+    <th>Don't have an account? Register.</th>
   </tr>
   <tr>
-    <td><img src="Documentation/Demo/4.png"/></td>
-    <td><img src="Documentation/Demo/5.png"/></td>
+    <td><img src="Documentation/Demo/earneasy3.jpg"/></td>
+    <td><img src="Documentation/Demo/earneasy4.jpg"/></td>
   </tr>
   <tr>
     <th>Lots of information here!</th>
