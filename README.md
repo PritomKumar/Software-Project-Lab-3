@@ -24,27 +24,28 @@
 
 Mobile crowdsourcing is an emerging technology that has enormous potential in Bangladesh. It is a term that describes crowdsourcing activities that use information collected through smartphones or other mobile devices. Companies such as Pathao, Uber, Food Panda, Sohoz are tapping into this potential to proliferate their business. However, this is only a tiny portion of what can be done using mobile crowdsourcing. With mobile crowdsourcing we can tackle the issue of lack of communication between companies and users. The goal of our project is to help the companies to get the opinion of the crowd regarding the usage, storage, purchase of their products with a simple, reliable and trustworthy method. Thanks to various useful smartphone features, including reliable GPS, excellent cameras, as well as the easy availability of smartphones; users can work on crowdsourcing tasks without almost zero difficulties. The companies can provide any task for example stock checking, user feedback of items or surveys, just-in-time checking on product situations or other simple tasks that can help with the company’s growth, prestige, popularity or profit to the users of the application. As a simple task it does not need any device other than a smartphone. The users will complete the task to earn the financial benefits that the companies offer. It will create a large body of working people and help mitigate the problem of unemployment in our country. In the era of Digital Bangladesh this project can become the gateway that connects both the companies and people. This way the companies and the users both can gain benefits through a mutual win-win situation.
 
+
+[![](https://img.shields.io/badge/back%20to%20top-%E2%86%A9-blue)](#DU-Calendar-DEV)
+
 ---
 
-## Technologies
+## Notes
 
-- JAVA
-- Retrofit
-- Design Patters
-- Firebase Realtime Database
-- Google Auth
-- Android Studio
+### Features
+---
+- 5 different language resources.
+- 6 different news categories.
+- News search.
+- News detail.
+- Open the news source URL.
 
-#### Web Technology
-
-- Laravel
-- PHP
-- Server Communication
-- Putty
-- Xampp
-- Rest API
-- Postman
-
+### Application Architecture
+---
+- IDE: Android Studio, Visual Studio Code
+- API: Google Map
+- Programming Language: Dart, Java
+- Framework: Flutter
+- Third Party Libraries: Geolocator, Firebase Messaging, Firebase Firestore, Provider, Postman
 
 [![](https://img.shields.io/badge/back%20to%20top-%E2%86%A9-blue)](#DU-Calendar-DEV)
 
@@ -60,8 +61,8 @@ Mobile crowdsourcing is an emerging technology that has enormous potential in Ba
     <th>Get everything on a touch.</th>
   </tr>
   <tr>
-    <td><img src="Documentation/Demo/1.png"/></td>
-    <td><img src="Documentation/Demo/2.png"/></td>
+    <td><img src="Documentation/Demo/earneasy1.jpg"/></td>
+    <td><img src="Documentation/Demo/earneasy2.jpg"/></td>
   </tr>
   <tr>
     <th>Automatically create a profile!</th>
