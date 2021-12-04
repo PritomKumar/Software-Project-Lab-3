@@ -29,20 +29,33 @@ Mobile crowdsourcing is an emerging technology that has enormous potential in Ba
 
 ---
 
-## Notes
+<img src="Documentation/Demo/earneasyUsage.png"/>
+
+---
+[![](https://img.shields.io/badge/back%20to%20top-%E2%86%A9-blue)](#EarnEasy)
+
+---
+## Features and Architecture
 
 ### Features
 ---
-- 5 different language resources.
-- 6 different news categories.
-- News search.
-- News detail.
-- Open the news source URL.
+-	Map facilities
+-	Super Admin monitors all activities
+-	Provide Search Facilities
+-	No ambiguous feature
+-	Data backup
+-	Push Notification.
+- Work scheduling based on user merit. (Heuristic Function)
+-	Showing tasks based on zoom level.
+- Image manipulation.
+
+
 
 ### Application Architecture
 ---
 - IDE: Android Studio, Visual Studio Code
-- API: Google Map
+- Emulator: Adroid Emulator, Firebase Emulator
+- API: Google Map, Google Cloud Functions
 - Programming Language: Dart, Java
 - Framework: Flutter
 - Third Party Libraries: Geolocator, Firebase Messaging, Firebase Firestore, Provider, Postman
