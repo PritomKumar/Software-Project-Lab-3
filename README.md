@@ -11,7 +11,7 @@
 ### Table of Contents
 
 - [About The Project](#about-the-project)
-- [Technologies](#technologies)
+- [Features and Architecture](#Features-and-Architecture)
 - [Project Demo](#project-demo)
 - [Usage](#usage)
 - [Main Project Files](#main-project-files)
@@ -31,14 +31,13 @@ Mobile crowdsourcing is an emerging technology that has enormous potential in Ba
 
 <img src="Documentation/Demo/earneasyUsage.png"/>
 
----
 [![](https://img.shields.io/badge/back%20to%20top-%E2%86%A9-blue)](#EarnEasy)
 
 ---
 ## Features and Architecture
 
 ### Features
----
+
 -	Map facilities
 -	Super Admin monitors all activities
 -	Provide Search Facilities
@@ -49,10 +48,10 @@ Mobile crowdsourcing is an emerging technology that has enormous potential in Ba
 -	Showing tasks based on zoom level.
 - Image manipulation.
 
-
+---
 
 ### Application Architecture
----
+
 - IDE: Android Studio, Visual Studio Code
 - Emulator: Adroid Emulator, Firebase Emulator
 - API: Google Map, Google Cloud Functions
