@@ -195,7 +195,7 @@ Mobile crowdsourcing is an emerging technology that has enormous potential in Ba
 ## License
 
 ```
-    MIT License
+MIT License
 
 Copyright (c) 2020 PritomKumar
 
