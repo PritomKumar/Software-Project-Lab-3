@@ -169,7 +169,7 @@ Mobile crowdsourcing is an emerging technology that has enormous potential in Ba
 
 ## Usage
 
-*For detailed user manual, please refer to the [Documentation](https://github.com/PritomKumar/DU-Calendar-DEV/blob/master/Documentation/Reports/User%20Manual.pdf)*
+*For detailed user manual, please refer to the end of this [Documentation](https://github.com/PritomKumar/DU-Calendar-DEV/blob/master/Documentation/Reports/User%20Manual.pdf)*
 
 ## Main Project Files
 *For detailed project code overview go inside the "Dhaka U C Android" folder or click [here](https://github.com/PritomKumar/DU-Calendar-DEV/tree/master/Dhaka%20U%20C%20Android).*
