@@ -66,7 +66,7 @@ Mobile crowdsourcing is an emerging technology that has enormous potential in Ba
     <td><img src="Documentation/Demo/earneasy1.jpg"/></td>
     <td><img src="Documentation/Demo/earneasy2.jpg"/></td>
   </tr>
-  <tr>
+  <!-- <tr>
     <th>Sign in by email.</th>
     <th>Don't have an account? Register.</th>
   </tr>
@@ -74,47 +74,91 @@ Mobile crowdsourcing is an emerging technology that has enormous potential in Ba
     <td><img src="Documentation/Demo/earneasy3.jpg"/></td>
     <td><img src="Documentation/Demo/earneasy4.jpg"/></td>
   </tr>
+   -->
   <tr>
-    <th>Lots of information here!</th>
-    <th>Let's know the University Origin!</th>
+    <th>Home Page</th>
+    <th>Navigation bar to check available tasks.</th>
   </tr>
   <tr>
-    <td><img src="Documentation/Demo/13.png"/></td>
-    <td><img src="Documentation/Demo/14.png"/></td>
+     <td><img src="Documentation/Demo/earneasy6.jpg"/></td>
+    <td><img src="Documentation/Demo/earneasy7.jpg"/></td>
   </tr>
   <tr>
-    <th>Let's be familiar with the authority.</th>
-    <th>Get location of all the departments and facilities.</th>
+    <th>Side Drawer.</th>
+    <th>Update your profile to get more tasks</th>
   </tr>
   <tr>
-    <td><img src="Documentation/Demo/25.png"/></td>
-    <td><img src="Documentation/Demo/23.png"/></td>
+    <td><img src="Documentation/Demo/earneasy9.jpg"/></td>
+    <td><img src="Documentation/Demo/earneasy10.jpg"/></td>
   </tr>
   <tr>
-    <th>Never miss the bus!</th>
-    <th>Never miss an event!</th>
+    <th>Available task page.</th>
+    <th>List of tasks.</th>
   </tr>
   <tr>
-    <td><img src="Documentation/Demo/27.png"/></td>
-    <td><img src="Documentation/Demo/7.png"/></td>
+     <td><img src="Documentation/Demo/earneasy15.jpg"/></td>
+    <td><img src="Documentation/Demo/earneasy17.jpg"/></td>
+  </tr>
+   <tr>
+    <th>Select image for image task.</th>
+    <th>Image manipulation.</th>
+  </tr>
+  <tr>
+     <td><img src="Documentation/Demo/earneasy24.jpg"/></td>
+    <td><img src="Documentation/Demo/earneasy26.jpg"/></td>
+  </tr>
+   <tr>
+    <th>Notification Page</th>
+    <th>Task Complete.</th>
+  </tr>
+  <tr>
+     <td><img src="Documentation/Demo/earneasy14.jpg"/></td>
+    <td><img src="Documentation/Demo/earneasy27.jpg"/></td>
   </tr>
 </table>
 
 [![](https://img.shields.io/badge/back%20to%20top-%E2%86%A9-blue)](#DU-Calendar-DEV)
 
-## Web Portal Screenshots
+### Company Application Screenshots
+
+---
+
 <table style="width:100%">
   <tr>
-    <th>Authentication for Admins.</th>
+    <th>Home Page to add tasks</th>
+    <th>Add task page</th>
   </tr>
   <tr>
-    <td><img src="Documentation/Demo/web1.jpg"/></td>
+   <tr>
+    <td><img src="Documentation/Demo/earneasy29.jpg"/></td>
+    <td><img src="Documentation/Demo/earneasy30.jpg"/></td>
   </tr>
    <tr>
-    <th>Information create, update, delete, insert page.</th>
+    <th>Select and add different subtasks.</th>
+    <th>Edit tasks list.</th>
   </tr>
   <tr>
-    <td><img src="Documentation/Demo/web2.jpg"/></td>
+   <tr>
+    <td><img src="Documentation/Demo/earneasy31.jpg"/></td>
+    <td><img src="Documentation/Demo/earneasy33.jpg"/></td>
+  </tr>
+   <tr>
+    <th>Select and add different subtasks.</th>
+    <th>Add options.</th>
+  </tr>
+  <tr>
+   <tr>
+    <td><img src="Documentation/Demo/earneasy31.jpg"/></td>
+    <td><img src="Documentation/Demo/earneasy32.jpg"/></td>
+  </tr>
+  <tr>
+    <th>Edit task list.</th>
+    <th>Review task</th>
+  </tr>
+  <tr>
+   <tr>
+    <td><img src="Documentation/Demo/earneasy33.jpg"/></td>
+    <td><img src="Documentation/Demo/earneasy34.jpg"/></td>
   </tr>
 </table>
 
