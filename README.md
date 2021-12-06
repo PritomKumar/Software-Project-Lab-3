@@ -55,7 +55,7 @@ Mobile crowdsourcing is an emerging technology that has enormous potential in Ba
 - IDE: Android Studio, Visual Studio Code
 - Emulator: Adroid Emulator, Firebase Emulator
 - API: Google Map, Google Cloud Functions
-- Programming Language: Dart, Java
+- Programming Language: Dart, Java, Typescript, Javascript
 - Framework: Flutter
 - Third Party Libraries: Geolocator, Firebase Messaging, Firebase Firestore, Provider, Postman
 
